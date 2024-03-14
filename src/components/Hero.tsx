@@ -30,7 +30,7 @@ const Hero = ({
           {" "}
           Power of AI{" "}
         </span>
-        with BigWig Media
+        
       </div>
       <div className="  sm:text-[14px] md:text-[17px] lg:text-[20px] content-center py-4  text-center font-outfit text-black dark:text-white   z-10 w-full max-w-[320] md:auto lg:844px mx-auto font-normal">
         Stay at the forefront of innovation by harnessing cutting-edge AI tools,
