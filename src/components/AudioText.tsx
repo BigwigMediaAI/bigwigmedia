@@ -38,7 +38,6 @@ const AudioText = () => {
   const [tone, setTone] = useState < WordOptions>(WordOptions.ALLOY);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const key = import.meta.env.VITE_OPEN_API_KEY_AUDIO as string;
-console.log(key,import.meta.env);
 const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true });
 
 
