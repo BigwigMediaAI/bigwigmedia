@@ -2,13 +2,23 @@ import MultiSelect from "@/components/MultiSelect";
 import { emails } from "@/utils/email";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import { useUser } from "@clerk/clerk-react";
-import { Select, SelectItem, select } from "@nextui-org/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { get } from "react-scroll/modules/mixins/scroller";
 import { toast } from "sonner";
-import Cards from '../components/Cards';
+import Cards from "../components/Cards";
+import { useTheme } from "@/components/ui/theme-provider";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export interface ElementType {
   text: string;
@@ -20,20 +30,18 @@ export interface ElementType {
   otherType?: string;
 }
 
-
-
 const Form = () => {
   // State for form fields
   const [description, setDescription] = useState("");
   const { isLoaded, isSignedIn, user } = useUser();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [accoName, setaccoName] = useState("");
   const [template, setTemplate] = useState("");
   const [selectedLabel, setSelectedLabel] = useState([]);
   const [selectedImage, setSelectedImage] = useState<string>("");
-  const [access, setAccess] = useState(false)
-  const [cards, setCards] = useState([])
+  const [access, setAccess] = useState(false);
+  const [cards, setCards] = useState([]);
   const [labels, setLabels] = useState<string[]>([
     "All Tools",
     "In Demand Tools",
@@ -80,39 +88,45 @@ const Form = () => {
     "https://uploads-ssl.webflow.com/64dc619021257128d0687cce/6512d2e9bcb88ff4f718f8cf_ico-Marketing.svg",
   ]);
   const [groups, setGroups] = useState<ElementType[][]>([]);
-  const [groupBy, setgroupBy] = useState("")
+  const [groupBy, setgroupBy] = useState("");
 
   const [faqs, setFaqs] = useState([]); // State for FAQs
   const [newLink, setNewLink] = useState<String>();
   const urlParams = new URLSearchParams(window.location.search);
 
   const id = urlParams.get("id");
-console.log(cards)
 
   useEffect(() => {
-    document.documentElement.classList.remove("dark");
+    setTimeout(() => {
+      if (document.documentElement.classList.contains("dark")) {
+        document.documentElement.classList.remove("dark");
+        // document.documentElement.classList.add("bg-gray-300");
+      }
+    }, 100);
     getTemplates();
+
   }, []);
 
-  useEffect(() => {
-    // if (isLoaded && !isSignedIn) {
-    //   navigate("/login");
-    //   toast.error("Login to continue...");
-    // }
-    // if (isSignedIn) {
-    //   let canAccess = false
-    //   user.emailAddresses.forEach(e => {
-    //     if (emails.includes(e.emailAddress)) canAccess = true
-    //   })
-    //   if (!canAccess) {
-    //     navigate("/")
-    //     toast.error("Cannot access ")
-    //     return;
-    //   }
-    //   setAccess(canAccess)
 
-    // }
-    setAccess(true)
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      navigate("/login");
+      toast.error("Login to continue...");
+    }
+    if (isSignedIn) {
+      let canAccess = false
+      user.emailAddresses.forEach(e => {
+        if (emails.includes(e.emailAddress)) canAccess = true
+      })
+      if (!canAccess) {
+        navigate("/")
+        toast.error("Cannot access ")
+        return;
+      }
+      setAccess(canAccess)
+
+    }
+    setAccess(true);
   }, [isLoaded, isSignedIn]);
 
   const getData = async () => {
@@ -120,13 +134,13 @@ console.log(cards)
     const data = res.data.message.object;
 
     setName(data.name);
-    setaccoName(data.accoName)
+    setaccoName(data.accoName);
     setDescription(data.description);
     setTemplate(data.templete);
     setSelectedLabel(data.labels);
-    setgroupBy(data.groupBy)
-    setGroups(data.groups)
-    setFaqs(data.faq)
+    setgroupBy(data.groupBy);
+    setGroups(data.groups);
+    setFaqs(data.faq);
     setSelectedImage(
       data.logo.replace(
         "http://localhost:4000",
@@ -143,7 +157,7 @@ console.log(cards)
   }, [id]);
 
   const getTemplates = async () => {
-    const selectedButton = "All Tools"
+    const selectedButton = "All Tools";
     let url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}`;
 
     if (isSignedIn)
@@ -165,15 +179,12 @@ console.log(cards)
           options: element.options.filter((option) => option !== ""),
           type: element.type === "other" ? element.otherType : element.type,
         };
-      })
+      });
     });
 
-
-    
-    
     try {
       let url = `https://social-media-ai-content-api.onrender.com/api/v2/objects/addObjectOnce`;
-      let res
+      let res;
       if (!!id) {
         url = `${BASE_URL2}/objects/updateObject/${id}`;
         res = await axios.put(url, {
@@ -188,9 +199,7 @@ console.log(cards)
           groups: groupsSubmitted,
           groupBy,
         });
-      }
-      else {
-
+      } else {
         res = await axios.post(url, {
           name,
           accoName,
@@ -212,9 +221,9 @@ console.log(cards)
       console.error("Error making POST request:", error);
     }
   };
-  const handeIdChange = (e:string) => {
+  const handeIdChange = (e: string) => {
     //set e as id in query param
-    navigate(`/form?id=${e}`,{replace:true})
+    navigate(`/form?id=${e}`, { replace: true });
   };
 
   const handleDelete = async () => {
@@ -294,7 +303,6 @@ console.log(cards)
     setGroups(updatedGroups);
   };
 
-
   const removeElementFromGroup = (
     groupIndex: number,
     elementIndex: number
@@ -312,7 +320,30 @@ console.log(cards)
   };
 
   return (
-    <div className="max-w-md mx-auto flex flex-col gap-3">
+    <div className="max-w-md mx-auto flex flex-col gap-10 my-10 ">
+      <Select onValueChange={(e: string) => handeIdChange(e)}>
+        <SelectTrigger
+          className=" self-start w-full  md:min-w-[300px] max-w-[844px] "
+          value={id ?? undefined}
+          // @ts-ignore
+        >
+          <SelectValue placeholder={"Select Tool"} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>{"Select Tool"}</SelectLabel>
+            {cards.map((option: { _id: string; name: string }) => (
+              <SelectItem
+                key={option._id}
+                value={option._id}
+                className="capitalize"
+              >
+                {option.name}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
       {access && (
         <form
           onSubmit={handleSubmit}
@@ -403,24 +434,25 @@ console.log(cards)
             >
               Select Image
             </label>
-            <Select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="image"
-              value={selectedImage}
-              selectionMode="single"
-              onSelectionChange={(e: any) => {
-                // console.log(e)
-                setSelectedImage(e.currentKey);
-              }}
-              // label="Select Image"
-            >
-              {/* @ts-ignore */}
-              {/* Dropdown options for images */}
-              {images.map((image, index) => (
-                <SelectItem key={image} value={image}>
-                  <img src={image} />
-                </SelectItem>
-              ))}
+
+            <Select onValueChange={(e: string) => setSelectedImage(e)}>
+              <SelectTrigger
+                className=" self-start w-full  md:min-w-[300px] max-w-[844px] "
+                value={selectedImage}
+                // @ts-ignore
+              >
+                <SelectValue placeholder={"Select Image"} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>{"Select Image"}</SelectLabel>
+                  {images.map((image, index) => (
+                    <SelectItem key={image} value={image}>
+                      <img src={image} />
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
             </Select>
           </div>
           <div className="mb-4">
@@ -430,24 +462,24 @@ console.log(cards)
             >
               GroupBy
             </label>
-            <Select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="image"
-              value={groupBy}
-              selectionMode="single"
-              onSelectionChange={(e: any) => {
-                // console.log(e)
-                setgroupBy(e.currentKey);
-              }}
-              // label="Select Image"
-            >
-              {/* @ts-ignore */}
-              {/* Dropdown options for images */}
-              {selectedLabel.map((label, index) => (
-                <SelectItem key={label} value={label}>
-                  {label}
-                </SelectItem>
-              ))}
+
+            <Select onValueChange={(e: string) => setgroupBy(e)}>
+              <SelectTrigger
+                className=" self-start w-full  md:min-w-[300px] max-w-[844px] "
+                value={groupBy}
+              >
+                <SelectValue placeholder={"Select Group"} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>{"Select Group"}</SelectLabel>
+                  {selectedLabel.map((label, index) => (
+                    <SelectItem key={label} value={label}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
             </Select>
           </div>
           <div className="mb-4">
@@ -713,46 +745,6 @@ console.log(cards)
           Delete
         </button>
       )}
-
-      {/* <Select onValueChange={(e) => handeIdChange(e)}>
-        <SelectTrigger
-          className="capitalize self-start min-w-[300px] max-w-[844px] "
-          value={id ?? undefined}
-          // @ts-ignore
-        >
-          <SelectValue placeholder={"Select Tone "} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>{"Choose a Tone"}</SelectLabel>
-            {cards.map((option: { _id: string; name: string }) => (
-              <SelectItem value={option._id} className="capitalize">
-                {option.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select> */}
-
-      <Select
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="image"
-        value={id ?? undefined}
-        selectionMode="single"
-        onSelectionChange={(e: any) => {
-          // console.log(e)
-          handeIdChange(e.currentKey);
-        }}
-        // label="Select Image"
-      >
-        {/* @ts-ignore */}
-        {/* Dropdown options for images */}
-        {cards.map((option: { _id: string; name: string }) => (
-          <SelectItem key={option._id} value={option._id} className="capitalize">
-            {option.name}
-          </SelectItem>
-        ))}
-      </Select>
     </div>
   );
 };

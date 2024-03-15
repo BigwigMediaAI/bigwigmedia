@@ -48,6 +48,14 @@ const Admin = (props: Props) => {
       console.log(error)
     }
   }
+
+    useEffect(() => {
+      setTimeout(() => {
+        if (document.documentElement.classList.contains("dark")) {
+          document.documentElement.classList.remove("dark");
+        }
+      }, 100);
+    }, []);
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       navigate("/login");
