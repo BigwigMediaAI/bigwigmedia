@@ -321,6 +321,7 @@ const Profile = () => {
                   </TableRow>
                 </TableFooter> */}
               </Table>
+              
             </div>
           </DialogContent>
         </Dialog>
