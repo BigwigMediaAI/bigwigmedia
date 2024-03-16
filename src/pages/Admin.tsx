@@ -60,7 +60,54 @@ const Admin = (props: Props) => {
   const [name, setName] = useState("");
   const [creditRange, setCreditRange] = useState([0, 1000]);
   const [search, setsearch] = useState<boolean>(false)
-  
+
+   const generatePageButtons = () => {
+  const MAX_PAGE_BUTTONS = 5;
+
+     const totalPagesCount = total?.pages ?? 0;
+     const currentPage = page + 1; // Adding 1 because page numbers usually start from 1
+
+     // If the total pages are less than or equal to the maximum buttons, return all pages
+     if (totalPagesCount <= MAX_PAGE_BUTTONS) {
+       return Array.from({ length: totalPagesCount }, (_, i) => i + 1);
+     }
+
+     let startPage = Math.max(
+       currentPage - Math.floor(MAX_PAGE_BUTTONS / 2),
+       1
+     );
+     let endPage = Math.min(startPage + MAX_PAGE_BUTTONS - 1, totalPagesCount);
+
+     if (endPage - startPage + 1 < MAX_PAGE_BUTTONS) {
+       startPage = Math.max(endPage - MAX_PAGE_BUTTONS + 1, 1);
+     }
+
+     const pageButtons = Array.from(
+       { length: endPage - startPage + 1 },
+       (_, i) => startPage + i
+     );
+
+     // Add first and last page buttons if not already included
+     if (pageButtons.length < MAX_PAGE_BUTTONS) {
+       if (startPage !== 1) {
+         pageButtons.unshift(1); // Add first page button
+       }
+       if (endPage !== totalPagesCount) {
+         pageButtons.push(totalPagesCount); // Add last page button
+       }
+     } else {
+       // Replace first/last button placeholders with actual page numbers
+       if (startPage > 2) {
+         pageButtons[0] = 1; // Replace placeholder with the first page number
+       }
+       if (endPage < totalPagesCount - 1) {
+         pageButtons[MAX_PAGE_BUTTONS - 1] = totalPagesCount; // Replace placeholder with the last page number
+       }
+     }
+
+     return pageButtons;
+   };
+    const pageButtons = generatePageButtons();
   const handleSearch = async () => {
    
     setIsLoading(true);
@@ -147,7 +194,7 @@ const Admin = (props: Props) => {
   }, [isLoaded, isSignedIn, page]);
   if (!access) return <></>;
   return (
-    <div  className="p-4">
+    <div className="p-4">
       <div className="flex flex-col gap-3 max-w-96 mx-auto">
         <Input
           type="text"
@@ -161,21 +208,20 @@ const Admin = (props: Props) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-          <label
-            htmlFor="creditRange"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Credit Range
-          </label>
-          
-          <Slider
-            defaultValue={[creditRange[0], creditRange[1]]}
-            max={100}
-            step={2}
-            onValueChange={(value) => setCreditRange(value)}
-          />
-        <div className="mt-4">
-        </div>
+        <label
+          htmlFor="creditRange"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Credit Range
+        </label>
+
+        <Slider
+          defaultValue={[creditRange[0], creditRange[1]]}
+          max={100}
+          step={2}
+          onValueChange={(value) => setCreditRange(value)}
+        />
+        <div className="mt-4"></div>
         <button
           onClick={handleSearch}
           className="mt-4 bg-indigo-500 text-white font-bold py-2 px-4 rounded"
@@ -229,16 +275,31 @@ const Admin = (props: Props) => {
         )}
       </Table>
 
-      <Pagination
-        loop
-        showControls
-        color="success"
-        page={page}
-        onChange={setPage}
-        total={total.pages}
-        initialPage={1}
-        className="mx-auto w-fit mb-20"
-      />
+      <div className="flex flex-row gap-1 w-full justify-center items-center mt-4">
+        <button
+          className="bg-white p-1 border "
+          disabled={page === 0}
+          onClick={() => setPage(page )}
+        >
+          {"Prev"}
+        </button>
+        {pageButtons.map((button) => (
+          <button
+            className="bg-white p-1 border "
+            onClick={() => setPage(button )}
+            key={button}
+          >
+            {button}
+          </button>
+        ))}
+        <button
+          className="bg-white p-1 border "
+          onClick={() => setPage(page + 1)}
+          disabled={page === total?.pages }
+        >
+          {"Next"}
+        </button>
+      </div>
 
       <Dialog open={Open} onOpenChange={setOpen}>
         {/* <DialogTrigger>Open</DialogTrigger> */}
