@@ -125,7 +125,7 @@ const Generate = () => {
     if (isLoaded && !isSignedIn) {
       navigate({
         pathname: "/login",
-        search: `?redirect=${window.location.pathname}${window.location.search}`,
+        
       });
       toast.error("Please Signin to continue");
       return;

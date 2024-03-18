@@ -11,6 +11,9 @@ import axios from "axios";
 import { useUser } from "@clerk/clerk-react";
 import { toast } from "sonner";
 import { useSearchParams } from "react-router-dom";
+import { Popsicle } from "lucide-react";
+// @ts-ignore
+import { getLocation } from "current-location-geo"; 
 // import Profile from "@/components/Profile";
 
 // type Props = {};
@@ -64,9 +67,18 @@ const Landing = () => {
       toast.error("Please sign in to view your bookmarks");
       return;
     }
+    let location =""
+     getLocation(function (err: any, position: any) {
+       if (err) {
+         console.error("Error:", err);
+       } else {
+         location = position.address;
+       }
+     });
     const res = await axios.get(
-      `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}`
+      `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location}`
     );
+
     const cards = res.data.data.map((card: Card) => ({
       ...card,
       isBookmarked: true,
@@ -83,7 +95,10 @@ const Landing = () => {
         searchParams.delete("mytools");
         setSearchParams(searchParams);
       }, 5000);
+
+      
     }
+    
   }, []);
 
   const getTemplates = async () => {
@@ -122,7 +137,6 @@ const Landing = () => {
     // );
     setIsLoading(true);
     const res = await axios.get(`${BASE_URL2}/objects/searchObjects/${search}`);
-    // console.log(res.data.message)
     if (window.innerWidth < 768) {
       if (!!isSearched) {
         setButtons([search, ...buttons.slice(1)]);
@@ -134,7 +148,6 @@ const Landing = () => {
     setIsLoading(false);
   };
 
-  console.log(selectedButton);
 
   return (
     <div className="bg-white dark:bg-[#1E1E1E]">

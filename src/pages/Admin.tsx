@@ -6,7 +6,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -15,14 +14,9 @@ import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { emails } from "@/utils/email";
 import { toast } from "sonner";
-import {
-  Pagination,
-  PaginationItem,
-  PaginationCursor,
-} from "@nextui-org/react";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
-import OpenAI from "openai";
+
 
 import {
   Dialog,
@@ -39,7 +33,7 @@ type Props = {};
 const Admin = (props: Props) => {
   const [users, setusers] = useState<
     {
-      clerkId: string;
+      clientId: string;
       name: string;
       email: string;
       image: string;
@@ -65,9 +59,7 @@ const Admin = (props: Props) => {
   const MAX_PAGE_BUTTONS = 5;
 
      const totalPagesCount = total?.pages ?? 0;
-     const currentPage = page + 1; // Adding 1 because page numbers usually start from 1
-
-     // If the total pages are less than or equal to the maximum buttons, return all pages
+     const currentPage = page + 1; 
      if (totalPagesCount <= MAX_PAGE_BUTTONS) {
        return Array.from({ length: totalPagesCount }, (_, i) => i + 1);
      }
@@ -87,21 +79,19 @@ const Admin = (props: Props) => {
        (_, i) => startPage + i
      );
 
-     // Add first and last page buttons if not already included
      if (pageButtons.length < MAX_PAGE_BUTTONS) {
        if (startPage !== 1) {
-         pageButtons.unshift(1); // Add first page button
+         pageButtons.unshift(1); 
        }
        if (endPage !== totalPagesCount) {
-         pageButtons.push(totalPagesCount); // Add last page button
+         pageButtons.push(totalPagesCount);
        }
      } else {
-       // Replace first/last button placeholders with actual page numbers
        if (startPage > 2) {
-         pageButtons[0] = 1; // Replace placeholder with the first page number
+         pageButtons[0] = 1; 
        }
        if (endPage < totalPagesCount - 1) {
-         pageButtons[MAX_PAGE_BUTTONS - 1] = totalPagesCount; // Replace placeholder with the last page number
+         pageButtons[MAX_PAGE_BUTTONS - 1] = totalPagesCount; 
        }
      }
 
@@ -146,7 +136,6 @@ const Admin = (props: Props) => {
       const res = await axios.get(
         `${BASE_URL2}/admin/all?limit=20&page=${page}`
       );
-      console.log(res);
       setusers(res.data.data.users);
       setTotal({
         total: res.data.data.userCount,
@@ -185,10 +174,8 @@ const Admin = (props: Props) => {
 
       }
       else{
-
         getUsers();
       }
-
       setAccess(canAccess);
     }
   }, [isLoaded, isSignedIn, page]);
@@ -214,14 +201,12 @@ const Admin = (props: Props) => {
         >
           Credit Range
         </label>
-
         <Slider
           defaultValue={[creditRange[0], creditRange[1]]}
           max={100}
           step={2}
           onValueChange={(value) => setCreditRange(value)}
         />
-        <div className="mt-4"></div>
         <button
           onClick={handleSearch}
           className="mt-4 bg-indigo-500 text-white font-bold py-2 px-4 rounded"
@@ -251,12 +236,13 @@ const Admin = (props: Props) => {
         ) : (
           <TableBody>
             {users.map((user) => (
-              <TableRow key={user.clerkId}>
-                <TableCell className="font-medium">{user.clerkId}</TableCell>
+              <TableRow key={user.clientId}>
+                <TableCell className="font-medium">{user.clientId}</TableCell>
                 <TableCell className="font-medium">{user.name}</TableCell>
                 <TableCell className="font-medium">{user.email}</TableCell>
                 <TableCell className="font-medium">
-                  {user.current_limit}
+                  {/* @ts-ignore */}
+                  {user.plan.currentLimit}
                 </TableCell>
                 <TableCell className="font-medium">
                   <Button
@@ -279,14 +265,14 @@ const Admin = (props: Props) => {
         <button
           className="bg-white p-1 border "
           disabled={page === 0}
-          onClick={() => setPage(page )}
+          onClick={() => setPage(page)}
         >
           {"Prev"}
         </button>
         {pageButtons.map((button) => (
           <button
             className="bg-white p-1 border "
-            onClick={() => setPage(button )}
+            onClick={() => setPage(button)}
             key={button}
           >
             {button}
@@ -295,7 +281,7 @@ const Admin = (props: Props) => {
         <button
           className="bg-white p-1 border "
           onClick={() => setPage(page + 1)}
-          disabled={page === total?.pages }
+          disabled={page === total?.pages}
         >
           {"Next"}
         </button>
