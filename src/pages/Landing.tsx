@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { useSearchParams } from "react-router-dom";
 import { Popsicle } from "lucide-react";
 // @ts-ignore
-import { getLocation } from "current-location-geo"; 
+import { getLocation } from "current-location-geo";
 // import Profile from "@/components/Profile";
 
 // type Props = {};
@@ -46,6 +46,25 @@ const Landing = () => {
   const [cardsBookmark, setCardsBookmark] = useState<Card[]>([]);
   const [search, setSearch] = useState("");
   const [isSearched, setIsSearched] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+
+  const getLocationFunction= ()=>{
+
+    if(!location){
+     getLocation(function (err: any, position: any) {
+       if (err) {
+         if(err.message ==="User denied Geolocation"){
+           toast.error("Please enable location to get the best experience")
+         }
+ 
+       } else {
+         setLocation(position.address);
+       }
+     });
+    }
+  }
+  
+  console.log("one", location);
 
   const getButtons = async () => {
     // const
@@ -58,23 +77,30 @@ const Landing = () => {
 
   useEffect(() => {
     getButtons();
-    isSignedIn && getBookMarks();
+    // isSignedIn && getBookMarks();
   }, [isLoaded, isSignedIn]);
 
   const getBookMarks = async (bool = false) => {
-    if (!isSignedIn) {
+    if (!isSignedIn ) {
       setCards([]);
       toast.error("Please sign in to view your bookmarks");
       return;
     }
-    let location =""
+    if(!location) return;
+    let locationn = ""
+   try {
      getLocation(function (err: any, position: any) {
        if (err) {
          console.error("Error:", err);
        } else {
-         location = position.address;
+         locationn = (position.addresss);
        }
      });
+   } catch (error) {
+    console.log("error",error)
+   }
+    console.log("av", locationn,location);
+
     const res = await axios.get(
       `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location}`
     );
@@ -95,17 +121,15 @@ const Landing = () => {
         searchParams.delete("mytools");
         setSearchParams(searchParams);
       }, 5000);
-
-      
     }
-    
   }, []);
 
   const getTemplates = async () => {
     let url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}`;
+    console.log("three", location);
 
     if (isSignedIn)
-      url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}`;
+      url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location}`;
     const res = await axios.get(url);
     setCards(res.data.message);
     setIsLoading(false);
@@ -113,13 +137,14 @@ const Landing = () => {
 
   useEffect(() => {
     // if (buttons.length === 0) return;
+    getLocationFunction()
     if (isSearched && selectedButton === isSearched) return;
     if (!isLoaded) return;
     setIsLoading(true);
     if (selectedButton !== "My Tools") {
       getTemplates();
     } else if (isSignedIn) getBookMarks(true);
-  }, [selectedButton, isLoaded]);
+  }, [selectedButton, isLoaded, location]);
   useEffect(() => {
     if (buttons.length === 0) return;
     if (selectedButton !== "My Tools") {
@@ -147,7 +172,6 @@ const Landing = () => {
     setIsSearched(search);
     setIsLoading(false);
   };
-
 
   return (
     <div className="bg-white dark:bg-[#1E1E1E]">
