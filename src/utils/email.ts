@@ -9,5 +9,6 @@ export const emails: string[] = [
   "devashish@bigwigmedia.in",
   "dwaashish@gmail.com",
   "vbirla531@gmail.com",
-  "automatefreely@gmail.com"
+  "automatefreely@gmail.com",
+  "chiranjit@bigwigmedia.in"
 ];
