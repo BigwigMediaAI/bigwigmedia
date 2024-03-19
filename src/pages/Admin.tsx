@@ -37,12 +37,15 @@ const Admin = (props: Props) => {
       name: string;
       email: string;
       image: string;
-      current_limit: number;
+      plan:any;
+      planHistory:any;
+      address:string;
     }[]
   >([]);
   const { isLoaded, isSignedIn, user } = useUser();
   const [access, setAccess] = useState(false);
   const [Open, setOpen] = useState(false);
+  const [OpenHistory, setOpenHistory] = useState(false);
   const [selectedUser, setSelectedUser] = useState<string>("");
   const [total, setTotal] = useState<{ total: number; pages: number }>({
     total: 0,
@@ -54,6 +57,8 @@ const Admin = (props: Props) => {
   const [name, setName] = useState("");
   const [creditRange, setCreditRange] = useState([0, 1000]);
   const [search, setsearch] = useState<boolean>(false)
+  const [history, setHistory] = useState([]);
+
 
    const generatePageButtons = () => {
   const MAX_PAGE_BUTTONS = 5;
@@ -225,6 +230,8 @@ const Admin = (props: Props) => {
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead className="text-right">Credits</TableHead>
+            <TableHead className="text-right">Address</TableHead>
+            <TableHead className="text-right">See Plan</TableHead>
             <TableHead className="text-right">Add</TableHead>
           </TableRow>
         </TableHeader>
@@ -243,6 +250,21 @@ const Admin = (props: Props) => {
                 <TableCell className="font-medium">
                   {/* @ts-ignore */}
                   {user.plan.currentLimit}
+                </TableCell>
+                <TableCell className="font-medium">
+                  {/* @ts-ignore */}
+                  {user?.address}
+                </TableCell>
+                <TableCell className="font-medium">
+                  <Button
+                    onClick={() => {
+                      setOpenHistory(true);
+                      // @ts-ignore
+                      setHistory(user.planHistory);
+                    }}
+                  >
+                    See plans
+                  </Button>
                 </TableCell>
                 <TableCell className="font-medium">
                   <Button
@@ -336,6 +358,56 @@ const Admin = (props: Props) => {
               </Button>
             </DialogDescription>
           </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={OpenHistory} onOpenChange={setOpenHistory}>
+        
+        <DialogContent className="w-fit">
+          <DialogHeader>
+            <DialogTitle>Transaction History</DialogTitle>
+            <DialogDescription>
+              All the history of your Transaction Lies here.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <Table>
+              <TableCaption>A list of your recent invoices.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Plan Name</TableHead>
+                  <TableHead>Created At</TableHead>
+                  <TableHead>Valid Till</TableHead>
+                  <TableHead className="text-right">Price</TableHead>
+                  <TableHead className="text-right">Credit</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {history.map((his, ind) => (
+                  <TableRow key={ind}>
+                    {/* @ts-ignore */}
+                    <TableCell className="font-medium">{his.name}</TableCell>
+                    {/* @ts-ignore */}
+                    <TableCell>{his.createdAt}</TableCell>
+                    {/* @ts-ignore */}
+                    <TableCell>{his.validTill}</TableCell>
+                    {/* @ts-ignore */}
+                    <TableCell className="text-right">{his.price}</TableCell>
+                    <TableCell className="text-right">
+                      {/* @ts-ignore */}
+                      {his.creditOptained}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              {/* <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={3}>Total</TableCell>
+                    <TableCell className="text-right">$2,500.00</TableCell>
+                  </TableRow>
+                </TableFooter> */}
+            </Table>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

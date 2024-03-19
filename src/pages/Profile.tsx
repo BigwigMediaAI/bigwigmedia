@@ -21,9 +21,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 // import { Plan, arr } from "@/utils/plans";
-import Footer from "@/components/Footer"
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import Transaction from './Transaction';
+import Transaction from "./Transaction";
 import {
   Table,
   TableBody,
@@ -35,15 +35,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-
 const Profile = () => {
   // const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [bookmarks, setbookmarks] = useState([]);
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState([]);
   const [credits, setCredits] = useState<{
-    current_limit: number;
-    max_limit: number;
+    currentLimit: number;
+    maxLimit: number;
     plan: string;
   } | null>();
   const { user, isSignedIn, isLoaded } = useUser();
@@ -64,7 +63,9 @@ const Profile = () => {
 
   const getCredits = async () => {
     try {
-      const res = await axios.get(`${BASE_URL2}/limits?clerkId=${user!.id}`);
+      const res = await axios.get(
+        `${BASE_URL2}/plans/current?clerkId=${user!.id}`
+      );
       if (res.status === 200) {
         setCredits(res.data.data);
       } else {
@@ -101,15 +102,19 @@ const Profile = () => {
 
   const handleTransaction = async () => {
     try {
-      const res = await axios.get(`${BASE_URL2}/plans/history?clerkId=${user!.id}`);
+      const res = await axios.get(
+        `${BASE_URL2}/plans/history?clerkId=${user!.id}`
+      );
       if (res.status === 200) {
-        console.log(res.data.data,"transaction")
+        console.log(res.data.data, "transaction");
         setHistory(res.data.data);
       } else {
         toast.error("Error Occured activating account");
       }
     } catch (error) {}
   };
+
+  console.log(credits);
 
   return (
     <>
@@ -242,7 +247,7 @@ const Profile = () => {
                     </div>
                     <div> </div>
                     <div className="flex shrink-0 text-black dark:text-white font-Outfit text-base font-medium leading-normal ">
-                      {credits?.current_limit} of {credits?.max_limit} left
+                      {credits?.currentLimit} of {credits?.maxLimit} left
                     </div>
                   </div>
                 )}
@@ -282,7 +287,7 @@ const Profile = () => {
               <DialogTitle>Transaction History</DialogTitle>
               <DialogDescription>
                 All the history of your Transaction Lies here.
-              </DialogDescription>
+               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <Table>
@@ -308,7 +313,7 @@ const Profile = () => {
                       {/* @ts-ignore */}
                       <TableCell className="text-right">{his.price}</TableCell>
                       <TableCell className="text-right">
-                      {/* @ts-ignore */}
+                        {/* @ts-ignore */}
                         {his.creditOptained}
                       </TableCell>
                     </TableRow>
@@ -321,7 +326,6 @@ const Profile = () => {
                   </TableRow>
                 </TableFooter> */}
               </Table>
-              
             </div>
           </DialogContent>
         </Dialog>
