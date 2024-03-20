@@ -48,22 +48,20 @@ const Landing = () => {
   const [isSearched, setIsSearched] = useState<string>("");
   const [location, setLocation] = useState<string>("");
 
-  const getLocationFunction= ()=>{
-
-    if(!location){
-     getLocation(function (err: any, position: any) {
-       if (err) {
-         if(err.message ==="User denied Geolocation"){
-           toast.error("Please enable location to get the best experience")
-         }
- 
-       } else {
-         setLocation(position.address);
-       }
-     });
+  const getLocationFunction = () => {
+    if (!location) {
+      getLocation(function (err: any, position: any) {
+        if (err) {
+          if (err.message === "User denied Geolocation") {
+            toast.error("Please enable location to get the best experience");
+          }
+        } else {
+          setLocation(position.address);
+        }
+      });
     }
-  }
-  
+  };
+
   console.log("one", location);
 
   const getButtons = async () => {
@@ -81,25 +79,25 @@ const Landing = () => {
   }, [isLoaded, isSignedIn]);
 
   const getBookMarks = async (bool = false) => {
-    if (!isSignedIn ) {
+    if (!isSignedIn) {
       setCards([]);
       toast.error("Please sign in to view your bookmarks");
       return;
     }
-    if(!location) return;
-    let locationn = ""
-   try {
-     getLocation(function (err: any, position: any) {
-       if (err) {
-         console.error("Error:", err);
-       } else {
-         locationn = (position.addresss);
-       }
-     });
-   } catch (error) {
-    console.log("error",error)
-   }
-    console.log("av", locationn,location);
+    if (!location) return;
+    let locationn = "";
+    try {
+      getLocation(function (err: any, position: any) {
+        if (err) {
+          console.error("Error:", err);
+        } else {
+          locationn = position.addresss;
+        }
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+    console.log("av", locationn, location);
 
     const res = await axios.get(
       `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location}`
@@ -137,7 +135,7 @@ const Landing = () => {
 
   useEffect(() => {
     // if (buttons.length === 0) return;
-    getLocationFunction()
+    // getLocationFunction()
     if (isSearched && selectedButton === isSearched) return;
     if (!isLoaded) return;
     setIsLoading(true);
