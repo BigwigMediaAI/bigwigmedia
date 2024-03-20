@@ -17,7 +17,6 @@ import { toast } from "sonner";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 
-
 import {
   Dialog,
   DialogContent,
@@ -37,9 +36,9 @@ const Admin = (props: Props) => {
       name: string;
       email: string;
       image: string;
-      plan:any;
-      planHistory:any;
-      address:string;
+      plan: any;
+      planHistory: any;
+      address: string;
     }[]
   >([]);
   const { isLoaded, isSignedIn, user } = useUser();
@@ -56,55 +55,50 @@ const Admin = (props: Props) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [creditRange, setCreditRange] = useState([0, 1000]);
-  const [search, setsearch] = useState<boolean>(false)
+  const [search, setsearch] = useState<boolean>(false);
   const [history, setHistory] = useState([]);
 
+  const generatePageButtons = () => {
+    const MAX_PAGE_BUTTONS = 5;
 
-   const generatePageButtons = () => {
-  const MAX_PAGE_BUTTONS = 5;
+    const totalPagesCount = total?.pages ?? 0;
+    const currentPage = page + 1;
+    if (totalPagesCount <= MAX_PAGE_BUTTONS) {
+      return Array.from({ length: totalPagesCount }, (_, i) => i + 1);
+    }
 
-     const totalPagesCount = total?.pages ?? 0;
-     const currentPage = page + 1; 
-     if (totalPagesCount <= MAX_PAGE_BUTTONS) {
-       return Array.from({ length: totalPagesCount }, (_, i) => i + 1);
-     }
+    let startPage = Math.max(currentPage - Math.floor(MAX_PAGE_BUTTONS / 2), 1);
+    let endPage = Math.min(startPage + MAX_PAGE_BUTTONS - 1, totalPagesCount);
 
-     let startPage = Math.max(
-       currentPage - Math.floor(MAX_PAGE_BUTTONS / 2),
-       1
-     );
-     let endPage = Math.min(startPage + MAX_PAGE_BUTTONS - 1, totalPagesCount);
+    if (endPage - startPage + 1 < MAX_PAGE_BUTTONS) {
+      startPage = Math.max(endPage - MAX_PAGE_BUTTONS + 1, 1);
+    }
 
-     if (endPage - startPage + 1 < MAX_PAGE_BUTTONS) {
-       startPage = Math.max(endPage - MAX_PAGE_BUTTONS + 1, 1);
-     }
+    const pageButtons = Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i
+    );
 
-     const pageButtons = Array.from(
-       { length: endPage - startPage + 1 },
-       (_, i) => startPage + i
-     );
+    if (pageButtons.length < MAX_PAGE_BUTTONS) {
+      if (startPage !== 1) {
+        pageButtons.unshift(1);
+      }
+      if (endPage !== totalPagesCount) {
+        pageButtons.push(totalPagesCount);
+      }
+    } else {
+      if (startPage > 2) {
+        pageButtons[0] = 1;
+      }
+      if (endPage < totalPagesCount - 1) {
+        pageButtons[MAX_PAGE_BUTTONS - 1] = totalPagesCount;
+      }
+    }
 
-     if (pageButtons.length < MAX_PAGE_BUTTONS) {
-       if (startPage !== 1) {
-         pageButtons.unshift(1); 
-       }
-       if (endPage !== totalPagesCount) {
-         pageButtons.push(totalPagesCount);
-       }
-     } else {
-       if (startPage > 2) {
-         pageButtons[0] = 1; 
-       }
-       if (endPage < totalPagesCount - 1) {
-         pageButtons[MAX_PAGE_BUTTONS - 1] = totalPagesCount; 
-       }
-     }
-
-     return pageButtons;
-   };
-    const pageButtons = generatePageButtons();
+    return pageButtons;
+  };
+  const pageButtons = generatePageButtons();
   const handleSearch = async () => {
-   
     setIsLoading(true);
     try {
       const res = await axios.get(
@@ -124,11 +118,10 @@ const Admin = (props: Props) => {
         total: res.data.data.userCount,
         pages: res.data.data.numberOfPages,
       });
-      setsearch(true)
+      setsearch(true);
     } catch (error) {
       console.log(error);
     } finally {
-      
       setIsLoading(false);
     }
   };
@@ -175,10 +168,8 @@ const Admin = (props: Props) => {
         toast.error("Cannot access ");
         return;
       }
-      if(search){
-
-      }
-      else{
+      if (search) {
+      } else {
         getUsers();
       }
       setAccess(canAccess);
@@ -186,230 +177,231 @@ const Admin = (props: Props) => {
   }, [isLoaded, isSignedIn, page]);
   if (!access) return <></>;
   return (
-    <div className="p-4">
-      <div className="flex flex-col gap-3 max-w-96 mx-auto">
-        <Input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label
-          htmlFor="creditRange"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Credit Range
-        </label>
-        <Slider
-          defaultValue={[creditRange[0], creditRange[1]]}
-          max={100}
-          step={2}
-          onValueChange={(value) => setCreditRange(value)}
-        />
-        <button
-          onClick={handleSearch}
-          className="mt-4 bg-indigo-500 text-white font-bold py-2 px-4 rounded"
-        >
-          Search
-        </button>
-      </div>
-      <Table className="my-20 max-w-[800px] border mx-auto rounded-lg bg-sky-100">
-        <TableCaption>
-          A list of {total.total} Users. page {page} of {total.pages}
-        </TableCaption>
+    <div className="py-10 px-[10%]">
+      <div className="p-3 border-2 border-gray-200 rounded-lg bg-sky-50">
+        <div className="min-w-[60%] bg-sky-100 rounded-md p-8 flex flex-col mt-4 gap-3 max-w-96 mx-auto">
+          <Input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label
+            htmlFor="creditRange"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Credit Range
+          </label>
+          <Slider
+            defaultValue={[creditRange[0], creditRange[1]]}
+            max={100}
+            step={2}
+            onValueChange={(value) => setCreditRange(value)}
+          />
+          <button
+            onClick={handleSearch}
+            className="mt-4 bg-indigo-500 text-white font-bold py-2 px-4 rounded"
+          >
+            Search
+          </button>
+        </div>
+        <Table className="my-20 max-w-[800px] border mx-auto rounded-lg bg-sky-100">
+          <TableCaption>
+            A list of {total.total} Users. page {page} of {total.pages}
+          </TableCaption>
 
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Id</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead className="text-right">Credits</TableHead>
-            <TableHead className="text-right">Address</TableHead>
-            <TableHead className="text-right">See Plan</TableHead>
-            <TableHead className="text-right">Add</TableHead>
-          </TableRow>
-        </TableHeader>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Id</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead className="text-right">Credits</TableHead>
+              {/* <TableHead className="text-right">Address</TableHead> */}
+              <TableHead className="text-right">See Plan</TableHead>
+              <TableHead className="text-right">Add</TableHead>
+            </TableRow>
+          </TableHeader>
 
-        {issLoading ? (
-          <div className="w-full h-20 flex justify-center items-center">
-            Loading...
-          </div>
-        ) : (
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.clientId}>
-                <TableCell className="font-medium">{user.clientId}</TableCell>
-                <TableCell className="font-medium">{user.name}</TableCell>
-                <TableCell className="font-medium">{user.email}</TableCell>
-                <TableCell className="font-medium">
+          {issLoading ? (
+            <div className="w-full h-20 flex justify-center items-center">
+              Loading...
+            </div>
+          ) : (
+            <TableBody>
+              {users.map((user) => (
+                <TableRow key={user.clientId}>
+                  <TableCell className="font-medium">{user.clientId}</TableCell>
+                  <TableCell className="font-medium">{user.name}</TableCell>
+                  <TableCell className="font-medium">{user.email}</TableCell>
+                  <TableCell className="font-medium">
+                    {/* @ts-ignore */}
+                    {user.plan.currentLimit}
+                  </TableCell>
+                  {/* <TableCell className="font-medium"> */}
                   {/* @ts-ignore */}
-                  {user.plan.currentLimit}
-                </TableCell>
-                <TableCell className="font-medium">
-                  {/* @ts-ignore */}
-                  {user?.address}
-                </TableCell>
-                <TableCell className="font-medium">
-                  <Button
-                    onClick={() => {
-                      setOpenHistory(true);
-                      // @ts-ignore
-                      setHistory(user.planHistory);
-                    }}
-                  >
-                    See plans
-                  </Button>
-                </TableCell>
-                <TableCell className="font-medium">
-                  <Button
-                    onClick={() => {
-                      setOpen(true);
-                      // @ts-ignore
-                      setSelectedUser(user._id);
-                    }}
-                  >
-                    Add
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        )}
-      </Table>
+                  {/* {user?.address} */}
+                  {/* </TableCell> */}
+                  <TableCell className="font-medium">
+                    <Button
+                      onClick={() => {
+                        setOpenHistory(true);
+                        // @ts-ignore
+                        setHistory(user.planHistory);
+                      }}
+                    >
+                      See plans
+                    </Button>
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    <Button
+                      onClick={() => {
+                        setOpen(true);
+                        // @ts-ignore
+                        setSelectedUser(user._id);
+                      }}
+                    >
+                      Add
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
+        </Table>
 
-      <div className="flex flex-row gap-1 w-full justify-center items-center mt-4">
-        <button
-          className="bg-white p-1 border "
-          disabled={page === 0}
-          onClick={() => setPage(page)}
-        >
-          {"Prev"}
-        </button>
-        {pageButtons.map((button) => (
+        <div className="flex flex-row gap-1 w-full justify-center items-center mt-4">
           <button
             className="bg-white p-1 border "
-            onClick={() => setPage(button)}
-            key={button}
+            disabled={page === 0}
+            onClick={() => setPage(page)}
           >
-            {button}
+            {"Prev"}
           </button>
-        ))}
-        <button
-          className="bg-white p-1 border "
-          onClick={() => setPage(page + 1)}
-          disabled={page === total?.pages}
-        >
-          {"Next"}
-        </button>
-      </div>
+          {pageButtons.map((button) => (
+            <button
+              className="bg-white p-1 border "
+              onClick={() => setPage(button)}
+              key={button}
+            >
+              {button}
+            </button>
+          ))}
+          <button
+            className="bg-white p-1 border "
+            onClick={() => setPage(page + 1)}
+            disabled={page === total?.pages}
+          >
+            {"Next"}
+          </button>
+        </div>
 
-      <Dialog open={Open} onOpenChange={setOpen}>
-        {/* <DialogTrigger>Open</DialogTrigger> */}
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Credits</DialogTitle>
-            <DialogDescription className="flex flex-col gap-3">
-              <input
-                type="number"
-                placeholder="credits"
-                name="credits"
-                id="credits"
-                className="w-full p-2 border rounded-lg"
-              />
-              <input
-                type="number"
-                placeholder="valid for days"
-                name="days"
-                id="days"
-                className="w-full p-2 border rounded-lg"
-              />
-              <Button
-                onClick={async () => {
-                  const credit = (
-                    document.getElementById("credits") as HTMLInputElement
-                  ).value;
-                  const days = (
-                    document.getElementById("credits") as HTMLInputElement
-                  ).value;
-                  const res = await axios.post(
-                    `${BASE_URL2}/admin/addCreditManual`,
-                    {
-                      userId: selectedUser,
-                      credit: parseInt(credit),
-                      days: parseInt(days),
+        <Dialog open={Open} onOpenChange={setOpen}>
+          {/* <DialogTrigger>Open</DialogTrigger> */}
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Credits</DialogTitle>
+              <DialogDescription className="flex flex-col gap-3">
+                <input
+                  type="number"
+                  placeholder="credits"
+                  name="credits"
+                  id="credits"
+                  className="w-full p-2 border rounded-lg"
+                />
+                <input
+                  type="number"
+                  placeholder="valid for days"
+                  name="days"
+                  id="days"
+                  className="w-full p-2 border rounded-lg"
+                />
+                <Button
+                  onClick={async () => {
+                    const credit = (
+                      document.getElementById("credits") as HTMLInputElement
+                    ).value;
+                    const days = (
+                      document.getElementById("credits") as HTMLInputElement
+                    ).value;
+                    const res = await axios.post(
+                      `${BASE_URL2}/admin/addCreditManual`,
+                      {
+                        userId: selectedUser,
+                        credit: parseInt(credit),
+                        days: parseInt(days),
+                      }
+                    );
+                    if (res.status === 200) {
+                      setOpen(false);
+                      getUsers();
+                      toast.success("Added Credits");
+                    } else {
+                      toast.error("Failed to add credits");
                     }
-                  );
-                  if (res.status === 200) {
-                    setOpen(false);
-                    getUsers();
-                    toast.success("Added Credits");
-                  } else {
-                    toast.error("Failed to add credits");
-                  }
-                }}
-              >
-                Add
-              </Button>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+                  }}
+                >
+                  Add
+                </Button>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
 
-      <Dialog open={OpenHistory} onOpenChange={setOpenHistory}>
-        
-        <DialogContent className="w-fit">
-          <DialogHeader>
-            <DialogTitle>Transaction History</DialogTitle>
-            <DialogDescription>
-              All the history of your Transaction Lies here.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <Table>
-              <TableCaption>A list of your recent invoices.</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Plan Name</TableHead>
-                  <TableHead>Created At</TableHead>
-                  <TableHead>Valid Till</TableHead>
-                  <TableHead className="text-right">Price</TableHead>
-                  <TableHead className="text-right">Credit</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {history.map((his, ind) => (
-                  <TableRow key={ind}>
-                    {/* @ts-ignore */}
-                    <TableCell className="font-medium">{his.name}</TableCell>
-                    {/* @ts-ignore */}
-                    <TableCell>{his.createdAt}</TableCell>
-                    {/* @ts-ignore */}
-                    <TableCell>{his.validTill}</TableCell>
-                    {/* @ts-ignore */}
-                    <TableCell className="text-right">{his.price}</TableCell>
-                    <TableCell className="text-right">
-                      {/* @ts-ignore */}
-                      {his.creditOptained}
-                    </TableCell>
+        <Dialog open={OpenHistory} onOpenChange={setOpenHistory}>
+          <DialogContent className="w-fit">
+            <DialogHeader>
+              <DialogTitle>Transaction History</DialogTitle>
+              <DialogDescription>
+                All the history of your Transaction Lies here.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <Table>
+                <TableCaption>A list of your recent invoices.</TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Plan Name</TableHead>
+                    <TableHead>Created At</TableHead>
+                    <TableHead>Valid Till</TableHead>
+                    <TableHead className="text-right">Price</TableHead>
+                    <TableHead className="text-right">Credit</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-              {/* <TableFooter>
+                </TableHeader>
+                <TableBody>
+                  {history.map((his, ind) => (
+                    <TableRow key={ind}>
+                      {/* @ts-ignore */}
+                      <TableCell className="font-medium">{his.name}</TableCell>
+                      {/* @ts-ignore */}
+                      <TableCell>{his.createdAt}</TableCell>
+                      {/* @ts-ignore */}
+                      <TableCell>{his.validTill}</TableCell>
+                      {/* @ts-ignore */}
+                      <TableCell className="text-right">{his.price}</TableCell>
+                      <TableCell className="text-right">
+                        {/* @ts-ignore */}
+                        {his.creditOptained}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+                {/* <TableFooter>
                   <TableRow>
                     <TableCell colSpan={3}>Total</TableCell>
                     <TableCell className="text-right">$2,500.00</TableCell>
                   </TableRow>
                 </TableFooter> */}
-            </Table>
-          </div>
-        </DialogContent>
-      </Dialog>
+              </Table>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };
