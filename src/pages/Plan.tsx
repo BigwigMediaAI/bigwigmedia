@@ -29,11 +29,11 @@ import {
   SignIn,
   useAuth,
   SignedOut,
+  useUser,
 } from "@clerk/clerk-react";
 import { PlanProps } from "@/utils/plans";
 import { toast } from "sonner";
 import Footer from "@/components/Footer";
-
 
 type Props = {};
 
@@ -79,15 +79,14 @@ const Plan = (props: Props) => {
     try {
       const res = await axios.get(`${BASE_URL2}/plans?clerkId=${userId}`);
       if (res.status === 200) {
-        console.log(res)
+        console.log(res);
         // @ts-ignore
-        if (res.showTop){
-              const arr = res.data.data;
-              setplans([arr.TOPUP, arr.YEARLY]);
-        }
-        else{
-          const arr = res.data.data
-          setplans([arr.MONTHLY,arr.YEARLY]);
+        if (res.showTop) {
+          const arr = res.data.data;
+          setplans([arr.TOPUP, arr.YEARLY]);
+        } else {
+          const arr = res.data.data;
+          setplans([arr.MONTHLY, arr.YEARLY]);
         }
         //  setplans(Object.values(res.data.data));
       } else {
@@ -97,13 +96,11 @@ const Plan = (props: Props) => {
   };
 
   useEffect(() => {
-    if (isLoaded ) {
-      if(isSignedIn){
-
+    if (isLoaded) {
+      if (isSignedIn) {
         getPlans();
-      }
-      else{
-        navigate("/login")
+      } else {
+        navigate("/login");
       }
     }
   }, [isLoaded]);
@@ -115,6 +112,7 @@ const Plan = (props: Props) => {
     "pk_live_51OnzNaSDyCQHDHHU8Ppp4kpMRyHHLZqRapD6xZRjBVexHGwbuz02217MQHQcKCI4o5MrJvdQPgYjiUmgvYJ0p4iX00y0uK6Qdz";
 
   const buyPlan = async (index: any) => {
+    const { isLoaded, isSignedIn, user } = useUser();
     try {
       const obj = plans[index];
       const stripe = await loadStripe(key);
@@ -128,13 +126,13 @@ const Plan = (props: Props) => {
         }
       );
       //  console.log( resp.data.id);
-          // const link = document.createElement("a");
-          // link.href = resp.data.id;
-          // // link.target = "_blank";
-          // // link.download = "image.jpg"; // You can customize the downloaded filename here
-          // document.body.appendChild(link);
-          // link.click();
-          // document.body.removeChild(link);
+      // const link = document.createElement("a");
+      // link.href = resp.data.id;
+      // // link.target = "_blank";
+      // // link.download = "image.jpg"; // You can customize the downloaded filename here
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
 
       stripe?.redirectToCheckout({
         sessionId: resp.data.id,
@@ -181,97 +179,7 @@ const Plan = (props: Props) => {
         className="absolute hidden lg:flex right-0 top-0 mix-blend-exclusion"
       />
       <div className="z-50 absolute top-0 w-full">
-        <nav className="sticky top-0 z-50 bg-white/30 dark:bg-zinc-800/70 backnavdrop  shadow-md dark:shadow-black">
-          <div className="h-10vh flex justify-between z-50 text-black dark:text-white lg:py-5 px-9 md:px-14  lg:px-24 mx-auto py-4  border-b items-center">
-            <div
-              className="flex items-center gap-4 cursor-pointer"
-              onClick={() => navigate("/")}
-            >
-              <img
-                src={logo}
-                alt="bigwig-logo"
-                className="w-10 h-10 md:w-12 md:h-12 rounded-lg"
-              />
-              <span className=" hidden md:block text-white  font-outfit text-2xl font-semibold">
-                BigWigMedia.ai
-              </span>
-            </div>
-
-            <div className="flex flex-row items-center">
-              <div className="flex  gap-4 items center justify-end front-normal ">
-                <div className=" justify-center   flex random">
-                  <div id="google_translate_element" className=""></div>
-                </div>
-
-                {!isSignedIn && (
-                  <button
-                    className="hidden md:flex px-4 py-2 justify-center items-center text-white font-outfit text-base font-semibold gap-2 rounded-3xl hover:bg-gray-800 bg-gray-900 shadow-md "
-                    onClick={() => {
-                      navigate("/login");
-                    }}
-                  >
-                    Login
-                  </button>
-                )}
-              </div>
-
-              <div className="ml-4">
-                <ModeToggle />
-              </div>
-              <div className=" mx-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <Button className="p-0 bg-transparent">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="36"
-                        height="36"
-                        viewBox="0 0 36 36"
-                        fill="none"
-                        className="dark:invert"
-                      >
-                        <path
-                          d="M7.79199 25.5416H28.2087M7.79199 18.25H28.2087M7.79199 10.9583H28.2087"
-                          stroke="black"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-                    <DropdownMenuSeparator />
-                    {isSignedIn && (
-                      <DropdownMenuItem onClick={() => navigate("/profile")}>
-                        Profile
-                      </DropdownMenuItem>
-                    )}
-
-                    <DropdownMenuItem>
-                      {!isSignedIn ? (
-                        <button
-                          className="flex px-4 py-2 justify-center items-center text-white font-outfit text-base font-semibold gap-2 rounded-3xl hover:bg-gray-800 bg-gray-900 shadow-md "
-                          onClick={() => {
-                            navigate("/login");
-                          }}
-                        >
-                          Login
-                        </button>
-                      ) : (
-                        <button className="flex px-4 py-2 justify-center items-center text-white font-outfit text-base font-semibold gap-2 rounded-3xl hover:bg-gray-800 bg-gray-900 shadow-md ">
-                          <SignOutButton />
-                        </button>
-                      )}
-                    </DropdownMenuItem>
-                    {/* <DropdownMenuItem>Sign Up</DropdownMenuItem> */}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          </div>
-        </nav>
+        <Nav />
         <div className=" dark:!text-white flex flex-col  min-h-[calc(100vh-90px)] w-full h-full justify-center items-center px-5">
           {/*  @ts-ignore */}
           <div
@@ -313,7 +221,6 @@ const Plan = (props: Props) => {
               ))}
             -
           </div>
-          
         </div>
         <Footer />
       </div>
