@@ -134,7 +134,10 @@ const Nav = () => {
                 {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
                 {/* <DropdownMenuSeparator /> */}
                 {isSignedIn && (
-                  <DropdownMenuItem className="md:hidden" onClick={() => navigate("/profile")}>
+                  <DropdownMenuItem
+                    className="md:hidden"
+                    onClick={() => navigate("/profile")}
+                  >
                     Profile
                   </DropdownMenuItem>
                 )}

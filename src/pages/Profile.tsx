@@ -282,12 +282,12 @@ const Profile = () => {
               Transaction History
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="my-auto min-w-[80vw]">
             <DialogHeader>
               <DialogTitle>Transaction History</DialogTitle>
               <DialogDescription>
                 All the history of your Transaction Lies here.
-               </DialogDescription>
+              </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <Table>
