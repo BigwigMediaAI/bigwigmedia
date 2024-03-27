@@ -77,10 +77,13 @@ const Nav = () => {
             <div className="justify-center flex random">
               <div id="google_translate_element" className=""></div>
             </div>
+            <div className="ml-4 mr-1">
+              <ModeToggle />
+            </div>
             <div>
               {!isSignedIn ? (
                 <button
-                  className="flex px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] border-black"
+                  className="flex px-1 md:px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] border-black"
                   onClick={() => {
                     navigate("/login");
                   }}
@@ -100,10 +103,8 @@ const Nav = () => {
             </div>
           </div>
 
-          <div className="ml-4 mr-1">
-            <ModeToggle />
-          </div>
-          <div className={cn(" ml-3 mt-1", !isSignedIn && "md:hidden")}>
+         
+          <div className={cn(" ml-3 mt-1", !isSignedIn && "hidden")}>
             <DropdownMenu>
               <DropdownMenuTrigger className="p-0 bg-transparent focus-visible:border-none">
                 {isSignedIn ? (
