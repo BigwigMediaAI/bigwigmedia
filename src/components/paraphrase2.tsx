@@ -89,7 +89,7 @@ export function Script
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
             {groups.map((grp: any, index: number) => (
               <div
-                key={index}
+                key={grp._id}
                 className="w-full flex flex-col md:flex-row  max-w-[844px] justify-center gap-8 items-center"
               >
                 {grp.map((ele: any, i: number) => (
@@ -132,9 +132,10 @@ export function Script
           )}
           {!!output?.output && (
             <Button
-              className="rounded-md self-end mb-6 px-4 py-0 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+              className="rounded-md self-end mb-6 px-4 py-0 text-gray-600 hover:dark:bg-gray-800 disabled:opacity-90 opacity-100 flex gap-2 dark:text-gray-200 hover:bg-gray-100"
               variant="ghost"
               onClick={handleCopy}
+              disabled={isLoading}
             >
               <CopyIcon className="mr-2 h-5 w-5" />
             </Button>

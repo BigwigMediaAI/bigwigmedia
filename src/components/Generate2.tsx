@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
@@ -121,7 +121,7 @@ const Generate = () => {
   const basicOutputRef = useRef(null);
   const [isGenerated, setIsGenerated] = useState(false);
   const [generatedInput, setGeneratedInput] = useState<any[]>()
-
+  const arr = useMemo(() => groups, [groups])
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       navigate({
@@ -194,9 +194,9 @@ const Generate = () => {
     let isRequiredFieldMissing = false; // Flag to track missing required fields
     const dupVal: any[] = [];
     console.log("first")
-    groups?.reverse().forEach((grp: any, index) => {
+    groups?.forEach((grp: any, index) => {
       dupVal.push([]);
-      grp?.reverse().forEach((ele: any) => {
+      grp?.forEach((ele: any) => {
         console.log("two")
         if (
           ele.required &&
@@ -239,9 +239,8 @@ const Generate = () => {
         setIsLoading(false);
         const formatted = extractJSON(res.data.data);
         const json = JSON.parse(formatted.replace("</p>", "</p><br/>"));
-        console.log(json);
         setOutput(json);
-        setGeneratedInput(dupVal);
+        // setGeneratedInput(dupVal);
       } else {
         toast.error(res.data.error);
         setIsLoading(false);
@@ -359,6 +358,8 @@ const Generate = () => {
       });
     }
   };
+ 
+  console.log("here",arr)
 
   return (
     <div className="flex flex-col  gap-8 min-h-screen">
@@ -374,7 +375,7 @@ const Generate = () => {
       {id === "65c87f7bfaf3fd266b16ce9f" ? (
         <Paraphrase />
       ) : id === "6601b84f03d49ef5e50f3caf" ? (
-          <Script groups={groups} val={val} setVal={setVal} handleSubmit={handleSubmit} output={output} isLoading={isLoading} />
+          <Script groups={arr} val={val} setVal={setVal} handleSubmit={handleSubmit} output={output} isLoading={isLoading} />
       ) : id === "65c88181faf3fd266b16cedb" ? (
         <ImageGenerator />
       ) : id === "65cb60bae8bbe5d25d13b9ba" ? (
