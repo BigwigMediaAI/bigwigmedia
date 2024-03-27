@@ -37,11 +37,9 @@ const Landing = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const urlParams = new URLSearchParams(window.location.search);
-  const mytools = urlParams.get("mytools");
+  const selectedButton = urlParams.get("selectedButton")?? "All Tools";
 
-  const [selectedButton, setSelectedButton] = useState<String>(
-    mytools ? "My Tools" : "All Tools"
-  );
+
   const [cards, setCards] = useState<Card[]>([]);
   const [cardsBookmark, setCardsBookmark] = useState<Card[]>([]);
   const [search, setSearch] = useState("");
@@ -60,9 +58,8 @@ const Landing = () => {
         }
       });
     }
-  };
-
-  console.log("one", location);
+  }
+  
 
   const getButtons = async () => {
     // const
@@ -70,7 +67,6 @@ const Landing = () => {
     const bookmarked = [...res.data.message];
     if (isSignedIn) bookmarked.splice(1, 0, "My Tools");
     setButtons(bookmarked);
-    mytools && isSignedIn && setSelectedButton("My Tools");
   };
 
   useEffect(() => {
@@ -113,14 +109,14 @@ const Landing = () => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    if (mytools) {
-      setTimeout(() => {
-        searchParams.delete("mytools");
-        setSearchParams(searchParams);
-      }, 5000);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (mytools) {
+  //     setTimeout(() => {
+  //       searchParams.delete("mytools");
+  //       setSearchParams(searchParams);
+  //     }, 5000);
+  //   }
+  // }, []);
 
   const getTemplates = async () => {
     let url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}`;
@@ -164,12 +160,19 @@ const Landing = () => {
       if (!!isSearched) {
         setButtons([search, ...buttons.slice(1)]);
       } else setButtons([search, ...buttons]);
-      setSelectedButton(search);
+      // setSelectedButton(search);
+      searchParams.set("selectedButton", search);
+      setSearchParams(searchParams);
     }
     setCards(res.data.message);
     setIsSearched(search);
     setIsLoading(false);
   };
+
+  const toolSetter = (tool:string)=>{
+    searchParams.set("selectedButton", tool);
+    setSearchParams(searchParams);
+  }
 
   return (
     <div className="bg-white dark:bg-[#1E1E1E]">
@@ -182,7 +185,7 @@ const Landing = () => {
             <Menu
               buttons={buttons}
               selectedButton={selectedButton}
-              setSelectedButton={setSelectedButton}
+              setSelectedButton={toolSetter}
             />
           )}
           <Cards cards={cards} isLoading={isLoading} setChange={setChange} />
@@ -192,14 +195,14 @@ const Landing = () => {
           <MenuMobile
             buttons={buttons}
             selectedButton={selectedButton}
-            setSelectedButton={setSelectedButton}
+            setSelectedButton={toolSetter}
             cards={cards}
             isLoading={isLoading}
             setChange={setChange}
           />
         </div>
       </div>
-      <Footer />
+      <Footer  />
     </div>
   );
 };

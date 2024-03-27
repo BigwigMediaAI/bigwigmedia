@@ -576,7 +576,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
           {element.text}
         </Label>
         <Textarea
-          className="mb-4 h-24 w-full w-full  md:min-w-[300px] rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+          className="mb-4 h-24 w-full   md:min-w-[300px] rounded-md border-2 dark:bg-zinc-800 border-gray-300 p-4"
           placeholder={element.placeholder}
           value={val[element.in]}
           onChange={(e) => setVal({ ...val, [element.in]: e.target.value })}

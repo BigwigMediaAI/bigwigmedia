@@ -164,6 +164,7 @@ const Profile = () => {
                   onClick={() => {
                     navigate({
                       pathname: "/",
+                      search: "?selectedButton=My Tools",
                     });
                   }}
                 >
