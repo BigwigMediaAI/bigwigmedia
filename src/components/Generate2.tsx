@@ -530,7 +530,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
           className="dark:text-white self-start my-auto text-black text-left font-outfit text-xl font-semibold"
           htmlFor={element.text}
         >
-          {element.placeholder}
+          {element.text}
         </Label>
         <div className="flex flex-wrap sm:flex-row  justify-center md:justify-start md:self-start gap-2">
           {element.options.map((label, index) => (
@@ -555,7 +555,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
           className="dark:text-white self-start my-auto text-black text-left font-outfit text-xl font-semibold"
           htmlFor={element.text}
         >
-          {element.placeholder}
+          {element.text}
         </Label>
       <Select onValueChange={(e) => setVal({ ...val, [element.in]: e })}>
         <SelectTrigger
@@ -604,7 +604,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
         className="dark:text-white self-start text-black text-left font-outfit text-xl font-semibold"
         htmlFor={element.text}
       >
-        {element.placeholder}
+        {element.text}
       </Label>
       <Input
         className="w-full   md:min-w-[300px]"
