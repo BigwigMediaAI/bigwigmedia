@@ -221,6 +221,12 @@ const Plan = (props: Props) => {
               ))}
             -
           </div>
+          <button
+            onClick={() => navigate("/profile")}
+            className="mt-[5vh] border-gradient-2 px-5 py-2 rounded-[32px] text-white font-Outfit text-sm font-medium leading-normal cursor-pointer"
+          >
+            Back to Profile
+          </button>
         </div>
         <Footer />
       </div>
