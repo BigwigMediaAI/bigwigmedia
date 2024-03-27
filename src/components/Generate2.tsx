@@ -44,6 +44,7 @@ import AudioText from "./AudioText";
 import { RotateCw } from "lucide-react";
 import Share from "./Share";
 import { set } from "react-ga";
+import { Script } from "./paraphrase2";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -372,6 +373,8 @@ const Generate = () => {
       </div>
       {id === "65c87f7bfaf3fd266b16ce9f" ? (
         <Paraphrase />
+      ) : id === "6601b84f03d49ef5e50f3caf" ? (
+          <Script groups={groups} val={val} setVal={setVal} handleSubmit={handleSubmit} output={output} isLoading={isLoading} />
       ) : id === "65c88181faf3fd266b16cedb" ? (
         <ImageGenerator />
       ) : id === "65cb60bae8bbe5d25d13b9ba" ? (
@@ -404,7 +407,7 @@ const Generate = () => {
         </>
       )}
 
-      {(!!output || isLoading) && (
+      {(id !== "6601b84f03d49ef5e50f3caf")&&(!!output || isLoading) && (
         <div className="flex flex-col border xl:w-full w-[calc(100%-40px)] mx-5 lg:mx-auto max-w-[1084px] pb-8 rounded-xl relative">
           <div className="w-full border p-5 rounded-t-xl flex flex-row justify-between">
             <h1
@@ -547,6 +550,13 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
   }
   if (element.type === "select") {
     return (
+      <div className="flex flex-wrap flex-col  sm:flex-row self-start gap-4">
+        <Label
+          className="dark:text-white self-start my-auto text-black text-left font-outfit text-xl font-semibold"
+          htmlFor={element.text}
+        >
+          {element.placeholder}
+        </Label>
       <Select onValueChange={(e) => setVal({ ...val, [element.in]: e })}>
         <SelectTrigger
           className=" self-start w-full  md:min-w-[300px] max-w-[844px] "
@@ -564,6 +574,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
           </SelectGroup>
         </SelectContent>
       </Select>
+      </div>
     );
   }
   if (element.type === "textarea") {
