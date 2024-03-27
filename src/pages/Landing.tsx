@@ -75,12 +75,13 @@ const Landing = () => {
   }, [isLoaded, isSignedIn]);
 
   const getBookMarks = async (bool = false) => {
+    console.log("a")
     if (!isSignedIn) {
       setCards([]);
       toast.error("Please sign in to view your bookmarks");
       return;
     }
-    if (!location) return;
+    // if (!location) return;
     let locationn = "";
     try {
       getLocation(function (err: any, position: any) {
@@ -93,11 +94,14 @@ const Landing = () => {
     } catch (error) {
       console.log("error", error);
     }
+    console.log("b")
+
     console.log("av", locationn, location);
 
     const res = await axios.get(
-      `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location}`
+      `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location??locationn}`
     );
+    console.log(res)
 
     const cards = res.data.data.map((card: Card) => ({
       ...card,
