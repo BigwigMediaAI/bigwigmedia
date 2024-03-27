@@ -4,7 +4,7 @@ import logo from "../assets/bigwig-img.jpg";
 import { useEffect, useState } from "react";
 import { BASE_URL2 } from "@/utils/funcitons";
 import axios from "axios";
-  
+
 const Footer = () => {
   const [buttons, setButtons] = useState<string[]>([]);
 
@@ -36,10 +36,9 @@ const Footer = () => {
     "Blog Creator",
     "Website Tools",
     "SEO Tools",
-    "Audio Tools"   
-  ]
+    "Audio Tools",
+  ];
   // const buttonFilter = buttons.filter((button) => !arr.includes(button ));
-
 
   return (
     <div className="flex flex-col relative items-center gap-[25px] shrink-0 mt-14 pb-4 border-t pt-8 px-8 justify-center w-full min-h-285">
@@ -190,11 +189,7 @@ const Footer = () => {
             </div>
             <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
               Made with ❤ by{" "}
-              <button
-                onClick={() => navigate("/")}
-              >
-                BigWigMedia
-              </button>
+              <button onClick={() => navigate("/")}>BigWigMedia</button>
             </div>
           </div>
         </div>
@@ -205,21 +200,16 @@ const Footer = () => {
           <div className="grid grid-cols-2 xl:grid-cols-3 items-start gap-[5px]">
             {arr.map((button, id) => (
               <div
-                className="text-black dark:text-white font-Outfit text-base font-medium leading-normal cursor-pointer"
+                className="text-black dark:text-white font-Outfit text-base font-medium leading-normal cursor-pointer pr-[20px]"
                 key={id}
                 onClick={() => {
                   searchParams.set("selectedButton", button as string);
                   setSearchParams(searchParams);
-                }
-                }
+                }}
               >
                 {button}
               </div>
             ))}
-           
-           
-   
-            
           </div>
         </div>
         <div className="flex flex-col items-start gap-2 md:gap-[21px]">
