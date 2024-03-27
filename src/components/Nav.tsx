@@ -73,30 +73,31 @@ const Nav = () => {
         </div>
 
         <div className="flex flex-row  items-center">
-          <div className="flex  gap-4 items-center justify-end front-normal ">
+          <div className="flex  gap-4 items-center justify-end front-normal max-h-[30px]">
             <div className="justify-center flex random">
               <div id="google_translate_element" className=""></div>
             </div>
-
-            {!isSignedIn ? (
-              <button
-                className="flex px-4 py-0 justify-center items-center dark:text-white font-regular rounded-3xl shadow-md dark:border-white border-[1.4px] text-[15px] min-h-[25px]"
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Login
-              </button>
-            ) : (
-              <button
-                className="hidden md:flex px-4 py-0 justify-center items-center dark:text-white font-regular rounded-3xl shadow-md dark:border-white border-[1.4px] text-[15px] min-h-[25px]"
-                onClick={() => {
-                  navigate("/profile");
-                }}
-              >
-                Profile
-              </button>
-            )}
+            <div>
+              {!isSignedIn ? (
+                <button
+                  className="flex px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] border-black"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Login
+                </button>
+              ) : (
+                <button
+                  className="hidden md:flex px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] border-black"
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
+                  Profile
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="ml-4 mr-1">
