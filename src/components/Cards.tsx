@@ -115,8 +115,14 @@ const CardComponent = ({
               return;
             }
             // Using window.open to navigate to a new page in a new tab
-            const newPath = `/generate?id=${card._id}`;
-            window.open(newPath, "_blank");
+            if(isSignedIn){
+              const newPath = `/generate?id=${card._id}`;
+              window.open(newPath, "_blank");
+              
+            }
+            else{
+              navigate("/login")
+            }
           }}
         >
           Generate

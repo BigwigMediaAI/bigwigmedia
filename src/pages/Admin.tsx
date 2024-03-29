@@ -217,6 +217,7 @@ const Admin = (props: Props) => {
   
 
 
+  
   const generatePageButtons = () => {
     const MAX_PAGE_BUTTONS = 5;
 
@@ -237,7 +238,11 @@ const Admin = (props: Props) => {
     if (endPage - startPage + 1 < MAX_PAGE_BUTTONS) {
       startPage = Math.max(endPage - MAX_PAGE_BUTTONS + 1, 1);
     }
+    if (endPage - startPage + 1 < MAX_PAGE_BUTTONS) {
+      startPage = Math.max(endPage - MAX_PAGE_BUTTONS + 1, 1);
+    }
 
+   
     const pageButtons = Array.from(
       { length: endPage - startPage + 1 },
       (_, i) => startPage + i
@@ -275,7 +280,6 @@ const Admin = (props: Props) => {
       const res = await axios.get(
         `${BASE_URL2}/admin/all?limit=20&page=${page}`
       );
-      console.log(res);
       setusers(res.data.data.users);
       setFilteredUsers(res.data.data.users)
       setPending(false);
@@ -319,7 +323,6 @@ const Admin = (props: Props) => {
 
         getUsers();
       }
-
       setAccess(canAccess);
     }
   }, [isLoaded, isSignedIn, page]);

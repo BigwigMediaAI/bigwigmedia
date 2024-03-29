@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
@@ -44,6 +44,7 @@ import AudioText from "./AudioText";
 import { RotateCw } from "lucide-react";
 import Share from "./Share";
 import { set } from "react-ga";
+import { Script } from "./paraphrase2";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -120,12 +121,12 @@ const Generate = () => {
   const basicOutputRef = useRef(null);
   const [isGenerated, setIsGenerated] = useState(false);
   const [generatedInput, setGeneratedInput] = useState<any[]>()
-
+  const arr = useMemo(() => groups, [groups])
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       navigate({
         pathname: "/login",
-        search: `?redirect=${window.location.pathname}${window.location.search}`,
+        
       });
       toast.error("Please Signin to continue");
       return;
@@ -193,9 +194,9 @@ const Generate = () => {
     let isRequiredFieldMissing = false; // Flag to track missing required fields
     const dupVal: any[] = [];
     console.log("first")
-    groups?.reverse().forEach((grp: any, index) => {
+    groups?.forEach((grp: any, index) => {
       dupVal.push([]);
-      grp?.reverse().forEach((ele: any) => {
+      grp?.forEach((ele: any) => {
         console.log("two")
         if (
           ele.required &&
@@ -238,9 +239,8 @@ const Generate = () => {
         setIsLoading(false);
         const formatted = extractJSON(res.data.data);
         const json = JSON.parse(formatted.replace("</p>", "</p><br/>"));
-        console.log(json);
         setOutput(json);
-        setGeneratedInput(dupVal);
+        // setGeneratedInput(dupVal);
       } else {
         toast.error(res.data.error);
         setIsLoading(false);
@@ -358,6 +358,8 @@ const Generate = () => {
       });
     }
   };
+ 
+  console.log("here",arr)
 
   return (
     <div className="flex flex-col  gap-8 min-h-screen">
@@ -372,6 +374,8 @@ const Generate = () => {
       </div>
       {id === "65c87f7bfaf3fd266b16ce9f" ? (
         <Paraphrase />
+      ) : id === "6601b84f03d49ef5e50f3caf" ? (
+          <Script groups={arr} val={val} setVal={setVal} handleSubmit={handleSubmit} output={output} isLoading={isLoading} />
       ) : id === "65c88181faf3fd266b16cedb" ? (
         <ImageGenerator />
       ) : id === "65cb60bae8bbe5d25d13b9ba" ? (
@@ -394,7 +398,7 @@ const Generate = () => {
           </div>
 
           <button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+            className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
             onClick={(e) => void handleSubmit(e)}
             disabled={isLoading}
           >
@@ -404,7 +408,7 @@ const Generate = () => {
         </>
       )}
 
-      {(!!output || isLoading) && (
+      {(id !== "6601b84f03d49ef5e50f3caf")&&(!!output || isLoading) && (
         <div className="flex flex-col border xl:w-full w-[calc(100%-40px)] mx-5 lg:mx-auto max-w-[1084px] pb-8 rounded-xl relative">
           <div className="w-full border p-5 rounded-t-xl flex flex-row justify-between">
             <h1
@@ -527,7 +531,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
           className="dark:text-white self-start my-auto text-black text-left font-outfit text-xl font-semibold"
           htmlFor={element.text}
         >
-          {element.placeholder}
+          {element.text}
         </Label>
         <div className="flex flex-wrap sm:flex-row  justify-center md:justify-start md:self-start gap-2">
           {element.options.map((label, index) => (
@@ -547,6 +551,13 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
   }
   if (element.type === "select") {
     return (
+      <div className="flex flex-wrap flex-col  sm:flex-row self-start gap-4">
+        <Label
+          className="dark:text-white self-start my-auto text-black text-left font-outfit text-xl font-semibold"
+          htmlFor={element.text}
+        >
+          {element.text}
+        </Label>
       <Select onValueChange={(e) => setVal({ ...val, [element.in]: e })}>
         <SelectTrigger
           className=" self-start w-full  md:min-w-[300px] max-w-[844px] "
@@ -564,6 +575,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
           </SelectGroup>
         </SelectContent>
       </Select>
+      </div>
     );
   }
   if (element.type === "textarea") {
@@ -576,7 +588,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
           {element.text}
         </Label>
         <Textarea
-          className="mb-4 h-24 w-full w-full  md:min-w-[300px] rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+          className="mb-4 h-24 w-full   md:min-w-[300px] rounded-md border-2 dark:bg-zinc-800 border-gray-300 p-4"
           placeholder={element.placeholder}
           value={val[element.in]}
           onChange={(e) => setVal({ ...val, [element.in]: e.target.value })}
@@ -593,7 +605,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
         className="dark:text-white self-start text-black text-left font-outfit text-xl font-semibold"
         htmlFor={element.text}
       >
-        {element.placeholder}
+        {element.text}
       </Label>
       <Input
         className="w-full   md:min-w-[300px]"

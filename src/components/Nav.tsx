@@ -72,37 +72,39 @@ const Nav = () => {
           </span>
         </div>
 
-        <div className="flex flex-row items-center">
-          <div className="flex  gap-4 items center justify-end front-normal ">
+        <div className="flex flex-row  items-center">
+          <div className="flex  gap-4 items-center justify-end front-normal max-h-[30px]">
             <div className="justify-center flex random">
               <div id="google_translate_element" className=""></div>
             </div>
-
-            {!isSignedIn ? (
-              <button
-                className="flex px-4 py-0 justify-center items-center dark:text-white font-outfit text-base font-semibold rounded-3xl  shadow-md dark:border-white border-[1.4px] text-[12px]"
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Login
-              </button>
-            ) : (
-              <button
-                className="hidden md:flex px-4 py-2 justify-center items-center dark:text-white font-outfit text-base font-semibold gap-2 rounded-3xl dark:hover:bg-zinc  -800 dark:bg-zinc-900 shadow-md "
-                onClick={() => {
-                  navigate("/profile");
-                }}
-              >
-                Profile
-              </button>
-            )}
+            <div className="ml-4 mr-1">
+              <ModeToggle />
+            </div>
+            <div>
+              {!isSignedIn ? (
+                <button
+                  className="flex px-1 md:px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] border-black"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Login
+                </button>
+              ) : (
+                <button
+                  className="hidden md:flex px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] border-black"
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
+                  Profile
+                </button>
+              )}
+            </div>
           </div>
 
-          <div className="ml-4">
-            <ModeToggle />
-          </div>
-          <div className={cn(" ml-3 mt-1", !isSignedIn && "md:hidden")}>
+         
+          <div className={cn(" ml-3 mt-1", !isSignedIn && "hidden")}>
             <DropdownMenu>
               <DropdownMenuTrigger className="p-0 bg-transparent focus-visible:border-none">
                 {isSignedIn ? (
@@ -134,15 +136,17 @@ const Nav = () => {
                 {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
                 {/* <DropdownMenuSeparator /> */}
                 {isSignedIn && (
-                  <DropdownMenuItem className="md:hidden" onClick={() => navigate("/profile")}>
+                  <DropdownMenuItem
+                    className="md:hidden"
+                    onClick={() => navigate("/profile")}
+                  >
                     Profile
                   </DropdownMenuItem>
                 )}
-
                 <DropdownMenuItem>
                   {!isSignedIn ? (
                     <button
-                      className="flex   dark:text-white font-outfit text-base font-semibold gap-2 w-full  "
+                      className="flex dark:text-white font-outfit text-base font-semibold gap-2 w-full"
                       onClick={() => {
                         navigate("/login");
                       }}

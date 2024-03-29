@@ -1,10 +1,44 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 // import logo from "../assets/Logo.png";
 import logo from "../assets/bigwig-img.jpg";
-// import { ModeToggle } from "./ui/mode-toggle";
+import { useEffect, useState } from "react";
+import { BASE_URL2 } from "@/utils/funcitons";
+import axios from "axios";
 
 const Footer = () => {
+  const [buttons, setButtons] = useState<string[]>([]);
+
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const getButtons = async () => {
+    // const
+    const res = await axios.get(`${BASE_URL2}/objects/getCategories`);
+    const bookmarked = [...res.data.message];
+    setButtons(bookmarked);
+  };
+
+  useEffect(() => {
+    // getButtons();
+    // isSignedIn && getBookMarks();
+  }, []);
+
+  const arr = [
+    "Twitter Tools",
+    "Instagram Tools",
+    "Facebook Tools",
+    "LinkedIn Tools",
+    "TikTok Tools",
+    "Threads Tools",
+    "YouTube Tools",
+    "Paraphrase Tools",
+    "Image Generator",
+    "Email Tools",
+    "Blog Creator",
+    "Website Tools",
+    "SEO Tools",
+    "Audio Tools",
+  ];
+  // const buttonFilter = buttons.filter((button) => !arr.includes(button ));
 
   return (
     <div className="flex flex-col relative items-center gap-[25px] shrink-0 mt-14 pb-4 border-t pt-8 px-8 justify-center w-full min-h-285">
@@ -128,8 +162,8 @@ const Footer = () => {
           </filter>
         </defs>
       </svg>
-      <div className="flex flex-wrap items-start gap-2 md:gap-[83px]">
-        <div className="flex flex-col items-start justify-center gap-[18px] w-[303px] h-[167px] mt-[-30px]">
+      <div className="flex flex-wrap items-start gap-2 px-5 md:px-auto md:gap-[83px]">
+        <div className="flex flex-col items-start justify-center gap-[18px] w-fit h-[167px] mt-[-30px]">
           <div
             className="flex justify-cent
           er"
@@ -155,12 +189,7 @@ const Footer = () => {
             </div>
             <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
               Made with ❤ by{" "}
-              <a
-                href="#"
-                onClick={() => (window.location.href = "http://bigwigmedia.in")}
-              >
-                BigWigMedia
-              </a>
+              <button onClick={() => navigate("/")}>BigWigMedia</button>
             </div>
           </div>
         </div>
@@ -168,40 +197,19 @@ const Footer = () => {
           <div className="text-black dark:text-white font-Outfit text-22.7 font-semibold">
             Top Tools
           </div>
-          <div className="flex flex-col items-start gap-[5px]">
-            <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal cursor-pointer"
-              onClick={() =>
-                navigate({
-                  pathname: "/generate",
-                  search: `?id=65b3ceecfecc1dc59cb3de29`,
-                })
-              }
-            >
-              X (Twitter) Bio Generator
-            </div>
-            <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal cursor-pointer"
-              onClick={() =>
-                navigate({
-                  pathname: "/generate",
-                  search: `?id=65b3d1b2fecc1dc59cb3de35`,
-                })
-              }
-            >
-              Instagram Bio Generator
-            </div>
-            {/* <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
-              All Blog Writer
-            </div> */}
-            <div
-              className=" cursor-pointer"
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              View All Tools{" "}
-            </div>
+          <div className="grid grid-cols-2 xl:grid-cols-3 items-start gap-[5px]">
+            {arr.map((button, id) => (
+              <div
+                className="text-black dark:text-white font-Outfit text-base font-medium leading-normal cursor-pointer pr-[20px]"
+                key={id}
+                onClick={() => {
+                  searchParams.set("selectedButton", button as string);
+                  setSearchParams(searchParams);
+                }}
+              >
+                {button}
+              </div>
+            ))}
           </div>
         </div>
         <div className="flex flex-col items-start gap-2 md:gap-[21px]">
