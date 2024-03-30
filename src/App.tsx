@@ -19,17 +19,17 @@ import Privacy from "./pages/Privacy";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
-import  ReactGA  from "react-ga4";
+//import  ReactGA  from "react-ga4";
 
 // Initialize React Ga with your tracking ID
-ReactGA.initialize("G-3CT50SR1N7");
+//ReactGA.initialize("G-3CT50SR1N7");
 
 const App = () => {
  
-  const location = useLocation();
-  useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: location.pathname + location.search , title: "Home Page"});
-  }, []);
+  // const location = useLocation();
+  // useEffect(() => {
+  //   ReactGA.send({ hitType: "pageview", page: location.pathname + location.search , title: "Home Page"});
+  // }, []);
   
   return (
     <div className=" min-w-screen min-h-screen bg-white dark:bg-[#1E1E1E]">
