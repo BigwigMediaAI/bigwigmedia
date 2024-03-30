@@ -8,6 +8,12 @@ const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 import { ClerkProvider } from "@clerk/clerk-react";
 import { ThemeProvider } from "./components/ui/theme-provider.tsx";
 import { Toaster } from "@/components/ui/sonner";
+import  ReactGA  from "react-ga4";
+
+// Initialize React Ga with your tracking ID
+ReactGA.initialize("G-3CT50SR1N7");
+
+ReactGA.send({ hitType: "pageview", page:window.location.pathname, title: "Big" });
 
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");

@@ -19,10 +19,6 @@ import Privacy from "./pages/Privacy";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
-//import  ReactGA  from "react-ga4";
-
-// Initialize React Ga with your tracking ID
-//ReactGA.initialize("G-3CT50SR1N7");
 
 const App = () => {
  
