@@ -43,7 +43,6 @@ import Audio from "./Audio";
 import AudioText from "./AudioText";
 import { RotateCw } from "lucide-react";
 import Share from "./Share";
-import { set } from "react-ga";
 import { Script } from "./paraphrase2";
 // import { ShareSocial } from "react-share-social"; 
 
