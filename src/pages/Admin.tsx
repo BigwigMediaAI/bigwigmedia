@@ -120,6 +120,18 @@ const Admin = (props: Props) => {
       width: '120px'
     },
     {
+      name: 'Country',
+      selector: (row: DataItem) => "India",
+      sortable: true,
+      width: '120px'
+    },
+    {
+      name: 'TimeZone',
+      selector: (row: DataItem) => "GMT +5:30",
+      sortable: true,
+      width: '120px'
+    },
+    {
       name: 'See Plan',
       cell: (row: DataItem) => (
         
@@ -433,7 +445,7 @@ const Admin = (props: Props) => {
             </div>
           </DialogContent>
         </Dialog>
-     <div  className="my-20 max-w-[1100px] mx-auto rounded-lg overflow-hidden bg-white shadow-md">
+     <div  className="my-20 max-w-[1400px] mx-auto rounded-lg overflow-hidden bg-white shadow-md">
       <DataTable<DataItem>
        className="data-table"
       title="User Details"
