@@ -40,7 +40,7 @@ Media AI
         <div className="z-10 w-full max-w-[637px]  overflow-hidden mx-auto p-[6px] md:p-2  border-gradient bg-white  dark:bg-[#1E1E1E] ">
           <div className="flex  justify-between   border-opacity-0  overflow-hidden  rounded-[73px] items-center ">
             <input
-              placeholder="Search Tools.."
+              placeholder="Find Your Tool.."
               className="w-full  border-none focus-visible:placeholder:text-transparent z-50 rounded-l-[73px] outline-none px-4 py-1 md:py-4 placeholder:text-black dark:placeholder:text-white dark:text-white bg-transparent"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
