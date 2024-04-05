@@ -25,16 +25,16 @@ const Hero = ({
   return (
     <div className="flex flex-col justify-center space-y-4">
       <div className=" py-4 text-black dark:text-white text-center font-outfit text-[40px] md:text-[45px] lg:text-[50px] font-normal flex flex-col md:block">
-        Unlock the
+        ACCESS THE POWER OF 
         <span className="bg-gradient text-transparent bg-clip-text font-outfit font-semibold">
           {" "}
-          Power of AI{" "}
+          GENERATIVE AI{" "}
         </span>
         
       </div>
       <div className="  sm:text-[14px] md:text-[17px] lg:text-[20px] content-center py-4  text-center font-outfit text-black dark:text-white   z-10 w-full max-w-[320] md:auto lg:844px mx-auto font-normal">
-        Stay at the forefront of innovation by harnessing cutting-edge AI tools,
-        ensuring our solutions remain ahead of the curve with daily updates
+        &quot; AI Generative Tools for Everyone! : Simplify, Create, Dominate with Bigwig
+Media AI &quot;
       </div>
       <div className="w-full max-w-[320] md:auto lg:844px relative my-8 flex justify-center items-center h-fit">
         <div className="z-10 w-full max-w-[637px]  overflow-hidden mx-auto p-[6px] md:p-2  border-gradient bg-white  dark:bg-[#1E1E1E] ">
