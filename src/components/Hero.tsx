@@ -56,7 +56,7 @@ Media AI
                 onClick();
               }}
             >
-              Search Ai tools
+              Find Your Tool
             </button>
           </div>
         </div>
