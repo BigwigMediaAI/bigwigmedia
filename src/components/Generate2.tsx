@@ -466,7 +466,7 @@ const Generate = () => {
 
       <div className="flex flex-col gap-6  mt-16 w-fit mx-auto">
         <h1 className="text-3xl text-center px-3 font-semibold">
-          Share This Tool To Earn 50 Credits
+          Share This Tool 
         </h1>
 
         <Share url={window.location.href + "&reffered="+userId} />

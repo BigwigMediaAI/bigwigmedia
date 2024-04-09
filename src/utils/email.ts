@@ -12,5 +12,6 @@ export const emails: string[] = [
   "automatefreely@gmail.com",
   "pankajkumarram0001@gmail.com",
   "chiranjit@bigwigmedia.in",
-  "ronitmann2004@gmail.com"
+  "ronitmann2004@gmail.com",
+  "shubham.rajveer19@gmail.com"
 ];

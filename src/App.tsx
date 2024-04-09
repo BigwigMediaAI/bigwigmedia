@@ -16,6 +16,7 @@ import Success from "./pages/Success";
 import Terms from "./pages/Terms";
 import Transaction from "./pages/Transaction";
 import Privacy from "./pages/Privacy";
+import Disclaimer from "./pages/Disclaimer";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
@@ -49,6 +50,7 @@ const App = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/transaction" element={<Transaction />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/Disclaimer" element={<Disclaimer />} />
       </Routes>
     </div>
   );
