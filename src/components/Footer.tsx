@@ -189,7 +189,7 @@ const Footer = () => {
             </div>
             <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
               Made with ❤ by{" "}
-              <button onClick={() => navigate("/https://bigwigmedia.in")}>BigWigMedia</button>
+              <button onClick={() => navigate("https://bigwigmedia.in")}>BigWigMedia</button>
             </div>
           </div>
         </div>
