@@ -41,7 +41,7 @@ const Footer = () => {
   // const buttonFilter = buttons.filter((button) => !arr.includes(button ));
 
   return (
-    <div className="flex flex-col relative items-center gap-[25px] shrink-0 mt-14 pb-4 border-t pt-8 px-8 justify-center w-full h-96">
+    <div className="flex flex-col relative items-center gap-[25px] shrink-0 mt-14 pb-4 border-t pt-8 px-8 justify-center w-full h-110">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="231"
@@ -189,7 +189,7 @@ const Footer = () => {
             </div>
             <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
               Made with ❤ by{" "}
-              <button onClick={() => navigate("/")}>BigWigMedia</button>
+              <button onClick={() => navigate("https://bigwigmedia.in")}>BigWigMedia</button>
             </div>
           </div>
         </div>
