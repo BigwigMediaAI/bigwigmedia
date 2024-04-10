@@ -183,7 +183,7 @@ const Form = () => {
     });
 
     try {
-      let url = `${BASE_URL2}/objects/addObjectOnce`;
+      let url = `https://bigwigmedia-backend.onrender.com/api/v2/objects/addObjectOnce`;
       let res;
       if (!!id) {
         url = `${BASE_URL2}/objects/updateObject/${id}`;
