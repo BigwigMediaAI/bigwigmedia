@@ -68,7 +68,7 @@ const Nav = () => {
             className="w-10 h-10 md:w-12 md:h-12 rounded-lg"
           />
           <span className="text-gray-900 hidden md:block dark:text-white font-outfit text-2xl font-semibold">
-            BigWigMedia.ai<sup className="text-xs px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-green-400 border-[1.4px] text-[14px] min-h-[25px] border-black">beta</sup>
+            BigWigMedia.ai<sup className="text-xs px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] bg-green-400 border-black">beta</sup>
           </span>
         </div>
 
