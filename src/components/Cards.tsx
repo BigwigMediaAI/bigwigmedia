@@ -102,7 +102,7 @@ const CardComponent = ({
           {card.name}
         </div>
       </div>
-      <div className="w-full line-clamp-3   text-sm dark:text-white  font-normal">
+      <div className="w-full line-clamp-3 text-center  text-sm dark:text-white  font-normal">
         {/* {card.xion} */}
         {card.tagLine}
       </div>
