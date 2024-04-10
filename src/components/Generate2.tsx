@@ -550,7 +550,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
   }
   if (element.type === "select") {
     return (
-      <div className="flex flex-wrap flex-col  sm:flex-row self-start gap-4">
+      <div className="flex w-full flex-wrap md:flex-row flex-col  sm:flex-row self-start gap-4">
         <Label
           className="dark:text-white self-start my-auto text-black text-left font-outfit text-xl font-semibold"
           htmlFor={element.text}
