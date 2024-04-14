@@ -139,7 +139,7 @@ const Plan = (props: Props) => {
     try {
       console.log(ite)
       const { name, price } = ite; 
-      const resposedata = await axios.post(`http://localhost:4000/api/v2/Razorpay/order?clerkId=${userId}`, {
+      const resposedata = await axios.post(`https://bigwigmedia-backend.onrender.com/api/v2/Razorpay/order?clerkId=${userId}`, {
         name:name,
         amount:price 
       });
@@ -152,7 +152,7 @@ const Plan = (props: Props) => {
         "description": "Test Transaction",
         "image": "http://localhost:5173/src/assets/bigwig-img.jpg",
         "order_id": "", 
-        "callback_url": "http://localhost:4000/api/v2/verify/payment-verification",
+        "callback_url": "https://bigwigmedia-backend.onrender.com/api/v2/verify/payment-verification",
         "prefill": {
             "name": user,
             "email": "gaurav.kumar@example.com",
