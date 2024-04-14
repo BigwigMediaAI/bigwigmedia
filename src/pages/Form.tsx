@@ -144,7 +144,7 @@ const Form = () => {
     setSelectedImage(
       data.logo.replace(
         "http://localhost:4000",
-        "https://social-media-ai-content-api.onrender.com"
+        "https://bigwigmedia-backend.onrender.com"
       )
     );
     setFaqs(data.faq);
@@ -183,7 +183,7 @@ const Form = () => {
     });
 
     try {
-      let url = `https://bigwigmedia-backend.onrender.com/api/v2/objects/addObjectOnce`;
+      let url = `${BASE_URL2}/objects/addObjectOnce`;
       let res;
       if (!!id) {
         url = `${BASE_URL2}/objects/updateObject/${id}`;
@@ -198,7 +198,9 @@ const Form = () => {
           faq: faqs,
           groups: groupsSubmitted,
           groupBy,
-        });
+        })
+        window.alert("Your data has been updated!");
+        ;
       } else {
         res = await axios.post(url, {
           name,
@@ -228,8 +230,11 @@ const Form = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`${BASE_URL}/templates/delete/${id}`);
-      // Perform any additional logic after deletion
+       await axios.delete(`${BASE_URL}/templates/delete/${id}`);
+       console.log("data deleted")
+       window.alert("data deleted succesfully please refresh the page")
+       navigate("/form")
+      
     } catch (error) {
       console.error("Error making DELETE request:", error);
     }
@@ -740,7 +745,7 @@ const Form = () => {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
-          onClick={() => handleDelete()}
+          onClick={() =>handleDelete()}
         >
           Delete
         </button>

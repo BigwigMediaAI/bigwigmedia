@@ -411,7 +411,7 @@ const Generate = () => {
         <div className="flex flex-col border xl:w-full w-[calc(100%-40px)] mx-5 lg:mx-auto max-w-[1084px] pb-8 rounded-xl relative">
           <div className="w-full border p-5 rounded-t-xl flex flex-row justify-between">
             <h1
-              className="text-xl md:text-3xl font-semibold"
+              className="text-base md:text-3xl font-semibold"
               ref={basicOutputRef}
             >
               Your Pitch
@@ -426,11 +426,11 @@ const Generate = () => {
           </div>
           {!isLoading ? (
             <p
-              className="p-5 text-base md:text-xl font-medium"
+              className="p-5 text-base md:text-sm font-medium"
               dangerouslySetInnerHTML={{ __html: output?.output as string }}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full h-full flex items-center text-justify justify-center">
               <Loader2 className="animate-spin w-20 h-20 mt-20" />
             </div>
           )}
@@ -454,7 +454,7 @@ const Generate = () => {
               src={
                 icon.logo.replace(
                   "http://localhost:4000",
-                  "https://social-media-ai-content-api.onrender.com"
+                  "https://bigwigmedia-backend.onrender.com"
                 ) as string
               }
               alt={icon!.name as string}

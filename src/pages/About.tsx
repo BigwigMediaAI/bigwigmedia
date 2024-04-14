@@ -13,37 +13,34 @@ const AboutUs: React.FC = () => {
       <Nav />
       <div className="p-10 text-center min-h-screen">
         <h1 className=" text-3xl font-bold mb-4">About Us</h1>
-        <p className="text-xl my-4 lg:mx-[20vh] text-center ">
-          Embark on a transformative journey with BigWigMedia.Ai, where
-          innovation meets excellence inside the realm of artificial
-          intelligence answers. As your foremost vacation spot for modern
-          technology, we offer a comprehensive suite of cutting-edge sources
-          meticulously curated to revolutionize operational effectiveness and
-          pressure unheard of productiveness across numerous sectors. Our
-          commitment to excellence is clear in each component of our offerings,
-          ensuring that your experience with AI integration is not best seamless
-          but additionally transformative.
+        <p className="text-base my-4 text-justify lg:mx-[25vh] text-center ">
+        Embark on a transformative journey with BigWigMedia.Ai, where innovation meets 
+        excellence inside the realm of artificial intelligence answers. As your foremost 
+        destination for modern technology, we offer a comprehensive suite of cutting-edge
+         resources meticulously curated to revolutionize operational effectiveness and drive
+          unheard-of productivity across numerous sectors. Our commitment to excellence is 
+          clear in each component of our offerings, ensuring that your experience with AI
+           integration is not only seamless but also transformative.
         </p>
-        <p className="text-xl text-justify mt-[10vh] lg:mx-[20vh]">
-          At the coronary heart of BigWigMedia.Ai lies a dedication to
-          facilitating a smooth transition into the arena of AI, empowering
-          agencies to navigate the complexities of the digital panorama with
-          self assurance. Our group of experts is dedicated to imparting
-          customized support and guidance each step of the way, ensuring that
-          your company maximizes the capacity of AI to attain its dreams.
-          Whether you are seeking to streamline approaches, optimize workflows,
-          or benefit precious insights from statistics, we have the equipment
-          and expertise to help you be triumphant.
+        <p className="text-base text-justify mt-[10vh] lg:mx-[25vh]">
+        At the coronary heart of BigWigMedia.Ai lies a dedication to facilitating
+         a smooth transition into the arena of AI, empowering agencies to navigate
+          the complexities of the digital panorama with confidence. Our team of 
+          experts is committed to providing customized support and guidance every
+           step of the way, ensuring that your company maximizes the potential of 
+           AI to attain its goals. Whether you are seeking to streamline processes, 
+           optimize workflows, or gain valuable insights from data, we have the tools
+            and expertise to help you succeed.
         </p>
-        <p className="text-xl text-justify mt-[10vh] lg:mx-[20vh]">
-          Partnering with BigWigMedia.Ai approach extra than simply gaining
-          access to cutting-edge technology; it is about embarking on a
-          collaborative journey closer to innovation and growth. Together, we
-          are able to flip formidable visions into realistic realities,
-          harnessing the energy of AI to pressure significant exchange and
-          create lasting effect. Join us at the leading edge of the AI
-          revolution and find out the endless opportunities that watch for when
-          you choose BigWigMedia.Ai as your relied on companion in innovation.
+        <p className="text-base text-justify mt-[10vh] lg:mx-[25vh]">
+        Partnering with BigWigMedia.Ai means more than just gaining 
+        access to cutting-edge technology; it is about embarking on 
+        a collaborative journey toward innovation and growth. Together,
+         we can turn ambitious visions into practical realities, harnessing
+          the power of AI to drive meaningful change and create lasting impact.
+           Join us at the leading edge of the AI revolution and discover the
+            endless opportunities that await when you choose BigWigMedia.Ai
+             as your trusted companion in innovation.
         </p>
       </div>
       <Footer />

@@ -26,7 +26,7 @@ const ContactUs: React.FC = () => {
       <div className="p-10 flex flex-col justify-center items-center text-center min-h-screen">
         <h1 className="text-4xl font-bold mb-6">Contact Us</h1>
         <div className="mb-8 max-w-4xl text-lg">
-          <p className="mb-4">
+          <p className="text-base text-justify mt-[2vh] mb-[2vh] lg:mx-[25vh]">
             Thank you for considering BigWigMedia.ai for your AI needs. Our team
             is dedicated to providing innovative solutions under one roof.
             Whether you have questions, need assistance, or want to explore our

@@ -39,6 +39,8 @@ type Props = {};
 
 const Plan = (props: Props) => {
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const { user } = useUser();
+
   const navigate = useNavigate();
   const [isScroll, setIsScroll] = useState(false);
   const [plans, setplans] = useState<PlanProps[]>([]);
@@ -108,37 +110,72 @@ const Plan = (props: Props) => {
   // const key =
   //   "pk_live_51OnzNaSDyCQHDHHU8Ppp4kpMRyHHLZqRapD6xZRjBVexHGwbuz02217MQHQcKCI4o5MrJvdQPgYjiUmgvYJ0p4iX00y0uK6Qdz";
 
-  const key =
-    "pk_live_51OnzNaSDyCQHDHHU8Ppp4kpMRyHHLZqRapD6xZRjBVexHGwbuz02217MQHQcKCI4o5MrJvdQPgYjiUmgvYJ0p4iX00y0uK6Qdz";
+  // const key =
+    // "pk_live_51OnzNaSDyCQHDHHU8Ppp4kpMRyHHLZqRapD6xZRjBVexHGwbuz02217MQHQcKCI4o5MrJvdQPgYjiUmgvYJ0p4iX00y0uK6Qdz";
 
-  const buyPlan = async (index: any) => {
-    const { isLoaded, isSignedIn, user } = useUser();
+  // const buyPlan = async (index: any) => {
+  //   const { isLoaded, isSignedIn, user } = useUser();
+  //   try {
+  //     const obj = plans[index];
+  //     const stripe = await loadStripe(key);
+
+  //     const resp = await axios.post(
+  //       `${BASE_URL2}/payment/create-checkout-session?clerkId=${userId}`,
+  //       {
+  //         product: {
+  //           ...obj,
+  //         },
+  //       }
+  //     );
+     
+  //     stripe?.redirectToCheckout({
+  //       sessionId: resp.data.id,
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  const CheckoutHandler = async (ite: PlanProps) => {
     try {
-      const obj = plans[index];
-      const stripe = await loadStripe(key);
-
-      const resp = await axios.post(
-        `${BASE_URL2}/payment/create-checkout-session?clerkId=${userId}`,
-        {
-          product: {
-            ...obj,
-          },
-        }
-      );
-      //  console.log( resp.data.id);
-      // const link = document.createElement("a");
-      // link.href = resp.data.id;
-      // // link.target = "_blank";
-      // // link.download = "image.jpg"; // You can customize the downloaded filename here
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
-
-      stripe?.redirectToCheckout({
-        sessionId: resp.data.id,
+      console.log(ite)
+      const { name, price } = ite; 
+      const resposedata = await axios.post(`http://localhost:4000/api/v2/Razorpay/order?clerkId=${userId}`, {
+        name:name,
+        amount:price 
       });
+      console.log(resposedata)
+      const options = {
+        "key": "rzp_live_p29OihE6B2QSvA", 
+        "amount":Number(resposedata.data.order.amount*100), 
+        "currency": "INR",
+        "name":"PLAN"+"-"+ite.name,
+        "description": "Test Transaction",
+        "image": "http://localhost:5173/src/assets/bigwig-img.jpg",
+        "order_id": "", 
+        "callback_url": "http://localhost:4000/api/v2/verify/payment-verification",
+        "prefill": {
+            "name": user,
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.open();
+            // console.log(ite.price)
+            // console.log(userId)
+            console.log(cn)
+
+      console.log(resposedata);
+      console.log(options);
     } catch (error) {
-      console.log(error);
+      console.error("Error during checkout:", error);
+      toast.error("Error occurred during checkout");
     }
   };
 
@@ -158,7 +195,9 @@ const Plan = (props: Props) => {
       } else {
         toast.error("Error Occured activating account");
       }
-    } catch (error) {}
+    } catch (error) {
+
+    }
   };
 
   return (
@@ -192,7 +231,7 @@ const Plan = (props: Props) => {
           >
             {isLoaded &&
               plans.map((ite, index) => (
-                <div
+                <div  key={index}
                   className="flex border-gradient-2 dark:bg-[#262626
 ] z-10 w-[200px] h-[320px] flex-col justify-between p-[23px] gap-[10px] shrink-0 border-2 "
                 >
@@ -211,7 +250,7 @@ const Plan = (props: Props) => {
                   </div>
                   <button
                     className=" z-50 w-full h-[40px] inline-flex p-[2px] items-center justify-center gap-[4px] rounded-[32px] bt-gradient text-white font-Outfit text-sm font-medium leading-normal cursor-pointer"
-                    onClick={() => buyPlan(index)}
+                    onClick={() => CheckoutHandler(ite)}
                   >
                     Buy
                   </button>

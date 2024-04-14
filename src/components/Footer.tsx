@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams,Redirect } from "react-router-dom";
 // import logo from "../assets/Logo.png";
 import logo from "../assets/bigwig-img.jpg";
 import { useEffect, useState } from "react";
@@ -15,7 +15,9 @@ const Footer = () => {
     const res = await axios.get(`${BASE_URL2}/objects/getCategories`);
     const bookmarked = [...res.data.message];
     setButtons(bookmarked);
+    
   };
+  // console.log(setButtons)
 
   useEffect(() => {
     // getButtons();
@@ -189,7 +191,7 @@ const Footer = () => {
             </div>
             <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
               Made with ❤ by{" "}
-              <button onClick={() => navigate("https://bigwigmedia.in")}>BigWigMedia</button>
+              <button onClick={() => window.open("https://bigwigmedia.in")}>BigWigMedia</button>
             </div>
           </div>
         </div>
@@ -205,6 +207,10 @@ const Footer = () => {
                 onClick={() => {
                   searchParams.set("selectedButton", button as string);
                   setSearchParams(searchParams);
+                  // navigate(button);
+                  console.log(button)
+                  window.location.href = `http://localhost:5173/?selectedButton=${button}`;
+
                 }}
               >
                 {button}
