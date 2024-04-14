@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams,Redirect } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 // import logo from "../assets/Logo.png";
 import logo from "../assets/bigwig-img.jpg";
 import { useEffect, useState } from "react";
