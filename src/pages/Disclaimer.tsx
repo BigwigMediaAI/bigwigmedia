@@ -13,7 +13,7 @@ const Disclaimer: React.FC = () => {
       <Nav />
       <div className="p-10 text-center min-h-screen">
         <h1 className=" text-3xl font-bold mb-4">Disclaimer</h1>
-        <p className="text-base my-4 text-justify lg:mx-[25vh] text-center ">
+        <p className="text-base my-4 text-justify lg:mx-[25vh] ">
 BigwigMedia.ai is continuously learning and evolving with every conversation. Your feedback matters. Check your facts and 
 always validate results independently, as BigwigMedia.ai  may display inaccurate, harmful, or biased information.
 Avoid seeking advice as Bigwigmedia.ai is not equipped to provide advice on sensitive topics. Please consult a professional for help.
