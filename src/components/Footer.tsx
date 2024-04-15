@@ -209,7 +209,7 @@ const Footer = () => {
                   setSearchParams(searchParams);
                   // navigate(button);
                   console.log(button)
-                  window.location.href = `http://localhost:5173/?selectedButton=${button}`;
+                  window.location.href = `https://bigwigmedia.ai/?selectedButton=${button}`;
 
                 }}
               >
