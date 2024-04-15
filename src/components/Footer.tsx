@@ -309,7 +309,7 @@ const Footer = () => {
                 navigate("/Cancellation-policy");
               }}
             >
-              Refund and Cancellation Policy.
+              Refund and Cancellation Policy
 
             </div>
            
