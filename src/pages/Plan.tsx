@@ -150,7 +150,7 @@ const Plan = (props: Props) => {
         "currency": "INR",
         "name":"PLAN"+"-"+ite.name,
         "description": "Test Transaction",
-        "image": "https://bigwigmedia.ai/src/assets/bigwig-img.jpg",
+        "image": "https://bigwigmedia.ai/assets/bigwig-img-pvLFkfcL.jpg",
         "order_id": "", 
         "callback_url": "https://bigwigmedia-backend.onrender.com/api/v2/verify/payment-verification",
         "prefill": {

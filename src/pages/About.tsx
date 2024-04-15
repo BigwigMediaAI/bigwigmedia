@@ -13,7 +13,7 @@ const AboutUs: React.FC = () => {
       <Nav />
       <div className="p-10 text-center min-h-screen">
         <h1 className=" text-3xl font-bold mb-4">About Us</h1>
-        <p className="text-2xl my-4 text-justify lg:mx-[20vh] text-center ">
+        <p className="text-2xl my-4  lg:mx-[20vh] text-center ">
         Are you tired of doing all the work yourself? Introducing BigWig Media AI Tools -
          your new robotic assistant that's so smart, it can even make a cup of coffee 
          (just kidding, it can't do that... yet)! Get ready to sit back, relax, and let 
