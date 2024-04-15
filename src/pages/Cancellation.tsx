@@ -27,7 +27,7 @@ At BigwigMedia.ai, we offer a "No Refund" policy, which applies to all subscript
 </h2>
 
 <p>
-To ensure that our users are confident in their purchase, we offer 30 free test generations to all new subscribers before any payment is required. These test credits allow you to fully explore the functionalities and benefits of our services without any initial cost. This trial opportunity is provided to help you make an informed decision about our subscription.
+To ensure that our users are confident in their purchase, we offer 7 days free test generations to all new subscribers before any payment is required. These test credits allow you to fully explore the functionalities and benefits of our services without any initial cost. This trial opportunity is provided to help you make an informed decision about our subscription.
 
 
 </p>
@@ -58,6 +58,8 @@ When you purchase a subscription, you acknowledge that: <br />
 </h2>
 <p >If you have any questions or concerns, please contact us at <a href="mailto:vipul@bigwigmedia.in" className="text-blue-500">vipul@bigwigmedia.in</a>.</p> 
 <p>By subscribing to and using our services, you agree to the terms outlined in this Refund Policy. Thank you for choosing BigwigMedia.ai.</p>
+
+<p className='font-semibold'>Bigwigmedia.ai is a company owned by Bigwig Media and Events Pvt. Ltd.</p>
       </div>
 
       <Footer /></div>
