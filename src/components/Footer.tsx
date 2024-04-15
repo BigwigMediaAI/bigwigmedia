@@ -256,11 +256,19 @@ const Footer = () => {
             >
               My Profile
             </div>
+            <div
+              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              onClick={() => {
+                navigate("/Disclaimer");
+              }}
+            >
+              Disclaimer
+            </div>
           </div>
         </div>
         <div className="flex flex-col items-start gap-2 md:gap-[21px]">
           <div className="text-black dark:text-white font-Outfit text-22.7 font-semibold">
-            Legal
+          Policies
           </div>
           <div className="flex flex-col items-start gap-[5px]">
             <div
@@ -282,6 +290,14 @@ const Footer = () => {
             <div
               className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
+                navigate("/legal");
+              }}
+            >
+              Legal
+            </div>
+            <div
+              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              onClick={() => {
                 navigate("/transaction");
               }}
             >
@@ -290,11 +306,13 @@ const Footer = () => {
             <div
               className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
-                navigate("/Disclaimer");
+                navigate("/Cancellation-policy");
               }}
             >
-              Disclaimer
+              Refund and Cancellation Policy.
+
             </div>
+           
           </div>
         </div>
       </div>
