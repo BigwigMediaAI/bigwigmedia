@@ -1,4 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
+import gradient from "../assets/gradient.png";
+
 // import logo from "../assets/Logo.png";
 import logo from "../assets/bigwig-img.jpg";
 import { useEffect, useState } from "react";
@@ -182,7 +184,7 @@ const Footer = () => {
               alt=""
               className="w-10 h-10 md:w-12 md:h-12 rounded-lg"
             />
-            <div className="text-gray-900 font-Outfit text-30.699 font-semibold dark:text-white leading-normal">
+            <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
               BigWigMedia.ai
             </div>
           </div>
@@ -197,7 +199,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-start md:pl-[19px] gap-2 md:gap-[21px] ">
-          <div className="text-black dark:text-white font-Outfit text-22.7 font-semibold">
+          <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
             Top Tools
           </div>
           <div className="grid grid-cols-2 xl:grid-cols-2 items-start gap-[5px]">
@@ -220,7 +222,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-start gap-2 md:gap-[21px]">
-          <div className="text-black dark:text-white font-Outfit text-22.7 font-semibold">
+          <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
             Company
           </div>
           <div className="flex flex-col items-start gap-[5px]">
@@ -267,7 +269,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-start gap-2 md:gap-[21px]">
-          <div className="text-black dark:text-white font-Outfit text-22.7 font-semibold">
+          <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
           Policies
           </div>
           <div className="flex flex-col items-start gap-[5px]">
