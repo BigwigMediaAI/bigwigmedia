@@ -24,7 +24,7 @@ function Terms() {
         </li>
         <li>
           <h2 className="text-lg font-semibold mb-2">Intellectual Property</h2>
-          <p>3.1 Ownership: All content, trademarks, and intellectual property on the Portal are the property of [Your Company Name] or its licensors. You may not use, reproduce, or distribute any content from the Portal without our express written permission.
+          <p>3.1 Ownership: All content, trademarks, and intellectual property on the Portal are the property of <a href="https://bigwigmedia.ai/" className="text-blue-500">bigwigmedia.ai</a>. or its licensors. You may not use, reproduce, or distribute any content from the Portal without our express written permission.
             3.2 User-generated Content: By submitting content to the Portal, you grant bigwigmedia.ai a non-exclusive, royalty-free, worldwide license to use, modify, and display the content for the purpose of providing and promoting the Portal.</p>
         </li>
         <li>
@@ -35,7 +35,7 @@ function Terms() {
         <li>
           <h2 className="text-lg font-semibold mb-2">Disclaimers</h2>
           <p>5.1 No Warranty: The Portal is provided "as is" without any warranty, either express or implied. We do not guarantee the accuracy, completeness, or reliability of the content on the Portal.
-            5.2 Limitation of Liability: [Your Company Name] will not be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the Portal.</p>
+            5.2 Limitation of Liability: <a href="https://bigwigmedia.ai/" className="text-blue-500">bigwigmedia.ai</a> will not be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the Portal.</p>
         </li>
         <li>
           <h2 className="text-lg font-semibold mb-2">Modifications</h2>
