@@ -25,6 +25,7 @@ const Footer = () => {
   }, []);
 
   const arr = [
+    "Popular Tools",
     "Twitter Tools",
     "Instagram Tools",
     "Facebook Tools",

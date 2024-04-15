@@ -11,7 +11,7 @@ import axios from "axios";
 import { useUser } from "@clerk/clerk-react";
 import { toast } from "sonner";
 import { useSearchParams } from "react-router-dom";
-import { Popsicle } from "lucide-react";
+import { Bookmark, Popsicle } from "lucide-react";
 // @ts-ignore
 import { getLocation } from "current-location-geo";
 // import Profile from "@/components/Profile";
@@ -67,7 +67,9 @@ const Landing = () => {
     const bookmarked = [...res.data.message];
     if (isSignedIn) bookmarked.splice(1, 0, "My Tools");
     setButtons(bookmarked);
+    // console.log(bookmarked)
   };
+  console.log(buttons)
 
   useEffect(() => {
     getButtons();
@@ -95,6 +97,7 @@ const Landing = () => {
       console.log("error", error);
     }
     console.log("b")
+    console.log(location)
 
     console.log("av", locationn, location);
 
@@ -132,7 +135,7 @@ const Landing = () => {
     setCards(res.data.message);
     setIsLoading(false);
   };
-
+console.log(cards)
   useEffect(() => {
     // if (buttons.length === 0) return;
     // getLocationFunction()
