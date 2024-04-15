@@ -440,7 +440,7 @@ const Generate = () => {
             )}
           </div>
           {!isLoading ? (
-            <p className="p-5 text-lg md:text-xl font-medium">{output}</p>
+            <p className="p-5 text-base md:text-lg font-medium">{output}</p>
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <Loader2 className="animate-spin w-20 h-20 mt-20" />
