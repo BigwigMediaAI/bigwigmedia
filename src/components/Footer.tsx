@@ -31,7 +31,6 @@ const Footer = () => {
     "Facebook Tools",
     "LinkedIn Tools",
     "TikTok Tools",
-    "Threads Tools",
     "YouTube Tools",
     "Paraphrase Tools",
     "Image Generator",
