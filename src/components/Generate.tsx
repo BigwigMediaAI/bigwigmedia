@@ -338,7 +338,7 @@ const Generate = () => {
     <div className="flex flex-col  gap-8 min-h-screen">
       <Nav />
       <div className="flex flex-col justify-center items-center gap-4">
-        <h1 className="  dark:text-white text-black text-center font-outfit text-2xl md:text-3xl lg:text-4xl  font-medium">
+        <h1 className="  dark:text-gredient text-black  text-center font-outfit text-2xl md:text-3xl lg:text-4xl  font-medium">
           {description?.name}
         </h1>
         <p className="  dark:text-white text-black text-center font-outfit max-w-[844px] text-base px-6 lg:text-lg font-base">

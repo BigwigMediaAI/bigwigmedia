@@ -22,7 +22,6 @@ import Cancellation from "./pages/Cancellation";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
-
 const App = () => {
  
   // const location = useLocation();

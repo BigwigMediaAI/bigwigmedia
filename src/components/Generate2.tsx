@@ -36,6 +36,7 @@ import { Loader2 } from "lucide-react";
 import { button } from "@nextui-org/react";
 import { ClipboardList } from "lucide-react";
 import { Paraphrase } from "./paraphrase";
+import { Special } from "./Special";
 import ImageGenerator from "./ImageGenerator";
 import { ElementType } from "@/pages/Form";
 import { Input } from "./ui/input";
@@ -381,7 +382,9 @@ const Generate = () => {
         <Audio />
       ) : id === "65cb886ebd2f462c896d46b3" ? (
         <AudioText />
-      ) : (
+      ) : id === "661e75f237b7826a2e2dddc1" ? (
+        <Special/>
+      ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
             {groups.map((grp: any, index: number) => (
@@ -426,7 +429,7 @@ const Generate = () => {
           </div>
           {!isLoading ? (
             <p
-              className="p-5 text-base md:text-sm font-medium"
+              className="p-5 text-base md:text-lg font-medium"
               dangerouslySetInnerHTML={{ __html: output?.output as string }}
             />
           ) : (
@@ -474,7 +477,7 @@ const Generate = () => {
 
       <div className="flex  flex-col px-5 gap-6 max-w-[1084px] w-full mx-auto">
         <h1 className="text-3xl text-center font-semibold my-6">
-          Everything you need to know
+          Everything you need to know {description?.name}
         </h1>
         <Accordion
           type="single"
