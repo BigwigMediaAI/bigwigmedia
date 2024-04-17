@@ -477,7 +477,7 @@ const Generate = () => {
 
       <div className="flex  flex-col px-5 gap-6 max-w-[1084px] w-full mx-auto">
         <h1 className="text-3xl text-center font-semibold my-6">
-          Everything you need to know {description?.name}
+          Everything you need to know about {description?.name}
         </h1>
         <Accordion
           type="single"
