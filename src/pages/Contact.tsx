@@ -2,22 +2,34 @@ import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+
+import axios from "axios";
+
 
 const ContactUs: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     // Here you can handle form submission logic, like sending the email.
     // You can also integrate with your backend or any email service to send the message.
     // For mailto link, it will open the default email client on the user's machine.
+    await axios.post(`${BASE_URL}/contact/form`, {
+      name,
+      email,
+      message,
+    });   
+    alert(`Your message has been sent successfully.`)
+    
     window.location.href = `mailto:marketing@bigwigmedia.in?subject=Contact%20Form&body=Name:%20${name}%0AEmail:%20${email}%0AMessage:%20${message}`;
     // Reset form fields after submission (optional)
     setName("");
     setEmail("");
     setMessage("");
+    console.log(name,email,message)
   };
 
   return (
