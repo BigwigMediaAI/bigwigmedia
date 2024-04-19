@@ -38,10 +38,10 @@ const Contact = () => {
           <table className="w-full bg-white rounded ">
             <thead>
               <tr className="border-b border-teal-500">
-                <th className="text-left p-3 px-5 text-black">S.NO</th>
-                <th className="text-left p-3 px-5 text-black">Name</th>
-                <th className="text-left p-3 px-5 text-black">Email</th>
-                <th className="text-left p-3 px-5 text-black">Message</th>
+                <th className="text-left p-3 px-5 text-sky-600">S.NO</th>
+                <th className="text-left p-3 px-5 text-sky-600	">Name</th>
+                <th className="text-left p-3 px-5 text-sky-600">Email</th>
+                <th className="text-left p-3 px-5 text-sky-600">Message</th>
               </tr>
             </thead>
             <tbody>
