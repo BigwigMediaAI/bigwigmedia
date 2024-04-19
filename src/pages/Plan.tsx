@@ -146,8 +146,8 @@ const Plan = (props: Props) => {
       console.log(resposedata)
       const options = {
         "key": "rzp_live_p29OihE6B2QSvA", 
-        "amount":Number(resposedata.data.order.amount*100), 
-        "currency": "INR",
+        "amount":Number(resposedata.data.order.amount), 
+        "currency": "USD",
         "name":"PLAN"+"-"+ite.name,
         "description": "Test Transaction",
         "image": "https://bigwigmedia.ai/assets/bigwig-img-pvLFkfcL.jpg",

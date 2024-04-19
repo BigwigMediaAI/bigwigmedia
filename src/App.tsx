@@ -19,6 +19,7 @@ import Privacy from "./pages/Privacy";
 import Disclaimer from "./pages/Disclaimer";
 import Legal from "./pages/Legal";
 import Cancellation from "./pages/Cancellation";
+import Getdata from "./pages/Getdata"
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
@@ -54,6 +55,7 @@ const App = () => {
         <Route path="/Disclaimer" element={<Disclaimer />} />
         <Route path="/legal" element={<Legal />} />
         <Route path="/Cancellation-policy" element={<Cancellation />} />
+        <Route path="/getdata" element={<Getdata />} />
       </Routes>
     </div>
   );
