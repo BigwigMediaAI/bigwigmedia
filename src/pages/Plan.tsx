@@ -146,8 +146,8 @@ const Plan = (props: Props) => {
       console.log(resposedata)
       const options = {
         "key": "rzp_live_p29OihE6B2QSvA", 
-        "amount":Number(resposedata.data.order.amount), 
-        "currency": "USD",
+        "amount":Number(resposedata.data.order.amount*100), 
+        "currency": "INR",
         "name":"PLAN"+"-"+ite.name,
         "description": "Test Transaction",
         "image": "https://bigwigmedia.ai/assets/bigwig-img-pvLFkfcL.jpg",
@@ -224,7 +224,7 @@ const Plan = (props: Props) => {
           <div
             ref={ref}
             className={cn(
-              "w-full snap-always  overflow-y-hidden snap-center  h-full flex flex-row gap-3 justify-center items-center  max-w-[1200px]  ",
+              "w-full snap-always  overflow-y-hidden snap-center  h-full flex flex-row gap-11 justify-center items-center  max-w-[1200px]  ",
               isScroll &&
                 "overflow-x-scroll  snap-x px-5 justify-start scroll-smooth snap-mandatory 	"
             )}
@@ -241,7 +241,7 @@ const Plan = (props: Props) => {
                   <div className="text-black dark:text-white font-Outfit text-sm font-medium leading-normal">
                     <div className="w-full flex flex-col gap-3">
                       <div className="text-black dark:text-white font-Outfit text-5xl font-medium leading-normal text-center">
-                        ${ite.price}
+                      &#x20B9;{ite.price}
                       </div>
                       <div className="text-black dark:text-white font-Outfit text-3xl font-medium leading-normal text-center">
                         {ite.limit} Credits
