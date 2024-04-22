@@ -266,6 +266,14 @@ const Footer = () => {
             >
               Disclaimer
             </div>
+            <div
+              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              onClick={() => {
+                navigate("/feedback");
+              }}
+            >
+              Feedback
+            </div>
           </div>
         </div>
         <div className="flex flex-col items-start gap-2 md:gap-[21px]">
