@@ -235,15 +235,15 @@ const Plan = (props: Props) => {
                   className="flex border-gradient-2 dark:bg-[#262626
 ] z-10 w-[200px] h-[320px] flex-col justify-between p-[23px] gap-[10px] shrink-0 border-2 "
                 >
-                  <div className="text-black dark:text-white font-Outfit text-lg font-semibold leading-normal">
+                  <div className="text-black dark:text-white font-Outfit text-lg font-semibold leading-normal text-center">
                     <span className="capitalize">{ite.expairy} days</span>
                   </div>
                   <div className="text-black dark:text-white font-Outfit text-sm font-medium leading-normal">
                     <div className="w-full flex flex-col gap-3">
-                      <div className="text-black dark:text-white font-Outfit text-5xl font-medium leading-normal text-center">
+                      <div className="text-black dark:text-white font-Outfit text-3xl font-medium leading-normal text-center">
                       &#x20B9;{ite.Displayamount}
                       </div>
-                      <div className="text-black dark:text-white font-Outfit text-3xl font-medium leading-normal text-center">
+                      <div className="text-black dark:text-white font-Outfit text-base font-outfit leading-normal text-center">
                         {ite.limit} Credits
                       </div>
                     </div>
