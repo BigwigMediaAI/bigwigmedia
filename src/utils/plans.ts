@@ -5,4 +5,5 @@ export type PlanProps = {
   limit: number;
   expairy: number;
   price: number;
+  Displayamount:number
 };

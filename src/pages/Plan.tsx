@@ -241,7 +241,7 @@ const Plan = (props: Props) => {
                   <div className="text-black dark:text-white font-Outfit text-sm font-medium leading-normal">
                     <div className="w-full flex flex-col gap-3">
                       <div className="text-black dark:text-white font-Outfit text-5xl font-medium leading-normal text-center">
-                      &#x20B9;{ite.price}
+                      &#x20B9;{ite.Displayamount}
                       </div>
                       <div className="text-black dark:text-white font-Outfit text-3xl font-medium leading-normal text-center">
                         {ite.limit} Credits
