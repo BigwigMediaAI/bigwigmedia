@@ -52,7 +52,7 @@ const Feedback: React.FC = () => {
     <div className="bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100">
       <Nav />
       <div className="p-10 flex flex-col justify-center items-center text-center min-h-screen">
-        <h1 className="text-4xl font-bold mb-6">Feedback Form</h1>
+        <h1 className="text-4xl font-bold mb-6">Feedback Form 📝</h1>
 
         <form
           onSubmit={handleFormSubmit}
