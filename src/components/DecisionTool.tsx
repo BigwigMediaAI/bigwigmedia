@@ -70,7 +70,10 @@ export function Decision() {
         <div className="w-full  pr-2">
           <Textarea
             className="mb-4 h-20 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
-            placeholder="buy a car"
+            placeholder="For Example : Buy a car,
+For Example : Buy a I-phone
+For Example : Want to Invest in share market
+            "
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
