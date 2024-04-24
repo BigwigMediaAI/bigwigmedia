@@ -3,6 +3,8 @@ import Nav from "@/components/Nav";
 import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import { toast } from "sonner";
+
 
 import axios from "axios";
 
@@ -39,7 +41,7 @@ const Feedback: React.FC = () => {
       review,
       tool: selectedTool // Include selected tool in the submission
     });
-    alert(`Feedback Submitted!`);
+    toast(`Feedback Submitted!`);
 
     // Reset form fields after submission (optional)
     setName("");

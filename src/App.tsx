@@ -22,6 +22,7 @@ import Cancellation from "./pages/Cancellation";
 import Getdata from "../src/pages/Getdata"
 import Feedback from "./pages/Feedback";
 import Getfeedback from "./pages/Getfeedback";
+import {Decision} from "./components/DecisionTool";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="/getdata" element={<Getdata />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/review" element={<Getfeedback />} />
+        <Route path="/decision" element={<Decision />} />
       </Routes>
     </div>
   );

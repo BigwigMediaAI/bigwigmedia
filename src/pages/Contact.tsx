@@ -3,6 +3,8 @@ import Nav from "@/components/Nav";
 import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import { toast } from "sonner";
+
 
 import axios from "axios";
 
@@ -22,7 +24,7 @@ const ContactUs: React.FC = () => {
       email,
       message,
     });   
-    alert(`Your message has been sent successfully.`)
+    toast(`Your message has been sent successfully.`)
     
     window.location.href = `mailto:marketing@bigwigmedia.in?subject=Contact%20Form&body=Name:%20${name}%0AEmail:%20${email}%0AMessage:%20${message}`;
     // Reset form fields after submission (optional)

@@ -37,6 +37,7 @@ import { button } from "@nextui-org/react";
 import { ClipboardList } from "lucide-react";
 import { Paraphrase } from "./paraphrase";
 import { Special } from "./Special";
+import { Decision } from "./DecisionTool";
 import ImageGenerator from "./ImageGenerator";
 import { ElementType } from "@/pages/Form";
 import { Input } from "./ui/input";
@@ -384,6 +385,8 @@ const Generate = () => {
         <AudioText />
       ) : id === "661e75f237b7826a2e2dddc1" ? (
         <Special/>
+      ) : id === "6628c6bd6213ba01b08276c0" ? (
+        <Decision/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">

@@ -132,6 +132,7 @@ const Landing = () => {
     if (isSignedIn)
       url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location}`;
     const res = await axios.get(url);
+    console.log("this is respose",res)
     setCards(res.data.message);
     setIsLoading(false);
   };
