@@ -100,7 +100,7 @@ For Example : Want to Invest in share market
           {isLoading ? (
             <div className="w-full h-full flex flex-col items-center justify-center ">
               <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
-              <p className="text-black text-justify">Please wait it will take some seconds...</p>
+              <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           ) : (
             <div className="w-full">

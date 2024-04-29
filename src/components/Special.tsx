@@ -108,6 +108,7 @@ Why landing page is important..."
           {isLoading ? (
             <div className="w-full h-full flex items-center justify-center">
               <Loader2 className="animate-spin w-20 h-20 mt-20" />
+              <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           ) : (
             <div className="h-96 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 text-justify tracking-wide	 overflow-y-scroll">
