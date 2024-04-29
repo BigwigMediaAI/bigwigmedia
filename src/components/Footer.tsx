@@ -210,7 +210,7 @@ const Footer = () => {
                 onClick={() => {
                   searchParams.set("selectedButton", button as string);
                   setSearchParams(searchParams);
-                  // navigate(button);
+                  navigate(button);
                   console.log(button)
                   window.location.href = `https://bigwigmedia.ai/?selectedButton=${button}`;
 

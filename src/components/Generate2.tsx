@@ -38,6 +38,7 @@ import { ClipboardList } from "lucide-react";
 import { Paraphrase } from "./paraphrase";
 import { Special } from "./Special";
 import { Decision } from "./DecisionTool";
+import { Seotool } from "./SEOtool";
 import ImageGenerator from "./ImageGenerator";
 import { ElementType } from "@/pages/Form";
 import { Input } from "./ui/input";
@@ -150,6 +151,7 @@ const Generate = () => {
   const getData = async () => {
     let url = `${BASE_URL2}/objects/getObject/${id}`;
     const res = await axios.get(url);
+    console.log(res)
 
     let i = -1;
     const obj: any = {};
@@ -385,6 +387,8 @@ const Generate = () => {
         <AudioText />
       ) : id === "661e75f237b7826a2e2dddc1" ? (
         <Special/>
+      ) : id === "662f311912268d562ccfebca" ? (
+        <Seotool/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

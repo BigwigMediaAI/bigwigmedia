@@ -9,13 +9,11 @@ import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 
 
-export function Decision() {
+export function Seotool() {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [pros, setPros] = useState<string[]>([]);
-  const [cons, setCons] = useState<string[]>([]);
+  const [data, setData] = useState<{ keywords: { keyword: string; searchVolume: number }[], title: string }[]>([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
 
   const navigate = useNavigate();
 
@@ -27,33 +25,18 @@ export function Decision() {
   const handleSubmit = async (e: any) => {
     setIsLoading(true);
     e.preventDefault();
-  
+
     try {
       const res = await axios.post(
-        `${BASE_URL}/response/decision?clerkId=${userId}`,
+        `${BASE_URL}/response/getseo?clerkId=${userId}`,
         {
           prompt: text,
         }
       );
-  
-      if (res.status === 200) {
-        const data = res.data.data.data;
-        if (typeof data === 'object' && 'pros' in data && 'cons' in data) {
-          // Extract pros and cons from the response
-          const filteredCons = data.cons
-            .filter((item: string) => !item.startsWith('Cons:')) // Filter out unwanted line
-            .map((item: string) => item.replace(/^\d+\.\s*/, "- ").trim().replace(/###|(\|\r\n|\n|\r)/gm, "")); // Remove ### and replace leading digits and dot
-  
-          const filteredPros = data.pros
-          .filter((item: string) => !item.startsWith('Pros:')) // Filter out unwanted line
+      console.log(res.data.data.data)
 
-            .map((item: string) => item.replace(/###|(\|\r\n|\n|\r)/gm, "")); // Remove ###
-  
-          setPros(filteredPros);
-          setCons(filteredCons);
-        } else {
-          toast.error("Invalid data format received from the server");
-        }
+      if (res.status === 200) {
+        setData(res.data.data.data);
       } else {
         toast.error(res.data.error);
       }
@@ -64,9 +47,6 @@ export function Decision() {
       setIsLoading(false);
     }
   };
-  
-  
-  
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
@@ -74,9 +54,10 @@ export function Decision() {
         <div className="w-full  pr-2">
           <Textarea
             className="mb-4 h-20 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
-            placeholder="For Example : Buy a car,
-For Example : Buy a I-phone
-For Example : Want to Invest in share market
+            placeholder="For example...
+Mobile phones
+Share marketing
+Digaital media
             "
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -100,26 +81,35 @@ For Example : Want to Invest in share market
           {isLoading ? (
             <div className="w-full h-full flex flex-col items-center justify-center ">
               <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
-              <p className="text-black text-justify">Please wait it will take some seconds...</p>
+              <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           ) : (
             <div className="w-full">
               <table className="w-full border-collapse border border-gray-200">
                 <thead>
                   <tr>
-                    {/* <th className="border border-gray-200 text-black p-2">Pros</th>
-                    <th className="border border-gray-200 text-black p-2">Cons</th> */}
+                    <th className="border border-gray-200 text-black p-2"style={{ width: '30%' }}>Title</th>
+                    <th className="border border-gray-200 text-black p-2">Keywords</th>
+                    <th className="border border-gray-200 text-black p-2"style={{ width: '30%' }}>Search Volume</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {pros.map((pro, index) => (
-                    <tr key={index}>
-                      <td className="border border-gray-200 text-black p-2 text-center  dark:text-white " >{pro}</td>
-                      {/* Check if cons[index] exists before rendering */}
-                      <td className="border border-gray-200 text-black p-2 text-center  dark:text-white">{cons[index] || ''}</td>
-                    </tr>
-                  ))}
-                </tbody>
+  {data.map((item, index) => (
+    item.keywords.map((keyword:any, keywordIndex:any) => {
+      const { title } = item;
+      const { keyword: keywordText, searchVolume } = keyword;
+      return (
+        <tr key={`${index}-${keywordIndex}`}>
+          <td className="border border-gray-200 text-white p-2 text-center text-small">{title}</td>
+          <td className="border border-gray-200 text-white p-2 text-center">{keywordText}</td>
+          <td className="border border-gray-200 text-white p-2 text-center">{searchVolume}</td>
+        </tr>
+      );
+    }) 
+  ))}
+</tbody>
+
+
               </table>
             </div>
           )}

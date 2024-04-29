@@ -23,6 +23,7 @@ import Getdata from "../src/pages/Getdata"
 import Feedback from "./pages/Feedback";
 import Getfeedback from "./pages/Getfeedback";
 import {Decision} from "./components/DecisionTool";
+import { Seotool } from "./components/SEOtool";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
@@ -62,6 +63,7 @@ const App = () => {
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/review" element={<Getfeedback />} />
         <Route path="/decision" element={<Decision />} />
+        <Route path="/seo" element={<Seotool />} />
       </Routes>
     </div>
   );

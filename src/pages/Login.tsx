@@ -18,9 +18,12 @@ const Login = () => {
 
   const { userId } = useAuth();
     const urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams)
     const redirect = urlParams.get("redirect") ??"";
+    console.log(redirect)
+    // let data="https://bigwigmedia.ai/generate?id=6628c6bd6213ba01b08276c0"
     const url = window.location.origin + redirect;
-    console.log("redirect", url);
+    console.log("redirect", window.location.origin);
   return (
     <div className="flex  gap-2 w-screen h-screen bg-black">
       <img
