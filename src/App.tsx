@@ -27,6 +27,7 @@ import { Seotool } from "./components/SEOtool";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
+import { ImageTool } from "./components/Imageresizer";
 const App = () => {
  
   // const location = useLocation();
@@ -64,6 +65,7 @@ const App = () => {
         <Route path="/review" element={<Getfeedback />} />
         <Route path="/decision" element={<Decision />} />
         <Route path="/seo" element={<Seotool />} />
+        <Route path="/resize" element={<ImageTool />} />
       </Routes>
     </div>
   );

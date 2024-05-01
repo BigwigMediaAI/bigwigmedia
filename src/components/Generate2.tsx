@@ -39,6 +39,7 @@ import { Paraphrase } from "./paraphrase";
 import { Special } from "./Special";
 import { Decision } from "./DecisionTool";
 import { Seotool } from "./SEOtool";
+import { ImageTool } from "./Imageresizer";
 import ImageGenerator from "./ImageGenerator";
 import { ElementType } from "@/pages/Form";
 import { Input } from "./ui/input";
@@ -389,6 +390,8 @@ const Generate = () => {
         <Special/>
       ) : id === "662f311912268d562ccfebca" ? (
         <Seotool/>
+      ) : id === "6631da17b852e5912e9f52bd" ? (
+        <ImageTool/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
