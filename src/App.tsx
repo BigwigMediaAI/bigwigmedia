@@ -28,6 +28,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
 import { ImageTool } from "./components/Imageresizer";
+import { CodeConverter } from "./components/Codeconverter";
 const App = () => {
  
   // const location = useLocation();
@@ -66,6 +67,7 @@ const App = () => {
         <Route path="/decision" element={<Decision />} />
         <Route path="/seo" element={<Seotool />} />
         <Route path="/resize" element={<ImageTool />} />
+        <Route path="/code" element={<CodeConverter />} />
       </Routes>
     </div>
   );

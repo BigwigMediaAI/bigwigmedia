@@ -97,10 +97,10 @@ Why landing page is important..."
             </Button>
 
             <Button
-              className="rounded-md bt-gradient bg-green-500 px-6 py-2 text-white hover:bg-green-600"
+              className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 "
               onClick={handleSubmit}
             >
-              Clarify Now
+              Generate
             </Button>
           </div>
         </div>

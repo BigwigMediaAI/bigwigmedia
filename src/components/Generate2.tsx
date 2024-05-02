@@ -43,6 +43,7 @@ import { ImageTool } from "./Imageresizer";
 import ImageGenerator from "./ImageGenerator";
 import { ElementType } from "@/pages/Form";
 import { Input } from "./ui/input";
+import { CodeConverter } from "./Codeconverter";
 import Audio from "./Audio";
 import AudioText from "./AudioText";
 import { RotateCw } from "lucide-react";
@@ -392,6 +393,8 @@ const Generate = () => {
         <Seotool/>
       ) : id === "6631da17b852e5912e9f52bd" ? (
         <ImageTool/>
+      ) : id === "663242e2b852e5912e9f52c4" ? (
+        <CodeConverter/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

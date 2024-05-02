@@ -143,11 +143,11 @@ export function ImageTool() {
           </select>
           <div className="flex w-full my-4 items-center justify-between">
             <Button
-              className="rounded-md bg-green-500 px-6 py-2 text-white hover:bg-green-600"
+              className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
               onClick={handleSubmit}
               disabled={!platform || !imageType}
             >
-              Resize Image
+              Generate
             </Button>
           </div>
         </div>
