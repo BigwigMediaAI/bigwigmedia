@@ -61,8 +61,15 @@ export function CodeConverter() {
       <div className="flex flex-col md:flex-col">
         <div className="w-full pr-2">
           <Textarea
-            className="mb-5"
-            placeholder="Enter code here..."
+            className="mb-5 h-40"
+            placeholder="Exapmle :
+function add(a,b)
+{
+ return a+b
+  }
+const data=add(5,5)
+console.log(data)
+            "
             value={code}
             onChange={handleCodeChange}
           />
