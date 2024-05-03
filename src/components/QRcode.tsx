@@ -2,18 +2,17 @@ import { useState } from "react";
 import axios from "axios";
 import { ChromePicker } from "react-color";
 import { useAuth } from "@clerk/clerk-react";
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL } from "../utils/funcitons";
 
 export function QRCodeGenerator() {
   const [url, setUrl] = useState("");
-  const [color, setColor] = useState("#000000"); // Initial color
+  const [color, setColor] = useState(""); // Initial color
   const [textAboveQR, setTextAboveQR] = useState("");
   const [textBelowQR, setTextBelowQR] = useState("");
   const [logo, setLogo] = useState<File | null>(null);
   const [qrCode, setQRCode] = useState<string | null>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const { userId } = useAuth();
-
 
   const handleGenerateQRCode = async () => {
     try {
@@ -56,6 +55,7 @@ export function QRCodeGenerator() {
           </label>  
           <input
             type="text"
+            placeholder="Enter URL of your choice"
             className="appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
@@ -63,11 +63,12 @@ export function QRCodeGenerator() {
         </div>
         <div className="mb-4">
           <label className="block text-white text-sm font-bold mb-2">
-            Color
+            Color 🎨
           </label>
           <div className="relative">
             <input
               type="text"
+              placeholder="Click here to select color"
               className="appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline pl-10"
               value={color}
               readOnly
@@ -86,6 +87,7 @@ export function QRCodeGenerator() {
           </label>
           <input
             type="text"
+            placeholder="Enter the name of your company"
             className="appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
             value={textAboveQR}
             onChange={(e) => setTextAboveQR(e.target.value)}
@@ -97,6 +99,7 @@ export function QRCodeGenerator() {
           </label>
           <input
             type="text"
+            placeholder="Example: Scan QR to visit site"
             className="appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
             value={textBelowQR}
             onChange={(e) => setTextBelowQR(e.target.value)}
@@ -115,25 +118,27 @@ export function QRCodeGenerator() {
             }
           />
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center flex-wrap">
           <button
-            className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
             onClick={handleGenerateQRCode}
           >
             Generate QR Code
           </button>
-          {qrCode && (
+        </div>
+        {qrCode && (
+          <div className="mt-4">
+            <img src={qrCode} alt="QR Code" className="mx-auto" />
+          </div>
+        )}
+        {qrCode && (
+          <div className="flex justify-center mt-4">
             <button
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleDownloadQRCode}
             >
               Download QR Code
             </button>
-          )}
-        </div>
-        {qrCode && (
-          <div className="mt-4">
-            <img src={qrCode} alt="QR Code" className="mx-auto" />
           </div>
         )}
       </div>
