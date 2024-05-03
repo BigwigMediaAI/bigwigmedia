@@ -31,6 +31,13 @@ import { ImageTool } from "./components/Imageresizer";
 import { CodeConverter } from "./components/Codeconverter";
 import { MarketingCampaign } from "./components/Marketingcampaing";
 import { QRCodeGenerator } from "./components/QRcode";
+import { FacebookImageTool } from "./components/FacebookImageResizer";
+import {InstagramImageTool} from "./components/InstagramImageResizer";
+import {TwitterImageTool} from "./components/TwitterImageResizer";
+import {PinterestImageTool} from "./components/PinterestImageResizer";
+import {LinkedinImageTool} from "./components/LinkedInImageResizer";
+import {SnapchatImageTool} from "./components/SnapchatImageResizer";
+import {YoutubeImageTool} from "./components/YoutubeImageResizer";
 const App = () => {
  
   // const location = useLocation();
@@ -72,6 +79,13 @@ const App = () => {
         <Route path="/code" element={<CodeConverter />} />
         <Route path="/marketing" element={<MarketingCampaign />} />
         <Route path="/qrcode" element={<QRCodeGenerator />} />
+        <Route path="/fbImage" element={<FacebookImageTool />} />
+        <Route path="/instagramImage" element={<InstagramImageTool />} />
+        <Route path="/twitterImage" element={<TwitterImageTool />} />
+        <Route path="/pinterestImage" element={<PinterestImageTool />} />
+        <Route path="/linkedinImage" element={<LinkedinImageTool />} />
+        <Route path="/snapchatImage" element={<SnapchatImageTool />} />
+        <Route path="/youtubeImage" element={<YoutubeImageTool />} />
       </Routes>
     </div>
   );

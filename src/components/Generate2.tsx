@@ -46,11 +46,18 @@ import { Input } from "./ui/input";
 import { CodeConverter } from "./Codeconverter";
 import { MarketingCampaign } from "./Marketingcampaing";
 import { QRCodeGenerator } from "./QRcode";
+import { FacebookImageTool } from "./FacebookImageResizer";
 import Audio from "./Audio";
 import AudioText from "./AudioText";
 import { RotateCw } from "lucide-react";
 import Share from "./Share";
 import { Script } from "./paraphrase2";
+import { InstagramImageTool } from "./InstagramImageResizer";
+import { LinkedinImageTool } from "./LinkedInImageResizer";
+import { PinterestImageTool } from "./PinterestImageResizer";
+import { SnapchatImageTool } from "./SnapchatImageResizer";
+import { TwitterImageTool } from "./TwitterImageResizer";
+import { YoutubeImageTool } from "./YoutubeImageResizer";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -401,6 +408,20 @@ const Generate = () => {
         <MarketingCampaign/>
       ) : id === "6634c2d2b852e5912e9f52c7" ? (
         <QRCodeGenerator/>
+      ) : id === "66352513b852e5912e9f52c8" ? (
+        <FacebookImageTool/>
+      ) : id === "663525dfb852e5912e9f52c9" ? (
+        <InstagramImageTool/>
+      ) : id === "663526bdb852e5912e9f52ca" ? (
+        <LinkedinImageTool/>
+      ) : id === "663526fdb852e5912e9f52cb" ? (
+        <PinterestImageTool/>
+      ) : id === "66352744b852e5912e9f52cc" ? (
+        <SnapchatImageTool/>
+      ) : id === "66352762b852e5912e9f52cd" ? (
+        <TwitterImageTool/>
+      ) : id === "6635277bb852e5912e9f52ce" ? (
+        <YoutubeImageTool/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
