@@ -117,7 +117,7 @@ export function QRCodeGenerator() {
         </div>
         <div className="flex items-center justify-center">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+            className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
             onClick={handleGenerateQRCode}
           >
             Generate QR Code
