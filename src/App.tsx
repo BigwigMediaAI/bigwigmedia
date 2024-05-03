@@ -29,6 +29,7 @@ import { useLocation } from "react-router-dom";
 import { clarity } from "react-microsoft-clarity";
 import { ImageTool } from "./components/Imageresizer";
 import { CodeConverter } from "./components/Codeconverter";
+import { MarketingCampaign } from "./components/Marketingcampaing";
 const App = () => {
  
   // const location = useLocation();
@@ -68,6 +69,7 @@ const App = () => {
         <Route path="/seo" element={<Seotool />} />
         <Route path="/resize" element={<ImageTool />} />
         <Route path="/code" element={<CodeConverter />} />
+        <Route path="/marketing" element={<MarketingCampaign />} />
       </Routes>
     </div>
   );

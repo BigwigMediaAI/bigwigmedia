@@ -56,12 +56,7 @@ const ContactUs: React.FC = () => {
                 marketing@bigwigmedia.in
               </a>
             </p>
-            <p>
-              Phone:{" "}
-              <a href="tel:+919711991341" className="text-blue-400">
-                +91 9711991341
-              </a>
-            </p>
+            
           </div>
         </div>
         <form
