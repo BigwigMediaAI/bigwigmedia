@@ -22,7 +22,7 @@ export function MarketingCampaign() {
 
     try {
       const res = await axios.post(
-        `${BASE_URL}/response/marketing`,
+        `${BASE_URL}/response/marketing?clerkId=${userId}`,
         {
           prompt: text,
         }

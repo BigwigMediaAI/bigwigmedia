@@ -30,6 +30,7 @@ import { clarity } from "react-microsoft-clarity";
 import { ImageTool } from "./components/Imageresizer";
 import { CodeConverter } from "./components/Codeconverter";
 import { MarketingCampaign } from "./components/Marketingcampaing";
+import { QRCodeGenerator } from "./components/QRcode";
 const App = () => {
  
   // const location = useLocation();
@@ -70,6 +71,7 @@ const App = () => {
         <Route path="/resize" element={<ImageTool />} />
         <Route path="/code" element={<CodeConverter />} />
         <Route path="/marketing" element={<MarketingCampaign />} />
+        <Route path="/qrcode" element={<QRCodeGenerator />} />
       </Routes>
     </div>
   );

@@ -42,9 +42,11 @@ const Login = () => {
         className="absolute hidden lg:flex right-0 top-0 mix-blend-exclusion"
       />
  
-      <div className="absolute bg-white rounded-lg top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 items-center gap-4 cursor-pointer">
+      <div className="absolute bg-white rounded-lg top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 items-center gap-4 cursor-pointer flex">
         <SignIn redirectUrl={redirect} />
+        
       </div>
+       
     </div>
   );
 };
