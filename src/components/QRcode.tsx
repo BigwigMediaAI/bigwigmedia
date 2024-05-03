@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { ChromePicker } from "react-color";
 import { useAuth } from "@clerk/clerk-react";
@@ -13,6 +13,7 @@ export function QRCodeGenerator() {
   const [qrCode, setQRCode] = useState<string | null>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const { userId } = useAuth();
+  const qrCodeRef = useRef<HTMLImageElement>(null); // Reference to the QR code image element
 
   const handleGenerateQRCode = async () => {
     try {
@@ -30,6 +31,11 @@ export function QRCodeGenerator() {
       });
 
       setQRCode(URL.createObjectURL(response.data));
+
+      // Scroll to the QR code image after setting the QR code state
+      if (qrCodeRef.current) {
+        qrCodeRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     } catch (error) {
       console.error("Error generating QR code:", error);
     }
@@ -55,7 +61,7 @@ export function QRCodeGenerator() {
           </label>  
           <input
             type="text"
-            placeholder="Enter URL of your choice"
+            placeholder="Enter URL of you choice"
             className="appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
@@ -126,11 +132,13 @@ export function QRCodeGenerator() {
             Generate QR Code
           </button>
         </div>
+        {/* QR code image */}
         {qrCode && (
-          <div className="mt-4">
+          <div className="mt-4" ref={qrCodeRef}>
             <img src={qrCode} alt="QR Code" className="mx-auto" />
           </div>
         )}
+        {/* Download button */}
         {qrCode && (
           <div className="flex justify-center mt-4">
             <button
