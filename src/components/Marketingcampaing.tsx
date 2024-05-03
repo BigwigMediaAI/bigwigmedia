@@ -83,9 +83,9 @@ export function MarketingCampaign() {
         <textarea
           className="mb-4 h-32 w-full rounded-md border-2 border-gray-300 p-4"
           placeholder="Enter your product description here...
-  examples:
-  Opening new restaurant FoodZone
-  Opening Car rental services Safar       
+Examples:
+Opening new restaurant FoodZone.
+Opening Car rental services Safar.       
           "
           value={text}
           onChange={(e) => setText(e.target.value)}
