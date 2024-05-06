@@ -39,53 +39,13 @@ const Login = () => {
         className="hidden lg:block absolute right-0 top-0 mix-blend-exclusion"
       />
 
-      {/* Right Side (Texts for Small Screens) */}
-      <div className="lg:hidden flex flex-col items-center justify-center w-full h-screen">
-        {/* Signing Component */}
-        <div className="rounded-lg p-4 mb-4">
-          <SignIn redirectUrl={redirect} />
-        </div>
-
-        {/* Texts (Aligned in a row) */}
-        <div className="flex justify-center w-full">
-          <div className="grid grid-cols-2 gap-5">
-            <div className="rounded-lg p-4">
-              <p className="text-white font-bold ">✅ Sign UP for Free</p>
-            </div>
-            <div className="rounded-lg p-4">
-              <p className="text-white font-bold">✅ 7 days Free Trial</p>
-            </div>
-            <div className="rounded-lg p-4">
-              <p className="text-white font-bold">✅ 30 Credits Free</p>
-            </div>
-            <div className="rounded-lg p-4">
-              <p className="text-white font-bold">✅ No Credit Cards Required</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Desktop Layout (Left Side) */}
       <div className="hidden lg:flex justify-center items-center w-1/2 h-screen">
-        <div className="absolute rounded-lg top-1/2 left-1/3 ml-28 transform -translate-x-1/2 -translate-y-1/2 p-4">
+        <div className="absolute rounded-lg top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-1/2 p-4">
           <SignIn redirectUrl={redirect} />
+          
         </div>
 
-        {/* Texts for Desktop */}
-        <div className="absolute grid grid-cols-1 gap-5  mr-48 mt-10 ">
-          <div className="rounded-lg p-4">
-            <p className="text-white font-bold">✅ Sign UP for Free</p>
-          </div>
-          <div className="rounded-lg p-4">
-            <p className="text-white font-bold">✅ 7 days Free Trial</p>
-          </div>
-          <div className="rounded-lg p-4">
-            <p className="text-white font-bold">✅ 100 Credits Free</p>
-          </div>
-          <div className="rounded-lg p-4">
-            <p className="text-white font-bold">✅ No Credit Cards Required</p>
-          </div>
-        </div>
+      
       </div>
     </div>
   );

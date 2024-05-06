@@ -8,6 +8,7 @@ import axios from "axios";
 import { BASE_URL } from "@/utils/funcitons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import  LoginModal  from "../components/Model2";
 
 const Cards = ({
   cards,
@@ -44,17 +45,22 @@ const CardComponent = ({
   card: Card;
   setChange: Function;
 }) => {
+  
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(card.isBookmarked);
   const navigate = useNavigate();
   const { user, isSignedIn, isLoaded } = useUser();
+  const [showLoginModal, setShowLoginModal] = useState(false); // State for managing modal visibility
+  
 
+  
   const handleBookmarkToggle = async () => {
     if (!isSignedIn) {
       toast.error("Please sign in to bookmark this template");
       return navigate("/login");
     }
-
+    
+    
     const res = await axios.post(
       `${BASE_URL}/bookmarks/add-remove/${card._id}?clerkId=${user.id}`,
       {}
@@ -114,19 +120,26 @@ const CardComponent = ({
               toast("Coming Soon...");
               return;
             }
-            // Using window.open to navigate to a new page in a new tab
-            if(isSignedIn){
-              const newPath = `/generate?id=${card._id}`;
-              window.open(newPath, "_blank");
-              
-            }
-            else{
-              navigate("/login")
-            }
+            // If user is not signed in, show the login modal
+          if (!isSignedIn) {
+            console.log("clicked")
+            setTimeout(() => {
+              setShowLoginModal(true);
+            }, 0);
+          } else {
+            const newPath = `/generate?id=${card._id}`;
+            window.open(newPath, "_blank");
+          }
           }}
         >
           Generate
         </button>
+        {showLoginModal && (
+        <LoginModal
+          isOpen={true}
+          onClose={() => setShowLoginModal(false)}
+        />
+      )}
         <div
           className={cn(
             "flex w-fit p-1 my-auto hover:invert h-fit bg-white justify-center items-center cursor-pointer  rounded-full border border-gray-900",
@@ -149,6 +162,6 @@ const CardComponent = ({
           </svg>
         </div>
       </div>
-    </div>
-  );
+    </div>
+  );
 };

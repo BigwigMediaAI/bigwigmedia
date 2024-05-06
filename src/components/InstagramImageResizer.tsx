@@ -110,7 +110,7 @@ export function InstagramImageTool() {
           <div className="w-full">
             <img src={resizedImage} alt="Resized" className="w-full" />
             <Button
-              className="mt-4 rounded-md bg-blue-500 px-6 py-2 text-white hover:bg-blue-600"
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-5 w-full mx-auto"
               onClick={handleDownload}
             >
               Download Resized Image

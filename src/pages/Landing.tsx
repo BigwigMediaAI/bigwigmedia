@@ -12,6 +12,7 @@ import { useUser } from "@clerk/clerk-react";
 import { toast } from "sonner";
 import { useSearchParams } from "react-router-dom";
 import { Bookmark, Popsicle } from "lucide-react";
+import Modal from "../components/Model";
 // @ts-ignore
 import { getLocation } from "current-location-geo";
 // import Profile from "@/components/Profile";
@@ -35,6 +36,7 @@ const Landing = () => {
   const { user, isSignedIn, isLoaded } = useUser();
   const [change, setChange] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [showTrialModal, setShowTrialModal] = useState(false);
 
   const urlParams = new URLSearchParams(window.location.search);
   const selectedButton = urlParams.get("selectedButton")?? "All Tools";
@@ -59,7 +61,18 @@ const Landing = () => {
       });
     }
   }
-  
+  const handleCloseTrialModal = () => {
+    // Function to handle closing the trial modal
+    setShowTrialModal(false);
+    sessionStorage.setItem("modalShown", "true");
+  };
+
+  useEffect(() => {
+    const modalShown = sessionStorage.getItem("modalShown");
+    if (!modalShown) {
+      setShowTrialModal(true);
+    }
+  }, []);
 
   const getButtons = async () => {
     // const
@@ -210,6 +223,8 @@ console.log(cards)
           />
         </div>
       </div>
+      {/* Render the trial modal */}
+      {/* <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} /> */}
       <Footer  />
     </div>
   );
