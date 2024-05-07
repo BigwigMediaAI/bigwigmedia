@@ -143,8 +143,13 @@ export function CodeGenerator() {
       <div className="flex flex-col md:flex-col">
         <div className="w-full pr-2">
           <Textarea
-            className="mb-5 h-25"
-            placeholder="Enter code here..."
+            className="mb-5 h-28"
+            placeholder="Enter code here...
+For Example:
+Create a navbar...
+Create a footer...
+Create a Login page...
+            "
             value={code}
             onChange={handleCodeChange}
           />
