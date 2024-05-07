@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 import { Download, Loader2 } from "lucide-react";
 
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL } from "../utils/funcitons";
 
 export function CodeConverter() {
   const [code, setCode] = useState("");
