@@ -39,6 +39,7 @@ import {LinkedinImageTool} from "./components/LinkedInImageResizer";
 import {SnapchatImageTool} from "./components/SnapchatImageResizer";
 import {YoutubeImageTool} from "./components/YoutubeImageResizer";
 import { CodeGenerator } from "./components/CodeGenerator";
+import { LetterheadGenerator } from "./components/LetterHead";
 const App = () => {
  
   // const location = useLocation();
@@ -88,6 +89,7 @@ const App = () => {
         <Route path="/snapchatImage" element={<SnapchatImageTool />} />
         <Route path="/youtubeImage" element={<YoutubeImageTool />} />
         <Route path="/component" element={<CodeGenerator />} />
+        <Route path="/letter" element={<LetterheadGenerator />} />
       </Routes>
     </div>
   );
