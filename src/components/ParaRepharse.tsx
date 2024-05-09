@@ -55,11 +55,9 @@ export function Rephrase() {
         <div className="w-full  pr-2">
           <textarea
             className="mb-4 h-96 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
-            placeholder="Enter a concept or topic you'd like clarified...
-Example :- 
-Photosynthesis,
-Newton's Laws of Motion,
-Why landing page is important..."
+            placeholder="Enter your text here.
+Our tool will not only rephrase it in a more human-like manner but also perform a plagiarism check against top online sources, ensuring originality and integrity.
+            "
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
