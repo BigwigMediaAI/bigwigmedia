@@ -40,6 +40,7 @@ import {SnapchatImageTool} from "./components/SnapchatImageResizer";
 import {YoutubeImageTool} from "./components/YoutubeImageResizer";
 import { CodeGenerator } from "./components/CodeGenerator";
 import { LetterheadGenerator } from "./components/LetterHead";
+import { Rephrase } from "./components/ParaRepharse";
 const App = () => {
  
   // const location = useLocation();
@@ -90,6 +91,7 @@ const App = () => {
         <Route path="/youtubeImage" element={<YoutubeImageTool />} />
         <Route path="/component" element={<CodeGenerator />} />
         <Route path="/letter" element={<LetterheadGenerator />} />
+        <Route path="/rephrase" element={<Rephrase />} />
       </Routes>
     </div>
   );

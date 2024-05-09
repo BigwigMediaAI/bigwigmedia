@@ -3,7 +3,6 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/clerk-react";
 import { toast } from "sonner";
-import { BASE_URL } from "@/utils/funcitons";
 
 const templates:any = {
   template1: { name: "Template 1", value: "template1" },
@@ -20,8 +19,6 @@ export function LetterheadGenerator() {
   const [address, setAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
 
   const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTemplate(e.target.value);
@@ -48,8 +45,8 @@ export function LetterheadGenerator() {
       formData.append("email", email);
       formData.append("phone", phone);
       formData.append("address", address);
-
-      const response = await axios.post(`${BASE_URL}/response/generateLetterhead?templateName=${selectedTemplate}?clerkId=${userId}`, formData, {
+      console.log(selectedTemplate)
+      const response = await axios.post(`http://localhost:4000/api/v1/response/generateLetterhead?templateName=${selectedTemplate}`, formData, {
         responseType: "arraybuffer",
       });
 

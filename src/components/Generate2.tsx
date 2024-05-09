@@ -59,6 +59,7 @@ import { SnapchatImageTool } from "./SnapchatImageResizer";
 import { TwitterImageTool } from "./TwitterImageResizer";
 import { YoutubeImageTool } from "./YoutubeImageResizer";
 import { CodeGenerator } from "./CodeGenerator";
+import { Rephrase } from "./ParaRepharse";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -423,6 +424,8 @@ const Generate = () => {
         <TwitterImageTool/>
       ) : id === "6639d129b852e5912e9f52d3" ? (
         <CodeGenerator/>
+      ) : id === "663ca713c40cf070532812ba" ? (
+        <Rephrase/>
       ) : id === "6635277bb852e5912e9f52ce" ? (
         <YoutubeImageTool/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (

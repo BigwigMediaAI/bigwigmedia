@@ -48,6 +48,29 @@ const Landing = () => {
   const [isSearched, setIsSearched] = useState<string>("");
   const [location, setLocation] = useState<string>("");
 
+  const handleCloseTrialModal = () => {
+    // Function to handle closing the trial modal
+    setShowTrialModal(false);
+    // Set sessionStorage flag to indicate modal has been closed
+    sessionStorage.setItem("modalShown", "true");
+  };
+
+  useEffect(() => {
+    const modalShown = sessionStorage.getItem("modalShown");
+    if (!modalShown && isSignedIn && user?.createdAt) { // Check if user is signed in and createdAt is available
+      const userCreatedAt = new Date(user.createdAt);
+      const currentDate = new Date();
+      const differenceInMilliseconds = currentDate.getTime() - userCreatedAt.getTime();
+      const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
+      console.log("User created at:", userCreatedAt);
+      console.log("Current time:", currentDate);
+      console.log("Difference in days:", differenceInDays);
+      if (differenceInDays <= 1) { // Show modal only if user is signed in and created within the last 1 days
+        setShowTrialModal(true);
+      }
+    }
+  }, [isLoaded, isSignedIn, user]);
+
   const getLocationFunction = () => {
     if (!location) {
       getLocation(function (err: any, position: any) {
@@ -61,18 +84,9 @@ const Landing = () => {
       });
     }
   }
-  const handleCloseTrialModal = () => {
-    // Function to handle closing the trial modal
-    setShowTrialModal(false);
-    sessionStorage.setItem("modalShown", "true");
-  };
+ 
 
-  useEffect(() => {
-    const modalShown = sessionStorage.getItem("modalShown");
-    if (!modalShown) {
-      setShowTrialModal(true);
-    }
-  }, []);
+
 
   const getButtons = async () => {
     // const
@@ -224,7 +238,7 @@ console.log(cards)
         </div>
       </div>
       {/* Render the trial modal */}
-      {/* <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} /> */}
+      <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
       <Footer  />
     </div>
   );
