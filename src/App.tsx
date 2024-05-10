@@ -41,6 +41,7 @@ import {YoutubeImageTool} from "./components/YoutubeImageResizer";
 import { CodeGenerator } from "./components/CodeGenerator";
 import { LetterheadGenerator } from "./components/LetterHead";
 import { Rephrase } from "./components/ParaRepharse";
+import { ImagetoText } from "./components/ImgtoText";
 const App = () => {
  
   // const location = useLocation();
@@ -92,6 +93,7 @@ const App = () => {
         <Route path="/component" element={<CodeGenerator />} />
         <Route path="/letter" element={<LetterheadGenerator />} />
         <Route path="/rephrase" element={<Rephrase />} />
+        <Route path="/imgtotext" element={<ImagetoText />} />
       </Routes>
     </div>
   );

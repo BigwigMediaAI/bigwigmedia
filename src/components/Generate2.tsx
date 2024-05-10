@@ -60,6 +60,7 @@ import { TwitterImageTool } from "./TwitterImageResizer";
 import { YoutubeImageTool } from "./YoutubeImageResizer";
 import { CodeGenerator } from "./CodeGenerator";
 import { Rephrase } from "./ParaRepharse";
+import { ImagetoText } from "./ImgtoText";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -426,6 +427,8 @@ const Generate = () => {
         <CodeGenerator/>
       ) : id === "663ca713c40cf070532812ba" ? (
         <Rephrase/>
+      ) : id === "663e0c62e2b749bd37c881c8" ? (
+        <ImagetoText/>
       ) : id === "6635277bb852e5912e9f52ce" ? (
         <YoutubeImageTool/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (

@@ -3,12 +3,16 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { BASE_URL } from "@/utils/funcitons";
+import { useAuth } from "@clerk/clerk-react";
+
 
 
 export function Rephrase() {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [output, setOutput] = useState("");
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+
 
   const handlePaste = async () => {
     const text = await navigator.clipboard.readText();
@@ -25,7 +29,7 @@ export function Rephrase() {
     }
 
     try {
-      const res = await axios.post(`${BASE_URL}/response/rephrase`, { prompt: text });
+      const res = await axios.post(`${BASE_URL}/response/rephrase?clerkId=${userId}`, { prompt: text });
 
       if (res.status === 200 && res.data && res.data.status === "OK") {
         setOutput(res.data.data.data);
