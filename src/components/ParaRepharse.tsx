@@ -54,7 +54,7 @@ export function Rephrase() {
       <div className="flex flex-col md:flex-row">
         <div className="w-full  pr-2">
           <textarea
-            className="mb-4 h-96 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+            className="mb-4 h-80 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
             placeholder="Enter your text here.
 Our tool will not only rephrase it in a more human-like manner but also perform a plagiarism check against top online sources, ensuring originality and integrity.
             "
@@ -73,7 +73,7 @@ Our tool will not only rephrase it in a more human-like manner but also perform 
               className="rounded-md bt-gradient bg-green-500 px-6 py-2 text-white hover:bg-green-600"
               onClick={handleSubmit}
             >
-              Clarify Now
+              Generate
             </button>
           </div>
         </div>
@@ -84,7 +84,7 @@ Our tool will not only rephrase it in a more human-like manner but also perform 
               <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           ) : (
-            <div className="h-96 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 text-justify tracking-wide	 overflow-y-scroll">
+            <div className="h-80 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 text-justify tracking-wide	 overflow-y-scroll">
                 {output.split('\n').map((line, index) => (
                   <p key={index}>{line}</p>
                 ))}
