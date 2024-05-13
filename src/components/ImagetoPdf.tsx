@@ -29,6 +29,21 @@ export function JPEGtoPDFConverter() {
     setSelectedFiles(updatedSelectedFiles);
   };
 
+  const handleRemoveImage = (index: number) => {
+    if (index === 1) {
+      toast.error("The first select image option cannot be removed.");
+      return;
+    }
+
+    const updatedSelectedFiles = [...selectedFiles];
+    updatedSelectedFiles.splice(index - 1, 1);
+    setSelectedFiles(updatedSelectedFiles);
+
+    const updatedSelectOptions = [...selectOptions];
+    updatedSelectOptions.splice(index - 1, 1);
+    setSelectOptions(updatedSelectOptions);
+  };
+
   const handleAddSelectOption = () => {
     if (selectOptions.length < 10) {
       setSelectOptions([...selectOptions, selectOptions.length + 1]);
@@ -94,6 +109,14 @@ export function JPEGtoPDFConverter() {
             >
               {selectedFiles[index - 1] ? selectedFiles[index - 1].name : `Select Image ${index}`}
             </Button>
+            {index !== 1 && (
+              <Button
+                className="text-red-500 px-3 py-2 rounded-md hover:bg-red-100"
+                onClick={() => handleRemoveImage(index)}
+              >
+                -
+              </Button>
+            )}
           </div>
           {index === selectOptions.length && (
             <Button
@@ -128,7 +151,7 @@ export function JPEGtoPDFConverter() {
           onClick={generatePDF}
           disabled={selectedFiles.length === 0 || isLoading}
         >
-          {isLoading ? "Generating..." : "Generate"}
+          {isLoading ? "Generating..." : "Generate PDF"}
         </Button>
       </div>
     </div>
