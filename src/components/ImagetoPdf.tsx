@@ -124,11 +124,11 @@ export function JPEGtoPDFConverter() {
       )}
       <div className="mt-5">
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-gradient-to-r from-blue-400 to-indigo-600 disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
           onClick={generatePDF}
           disabled={selectedFiles.length === 0 || isLoading}
         >
-          {isLoading ? "Generating..." : "Generate PDF"}
+          {isLoading ? "Generating..." : "Generate"}
         </Button>
       </div>
     </div>

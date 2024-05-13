@@ -25,6 +25,7 @@
     "@radix-ui/react-slider": "^1.1.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
+    "@react-pdf/renderer": "^3.4.4",
     "@stripe/react-stripe-js": "^2.5.0",
     "@stripe/stripe-js": "^3.0.3",
     "aos": "^3.0.0-beta.6",
