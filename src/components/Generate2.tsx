@@ -61,6 +61,7 @@ import { YoutubeImageTool } from "./YoutubeImageResizer";
 import { CodeGenerator } from "./CodeGenerator";
 import { Rephrase } from "./ParaRepharse";
 import { ImagetoText } from "./ImgtoText";
+import { JPEGtoPDFConverter } from "./ImagetoPdf";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -429,6 +430,8 @@ const Generate = () => {
         <Rephrase/>
       ) : id === "663e0c62e2b749bd37c881c8" ? (
         <ImagetoText/>
+      ) : id === "6641b9a43748e094e4b1e783" ? (
+        <JPEGtoPDFConverter/>
       ) : id === "6635277bb852e5912e9f52ce" ? (
         <YoutubeImageTool/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (

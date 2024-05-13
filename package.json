@@ -46,6 +46,7 @@
     "react-ga4": "^2.1.0",
     "react-geolocated": "^4.1.2",
     "react-microsoft-clarity": "^1.2.0",
+    "react-pdf": "^8.0.2",
     "react-razorpay": "^2.0.1",
     "react-router-dom": "^6.21.3",
     "react-scroll": "^1.9.0",

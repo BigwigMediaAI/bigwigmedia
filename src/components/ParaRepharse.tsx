@@ -29,7 +29,7 @@ export function Rephrase() {
     }
 
     try {
-      const res = await axios.post(`${BASE_URL}/response/rephrase?clerkId=${userId}`, { prompt: text });
+      const res = await axios.post(`http://localhost:4000/api/v1/response/rephrase?clerkId=${userId}`, { prompt: text });
 
       if (res.status === 200 && res.data && res.data.status === "OK") {
         setOutput(res.data.data.data);

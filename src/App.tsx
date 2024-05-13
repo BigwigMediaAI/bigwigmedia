@@ -42,6 +42,7 @@ import { CodeGenerator } from "./components/CodeGenerator";
 import { LetterheadGenerator } from "./components/LetterHead";
 import { Rephrase } from "./components/ParaRepharse";
 import { ImagetoText } from "./components/ImgtoText";
+import { JPEGtoPDFConverter } from "./components/ImagetoPdf";
 const App = () => {
  
   // const location = useLocation();
@@ -94,6 +95,7 @@ const App = () => {
         <Route path="/letter" element={<LetterheadGenerator />} />
         <Route path="/rephrase" element={<Rephrase />} />
         <Route path="/imgtotext" element={<ImagetoText />} />
+        <Route path="/imgtopdf" element={<JPEGtoPDFConverter />} />
       </Routes>
     </div>
   );

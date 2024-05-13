@@ -30,7 +30,7 @@ export function Decision() {
   
     try {
       const res = await axios.post(
-        `${BASE_URL}/response/decision?clerkId=${userId}`,
+        `http://localhost:4000/response/decision?clerkId=${userId}`,
         {
           prompt: text,
         }
