@@ -1,17 +1,25 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-
 
 export function JPEGtoPDFConverter() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [selectOptions, setSelectOptions] = useState<number[]>([1]); // Initial select option
-  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const { userId } = useAuth();
+  const [pdfUrl, setPdfUrl] = useState<string>(""); // Change null to an empty string
+  const [isPdfGenerated, setIsPdfGenerated] = useState(false);
 
+  useEffect(() => {
+    return () => {
+      if (pdfUrl) {
+        window.URL.revokeObjectURL(pdfUrl);
+      }
+    };
+  }, [pdfUrl]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const files = e.target.files || [];
@@ -36,26 +44,29 @@ export function JPEGtoPDFConverter() {
         toast.error("Please select at least one image.");
         return;
       }
-  
+
       const formData = new FormData();
       selectedFiles.forEach((file) => {
         formData.append("images", file); // Ensure the field name is "images"
       });
-  
+
       const response = await axios.post(`${BASE_URL}/response/jpg2pdf?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
-  
+
       // Create a blob URL from the response data
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
-  
-      // Open the PDF in a new tab
-      window.open(url, "_blank");
-  
+
+      // Set the blob URL to state
+      setPdfUrl(url);
+
+      // Set flag indicating PDF is generated
+      setIsPdfGenerated(true);
+
       // Reset selected files
       setSelectedFiles([]);
-  
+
       toast.success("PDF generated successfully.");
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -64,7 +75,6 @@ export function JPEGtoPDFConverter() {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
@@ -95,6 +105,23 @@ export function JPEGtoPDFConverter() {
           )}
         </div>
       ))}
+      {isPdfGenerated && (
+        <div>
+          <iframe src={pdfUrl} width="100%" height="500px"></iframe>
+          <Button
+            className="text-white bg-blue-500 hover:bg-blue-700 py-2 px-4 mt-4"
+            onClick={() => {
+              // Trigger download by creating an anchor element and setting its href to the blob URL
+              const a = document.createElement("a");
+              a.href = pdfUrl;
+              a.download = "converted.pdf";
+              a.click();
+            }}
+          >
+            Download PDF
+          </Button>
+        </div>
+      )}
       <div className="mt-5">
         <Button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-gradient-to-r from-blue-400 to-indigo-600 disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
