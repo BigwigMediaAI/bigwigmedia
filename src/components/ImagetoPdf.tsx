@@ -24,10 +24,19 @@ export function JPEGtoPDFConverter() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const files = e.target.files || [];
     const newSelectedFiles = Array.from(files).slice(0, 1); // Limit to 1 file per select
+    
+    // Check if the selected file's format is JPG or JPEG
+    const allowedFormats = ["image/jpeg", "image/jpg"];
+    if (!allowedFormats.includes(newSelectedFiles[0].type)) {
+      toast.error("Please select only JPG or JPEG format images.");
+      return;
+    }
+  
     const updatedSelectedFiles = [...selectedFiles];
     updatedSelectedFiles[index - 1] = newSelectedFiles[0];
     setSelectedFiles(updatedSelectedFiles);
   };
+  
 
   const handleRemoveImage = (index: number) => {
     if (index === 1) {
@@ -111,7 +120,7 @@ export function JPEGtoPDFConverter() {
             </Button>
             {index !== 1 && (
               <Button
-                className="text-red-500 px-3 py-2 rounded-md hover:bg-red-100"
+                className="text-red-500 px-3 py-2 rounded-md hover:bg-red-100 mr-3"
                 onClick={() => handleRemoveImage(index)}
               >
                 -
