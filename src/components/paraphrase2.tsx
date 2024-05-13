@@ -76,12 +76,19 @@ export function Script
 
   const handleCopy = () => {
     try {
-      navigator.clipboard.writeText(output);
-      toast.success("Copied to Clipboard");
+      const outputElement = document.querySelector('.output-div'); // Select the output div
+      if (outputElement) {
+        const outputText = outputElement.textContent || '';
+        console.log(outputText)
+        navigator.clipboard.writeText(outputText);
+        toast.success("Copied to Clipboard hello");
+      } else {
+        toast.error("Output element not found");
+      }
     } catch (error) {
       toast.error("Failed to copy");
     }
-  };
+  };;
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-zinc-900 bg-white p-6 shadow-lg">
       <div className="flex flex-col md:flex-row">
@@ -125,7 +132,7 @@ export function Script
           ) : (
             <div className="h-96 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5  overflow-y-scroll">
                 <p
-                  className="p-5 text-base md:text-xl font-medium"
+                  className="p-5 text-base md:text-xl font-medium output-div"
                   dangerouslySetInnerHTML={{ __html: output?.output as string }}
                 />
             </div>
