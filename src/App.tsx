@@ -97,7 +97,6 @@ const App = () => {
         <Route path="/rephrase" element={<Rephrase />} />
         <Route path="/imgtotext" element={<ImagetoText />} />
         <Route path="/imgtopdf" element={<JPEGtoPDFConverter />} />
-        <Route path="/pdfmerge" element={<PDFMerger />} />
       </Routes>
     </div>
   );

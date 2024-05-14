@@ -81,7 +81,7 @@ export function Script
         const outputText = outputElement.textContent || '';
         console.log(outputText)
         navigator.clipboard.writeText(outputText);
-        toast.success("Copied to Clipboard hello");
+        toast.success("Copied to Clipboard");
       } else {
         toast.error("Output element not found");
       }
