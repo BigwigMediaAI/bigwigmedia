@@ -83,7 +83,7 @@ export function PDFMerger() {
       <div className="mb-5">
         {selectedFiles.map((file, index) => (
           <div key={index} className="flex items-center mb-2">
-            <span className="mr-2">{file.name}</span>
+            <span className="bg-white text-gray-500  py-1 px-2 rounded mr-2">{file.name}</span>
             {index === selectedFiles.length - 1 && (
               <Button
                 className="text-gray-500 hover:text-gray-700 mr-2"
@@ -93,7 +93,7 @@ export function PDFMerger() {
               </Button>
             )}
             <Button
-              className="text-red-500 hover:text-red-700"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={() => removeFile(index)}
             >
               -
@@ -102,7 +102,7 @@ export function PDFMerger() {
         ))}
         {showPlusButton && (
           <Button
-            className="text-blue-500 hover:text-blue-700"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => document.getElementById("fileInput")?.click()}
           >
             + Add PDF
@@ -131,7 +131,7 @@ export function PDFMerger() {
           onClick={generatePDF}
           disabled={isLoading || selectedFiles.length < 2}
         >
-          {isLoading ? "Merging..." : "Merge PDFs"}
+          {isLoading ? "Merging..." : isPdfGenerated ? "Re-Merge PDFs" : "Merge PDFs"}
         </Button>
       </div>
     </div>

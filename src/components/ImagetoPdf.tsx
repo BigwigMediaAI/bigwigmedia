@@ -36,7 +36,6 @@ export function JPEGtoPDFConverter() {
     updatedSelectedFiles[index - 1] = newSelectedFiles[0];
     setSelectedFiles(updatedSelectedFiles);
   };
-  
 
   const handleRemoveImage = (index: number) => {
     if (index === 1) {
@@ -78,23 +77,29 @@ export function JPEGtoPDFConverter() {
         responseType: "blob",
       });
 
-      // Create a blob URL from the response data
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const url = window.URL.createObjectURL(blob);
+      // Check if response status is successful (status code 200)
+      if (response.status === 200) {
+        // Create a blob URL from the response data
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
 
-      // Set the blob URL to state
-      setPdfUrl(url);
+        // Set the blob URL to state
+        setPdfUrl(url);
 
-      // Set flag indicating PDF is generated
-      setIsPdfGenerated(true);
+        // Set flag indicating PDF is generated
+        setIsPdfGenerated(true);
 
-      // Reset selected files
-      setSelectedFiles([]);
+        // Reset selected files
+        setSelectedFiles([]);
 
-      toast.success("PDF generated successfully.");
+        toast.success("PDF generated successfully.");
+      } else {
+        // If response status is not successful, show error message
+        toast.error("Error generating PDF. Please try again later.");
+      }
     } catch (error) {
       console.error("Error generating PDF:", error);
-      toast.error("Error generating PDF.");
+      toast.error("Error generating PDF. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -120,7 +125,7 @@ export function JPEGtoPDFConverter() {
             </Button>
             {index !== 1 && (
               <Button
-                className="text-red-500 px-3 py-2 rounded-md hover:bg-red-100 mr-3"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => handleRemoveImage(index)}
               >
                 -
@@ -129,7 +134,7 @@ export function JPEGtoPDFConverter() {
           </div>
           {index === selectOptions.length && (
             <Button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-3"
               onClick={handleAddSelectOption}
             >
               +
@@ -160,7 +165,7 @@ export function JPEGtoPDFConverter() {
           onClick={generatePDF}
           disabled={selectedFiles.length === 0 || isLoading}
         >
-          {isLoading ? "Generating..." : "Generate PDF"}
+          {isPdfGenerated ? "Re-generate PDF" : isLoading ? "Generating..." : "Generate PDF"}
         </Button>
       </div>
     </div>
