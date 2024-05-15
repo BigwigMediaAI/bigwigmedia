@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { Loader2 } from "lucide-react";
+
 
 export function JPEGtoPDFConverter() {
   const [isLoading, setIsLoading] = useState(false);
@@ -165,7 +167,8 @@ export function JPEGtoPDFConverter() {
           onClick={generatePDF}
           disabled={selectedFiles.length === 0 || isLoading}
         >
-          {isPdfGenerated ? "Re-generate PDF" : isLoading ? "Generating..." : "Generate PDF"}
+          {isPdfGenerated ? "Re-generate PDF" : isLoading ? <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
+ : "Generate PDF"}
         </Button>
       </div>
     </div>

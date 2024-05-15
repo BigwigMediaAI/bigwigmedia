@@ -63,6 +63,7 @@ import { Rephrase } from "./ParaRepharse";
 import { ImagetoText } from "./ImgtoText";
 import { JPEGtoPDFConverter } from "./ImagetoPdf";
 import { PDFMerger } from "./PdfMerge";
+import { VideoDownloader } from "./Youtube";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -437,6 +438,8 @@ const Generate = () => {
         <YoutubeImageTool/>
       ) : id === "6642052d3748e094e4b1e784" ? (
         <PDFMerger/>
+      ) : id === "664482cf3748e094e4b1e787" ? (
+        <VideoDownloader/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
