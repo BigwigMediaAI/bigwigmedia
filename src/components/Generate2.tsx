@@ -64,6 +64,7 @@ import { ImagetoText } from "./ImgtoText";
 import { JPEGtoPDFConverter } from "./ImagetoPdf";
 import { PDFMerger } from "./PdfMerge";
 import { VideoDownloader } from "./Youtube";
+import { Mp3Downloader } from "./YoutubeMp3";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -440,6 +441,8 @@ const Generate = () => {
         <PDFMerger/>
       ) : id === "664482cf3748e094e4b1e787" ? (
         <VideoDownloader/>
+      ) : id === "66448f523748e094e4b1e788" ? (
+        <Mp3Downloader/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
