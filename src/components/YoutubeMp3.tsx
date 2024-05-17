@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 export function Mp3Downloader() {
   const [videoLink, setVideoLink] = useState("");
@@ -64,7 +65,17 @@ export function Mp3Downloader() {
       >
         {isLoading ? 'Downloading...' : 'Download MP3'}
       </button>
-      {thumbUrl && (
+
+
+      <div className="w-full  pl-2 flex flex-col gap-2 justify-between">
+          {isLoading ? (
+            <div className="w-full h-full flex flex-col items-center justify-center ">
+              <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
+              <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
+            </div>
+          ) : (
+            <div className="w-full">
+              {thumbUrl && (
         <div className="mt-4">
           <img src={thumbUrl} alt="Video Thumbnail" className="w-full h-auto rounded-md" />
         </div>
@@ -80,6 +91,12 @@ export function Mp3Downloader() {
           Download MP3
         </button>
       )}
-    </div>
+
+            </div>
+          )}
+        </div>
+
+
+          </div>
   );
 }
