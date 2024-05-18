@@ -68,6 +68,8 @@ import { Mp3Downloader } from "./YoutubeMp3";
 import { InstagramDownloader } from "./InstagramVideo";
 import { PNGtoPDFConverter } from "./PngtoPdf";
 import { AudioConverter } from "./VideotoAudio";
+import { InstagramImageDownloader } from "./InstagramImage";
+import { FacebookDownloader } from "./FacebookVideo";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -452,6 +454,10 @@ const Generate = () => {
         <PNGtoPDFConverter/>
       ) : id === "66473fd1e3099a6561101561" ? (
         <AudioConverter/>
+      ) : id === "6648900d0ec5e7ade584ec9a" ? (
+        <InstagramImageDownloader/>
+      ) : id === "664892720ec5e7ade584ec9b" ? (
+        <FacebookDownloader/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

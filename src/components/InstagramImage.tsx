@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import thumbnail from "../assets/video.jpg"; // Import default thumbnail image
+import thumbnail from "../assets/InstaTumb.jpg"; // Import default thumbnail image
 import { Loader2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
 
-export function InstagramDownloader() {
+export function InstagramImageDownloader() {
   const [postLink, setPostLink] = useState("");
   const [downloadLinks, setDownloadLinks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +24,7 @@ export function InstagramDownloader() {
 
       console.log(response.data)
       if (response.data.status) {
-        const videos = response.data.result.filter((item:any )=> item.type === 'video/mp4');
+        const videos = response.data.result.filter((item:any )=> item.type === 'image/jpeg' || item.type === 'image/jpg');
         const videoLinks = videos.map((video:any) => video.url);
         setDownloadLinks(videoLinks);
 
@@ -59,7 +59,7 @@ export function InstagramDownloader() {
           type="text"
           value={postLink}
           onChange={(e) => setPostLink(e.target.value)}
-          placeholder="Paste Instagram Post Link"
+          placeholder="Paste Instagram image Link"
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
         />
         <button onClick={handleRefresh} className="ml-2 text-blue-500 hover:text-blue-700">
@@ -74,7 +74,7 @@ export function InstagramDownloader() {
             isLoading || !postLink ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
           }`}
         >
-          {isLoading ? 'Getting Videos...' : 'Get All Videos'}
+          {isLoading ? 'Getting Images...' : 'Get All Images'}
         </button>
       )}
       
@@ -93,7 +93,7 @@ export function InstagramDownloader() {
                   onClick={() => handleDownloadClick(downloadLinks[index])}
                   className="px-4 py-2 text-white font-semibold rounded-md bg-green-500 hover:bg-green-600"
                 >
-                  Download Video
+                  Download Image
                 </button>
               </div>
             ))}
