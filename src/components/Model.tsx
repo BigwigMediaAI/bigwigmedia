@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import aitools from '../assets/ai.png'
+import aitools from '../assets/bigwig-img.jpg'
 
 interface ModalProps {
   isOpen: boolean;

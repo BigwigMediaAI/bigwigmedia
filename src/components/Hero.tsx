@@ -33,8 +33,8 @@ const Hero = ({
         
       </div>
       <div className="  sm:text-[14px] md:text-[17px] lg:text-[20px] content-center py-4  text-center font-outfit text-black dark:text-white   z-10 w-full max-w-[320] md:auto lg:844px mx-auto font-normal">
-        AI Generative Tools for Everyone! : Simplify, Create, Dominate with Bigwig
-Media AI
+      Unlock 100+ essential tools - FREE for 7 days! Subscribe, Create, Conquer with Bigwig
+Media AI
       </div>
       <div className="w-full max-w-[320] md:auto lg:844px relative my-8 flex justify-center items-center h-fit">
         <div className="z-10 w-full max-w-[637px]  overflow-hidden mx-auto p-[6px] md:p-2  border-gradient bg-white  dark:bg-[#1E1E1E] ">
