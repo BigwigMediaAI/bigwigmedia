@@ -85,7 +85,7 @@ export function PNGtoJPGConverter() {
           {selectedFile ? selectedFile.name : "Select PNG Image"}
         </Button>
         <RefreshCw 
-          className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800" 
+          className="w-6 h-6 mb-3 text-blue-500 cursor-pointer hover:text-blue-800" 
           onClick={refreshSelection} 
         />
       </div>
