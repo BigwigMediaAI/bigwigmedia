@@ -3,12 +3,18 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw } from "lucide-react";
+import { BASE_URL } from "@/utils/funcitons";
+import { useAuth } from "@clerk/clerk-react";
+
+
 
 export function JPGtoPNGConverter() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isImageGenerated, setIsImageGenerated] = useState(false);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+
 
   useEffect(() => {
     return () => {
@@ -42,7 +48,7 @@ export function JPGtoPNGConverter() {
       const formData = new FormData();
       formData.append("image", selectedFile);
 
-      const response = await axios.post(`https://bigwigmedia-backend.onrender.com/api/v1/response/jpgtopng`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/jpgtopng?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
 
