@@ -70,6 +70,8 @@ import { PNGtoPDFConverter } from "./PngtoPdf";
 import { AudioConverter } from "./VideotoAudio";
 import { InstagramImageDownloader } from "./InstagramImage";
 import { FacebookDownloader } from "./FacebookVideo";
+import { PNGtoJPGConverter } from "./PngToJpg";
+import { JPGtoPNGConverter } from "./JpgToPng";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -458,6 +460,10 @@ const Generate = () => {
         <InstagramImageDownloader/>
       ) : id === "664892720ec5e7ade584ec9b" ? (
         <FacebookDownloader/>
+      ) : id === "664b19221986743386a460ff" ? (
+        <PNGtoJPGConverter/>
+      ) : id === "664b1d0e1986743386a46100" ? (
+        <JPGtoPNGConverter/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
