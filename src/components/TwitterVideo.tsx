@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
+import thumbnail from '../assets/vid.svg'; // Import the fixed thumbnail
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+
+
 
 // Define the types for video format and video data
 type VideoFormat = {
@@ -20,8 +23,8 @@ type VideoData = {
   formats: VideoFormat[];
 };
 
-export function FacebookDownloader() {
-  const [postLink, setPostLink] = useState<string>("");
+export function TwitterDownloader() {
+  const [tweetLink, setTweetLink] = useState<string>("");
   const [videos, setVideos] = useState<VideoData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -34,20 +37,20 @@ export function FacebookDownloader() {
     setIsLoading(true);
     setErrorMessage(null); // Reset the error message
     try {
-      const response = await axios.post(`${BASE_URL}/response/fbinstadownload?clerkId=${userId}`, {
-        url: postLink // Pass the URL in the request body
+      const response = await axios.post(`${BASE_URL}/response/twitterdownload?clerkId=${userId}`, {
+        url: tweetLink // Pass the URL in the request body
       });
 
       if (response.data && response.data.downloadUrl && response.data.downloadUrl.data) {
-        const firstVideo = response.data.downloadUrl.data[0];
+        const videoData = response.data.downloadUrl.data;
         const videosData = [{
           id: "1",
-          title: "Facebook Video", // The title is not provided by the API, so using a default title
-          thumbnail: firstVideo.thumbnail,
-          formats: response.data.downloadUrl.data.map((video: any) => ({
-            url: video.url,
-            quality: video.resolution,
-            subName: video.resolution.split(' ')[0],
+          title: "Twitter Video", // The title is not provided by the API, so using a default title
+          thumbnail: thumbnail, // Use the fixed thumbnail
+          formats: Object.keys(videoData).map((key) => ({
+            url: videoData[key],
+            quality: key,
+            subName: key,
             extension: "mp4" // Assuming the extension is mp4
           }))
         }];
@@ -84,7 +87,7 @@ export function FacebookDownloader() {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPostLink(e.target.value);
+    setTweetLink(e.target.value);
     setVideos([]); // Clear the videos
     setHasFetched(false); // Reset the fetch status
   };
@@ -94,9 +97,9 @@ export function FacebookDownloader() {
       <div className="flex items-center mb-4">
         <input
           type="text"
-          value={postLink}
+          value={tweetLink}
           onChange={handleInputChange}
-          placeholder="Paste Facebook Post Link"
+          placeholder="Paste Twitter Video Link"
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
         />
         <button onClick={handleRefresh} className="ml-2 text-blue-500 hover:text-blue-700">
@@ -105,9 +108,9 @@ export function FacebookDownloader() {
       </div>
       <button
         onClick={handleDownload}
-        disabled={isLoading || !postLink || hasFetched}
+        disabled={isLoading || !tweetLink || hasFetched}
         className={`w-full py-2 text-white font-semibold rounded-md ${
-          isLoading || !postLink || hasFetched ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+          isLoading || !tweetLink || hasFetched ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
         }`}
       >
         {isLoading ? 'Getting Video...' : 'Get Videos'}
@@ -130,10 +133,7 @@ export function FacebookDownloader() {
               <div>
                 {videos.map((video) => (
                   <div key={video.id} className="flex flex-col items-center mt-4">
-                    <video controls className="w-72 h-auto rounded-md">
-                      <source src={video.formats[0].url} type={`video/${video.formats[0].extension}`} />
-                      Your browser does not support the video tag.
-                    </video>
+                    <img src={video.thumbnail} alt="Video Thumbnail" className="w-48 h-auto rounded-md" />
                     <p className="font-semibold mt-2">{video.title}</p>
                     <select
                       value={selectedFormat[video.id] || ""}

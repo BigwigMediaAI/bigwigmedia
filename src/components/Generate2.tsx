@@ -73,6 +73,8 @@ import { FacebookDownloader } from "./FacebookVideo";
 import { PNGtoJPGConverter } from "./PngToJpg";
 import { JPGtoPNGConverter } from "./JpgToPng";
 import { TikTokDownloader } from "./TiktokVideo";
+import { TextToPdfConverter } from "./TextToPdf";
+import { TwitterDownloader } from "./TwitterVideo";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -467,6 +469,10 @@ const Generate = () => {
         <JPGtoPNGConverter/>
       ) : id === "664c970a0fbc0067b02d61b2" ? (
         <TikTokDownloader/>
+      ) : id === "664d9a8c1f894ec946966742" ? (
+        <TextToPdfConverter/>
+      ) : id === "664d9bd51f894ec946966743" ? (
+        <TwitterDownloader/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
