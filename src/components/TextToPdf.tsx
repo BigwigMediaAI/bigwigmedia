@@ -70,7 +70,7 @@ export function TextToPdfConverter() {
   };
 
   return (
-    <div className="w-max mx-auto mt-8 p-4 bg-gray-100 rounded-lg shadow-md">
+    <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div className="flex items-center mb-4">
         <textarea
           value={text}
