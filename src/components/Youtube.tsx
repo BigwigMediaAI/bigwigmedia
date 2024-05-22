@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
+import { FaSyncAlt } from "react-icons/fa";
+
 
 export function VideoDownloader() {
-  const [videoLink, setVideoLink] = useState("");
+  const [videoLink, setVideoLink] = useState<string>("");
   const [downloadLinks, setDownloadLinks] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedQuality, setSelectedQuality] = useState<string>("");
   const [videoTitle, setVideoTitle] = useState<string>("");
   const [videoThumb, setVideoThumb] = useState<string>("");
+  const [hasFetched, setHasFetched] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
 
   const extractVideoId = (url: string): string | null => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -17,6 +23,7 @@ export function VideoDownloader() {
 
   const handleDownload = async () => {
     setIsLoading(true);
+    setErrorMessage(null);
     try {
       const videoId = extractVideoId(videoLink);
       if (!videoId) {
@@ -31,17 +38,23 @@ export function VideoDownloader() {
       if (response.data.status === "ok") {
         setVideoTitle(response.data.title);
         setVideoThumb(response.data.thumb);
-        const links = Object.entries(response.data.link).map(([key, value]: [string, any]) => ({
-          url: value[0],
-          quality: value[3]
-        }));
+        const links = Object.entries(response.data.link)
+          .map(([key, value]: [string, any]) => ({
+            url: value[0],
+            quality: value[3]
+          }))
+          .filter(link => link.quality === "360p" || link.quality === "720p");
         setDownloadLinks(links);
+        setHasFetched(true);
       } else {
-        console.error("API Error:", response.data);
+        setErrorMessage("API Error: " + JSON.stringify(response.data));
       }
     } catch (error) {
-      console.error("Error:", error);
-      // Handle error here
+      if (error instanceof Error) {
+        setErrorMessage("Error: " + error.message);
+      } else {
+        setErrorMessage("An unknown error occurred.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -51,56 +64,103 @@ export function VideoDownloader() {
     window.open(url, '_blank');
   };
 
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVideoLink(e.target.value);
+    setDownloadLinks([]);
+    setVideoTitle("");
+    setVideoThumb("");
+    setHasFetched(false);
+    setSelectedQuality("");
+    setErrorMessage(null);
+  };
+
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded-lg shadow-md">
-      <input
-        type="text"
-        value={videoLink}
-        onChange={(e) => setVideoLink(e.target.value)}
-        placeholder="Paste YouTube Video Link"
-        className="w-full mb-4 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
-      />
-      <button
-        onClick={handleDownload}
-        disabled={isLoading || !videoLink}
-        className={`w-full py-2 text-white font-semibold rounded-md ${
-          isLoading || !videoLink ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-        }`}
-      >
-        {isLoading ? 'Downloading...' : 'Download'}
-      </button>
-      {videoTitle && (
-        <div className="mt-4 flex-col items-center">
-          <img src={videoThumb} alt={videoTitle} className="w-full h-auto rounded-md" />
-          <p className="mt-2 text-lg font-semibold text-gray-600">{videoTitle}</p>
-        </div>
-      )}
-      {downloadLinks.length > 0 && (
-        <div className="mt-4">
-          <p>Select Quality:</p>
-          <div className="flex flex-wrap">
-            {downloadLinks.map((link, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedQuality(link.url)}
-                className={`px-4 py-2 mr-2 mb-2 text-white font-semibold rounded-md ${
-                  selectedQuality === link.url ? 'bg-blue-500' : 'bg-gray-400 hover:bg-blue-500'
-                }`}
-              >
-                {link.quality}
-              </button>
-            ))}
-          </div>
-          {selectedQuality && (
-            <button
-              onClick={() => handleDownloadClick(selectedQuality)}
-              className="mt-4 px-4 py-2 text-white font-semibold rounded-md bg-green-500 hover:bg-green-600"
-            >
-              Download
-            </button>
+    <div className="m-auto w-full max-w-xl mx-auto mt-8 dark:bg-[#5f5f5f] bg-white p-6 shadow-xl rounded-lg">
+      <div className="flex items-center mb-4">
+        <input
+          type="text"
+          value={videoLink}
+          onChange={handleInputChange}
+          placeholder="Paste YouTube Video Link"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
+        />
+        <button onClick={handleRefresh} className="ml-2 text-blue-500 hover:text-blue-700">
+          <FaSyncAlt />
+        </button>
+      </div>
+      <div className="flex justify-center">
+        <button
+          onClick={handleDownload}
+          disabled={isLoading || !videoLink || hasFetched}
+          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
+            isLoading || !videoLink || hasFetched ? 'bg-gray-500 cursor-not-allowed' : 'text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit'
+          }`}
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="animate-spin mr-2 inline-block" />
+              Getting Video...
+            </>
+          ) : (
+            'Get Videos'
           )}
-        </div>
-      )}
-    </div>
-  );
+        </button>
+      </div>
+      <div className="w-full pl-2 flex flex-col gap-2 justify-between">
+        {isLoading ? (
+          <div className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-black" />
+            <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          <>
+            {errorMessage && (
+              <div className="text-red-500 mt-4">
+                {errorMessage}
+              </div>
+            )}
+            {videoTitle && (
+              <div className="mt-4 flex-col items-center">
+                <img src={videoThumb} alt={videoTitle} className="w-full h-auto rounded-md" />
+                <p className="mt-2 text-lg font-semibold text-white">{videoTitle}</p>
+              </div>
+            )}
+            {downloadLinks.length > 0 && (
+              <div className="mt-4">
+                <p>Select Quality:</p>
+                <div className="flex flex-wrap">
+                  {downloadLinks.map((link, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedQuality(link.url)}
+                      className={`px-4 py-2 mr-2 mb-2 text-white font-semibold rounded-md ${
+                        selectedQuality === link.url ? 'bg-blue-500' : 'bg-gray-400 hover:bg-blue-500'
+                      }`}
+                    >
+                      {link.quality}
+                    </button>
+                  ))}
+                </div>
+                {selectedQuality && (
+                  <div className="flex items-center justify-center mt-3">
+                  <button
+                    onClick={() => handleDownloadClick(selectedQuality)}
+                    className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
+                  >
+                    Download Video
+                  </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
+
