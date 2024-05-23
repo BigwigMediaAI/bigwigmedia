@@ -75,6 +75,7 @@ import { JPGtoPNGConverter } from "./JpgToPng";
 import { TikTokDownloader } from "./TiktokVideo";
 import { TextToPdfConverter } from "./TextToPdf";
 import { TwitterDownloader } from "./TwitterVideo";
+import { Seopodcast } from "./Podcast";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -473,6 +474,8 @@ const Generate = () => {
         <TextToPdfConverter/>
       ) : id === "664d9bd51f894ec946966743" ? (
         <TwitterDownloader/>
+      ) : id === "664f5cf21f894ec946966744" ? (
+        <Seopodcast/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
