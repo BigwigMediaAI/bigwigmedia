@@ -76,6 +76,8 @@ import { TikTokDownloader } from "./TiktokVideo";
 import { TextToPdfConverter } from "./TextToPdf";
 import { TwitterDownloader } from "./TwitterVideo";
 import { Seopodcast } from "./Podcast";
+import { SvgConverter } from "./SvgConverter";
+import { FileToZipConverter } from "./ZipConverter";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -476,6 +478,10 @@ const Generate = () => {
         <TwitterDownloader/>
       ) : id === "664f5cf21f894ec946966744" ? (
         <Seopodcast/>
+      ) : id === "665079261f894ec946966745" ? (
+        <SvgConverter/>
+      ) : id === "665079751f894ec946966746" ? (
+        <FileToZipConverter/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
