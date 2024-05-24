@@ -73,6 +73,12 @@ export function FileToZipConverter() {
     setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
+  const removeFile=(index:number)=>{
+    const updatedFiles=[...selectedFiles];
+    updatedFiles.splice(index,1);
+    setSelectedFiles(updatedFiles);
+  }
+
   return (
 <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div
@@ -109,12 +115,15 @@ export function FileToZipConverter() {
             <ul className="list-none">
               {selectedFiles.map((file, index) => (
                 <li key={index} className="text-gray-300">
-                  {file.name}
+                  <span className="mr-5">{file.name}</span>
+                  <button onClick={() => removeFile(index)} className="text-gray-300 hover:text-gray-500">
+                    &#x2715;
+                  </button>
                 </li>
               ))}
             </ul>
           )}
-        </div>
+        </div>
       </div>
       {/* Convert to zip button */}
       {!zipUrl && (
