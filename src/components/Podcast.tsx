@@ -29,7 +29,7 @@ export function Seopodcast() {
 
     while (attempt < maxRetries) {
       try {
-        const response = await axios.post(`${BASE_URL}/response/podcast`, {
+        const response = await axios.post(`${BASE_URL}/response/podcast?clerkId=${userId}`, {
           prompt: "Please provide questions and answers for the podcast.",
           topic,
           guest,
