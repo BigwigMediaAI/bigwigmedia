@@ -4,11 +4,10 @@ import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw, Download } from "lucide-react";
 import ReactPlayer from "react-player";
-import { BASE_URL } from "@/utils/funcitons";
 import Slider from "rc-slider";
-import 'rc-slider/assets/index.css';
+import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-
+import 'rc-slider/assets/index.css';
 
 export function GifConverter() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +18,7 @@ export function GifConverter() {
   const [endTime, setEndTime] = useState(0);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [videoDuration, setVideoDuration] = useState(0);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
@@ -34,6 +34,7 @@ export function GifConverter() {
     setIsFileSelected(true);
     const url = URL.createObjectURL(file);
     setVideoUrl(url);
+    setPreviewUrl(url);
     
     // Clear existing GIF and reset related states
     setGifUrl(null);
@@ -58,6 +59,7 @@ export function GifConverter() {
     setIsFileSelected(true);
     const url = URL.createObjectURL(file);
     setVideoUrl(url);
+    setPreviewUrl(url);
   };
 
   const handleConvertClick = async () => {
@@ -69,6 +71,7 @@ export function GifConverter() {
       formData.append("video", inputRef.files[0]);
       formData.append("start", new Date(startTime * 1000).toISOString().substr(11, 8));
       formData.append("end", new Date(endTime * 1000).toISOString().substr(11, 8));
+      
       const response = await axios.post(`${BASE_URL}/response/gif?clerkId=${userId}`, formData, {
         responseType: 'blob' // Important to handle binary data
       });
@@ -92,7 +95,7 @@ export function GifConverter() {
     if (!gifUrl) return;
     const link = document.createElement('a');
     link.href = gifUrl;
-    link.setAttribute('download', 'output.gif'); // Set the file name
+    link.setAttribute('download', 'output.gif');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -100,7 +103,7 @@ export function GifConverter() {
 
   const handleVideoDuration = (duration: number) => {
     setVideoDuration(duration);
-    setEndTime(duration); // Initialize the end time to the video duration
+    setEndTime(duration);
   };
 
   const formatTime = (seconds: number) => {
@@ -145,34 +148,48 @@ export function GifConverter() {
         {videoUrl && (
           <div className="flex flex-col items-center mb-5 w-full">
             <ReactPlayer
-              url={videoUrl}
+              url={previewUrl || videoUrl}
               controls
               width="100%"
               onDuration={handleVideoDuration}
             />
             <div className="w-11/12 mt-4">
-              <label className="mb-2 text-gray-400">Select Time Range</label>
-              <Slider
-                range
-                min={0}
-                max={videoDuration}
-                step={1}
-                defaultValue={[0, videoDuration]}
-                onChange={(values: number | number[]) => {
-                    if (Array.isArray(values)) {
-                      setStartTime(values[0]);
-                      setEndTime(values[1]);
-                    } else {
-                      // Handle the case where only one value is provided
-                      // For example, if the slider is not in range mode
-                      setStartTime(values);
-                      setEndTime(values);
-                    }
-                  }}
-              />
-              <div className="flex justify-between mt-2">
-                <span>{formatTime(startTime)}</span>
-                <span>{formatTime(endTime)}</span>
+              
+              <div className="flex justify-between">
+                <div className="w-1/2 mr-2">
+                <label className="mb-2 text-gray-400">Start time</label>
+                  <Slider
+                    min={0}
+                    max={videoDuration}
+                    step={1}
+                    value={startTime}
+                    onChange={(value) => {
+                      if (typeof value === "number") {
+                        setStartTime(value);
+                        if (value >= endTime) setEndTime(value + 1);
+                        setPreviewUrl(null);
+                      }
+                    }}
+                  />
+                  <span>{formatTime(startTime)}</span>
+                </div>
+                <div className="w-1/2 ml-2">
+                <label className="mb-2 text-gray-400"> End time</label>
+                  <Slider
+                    min={0}
+                    max={videoDuration}
+                    step={1}
+                    value={endTime}
+                    onChange={(value) => {
+                      if (typeof value === "number") {
+                        setEndTime(value);
+                        if (value <= startTime) setStartTime(value - 1);
+                        setPreviewUrl(null);
+                      }
+                    }}
+                  />
+                  <span>{formatTime(endTime)}</span>
+                </div>
               </div>
             </div>
           </div>
