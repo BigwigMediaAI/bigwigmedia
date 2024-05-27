@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
+import { useAuth } from "@clerk/clerk-react";
+
 
 
 export function SvgConverter() {
@@ -11,6 +13,8 @@ export function SvgConverter() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isImageGenerated, setIsImageGenerated] = useState(false);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+
 
   useEffect(() => {
     return () => {
@@ -54,7 +58,7 @@ export function SvgConverter() {
       const formData = new FormData();
       formData.append("image", selectedFile);
   
-      const response = await axios.post(`${BASE_URL}/response/svgconvert`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/svgconvert?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
   

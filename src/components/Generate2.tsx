@@ -79,6 +79,7 @@ import { Seopodcast } from "./Podcast";
 import { SvgConverter } from "./SvgConverter";
 import { FileToZipConverter } from "./ZipConverter";
 import { GifConverter } from "./GifConverter";
+import { Summarize } from "./GenarateSummary";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -483,6 +484,8 @@ const Generate = () => {
         <SvgConverter/>
       ) : id === "665079751f894ec946966746" ? (
         <FileToZipConverter/>
+      ) : id === "6654739de82896c09bbc52de" ? (
+        <Summarize/>
       ) : id === "6654398ae82896c09bbc52dd" ? (
         <GifConverter/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
+import { useAuth } from "@clerk/clerk-react";
+
 
 import zip from "../assets/zip.svg";
 
@@ -11,6 +13,7 @@ export function FileToZipConverter() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [zipUrl, setZipUrl] = useState<string>("");
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -32,7 +35,7 @@ export function FileToZipConverter() {
         formData.append("files", file);
       });
 
-      const response = await axios.post(`${BASE_URL}/response/zip`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/zip?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
 
