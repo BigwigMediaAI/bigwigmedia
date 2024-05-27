@@ -1,0 +1,206 @@
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useState, useRef } from "react";
+import { toast } from "sonner";
+import { Loader2, RefreshCw, Download } from "lucide-react";
+import ReactPlayer from "react-player";
+import { BASE_URL } from "@/utils/funcitons";
+import Slider from "rc-slider";
+import 'rc-slider/assets/index.css';
+import { useAuth } from "@clerk/clerk-react";
+
+
+export function GifConverter() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [gifUrl, setGifUrl] = useState<string | null>(null);
+  const [isFileSelected, setIsFileSelected] = useState(false);
+  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [startTime, setStartTime] = useState(0);
+  const [endTime, setEndTime] = useState(0);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [videoDuration, setVideoDuration] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+
+
+  const handleFileChange = () => {
+    const inputRef = fileInputRef.current;
+    if (!inputRef) return;
+  
+    const file = inputRef.files?.[0];
+    if (!file) return;
+  
+    setSelectedFileName(file.name);
+    setIsFileSelected(true);
+    const url = URL.createObjectURL(file);
+    setVideoUrl(url);
+    
+    // Clear existing GIF and reset related states
+    setGifUrl(null);
+    setStartTime(0);
+    setEndTime(0);
+  };
+
+  const refreshConverter = () => {
+    window.location.reload();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files.length === 0) return;
+    const inputRef = fileInputRef.current;
+    if (!inputRef) return;
+    inputRef.files = files;
+
+    const file = files[0];
+    setSelectedFileName(file.name);
+    setIsFileSelected(true);
+    const url = URL.createObjectURL(file);
+    setVideoUrl(url);
+  };
+
+  const handleConvertClick = async () => {
+    try {
+      setIsLoading(true);
+      const formData = new FormData();
+      const inputRef = fileInputRef.current;
+      if (!inputRef || !inputRef.files) return;
+      formData.append("video", inputRef.files[0]);
+      formData.append("start", new Date(startTime * 1000).toISOString().substr(11, 8));
+      formData.append("end", new Date(endTime * 1000).toISOString().substr(11, 8));
+      const response = await axios.post(`${BASE_URL}/response/gif?clerkId=${userId}`, formData, {
+        responseType: 'blob' // Important to handle binary data
+      });
+
+      if (response.status === 200) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        setGifUrl(url);
+        toast.success("GIF generated successfully.");
+      } else {
+        toast.error("Error generating GIF. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error generating GIF:", error);
+      toast.error("Error generating GIF. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDownloadClick = () => {
+    if (!gifUrl) return;
+    const link = document.createElement('a');
+    link.href = gifUrl;
+    link.setAttribute('download', 'output.gif'); // Set the file name
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleVideoDuration = (duration: number) => {
+    setVideoDuration(duration);
+    setEndTime(duration); // Initialize the end time to the video duration
+  };
+
+  const formatTime = (seconds: number) => {
+    const date = new Date(0);
+    date.setSeconds(seconds);
+    return date.toISOString().substr(11, 8);
+  };
+
+  return (
+    <div>
+      <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+        <div
+          className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+        >
+          <div className="flex justify-between w-full">
+            <div className="flex flex-col items-center w-full">
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+              <Button
+                className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                Select Video File
+              </Button>
+              {selectedFileName && (
+                <p className="text-gray-300 mt-2">{selectedFileName}</p>
+              )}
+              <p className="text-gray-400">or drag and drop a video file</p>
+            </div>
+            <RefreshCw
+              className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
+              onClick={refreshConverter}
+            />
+          </div>
+        </div>
+        {videoUrl && (
+          <div className="flex flex-col items-center mb-5 w-full">
+            <ReactPlayer
+              url={videoUrl}
+              controls
+              width="100%"
+              onDuration={handleVideoDuration}
+            />
+            <div className="w-11/12 mt-4">
+              <label className="mb-2 text-gray-400">Select Time Range</label>
+              <Slider
+                range
+                min={0}
+                max={videoDuration}
+                step={1}
+                defaultValue={[0, videoDuration]}
+                onChange={(values: number | number[]) => {
+                    if (Array.isArray(values)) {
+                      setStartTime(values[0]);
+                      setEndTime(values[1]);
+                    } else {
+                      // Handle the case where only one value is provided
+                      // For example, if the slider is not in range mode
+                      setStartTime(values);
+                      setEndTime(values);
+                    }
+                  }}
+              />
+              <div className="flex justify-between mt-2">
+                <span>{formatTime(startTime)}</span>
+                <span>{formatTime(endTime)}</span>
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="flex justify-center mb-5">
+          <Button
+            className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}
+            onClick={handleConvertClick}
+            disabled={!isFileSelected || isLoading}
+          >
+            {isLoading ? <Loader2 className="animate-spin" /> : 'Generate GIF'}
+          </Button>
+        </div>
+      </div>
+      {gifUrl && (
+        <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
+          <div className="mt-4 w-full text-center">
+            <img src={gifUrl} alt="Generated GIF" className="w-1/2 mb-4 mx-auto" />
+            <Button
+              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+              onClick={handleDownloadClick}
+            >
+              Download GIF
+              <Download className="w-6 h-6 text-white" />
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
