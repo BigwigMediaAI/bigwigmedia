@@ -80,6 +80,7 @@ import { SvgConverter } from "./SvgConverter";
 import { FileToZipConverter } from "./ZipConverter";
 import { GifConverter } from "./GifConverter";
 import { Summarize } from "./GenarateSummary";
+import { ZipExtractor } from "./ZipExtractor";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -488,6 +489,8 @@ const Generate = () => {
         <Summarize/>
       ) : id === "6654398ae82896c09bbc52dd" ? (
         <GifConverter/>
+      ) : id === "66557e344ce4bc50452d5b7c" ? (
+        <ZipExtractor/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
