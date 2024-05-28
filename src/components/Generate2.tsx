@@ -81,6 +81,7 @@ import { FileToZipConverter } from "./ZipConverter";
 import { GifConverter } from "./GifConverter";
 import { Summarize } from "./GenarateSummary";
 import { ZipExtractor } from "./ZipExtractor";
+import GeneratorImage from "./SpeechToImage";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -491,6 +492,8 @@ const Generate = () => {
         <GifConverter/>
       ) : id === "66557e344ce4bc50452d5b7c" ? (
         <ZipExtractor/>
+      ) : id === "6655d0794ce4bc50452d5b7d" ? (
+        <GeneratorImage/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
