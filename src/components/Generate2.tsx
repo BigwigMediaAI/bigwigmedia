@@ -82,6 +82,8 @@ import { GifConverter } from "./GifConverter";
 import { Summarize } from "./GenarateSummary";
 import { ZipExtractor } from "./ZipExtractor";
 import GeneratorImage from "./SpeechToImage";
+import { NotesGenerator } from "./NotesGenerator";
+import { PdfToTextConverter } from "./PdfToText";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -494,6 +496,10 @@ const Generate = () => {
         <ZipExtractor/>
       ) : id === "6655d0794ce4bc50452d5b7d" ? (
         <GeneratorImage/>
+      ) : id === "66570ccf35fb9ca10468a391" ? (
+        <NotesGenerator/>
+      ) : id === "66570cdc35fb9ca10468a392" ? (
+        <PdfToTextConverter/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
