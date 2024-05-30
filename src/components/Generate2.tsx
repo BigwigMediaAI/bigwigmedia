@@ -84,6 +84,8 @@ import { ZipExtractor } from "./ZipExtractor";
 import GeneratorImage from "./SpeechToImage";
 import { NotesGenerator } from "./NotesGenerator";
 import { PdfToTextConverter } from "./PdfToText";
+import { ExtractImage } from "./ExtractImage";
+import { VideoCompressor } from "./VideoCompressor";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -500,6 +502,10 @@ const Generate = () => {
         <NotesGenerator/>
       ) : id === "66570cdc35fb9ca10468a392" ? (
         <PdfToTextConverter/>
+      ) : id === "665864be26e80a56d0fb76c7" ? (
+        <ExtractImage/>
+      ) : id === "665864c826e80a56d0fb76c8" ? (
+        <VideoCompressor/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

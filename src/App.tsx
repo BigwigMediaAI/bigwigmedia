@@ -45,6 +45,7 @@ import { ImagetoText } from "./components/ImgtoText";
 import { JPEGtoPDFConverter } from "./components/ImagetoPdf";
 import { Mp3Downloader } from "./components/YoutubeMp3";
 import { AudioConverter } from "./components/VideotoAudio";
+import { VideoCompressor } from "./components/VideoCompressor";
 const App = () => {
  
   // const location = useLocation();
@@ -100,6 +101,7 @@ const App = () => {
         <Route path="/imgtopdf" element={<JPEGtoPDFConverter />} />
         <Route path="/youtubemp3" element={<Mp3Downloader />} />
         <Route path="/audio" element={<AudioConverter />} />
+        <Route path="/compressvideo" element={<VideoCompressor />} />
       </Routes>
     </div>
   );
