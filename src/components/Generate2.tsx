@@ -86,6 +86,9 @@ import { NotesGenerator } from "./NotesGenerator";
 import { PdfToTextConverter } from "./PdfToText";
 import { ExtractImage } from "./ExtractImage";
 import { VideoCompressor } from "./VideoCompressor";
+import { GenerateDomainNames } from "./DomainName";
+import { GenerateBusinessNames } from "./BuisnessNameGenerator";
+import { PdfTranslate } from "./TranslatePdf";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -506,6 +509,12 @@ const Generate = () => {
         <ExtractImage/>
       ) : id === "665864c826e80a56d0fb76c8" ? (
         <VideoCompressor/>
+      ) : id === "6659c63b0b06a662162fa9fc" ? (
+        <GenerateDomainNames/>
+      ) : id === "6659c6460b06a662162fa9fd" ? (
+        <GenerateBusinessNames/>
+      ) : id === "6659c6500b06a662162fa9fe" ? (
+        <PdfTranslate/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
