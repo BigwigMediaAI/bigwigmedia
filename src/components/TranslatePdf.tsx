@@ -15,7 +15,6 @@ export function PdfTranslate() {
   const [isTranslationDone, setIsTranslationDone] = useState(false);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
-
   const languages = [
     { value: 'en', label: 'English' },
     { value: 'hi', label: 'Hindi' },
@@ -92,8 +91,7 @@ export function PdfTranslate() {
     { value: 'yo', label: 'Yoruba' },
     { value: 'zu', label: 'Zulu' },
     // Add more languages as needed
-];
-
+  ];
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -205,7 +203,7 @@ export function PdfTranslate() {
         </Button>
       </div>
       {isTranslationDone && (
-        <div className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner">
+        <div className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Translated Text:</h2>
             <Copy 
@@ -213,7 +211,9 @@ export function PdfTranslate() {
               onClick={copyToClipboard} 
             />
           </div>
-          <pre className=" p-4 border border-gray-300 rounded-md shadow-inner">{translatedText}</pre>
+          <pre className="p-4 border border-gray-300 rounded-md shadow-inner  whitespace-pre-wrap max-h-64 overflow-y-auto">
+            {translatedText}
+          </pre>
         </div>
       )}
     </div>
