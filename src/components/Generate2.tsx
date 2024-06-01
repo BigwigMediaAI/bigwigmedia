@@ -89,6 +89,7 @@ import { VideoCompressor } from "./VideoCompressor";
 import { GenerateDomainNames } from "./DomainName";
 import { GenerateBusinessNames } from "./BuisnessNameGenerator";
 import { PdfTranslate } from "./TranslatePdf";
+import { VideoToTextConverter } from "./VideoToText";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -515,6 +516,8 @@ const Generate = () => {
         <GenerateBusinessNames/>
       ) : id === "6659c6500b06a662162fa9fe" ? (
         <PdfTranslate/>
+      ) : id === "665af9d9850bc0ffc2950614" ? (
+        <VideoToTextConverter/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
