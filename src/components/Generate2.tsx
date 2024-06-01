@@ -90,6 +90,7 @@ import { GenerateDomainNames } from "./DomainName";
 import { GenerateBusinessNames } from "./BuisnessNameGenerator";
 import { PdfTranslate } from "./TranslatePdf";
 import { VideoToTextConverter } from "./VideoToText";
+import { GenerateCurrentTopics } from "./CurrentTopicGenerator";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -518,6 +519,8 @@ const Generate = () => {
         <PdfTranslate/>
       ) : id === "665af9d9850bc0ffc2950614" ? (
         <VideoToTextConverter/>
+      ) : id === "665b0446850bc0ffc2950615" ? (
+        <GenerateCurrentTopics/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
