@@ -91,6 +91,8 @@ import { GenerateBusinessNames } from "./BuisnessNameGenerator";
 import { PdfTranslate } from "./TranslatePdf";
 import { VideoToTextConverter } from "./VideoToText";
 import { GenerateCurrentTopics } from "./CurrentTopicGenerator";
+import { VideoTrimmer } from "./TrimVideo";
+import { AudioTrimmer } from "./TrimAudio";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -521,6 +523,10 @@ const Generate = () => {
         <VideoToTextConverter/>
       ) : id === "665b0446850bc0ffc2950615" ? (
         <GenerateCurrentTopics/>
+      ) : id === "665db017689ca1a6e8164e8d" ? (
+        <VideoTrimmer/>
+      ) : id === "665db021689ca1a6e8164e8e" ? (
+        <AudioTrimmer/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
