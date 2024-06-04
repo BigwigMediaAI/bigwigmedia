@@ -93,6 +93,8 @@ import { VideoToTextConverter } from "./VideoToText";
 import { GenerateCurrentTopics } from "./CurrentTopicGenerator";
 import { VideoTrimmer } from "./TrimVideo";
 import { AudioTrimmer } from "./TrimAudio";
+import { PdfPageDeleter } from "./PdfPageDeleter";
+import { NDAForm } from "./GenerateNDA";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -527,6 +529,10 @@ const Generate = () => {
         <VideoTrimmer/>
       ) : id === "665db021689ca1a6e8164e8e" ? (
         <AudioTrimmer/>
+      ) : id === "665f0642fbf077c2285ca85e" ? (
+        <PdfPageDeleter/>
+      ) : id === "665f064cfbf077c2285ca85f" ? (
+        <NDAForm/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
