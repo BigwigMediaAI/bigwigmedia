@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
@@ -16,12 +16,20 @@ export function GenerateBusinessNames() {
   const [businessNames, setBusinessNames] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
     setIsLoading(true);
+    setBusinessNames([]);
+    
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
     try {
-      const response = await axios.post(`${BASE_URL}/response/compnay?clerkId=${userId}`, {
+      const response = await axios.post(`${BASE_URL}/response/companyName?clerkId=${userId}`, {
         companyType,
         companyMission,
         targetAudience,
@@ -29,7 +37,7 @@ export function GenerateBusinessNames() {
         competitor,
         languagePreference,
       });
-      console.log(response.data.data.data.data.companyNames)
+
       if (response.status === 200) {
         setBusinessNames(response.data.data.data.data.companyNames);
       } else {
@@ -43,6 +51,23 @@ export function GenerateBusinessNames() {
     }
   };
 
+  useEffect(() => {
+    if (!isLoading && businessNames.length > 0) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, businessNames]);
+
+  const namingStyles = [
+    { value: '', label: 'Select naming style' },
+    { value: 'modern', label: 'Modern' },
+    { value: 'classic', label: 'Classic' },
+    { value: 'fun', label: 'Fun' },
+    { value: 'descriptive', label: 'Descriptive' },
+    { value: 'abstract', label: 'Abstract' },
+    { value: 'inventive', label: 'Inventive' },
+    { value: 'elegant', label: 'Elegant' },
+  ];
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
       <div className="mb-5">
@@ -51,7 +76,7 @@ export function GenerateBusinessNames() {
           type="text"
           value={companyType}
           onChange={(e) => setCompanyType(e.target.value)}
-          placeholder="Enter the company type"
+          placeholder="E.g., Tech Startup, Fashion Brand"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
         />
       </div>
@@ -62,7 +87,7 @@ export function GenerateBusinessNames() {
           type="text"
           value={companyMission}
           onChange={(e) => setCompanyMission(e.target.value)}
-          placeholder="Enter the company mission"
+          placeholder="E.g., Innovate and inspire through technology"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
         />
       </div>
@@ -73,20 +98,22 @@ export function GenerateBusinessNames() {
           type="text"
           value={targetAudience}
           onChange={(e) => setTargetAudience(e.target.value)}
-          placeholder="Enter the target audience"
+          placeholder="E.g., Young professionals, Fitness enthusiasts"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
         <label className="block text-gray-700 dark:text-gray-300">Naming Style</label>
-        <input
-          type="text"
+        <select
           value={namingStyle}
           onChange={(e) => setNamingStyle(e.target.value)}
-          placeholder="Enter the naming style"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
-        />
+        >
+          {namingStyles.map((style) => (
+            <option key={style.value} value={style.value}>{style.label}</option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-5">
@@ -95,7 +122,7 @@ export function GenerateBusinessNames() {
           type="text"
           value={competitor}
           onChange={(e) => setCompetitor(e.target.value)}
-          placeholder="Enter competitor names"
+          placeholder="E.g., Apple, Nike, Google"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
         />
       </div>
@@ -106,7 +133,7 @@ export function GenerateBusinessNames() {
           type="text"
           value={languagePreference}
           onChange={(e) => setLanguagePreference(e.target.value)}
-          placeholder="Enter language preferences"
+          placeholder="E.g., English, Spanish, Mandarin"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
         />
       </div>
@@ -123,25 +150,25 @@ export function GenerateBusinessNames() {
 
       <div className="mt-5">
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
+          <div ref={loaderRef} className="w-full h-screen flex flex-col items-center justify-center">
             <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
             <p className="text-gray-300 text-justify">Generating business names. Please wait...</p>
           </div>
         ) : (
-          <div>
-            {businessNames.length > 0 && (
-              <div className='border border-gray-300 p-6 rounded-md'>
-                <h3 className="text-gray-700 dark:text-gray-300">Generated Business Names:</h3>
-                <ul className="list-disc pl-5 mt-2">
+          businessNames.length > 0 && (
+            <div ref={resultsRef} className="border border-gray-300 rounded-md mt-6">
+              <div className="border p-4 rounded-lg">
+                <h2 className="text-2xl text-gray-700 dark:text-gray-300 mb-4 underline">Generated Business Names:</h2>
+                <ul className="text-gray-700 dark:text-gray-300 list-disc list-inside">
                   {businessNames.map((name, index) => (
-                    <li key={index} className="text-gray-700 dark:text-gray-300">{name}</li>
+                    <li key={index} className="mb-2 list-none">{name}</li>
                   ))}
                 </ul>
               </div>
-            )}
-          </div>
+            </div>
+          )
         )}
       </div>
-    </div>
-  );
+    </div>
+  );
 }

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { domAnimation } from 'framer-motion';
 
 export function GenerateDomainNames() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +14,8 @@ export function GenerateDomainNames() {
   const [count, setCount] = useState('');
   const [domainNames, setDomainNames] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -24,6 +26,11 @@ export function GenerateDomainNames() {
         length: parseInt(length) || 0,
         count: parseInt(count) || 0
       });
+
+      // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }, 100);
 
       if (response.status === 200) {
         setDomainNames(response.data.data);
@@ -37,6 +44,12 @@ export function GenerateDomainNames() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!isLoading && domainNames.length > 0) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth' ,block:'center'});
+    }
+  }, [isLoading, domainNames]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
@@ -97,14 +110,14 @@ export function GenerateDomainNames() {
 
       <div className="mt-5">
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
             <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
             <p className="text-gray-300 text-justify">Generating domain names. Please wait...</p>
           </div>
         ) : (
           <div>
             {domainNames.length > 0 && (
-              <div className='border border-gray-300 rounded-md p-5'>
+              <div ref={resultsRef} className='border border-gray-300 rounded-md p-5'>
                 <h3 className="text-gray-700  dark:text-gray-300">Generated Domain Names:</h3>
                 <ul className="list-disc pl-5 mt-2">
                   {domainNames.map((name, index) => (

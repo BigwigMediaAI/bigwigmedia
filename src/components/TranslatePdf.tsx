@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,8 @@ export function PdfTranslate() {
   const [translatedText, setTranslatedText] = useState('');
   const [isTranslationDone, setIsTranslationDone] = useState(false);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const languages = [
     { value: 'en', label: 'English' },
@@ -114,6 +116,11 @@ export function PdfTranslate() {
         return;
       }
 
+      // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }, 100);
+
       const formData = new FormData();
       formData.append('pdf', selectedFile);
       formData.append('language', selectedLanguage.value);
@@ -143,6 +150,13 @@ export function PdfTranslate() {
     navigator.clipboard.writeText(translatedText);
     toast.success('Translated text copied to clipboard.');
   };
+
+
+  useEffect(() => {
+    if (!isLoading && isTranslationDone) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }
+  }, [isLoading, isTranslationDone]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
@@ -199,23 +213,33 @@ export function PdfTranslate() {
           onClick={translatePdf}
           disabled={!selectedFile || !selectedLanguage || isLoading}
         >
-          {isLoading ? <Loader2 className="animate-spin w-6 h-6 text-black" /> : 'Translate PDF'}
+          {isLoading ? "Translating..." : 'Translate PDF'}
         </Button>
       </div>
-      {isTranslationDone && (
-        <div className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Translated Text:</h2>
-            <Copy 
-              className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800" 
-              onClick={copyToClipboard} 
-            />
+      <div className="w-full pl-2 flex flex-col gap-2 justify-between">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
-          <pre className="p-4 border border-gray-300 rounded-md shadow-inner  whitespace-pre-wrap max-h-64 overflow-y-auto">
-            {translatedText}
-          </pre>
-        </div>
-      )}
+        ) : (
+          isTranslationDone && (
+            <div ref={resultsRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Translated Text:</h2>
+                <Copy 
+                  className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800" 
+                  onClick={copyToClipboard} 
+                />
+              </div>
+              <pre className="p-4 border border-gray-300 rounded-md shadow-inner  whitespace-pre-wrap max-h-64 overflow-y-auto">
+                {translatedText}
+              </pre>
+            </div>
+          )
+        )}
+      </div>
+
     </div>
   );
 }

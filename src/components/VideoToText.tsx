@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -12,6 +12,8 @@ export function VideoToTextConverter() {
   const [extractedText, setExtractedText] = useState('');
   const [isTextExtracted, setIsTextExtracted] = useState(false);
   const { userId } = useAuth();
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -37,6 +39,11 @@ export function VideoToTextConverter() {
         toast.error('Please select a video file.');
         return;
       }
+
+      // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }, 100);
 
       const formData = new FormData();
       formData.append('video', selectedFile);
@@ -66,6 +73,12 @@ export function VideoToTextConverter() {
     navigator.clipboard.writeText(extractedText);
     toast.success('Text copied to clipboard.');
   };
+
+  useEffect(() => {
+    if (!isLoading && isTextExtracted) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }
+  }, [isLoading, isTextExtracted]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
@@ -114,13 +127,13 @@ export function VideoToTextConverter() {
 
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
             <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
             <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           isTextExtracted && (
-            <div className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
+            <div ref={resultsRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Extracted Text:</h2>
                 <Copy 
