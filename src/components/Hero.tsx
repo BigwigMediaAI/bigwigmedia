@@ -1,7 +1,7 @@
 import gradient from "../assets/gradient.png";
 import { useState, useEffect } from "react";
 
-const rotatingWords = ["Your Work", "Your Life", "Your Task", "Business", "Everything"];
+const rotatingWords = ["Your Work", "Your Life", "Your Task", "Business","Your Job","Start-Up","Everything"];
 
 const Hero = ({
   search,
@@ -24,7 +24,7 @@ const Hero = ({
   return (
     <div className="flex flex-col justify-center items-center space-y-4">
       <div className="py-4 text-black dark:text-white text-center font-outfit text-[30px] md:text-[40px] lg:text-[50px] font-normal w-full flex gap-2 justify-center flex-wrap">
-        <span>Include Tools to Make{" "}</span>
+        <span>Tools to Make{" "}</span>
         <span className="rotating-words w-1/2 md:w-1/5 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold" style={{animation: "rotate 2s infinite"}}>
           {rotatingWords[wordIndex]}
         </span>{" "}

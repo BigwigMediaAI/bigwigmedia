@@ -18,8 +18,10 @@ export function AudioTrimmer() {
   const [endTime, setEndTime] = useState(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [audioDuration, setAudioDuration] = useState(0);
+  const [showLoader, setShowLoader] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const handleFileChange = () => {
@@ -34,7 +36,6 @@ export function AudioTrimmer() {
     const url = URL.createObjectURL(file);
     setAudioUrl(url);
 
-    // Clear existing trimmed audio and reset related states
     setTrimmedAudioUrl(null);
     setStartTime(0);
     setEndTime(0);
@@ -62,6 +63,12 @@ export function AudioTrimmer() {
   const handleConvertClick = async () => {
     try {
       setIsLoading(true);
+      setShowLoader(true);
+
+      if (loaderRef.current) {
+        loaderRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+
       const formData = new FormData();
       const inputRef = fileInputRef.current;
       if (!inputRef || !inputRef.files) return;
@@ -69,7 +76,7 @@ export function AudioTrimmer() {
       formData.append("startTime", new Date(startTime * 1000).toISOString().substr(11, 8));
       formData.append("endTime", new Date(endTime * 1000).toISOString().substr(11, 8));
       const response = await axios.post(`${BASE_URL}/response/trim-audio?clerkId=${userId}`, formData, {
-        responseType: 'blob' // Important to handle binary data
+        responseType: 'blob'
       });
 
       if (response.status === 200) {
@@ -84,6 +91,7 @@ export function AudioTrimmer() {
       toast.error("Error trimming audio. Please try again later.");
     } finally {
       setIsLoading(false);
+      setShowLoader(false);
     }
   };
 
@@ -108,17 +116,21 @@ export function AudioTrimmer() {
     return date.toISOString().substr(11, 8);
   };
 
-  // Effect to clear trimmed audio URL when startTime or endTime changes
   useEffect(() => {
     setTrimmedAudioUrl(null);
   }, [startTime, endTime]);
 
-  // Effect to scroll to the trimmed audio section when trimmedAudioUrl changes
   useEffect(() => {
     if (trimmedAudioUrl && audioRef.current) {
       audioRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [trimmedAudioUrl]);
+
+  useEffect(() => {
+    if (showLoader && loaderRef.current) {
+      loaderRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [showLoader]);
 
   return (
     <div>
@@ -159,7 +171,7 @@ export function AudioTrimmer() {
             <ReactAudioPlayer
               src={audioUrl}
               controls
-              onLoadedMetadata={(e:any) => handleAudioDuration(e.currentTarget.duration)}
+              onLoadedMetadata={(e: any) => handleAudioDuration(e.currentTarget.duration)}
               style={{ width: '100%' }}
             />
             <div className="w-11/12 mt-4">
@@ -206,24 +218,34 @@ export function AudioTrimmer() {
             onClick={handleConvertClick}
             disabled={!isFileSelected || isLoading}
           >
-            {isLoading ? <Loader2 className="animate-spin" /> : 'Trim Audio'}
+            {isLoading ? "Snipping..." : 'Snip Audio'}
           </Button>
         </div>
       </div>
-      {trimmedAudioUrl && (
-        <div ref={audioRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
-          <div className="mt-4 w-full text-center">
-            <ReactAudioPlayer src={trimmedAudioUrl} controls className="w-full mb-4" />
-            <Button
-              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
-              onClick={handleDownloadClick}
-            >
-             Download
-              <Download className="w-6 h-6 text-white" />
-            </Button>
+
+      <div className="w-full pl-2 flex flex-col gap-2 justify-between">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-screen flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
+            <p className="text-gray-300 text-center mt-4">Data processing in progress. Please bear with us...</p>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        ) : (
+          trimmedAudioUrl && (
+            <div ref={audioRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
+              <div className="mt-4 w-full text-center">
+                <ReactAudioPlayer src={trimmedAudioUrl} controls className="w-full mb-4" />
+                <Button
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+                  onClick={handleDownloadClick}
+                >
+                  Download
+                  <Download className="w-6 h-6 text-white" />
+                </Button>
+              </div>
+            </div>
+          )
+        )}
+      </div>
+    </div>
+  );
 }

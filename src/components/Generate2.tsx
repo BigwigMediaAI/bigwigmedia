@@ -95,6 +95,9 @@ import { VideoTrimmer } from "./TrimVideo";
 import { AudioTrimmer } from "./TrimAudio";
 import { PdfPageDeleter } from "./PdfPageDeleter";
 import { NDAForm } from "./GenerateNDA";
+import { YouTubeScriptGenerator } from "./YoutubeScriptGenerator";
+import { NCAForm } from "./GenerateNCA";
+import { BusinessSloganGenerator } from "./BusinessSloganGenerator";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -533,6 +536,12 @@ const Generate = () => {
         <PdfPageDeleter/>
       ) : id === "665f064cfbf077c2285ca85f" ? (
         <NDAForm/>
+      ) : id === "66603d384dc01b5930c07962" ? (
+        <YouTubeScriptGenerator/>
+      ) : id === "66603d414dc01b5930c07963" ? (
+        <NCAForm/>
+      ) : id === "66603d4f4dc01b5930c07964" ? (
+        <BusinessSloganGenerator/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

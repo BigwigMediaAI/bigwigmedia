@@ -4,6 +4,7 @@ import Nav from "../components/Nav";
 import Hero from "../components/Hero";
 import Menu from "../components/Menu";
 import Cards from "../components/Cards";
+import Stats from "./Stats";
 import MenuMobile from "@/components/MenuMobile";
 import { useEffect, useState } from "react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
@@ -237,6 +238,13 @@ console.log(cards)
           />
         </div>
       </div>
+
+      <div className="mt-16 flex items-center justify-center">
+      <Stats />
+    </div>
+
+
+
       {/* Render the trial modal */}
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
       <Footer  />

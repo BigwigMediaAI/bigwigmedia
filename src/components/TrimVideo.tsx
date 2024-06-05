@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useState,useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw, Download } from "lucide-react";
 import ReactPlayer from "react-player";
@@ -19,8 +19,10 @@ export function VideoTrimmer() {
   const [trimmedVideoUrl, setTrimmedVideoUrl] = useState<string | null>(null);
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [showLoader, setShowLoader] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const trimmedVideoRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const handleFileChange = () => {
@@ -36,7 +38,6 @@ export function VideoTrimmer() {
     setVideoUrl(url);
     setPreviewUrl(url);
 
-    // Clear existing trimmed video and reset related states
     setTrimmedVideoUrl(null);
     setStartTime(0);
     setEndTime(0);
@@ -61,7 +62,6 @@ export function VideoTrimmer() {
     setVideoUrl(url);
     setPreviewUrl(url);
 
-    // Clear existing trimmed video and reset related states
     setTrimmedVideoUrl(null);
     setStartTime(0);
     setEndTime(0);
@@ -70,6 +70,8 @@ export function VideoTrimmer() {
   const handleConvertClick = async () => {
     try {
       setIsLoading(true);
+      setShowLoader(true);
+
       const formData = new FormData();
       const inputRef = fileInputRef.current;
       if (!inputRef || !inputRef.files) return;
@@ -77,7 +79,7 @@ export function VideoTrimmer() {
       formData.append("startTime", new Date(startTime * 1000).toISOString().substr(11, 8));
       formData.append("endTime", new Date(endTime * 1000).toISOString().substr(11, 8));
       const response = await axios.post(`${BASE_URL}/response/trim-video?clerkId=${userId}`, formData, {
-        responseType: 'blob' // Important to handle binary data
+        responseType: 'blob'
       });
 
       if (response.status === 200) {
@@ -92,6 +94,7 @@ export function VideoTrimmer() {
       toast.error("Error trimming video. Please try again later.");
     } finally {
       setIsLoading(false);
+      setShowLoader(false);
     }
   };
 
@@ -116,12 +119,16 @@ export function VideoTrimmer() {
     return date.toISOString().substr(11, 8);
   };
 
-  // Effect to clear trimmed video URL when startTime or endTime changes
   useEffect(() => {
     setTrimmedVideoUrl(null);
   }, [startTime, endTime]);
 
-  // Effect to scroll to the trimmed video section when trimmedVideoUrl changes
+  useEffect(() => {
+    if (showLoader && loaderRef.current) {
+      loaderRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [showLoader]);
+
   useEffect(() => {
     if (trimmedVideoUrl && trimmedVideoRef.current) {
       trimmedVideoRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -162,6 +169,7 @@ export function VideoTrimmer() {
             />
           </div>
         </div>
+
         {videoUrl && (
           <div className="flex flex-col items-center mb-5 w-full">
             <ReactPlayer
@@ -171,10 +179,9 @@ export function VideoTrimmer() {
               onDuration={handleVideoDuration}
             />
             <div className="w-11/12 mt-4">
-              
               <div className="flex justify-between">
                 <div className="w-1/2 mr-2">
-                <label className="mb-2 text-gray-400">Start time</label>
+                  <label className="mb-2 text-gray-400">Start time</label>
                   <Slider
                     min={0}
                     max={videoDuration}
@@ -191,7 +198,7 @@ export function VideoTrimmer() {
                   <span>{formatTime(startTime)}</span>
                 </div>
                 <div className="w-1/2 ml-2">
-                <label className="mb-2 text-gray-400"> End time</label>
+                  <label className="mb-2 text-gray-400">End time</label>
                   <Slider
                     min={0}
                     max={videoDuration}
@@ -217,10 +224,17 @@ export function VideoTrimmer() {
             onClick={handleConvertClick}
             disabled={!isFileSelected || isLoading}
           >
-            {isLoading ? <Loader2 className="animate-spin" /> : 'Trim Video'}
+            {isLoading ? "Snipping..." : 'Snip Video'}
           </Button>
         </div>
-      </div>
+        </div>
+        {isLoading && (
+          <div ref={loaderRef} className="w-full h-screen flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
+            <p className="text-gray-300 text-center mt-4">Data processing in progress. Please bear with us...</p>
+          </div>
+        )}
+      
       {trimmedVideoUrl && (
         <div ref={trimmedVideoRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
           <div className="mt-4 w-full text-center">
