@@ -27,7 +27,7 @@ export function YouTubeScriptGenerator(){
 
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
-        loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
+        loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
       }, 100);
 
     try {
@@ -57,15 +57,10 @@ export function YouTubeScriptGenerator(){
     }
   };
 
-  useEffect(() => {
-    if (isLoading) {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [isLoading]);
 
   useEffect(() => {
     if (!isLoading && script.length > 0) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
     }
   }, [isLoading, script]);
 

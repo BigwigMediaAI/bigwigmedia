@@ -64,7 +64,7 @@ export function GenerateCurrentTopics() {
     
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
     }, 100);
 
     try {
@@ -106,7 +106,7 @@ export function GenerateCurrentTopics() {
 
   useEffect(() => {
     if (!isLoading && topics.length > 0) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth' ,block:'center'});
     }
   }, [isLoading, topics]);
 

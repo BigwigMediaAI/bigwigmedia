@@ -125,13 +125,13 @@ export function VideoTrimmer() {
 
   useEffect(() => {
     if (showLoader && loaderRef.current) {
-      loaderRef.current.scrollIntoView({ behavior: 'smooth' });
+      loaderRef.current.scrollIntoView({ behavior: 'smooth',block:'center' });
     }
   }, [showLoader]);
 
   useEffect(() => {
     if (trimmedVideoUrl && trimmedVideoRef.current) {
-      trimmedVideoRef.current.scrollIntoView({ behavior: 'smooth' });
+      trimmedVideoRef.current.scrollIntoView({ behavior: 'smooth',block:'center' });
     }
   }, [trimmedVideoUrl]);
 

@@ -15,6 +15,7 @@ export function PdfPageDeleter() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const modifiedPdfRef = useRef<HTMLDivElement>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const loaderRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = () => {
     const inputRef = fileInputRef.current;
@@ -55,6 +56,11 @@ export function PdfPageDeleter() {
         responseType: 'blob' // Important to handle binary data
       });
 
+      // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }, 100);
+
       if (response.status === 200) {
         const url = window.URL.createObjectURL(new Blob([response.data], { type: "application/pdf" }));
         setModifiedPdfUrl(url);
@@ -86,7 +92,7 @@ export function PdfPageDeleter() {
 
   useEffect(() => {
     if (modifiedPdfUrl && modifiedPdfRef.current) {
-      modifiedPdfRef.current.scrollIntoView({ behavior: 'smooth' });
+      modifiedPdfRef.current.scrollIntoView({ behavior: 'smooth',block:'center' });
     }
   }, [modifiedPdfUrl]);
 
@@ -158,15 +164,15 @@ export function PdfPageDeleter() {
           </>
         )}
       </div>
-      <div ref={modifiedPdfRef} className="w-full pl-2 flex flex-col gap-2 justify-between">
+      <div  className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
             <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
             <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           modifiedPdfUrl && (
-            <div  className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
+            <div ref={modifiedPdfRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
               <div className="mt-4 w-full flex justify-center">
                 <object
                   data={modifiedPdfUrl}

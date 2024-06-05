@@ -122,13 +122,13 @@ export function AudioTrimmer() {
 
   useEffect(() => {
     if (trimmedAudioUrl && audioRef.current) {
-      audioRef.current.scrollIntoView({ behavior: 'smooth' });
+      audioRef.current.scrollIntoView({ behavior: 'smooth',block:'center' });
     }
   }, [trimmedAudioUrl]);
 
   useEffect(() => {
     if (showLoader && loaderRef.current) {
-      loaderRef.current.scrollIntoView({ behavior: 'smooth' });
+      loaderRef.current.scrollIntoView({ behavior: 'smooth',block:'center' });
     }
   }, [showLoader]);
 

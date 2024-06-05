@@ -28,7 +28,7 @@ export function BusinessSloganGenerator(){
 
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
     }, 100);
 
     try {
@@ -58,15 +58,10 @@ export function BusinessSloganGenerator(){
     }
   };
 
-  useEffect(() => {
-    if (isLoading) {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [isLoading]);
 
   useEffect(() => {
     if (!isLoading && slogans.length > 0) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center'});
     }
   }, [isLoading, slogans]);
 
