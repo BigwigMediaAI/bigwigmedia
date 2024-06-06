@@ -4,7 +4,7 @@ const Stats: React.FC = () => {
   return (
     <div className="relative w-11/12 lg:w-10/12 p-1 mx-auto rounded-lg">
       {/* Gradient Border */}
-      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 rounded-lg"></div>
+      <div className="absolute inset-0 bt-gradient rounded-lg"></div>
       
       {/* Inner Content */}
       <div className="relative p-4 bg-[#313131] rounded-lg">
