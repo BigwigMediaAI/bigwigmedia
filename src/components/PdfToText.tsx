@@ -1,41 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-// import { BASE_URL } from '@/utils/funcitons';
-// import { useAuth } from '@clerk/clerk-react';
-import { Loader2, Copy, RefreshCw } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { Loader2, Copy, RefreshCw, Upload } from 'lucide-react';
 
 export function PdfToTextConverter() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [extractedText, setExtractedText] = useState('');
-//   const { userId } = useAuth();
   const [isTextExtracted, setIsTextExtracted] = useState(false);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     setSelectedFile(file);
+    setExtractedText(''); // Clear previous extracted text
+    setIsTextExtracted(false); // Reset the flag
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files ? e.dataTransfer.files[0] : null;
     setSelectedFile(file);
+    setExtractedText(''); // Clear previous extracted text
+    setIsTextExtracted(false); // Reset the flag
   };
 
   const refreshSelection = () => {
     setSelectedFile(null);
-    setIsTextExtracted(false);
-    setExtractedText('');
+    setExtractedText(''); // Clear previous extracted text
+    setIsTextExtracted(false); // Reset the flag
   };
 
   const extractText = async () => {
     setIsLoading(true);
+    setExtractedText(''); // Clear previous extracted text
+    setIsTextExtracted(false); // Reset the flag
     try {
       if (!selectedFile) {
         toast.error('Please select a PDF file.');
@@ -71,6 +74,12 @@ export function PdfToTextConverter() {
     toast.success('Text copied to clipboard.');
   };
 
+  useEffect(() => {
+    if (isLoading) {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading]);
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div 
@@ -80,6 +89,7 @@ export function PdfToTextConverter() {
       >
         <div className="flex justify-between w-full">
           <div className="flex flex-col items-center w-full">
+            <Upload className="w-12 h-12 text-gray-400" />
             <input
               type="file"
               accept="application/pdf"
@@ -112,11 +122,17 @@ export function PdfToTextConverter() {
           onClick={extractText}
           disabled={!selectedFile || isLoading}
         >
-          {isLoading ? <Loader2 className="animate-spin w-6 h-6 text-black" /> : 'Extract Text'}
+          {isLoading ? "Extracting..." : 'Extract Text'}
         </Button>
       </div>
+      {isLoading && (
+        <div ref={loaderRef} className="w-full flex flex-col items-center justify-center dark:bg-[#3f3e3e] m-auto  max-w-4xl rounded-b-md">
+          <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
+          <p className="text-gray-300 text-center mt-4">Data processing in progress. Please bear with us...</p>
+        </div>
+      )}
       {isTextExtracted && (
-        <div className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner">
+        <div className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Extracted Text:</h2>
             <Copy 
@@ -124,9 +140,9 @@ export function PdfToTextConverter() {
               onClick={copyToClipboard} 
             />
           </div>
-          <pre className=" p-4 border border-gray-300 rounded-md shadow-inner">{extractedText}</pre>
+          <pre className="p-4 border border-gray-300 rounded-md shadow-inner">{extractedText}</pre>
         </div>
       )}
-    </div>
-  );
+    </div>
+  );
 }

@@ -9,7 +9,7 @@ import { Download, Loader2, Mic, MicOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import FileSaver from "file-saver";
-import beep from "../assets/beep.mp3"
+import beep from "../assets/beep.mp3";
 
 import {
   Select,
@@ -70,7 +70,8 @@ const GeneratorImage: React.FC<Props> = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
   const beepRef = useRef<HTMLAudioElement | null>(null);
@@ -129,6 +130,12 @@ const GeneratorImage: React.FC<Props> = () => {
       setIsLoading(false);
       return;
     }
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }, 100);
+
     try {
       const res = await axios.post(`${BASE_URL}/response/image?clerkId=${userId}`, {
         prompt: text,
@@ -164,6 +171,22 @@ const GeneratorImage: React.FC<Props> = () => {
     setSelectedButton(selected);
   };
 
+  const handleRegenerate = () => {
+    setOutput([]);
+  };
+
+  useEffect(() => {
+    if (isLoading) {
+      loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!isLoading && output.length > 0) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth' ,block:'center'});
+    }
+  }, [isLoading, output]);
+
   return (
     <div className="m-auto w-full max-w-[1000px] rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
       {/* text area */}
@@ -191,86 +214,91 @@ const GeneratorImage: React.FC<Props> = () => {
       {/* Beep Sound */}
       <audio ref={beepRef} src={beep} />
 
-      {/* selects */}
-      <div className="flex flex-col md:flex-row w-full gap-5">
-        <Select onValueChange={setNumber}>
-          <SelectTrigger className="w-full" value={number}>
-            <SelectValue placeholder="Select a Number of Images" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Number of Images</SelectLabel>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((val) => (
-                <SelectItem key={val} value={`${val}`}>{`${val}`}</SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Select onValueChange={setQuality}>
-          <SelectTrigger className="w-full" defaultValue={quality}>
-            <SelectValue placeholder="Select a Quality" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Quality</SelectLabel>
-              <SelectItem value={"hd"}>{"High"}</SelectItem>
-              <SelectItem value={"standard"}>{"Standard"}</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="flex flex-wrap my-6 sm:flex-row justify-center gap-2">
-        {buttonLabels.map((label, index) => (
-          <button
-            key={index}
-            className={`border rounded-full px-7 py-2 ${
-              selectedButton === label ? "border-gradient-1" : ""
-            }`}
-            onClick={() => handleButtonClick(label)}
-          >
-            {label}
-          </button>
+{/* selects */}
+<div className="flex flex-col md:flex-row w-full gap-5">
+  <Select onValueChange={setNumber}>
+    <SelectTrigger className="w-full" value={number}>
+      <SelectValue placeholder="Select a Number of Images" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectGroup>
+        <SelectLabel>Number of Images</SelectLabel>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((val) => (
+          <SelectItem key={val} value={`${val}`}>{`${val}`}</SelectItem>
         ))}
-      </div>
-      <button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
-        onClick={(e) => void handleSubmit(e)}
-      >
-        Generate
-      </button>
+      </SelectGroup>
+    </SelectContent>
+  </Select>
+  <Select onValueChange={setQuality}>
+    <SelectTrigger className="w-full" defaultValue={quality}>
+      <SelectValue placeholder="Select a Quality" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectGroup>
+        <SelectLabel>Quality</SelectLabel>
+        <SelectItem value={"hd"}>{"High"}</SelectItem>
+        <SelectItem value={"standard"}>{"Standard"}</SelectItem>
+      </SelectGroup>
+    </SelectContent>
+  </Select>
+</div>
+<div className="flex flex-wrap my-6 sm:flex-row justify-center gap-2">
+  {buttonLabels.map((label, index) => (
+    <button
+      key={index}
+      className={`border rounded-full px-7 py-2 ${
+        selectedButton === label ? "border-gradient-1" : ""
+      }`}
+      onClick={() => handleButtonClick(label)}
+    >
+      {label}
+    </button>
+  ))}
+</div>
+<button
+  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+  onClick={(e) => {
+    handleSubmit(e);
+    handleRegenerate(); // Adding handleRegenerate here to clear output when generating new images
+  }}
+>
+  {output.length ? "Regenerate" : "Generate"}
+</button>
 
-      {isLoading ? (
-        <div className="w-full h-full flex items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20" />
+{isLoading ? (
+  <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+    <Loader2 className="animate-spin w-20 h-20 mt-20" />
+    <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+  </div>
+) : (
+  !!output.length && (
+    <div ref={resultsRef} className="h-fit w-full mt-20 justify-center rounded-md border-2 border-gray-300  dark:text-gray-200 py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5 ">
+      {output.map((img: string, index: number) => (
+        <div
+          key={index}
+          className="relative shadow-2xl w-full h-full min-w-[300px] min-h-[300px] max-w-[400px] max-h-[400px]"
+        >
+          <img
+            src={img}
+            loading="lazy"
+            alt="generated"
+            className="w-full h-full"
+          />
+
+          <button
+            className="absolute shadow-sm shadow-gray-500 top-4 right-4 opacity-40 hover:opacity-70 text-white bg-gray-800 transition-all duration-300 p-2 rounded-md"
+            onClick={() => handleDownload(img)}
+          >
+            <Download />
+          </button>
         </div>
-      ) : (
-        !!output.length && (
-          <div className="h-fit w-full mt-20 justify-center rounded-md border-2 border-gray-300  dark:text-gray-200 py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5 ">
-            {output.map((img: string, index: number) => (
-              <div
-                key={index}
-                className="relative shadow-2xl w-full h-full min-w-[300px] min-h-[300px] max-w-[400px] max-h-[400px]"
-              >
-                <img
-                  src={img}
-                  loading="lazy"
-                  alt="generated"
-                  className="w-full h-full"
-                />
-
-                <button
-                  className="absolute shadow-sm shadow-gray-500 top-4 right-4 opacity-40 hover:opacity-70 text-white bg-gray-800 transition-all duration-300 p-2 rounded-md"
-                  onClick={() => handleDownload(img)}
-                >
-                  <Download />
-                </button>
-              </div>
-            ))}
-          </div>
-        )
-      )}
+      ))}
     </div>
-  );
+  )
+)}
+</div>
+);
 };
 
 export default GeneratorImage;
+

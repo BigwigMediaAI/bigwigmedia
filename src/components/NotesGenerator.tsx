@@ -1,13 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
-import axios from "axios";
-import { ClipboardCopyIcon, CopyIcon, Loader2 } from "lucide-react";
-import { toast } from "sonner";
-import { BASE_URL } from "@/utils/funcitons";
-import { useAuth } from "@clerk/clerk-react";
-
-
+import React, { useState, useRef,useEffect } from 'react';
+import axios from 'axios';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { ClipboardCopyIcon, CopyIcon, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+import { BASE_URL } from '@/utils/funcitons'; // Fix typo in import path
+import { useAuth } from '@clerk/clerk-react';
 
 interface NotesSummary {
   [key: string]: string[] | string;
@@ -18,11 +16,11 @@ interface NotesResponse {
 }
 
 export function NotesGenerator() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [summary, setSummary] = useState<NotesSummary | null>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null); // Create a ref for the loader
 
   const handlePaste = async () => {
     const pastedText = await navigator.clipboard.readText();
@@ -33,7 +31,7 @@ export function NotesGenerator() {
     setIsLoading(true);
     setSummary(null); // Clear previous summary
     if (!text) {
-      toast.error("Please enter the text to generate quick notes");
+      toast.error('Please enter the text to generate quick notes');
       setIsLoading(false);
       return;
     }
@@ -48,24 +46,24 @@ export function NotesGenerator() {
         setSummary(res.data.summary.Key_Points);
         setIsLoading(false);
       } else {
-        toast.error("Failed to fetch summary");
+        toast.error('Failed to fetch summary');
         setIsLoading(false);
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.error || "An error occurred");
+      toast.error(error.response?.data?.error || 'An error occurred');
       setIsLoading(false);
     }
   };
 
   const handleCopy = () => {
     if (!summary) return;
-  
+
     let formattedText = '';
-    
+
     Object.entries(summary).forEach(([sectionKey, sectionContent]) => {
-      formattedText +=`${sectionKey}:\n`;
+      formattedText += `${sectionKey}:\n`;
       if (Array.isArray(sectionContent)) {
-        sectionContent.forEach(item => {
+        sectionContent.forEach((item) => {
           formattedText += `- ${item}\n`;
         });
       } else {
@@ -73,15 +71,14 @@ export function NotesGenerator() {
       }
       formattedText += '\n'; // Adding a new line after each section for better readability
     });
-  
+
     try {
       navigator.clipboard.writeText(formattedText.trim());
-      toast.success("Copied to Clipboard");
+      toast.success('Copied to Clipboard');
     } catch (error) {
-      toast.error("Failed to copy");
+      toast.error('Failed to copy');
     }
   };
-  
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -110,13 +107,20 @@ export function NotesGenerator() {
         <Button
           className="absolute top-2 right-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
           variant="ghost"
-          onClick={() => handleCopy()}
+          onClick={handleCopy}
         >
           <CopyIcon className="h-5 w-5" />
         </Button>
       </div>
     );
   };
+
+  // UseEffect to scroll to the loader when isLoading is true
+  useEffect(() => {
+    if (isLoading) {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
@@ -138,7 +142,7 @@ export function NotesGenerator() {
           </Button>
         </div>
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
             <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-400" />
             <p className="text-gray-400 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
@@ -163,11 +167,11 @@ export function NotesGenerator() {
             {isLoading ? (
               <Loader2 className="animate-spin w-6 h-6" />
             ) : (
-              "Generate"
+              'Generate'
             )}
           </Button>
         )}
       </div>
-    </div>
-  );
+    </div>
+  );
 }

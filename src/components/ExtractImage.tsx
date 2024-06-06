@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, RefreshCw } from 'lucide-react';
+import { Loader2, RefreshCw, Upload } from 'lucide-react';
 import zipIcon from '../assets/zip.svg'; // Ensure you have this image in the correct path
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
-
-
-export function ExtractImage()  {
+export function ExtractImage() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [zipUrl, setZipUrl] = useState<string>('');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
-      // Only allow selecting one file
       const newFile = e.target.files[0];
       setSelectedFiles([newFile]);
       setZipUrl(''); // Reset zipUrl when a new file is selected
     } else {
-      // If no file is selected, reset the selectedFiles array and zipUrl
       setSelectedFiles([]);
       setZipUrl('');
     }
   };
-  
 
   const convertToZip = async () => {
     setIsLoading(true);
@@ -38,7 +34,7 @@ export function ExtractImage()  {
       }
 
       const formData = new FormData();
-      formData.append('pdf', selectedFiles[0]); // Append the only selected file
+      formData.append('pdf', selectedFiles[0]);
 
       const response = await axios.post(`${BASE_URL}/response/extract?clerkId=${userId}`, formData, {
         responseType: 'blob',
@@ -70,30 +66,43 @@ export function ExtractImage()  {
     a.click();
   };
 
-  const handleDragOver = (e:any) => {
+  const handleDragOver = (e: any) => {
     e.preventDefault();
   };
 
-  const handleDrop = (e:any) => {
+  const handleDrop = (e: any) => {
     e.preventDefault();
     const files = e.dataTransfer.files;
     if (files.length > 0) {
-      // Only allow selecting one file
       const newFile = files[0];
-      setSelectedFiles([newFile]); // Replace previously selected files with the new one
+      setSelectedFiles([newFile]);
     }
   };
 
+  useEffect(() => {
+    if (isLoading) {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!isLoading && zipUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, zipUrl]);
+
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#3f3e3e]">
       <div
-        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        className="dark:bg-[#262626] border-2 border-dashed border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
         <div className="flex flex-col items-center w-full relative">
+          <Upload className="w-12 h-12 text-gray-400" />
           <input
             type="file"
+            accept="application/pdf"
             id="fileInput"
             onChange={handleFileChange}
             style={{ display: 'none' }}
@@ -131,18 +140,15 @@ export function ExtractImage()  {
           </button>
         </div>
       )}
-  
-      {/* Rendering the loader and download button */}
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center ">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300 " />
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
             <p className="text-gray-300 text-justify">Extracting images. Timing depends on file size. Thank you for waiting.</p>
           </div>
         ) : (
-          // Only render if zipUrl exists
           zipUrl && (
-            <div className="mt-5 text-center">
+            <div ref={resultsRef} className="mt-5 text-center">
               <img src={zipIcon} alt="Zip file ready" className="mx-auto mb-5 w-48" />
               <button
                 className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
@@ -155,6 +161,5 @@ export function ExtractImage()  {
         )}
       </div>
     </div>
-  );
-  
-};
+  );
+}

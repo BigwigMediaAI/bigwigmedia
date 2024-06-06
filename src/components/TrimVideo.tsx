@@ -229,7 +229,7 @@ export function VideoTrimmer() {
         </div>
         </div>
         {isLoading && (
-          <div ref={loaderRef} className="w-full h-screen flex flex-col items-center justify-center">
+          <div ref={loaderRef} className="w-full flex flex-col items-center justify-center dark:bg-[#3f3e3e] m-auto  max-w-4xl rounded-b-md">
             <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
             <p className="text-gray-300 text-center mt-4">Data processing in progress. Please bear with us...</p>
           </div>

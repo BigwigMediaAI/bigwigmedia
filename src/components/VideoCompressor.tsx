@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, DragEvent } from "react";
+import React, { useState, useEffect, useRef, ChangeEvent, DragEvent } from "react";
 import { Loader2, Upload, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
@@ -6,13 +6,14 @@ import { toast } from "sonner";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
-
 export function VideoCompressor() {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState<string>("");
   const [downloadUrl, setDownloadUrl] = useState<string>("");
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -50,6 +51,11 @@ export function VideoCompressor() {
 
     setIsLoading(true);
 
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+
     try {
       const res = await axios.post(`${BASE_URL}/response/compressedVideo?clerkId=${userId}`, formData, {
         headers: {
@@ -77,6 +83,18 @@ export function VideoCompressor() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!isLoading && downloadUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isLoading, downloadUrl]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
@@ -108,8 +126,9 @@ export function VideoCompressor() {
         >
           {isLoading ? (
             <>
-              <Loader2 className="animate-spin w-5 h-5" />
+              
               Compressing...
+              <Loader2 className="animate-spin w-5 h-5" />
             </>
           ) : (
             "Compress Video"
@@ -117,10 +136,10 @@ export function VideoCompressor() {
         </Button>
 
         {isLoading && (
-          <div className="w-full mt-4">
+          <div ref={loaderRef} className="w-full mt-4">
             <div className="w-full h-full flex flex-col items-center justify-center ">
               <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300 " />
-              <p className="text-gray-300 text-justify">Video processing in progress.Timing depends on file size. Thank you for waiting.</p>
+              <p className="text-gray-300 text-justify">Video processing in progress. Timing depends on file size. Thank you for waiting.</p>
             </div>
           </div>
         )}
@@ -135,13 +154,15 @@ export function VideoCompressor() {
         )}
 
         {downloadUrl && !isLoading && (
-          <a
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
-            href={downloadUrl}
-            download="compressed_video.mp4"
-          >
-            Download
-          </a>
+          <div ref={resultsRef} className="w-full mt-4">
+            <a
+              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+              href={downloadUrl}
+              download="compressed_video.mp4"
+            >
+              Download
+            </a>
+          </div>
         )}
       </div>
     </div>
