@@ -98,6 +98,9 @@ import { NDAForm } from "./GenerateNDA";
 import { YouTubeScriptGenerator } from "./YoutubeScriptGenerator";
 import { NCAForm } from "./GenerateNCA";
 import { BusinessSloganGenerator } from "./BusinessSloganGenerator";
+import { ContentImprover } from "./ContentImprover";
+import { TriviaGenerator } from "./TriviaGenerate";
+import { AudioRemover } from "./AudioRemover";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -542,6 +545,12 @@ const Generate = () => {
         <NCAForm/>
       ) : id === "66603d4f4dc01b5930c07964" ? (
         <BusinessSloganGenerator/>
+      ) : id === "66619f0cfd944686812f59ea" ? (
+        <ContentImprover/>
+      ) : id === "66619f18fd944686812f59eb" ? (
+        <TriviaGenerator/>
+      ) : id === "66619f23fd944686812f59ec" ? (
+        <AudioRemover/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
