@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FaSyncAlt } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-
-
 
 export function TextToPdfConverter() {
   const [text, setText] = useState("");
@@ -15,12 +13,19 @@ export function TextToPdfConverter() {
   const [showPdf, setShowPdf] = useState(false);
   const [showConvertButton, setShowConvertButton] = useState(true);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleConvert = async () => {
     setIsLoading(true);
     setError(""); // Reset error state
     setShowConvertButton(false); // Hide convert button
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
     try {
       const response = await axios.post(
         `${BASE_URL}/response/text2pdf?clerkId=${userId}`, 
@@ -35,6 +40,7 @@ export function TextToPdfConverter() {
       setTimeout(() => {
         setShowPdf(true);
         setIsLoading(false);
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 2500); // Delay of 2.5 seconds
     } catch (error) {
       console.error("Error:", error);
@@ -70,7 +76,7 @@ export function TextToPdfConverter() {
   };
 
   return (
-    <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#5f5f5f] bg-white p-6 shadow-xl">
       <div className="flex items-center mb-4">
         <textarea
           value={text}
@@ -93,7 +99,7 @@ export function TextToPdfConverter() {
           <button
             onClick={handleConvert}
             disabled={!text}
-            className={`py-2 px-4 text-white ${
+            className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
               !text ? 'bg-gray-400 cursor-not-allowed' : 'text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit'
             }`}
           >
@@ -103,10 +109,11 @@ export function TextToPdfConverter() {
         {isLoading && (
           <button
             disabled
-            className="py-2 px-4 text-white font-semibold rounded-md bg-gray-400 cursor-not-allowed"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit  cursor-not-allowed"
           >
-            <Loader2 className="animate-spin mr-2 inline-block" />
+            
             Converting...
+            <Loader2 className="animate-spin mr-2 inline-block" />
           </button>
         )}
         {pdfUrl && showPdf && !isLoading && (
@@ -119,6 +126,12 @@ export function TextToPdfConverter() {
         )}
       </div>
       {error && <div className="mt-4 text-red-500">{error}</div>}
-    </div>
-  );
+      {isLoading && (
+        <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+          <p className="text-gray-300 text-justify">Processing in progress. Please bear with us...</p>
+        </div>
+      )}
+    </div>
+  );
 }

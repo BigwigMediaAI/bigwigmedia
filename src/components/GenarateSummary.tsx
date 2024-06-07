@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState,useEffect,useRef } from "react";
 import axios from "axios";
 import { ClipboardCopyIcon, CopyIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -14,7 +14,8 @@ export function Summarize() {
   const [isLoading, setIsLoading] = useState(false);
   const [summary, setSummary] = useState("");
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handlePaste = async () => {
     const pastedText = await navigator.clipboard.readText();
@@ -29,6 +30,12 @@ export function Summarize() {
       setIsLoading(false);
       return;
     }
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }, 100);
+
     try {
       const res = await axios.post(
         `${BASE_URL}/response/getSummary?clerkId=${userId}`,
@@ -63,6 +70,12 @@ export function Summarize() {
     setSummary("");
   };
 
+  useEffect(() => {
+    if (!isLoading && summary) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth' ,block:'center'});
+    }
+  }, [isLoading, summary]);
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
       <div className="flex flex-col">
@@ -83,14 +96,14 @@ export function Summarize() {
           </Button>
         </div>
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center ">
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center ">
           <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-400 " />
           <p className="text-gray-400 text-justify">Data processing in progress. Please bear with us...</p>
         </div>
         ) : (
           summary && (
             <>
-              <div className="flex flex-col gap-2 mt-4">
+              <div ref={resultsRef} className="flex flex-col gap-2 mt-4">
                 <div className="h-40 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 overflow-y-scroll relative">
                   {summary.split("\n").map((line, index) => (
                     <p key={index}>{line}</p>

@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-
 
 import zip from "../assets/zip.svg";
 
@@ -14,6 +13,8 @@ export function FileToZipConverter() {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [zipUrl, setZipUrl] = useState<string>("");
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -29,6 +30,11 @@ export function FileToZipConverter() {
         toast.error("Please select at least one file.");
         return;
       }
+
+      // Scroll to loader after a short delay to ensure it's rendered
+      setTimeout(() => {
+        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
 
       const formData = new FormData();
       selectedFiles.forEach((file) => {
@@ -76,14 +82,20 @@ export function FileToZipConverter() {
     setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
-  const removeFile=(index:number)=>{
-    const updatedFiles=[...selectedFiles];
-    updatedFiles.splice(index,1);
+  const removeFile = (index: number) => {
+    const updatedFiles = [...selectedFiles];
+    updatedFiles.splice(index, 1);
     setSelectedFiles(updatedFiles);
   }
 
+  useEffect(() => {
+    if (!isLoading && zipUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, zipUrl]);
+
   return (
-<div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div
         className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDragOver={handleDragOver}
@@ -126,32 +138,39 @@ export function FileToZipConverter() {
               ))}
             </ul>
           )}
-        </div>
+        </div>
       </div>
       {/* Convert to zip button */}
-      {!zipUrl && (
-        <div className="mt-5 flex justify-center">
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-            onClick={convertToZip}
-            disabled={selectedFiles.length === 0 || isLoading}
-          >
-            {isLoading ? <Loader2 className="animate-spin w-6 h-6 text-black" /> : "Convert to Zip"}
-          </Button>
-        </div>
-      )}
-      {/* Download zip button with image */}
-      {zipUrl && (
-        <div className="mt-5 text-center">
-          <img src={zip} alt="Zip file ready" className="mx-auto mb-5 w-48" />
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-            onClick={handleDownload}
-          >
-            Download Zip
-          </Button>
-        </div>
-      )}
-    </div>
-  );
+      <div className="mt-5 flex justify-center">
+        <Button
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          onClick={convertToZip}
+          disabled={selectedFiles.length === 0 || isLoading}
+        >
+          {isLoading ? "Converting..." : zipUrl ? "Convert Again" : "Convert to Zip"}
+        </Button>
+      </div>
+
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          zipUrl && (
+            <div ref={resultsRef} className="mt-5 text-center">
+              <img src={zip} alt="Zip file ready" className="mx-auto mb-5 w-48" />
+              <Button
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                onClick={handleDownload}
+              >
+                Download Zip
+              </Button>
+            </div>
+          )
+        )}
+      </div>
+    </div>
+  );
 }

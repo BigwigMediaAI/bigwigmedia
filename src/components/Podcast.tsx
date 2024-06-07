@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Clipboard } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 
 interface QAPair {
@@ -22,8 +22,18 @@ export function Seopodcast() {
   const { userId } = useAuth();
   const navigate = useNavigate();
 
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+
   const handleSubmit = async () => {
     setIsLoading(true);
+    setQAPairs([]);
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
     const maxRetries = 3; // Maximum number of retries
     let attempt = 0;
 
@@ -59,95 +69,132 @@ export function Seopodcast() {
     setIsLoading(false);
   };
 
+  const handleCopy = () => {
+    const qaText = qaPairs.map(pair => `${pair.question}\n${pair.answer}`).join('\n\n');
+    navigator.clipboard.writeText(qaText);
+    toast.success('Q&A pairs copied to clipboard!');
+  };
+
+  const handleInputChange = () => {
+    setQAPairs([]);
+  };
+
+  useEffect(() => {
+    if (!isLoading && qaPairs.length > 0) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, qaPairs]);
+
   return (
-    <div className="container mx-auto py-8">
-      <div className="max-w-lg mx-auto border rounded-md p-6 space-y-4 bg-gray-50 shadow-lg">
-        <div>
-          <textarea
-            disabled
-            value="Please provide questions and answers for the podcast."
-            className="w-full p-2 border rounded bg-black text-white"
-          />
-        </div>
-        <div>
-          <p className="text-gray-700 mb-2">Enter the topic for the podcast:</p>
-          <input
-            type="text"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            placeholder="Example:The Future of Artificial Intelligence"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div>
-          <p className="text-gray-700 mb-2">Enter the name of the guest:</p>
-          <input
-            type="text"
-            value={guest}
-            onChange={(e) => setGuest(e.target.value)}
-            placeholder="Example: Dr. Jane Smith"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div>
-          <p className="text-gray-700 mb-2">Provide some background information:</p>
-          <input
-            type="text"
-            value={background}
-            onChange={(e) => setBackground(e.target.value)}
-            placeholder="Eample: Expert in machine learning with 10 years of experience"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div>
-          <p className="text-gray-700 mb-2">List the guest's interests:</p>
-          <input
-            type="text"
-            value={interests}
-            onChange={(e) => setInterests(e.target.value)}
-            placeholder="Example: AI ethics, robotics, deep learning"
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div>
-          <p className="text-gray-700 mb-2">Select the tone for the podcast:</p>
-          <select
-            value={tone}
-            onChange={(e) => setTone(e.target.value)}
-            className="w-full p-2 border rounded"
-          >
-            <option value="Formal">Formal</option>
-            <option value="Informative">Informative</option>
-            <option value="Analytical">Analytical</option>
-            <option value="Educational">Educational</option>
-            <option value="Technical">Technical</option>
-            <option value="Insightful">Insightful</option>
-            <option value="Engaging">Engaging</option>
-            <option value="Thoughtful">Thoughtful</option>
-          </select>
-        </div>
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+      <div className="mb-5">
+        <textarea
+          disabled
+          value="Please provide questions and answers for the podcast."
+          className="w-full p-2 border rounded bg-black text-white"
+        />
       </div>
-      <div className="flex justify-center mt-4">
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Topic</label>
+        <input
+          type="text"
+          value={topic}
+          onChange={(e) => { setTopic(e.target.value); handleInputChange(); }}
+          placeholder="Example: The Future of Artificial Intelligence"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        />
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Guest</label>
+        <input
+          type="text"
+          value={guest}
+          onChange={(e) => { setGuest(e.target.value); handleInputChange(); }}
+          placeholder="Example: Dr. Jane Smith"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        />
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Background Information</label>
+        <input
+          type="text"
+          value={background}
+          onChange={(e) => { setBackground(e.target.value); handleInputChange(); }}
+          placeholder="Example: Expert in machine learning with 10 years of experience"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        />
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Guest's Interests</label>
+        <input
+          type="text"
+          value={interests}
+          onChange={(e) => { setInterests(e.target.value); handleInputChange(); }}
+          placeholder="Example: AI ethics, robotics, deep learning"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        />
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Select the tone for the podcast:</label>
+        <select
+          value={tone}
+          onChange={(e) => setTone(e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        >
+          <option value="Formal">Formal</option>
+          <option value="Informative">Informative</option>
+          <option value="Analytical">Analytical</option>
+          <option value="Educational">Educational</option>
+          <option value="Technical">Technical</option>
+          <option value="Insightful">Insightful</option>
+          <option value="Engaging">Engaging</option>
+          <option value="Thoughtful">Thoughtful</option>
+        </select>
+      </div>
+
+      <div className="mt-5 flex justify-center">
         <button
           onClick={handleSubmit}
           disabled={isLoading}
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit border"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
         >
-          {isLoading ? <Loader2 className="animate-spin w-5 h-5" /> : qaPairs.length > 0 ? "Regenerate" : "Generate"}
+          {isLoading ? "Generating..." : qaPairs.length > 0 ? "Regenerate" : "Generate"}
         </button>
       </div>
-      <div className="mt-8 max-w-lg mx-auto">
-        {qaPairs.length > 0 ? (
-          <div className="bg-gray-200 rounded-md shadow-md p-6 space-y-4">
-            {qaPairs.map((pair, index) => (
-              <div key={index} className="mb-4 p-4 bg-white rounded shadow-sm border border-gray-300">
-                <p className="font-semibold text-black">{pair.question}</p>
-                <p className="mt-2 text-gray-700">{pair.answer}</p>
-              </div>
-            ))}
+
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
-          <p className="text-center text-gray-500"></p>
+          qaPairs.length > 0 && (
+            <div ref={resultsRef} className="border border-gray-300 rounded-md mt-6">
+              <div className="border p-4 rounded-lg relative">
+                <h2 className="text-2xl text-gray-700 dark:text-gray-300 mb-4 underline">Generated Q&A Pairs:</h2>
+                <ul className="text-gray-700 dark:text-gray-300 list-disc list-inside">
+                  {qaPairs.map((pair, index) => (
+                    <li key={index} className="mb-2 list-none">
+                      <p className="font-semibold">{pair.question}</p>
+                      <p className="mt-1">{pair.answer}</p>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                  onClick={handleCopy}
+                >
+                  <Clipboard className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          )
         )}
       </div>
     </div>

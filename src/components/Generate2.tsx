@@ -101,6 +101,9 @@ import { BusinessSloganGenerator } from "./BusinessSloganGenerator";
 import { ContentImprover } from "./ContentImprover";
 import { TriviaGenerator } from "./TriviaGenerate";
 import { AudioRemover } from "./AudioRemover";
+import { PollGenerator } from "./PollGenerator";
+import { GeneratePrivacyPolicy } from "./PrivacyPolicyGenerator";
+import { BusinessPlanGenerator } from "./BusinessPlanGenerator";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -551,6 +554,12 @@ const Generate = () => {
         <TriviaGenerator/>
       ) : id === "66619f23fd944686812f59ec" ? (
         <AudioRemover/>
+      ) : id === "6662e4a6fd944686812f59ed" ? (
+        <PollGenerator/>
+      ) : id === "6662e4b8fd944686812f59ee" ? (
+        <GeneratePrivacyPolicy/>
+      ) : id === "6662e4c8fd944686812f59ef" ? (
+        <BusinessPlanGenerator/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

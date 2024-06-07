@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw, Download } from "lucide-react";
 import ReactPlayer from "react-player";
@@ -21,7 +21,8 @@ export function GifConverter() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = () => {
     const inputRef = fileInputRef.current;
@@ -63,6 +64,12 @@ export function GifConverter() {
   };
 
   const handleConvertClick = async () => {
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }, 100);
+
     try {
       setIsLoading(true);
       const formData = new FormData();
@@ -112,6 +119,12 @@ export function GifConverter() {
     return date.toISOString().substr(11, 8);
   };
 
+  useEffect(() => {
+    if (!isLoading && gifUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth' ,block:'center'});
+    }
+  }, [isLoading, gifUrl]);
+
   return (
     <div>
       <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
@@ -125,6 +138,7 @@ export function GifConverter() {
               <input
                 type="file"
                 ref={fileInputRef}
+                accept="video/*"
                 style={{ display: "none" }}
                 onChange={handleFileChange}
               />
@@ -200,24 +214,37 @@ export function GifConverter() {
             onClick={handleConvertClick}
             disabled={!isFileSelected || isLoading}
           >
-            {isLoading ? <Loader2 className="animate-spin" /> : 'Generate GIF'}
+            {isLoading ? "Generating GIF..." : 'Generate GIF'}
           </Button>
         </div>
       </div>
-      {gifUrl && (
-        <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
-          <div className="mt-4 w-full text-center">
-            <img src={gifUrl} alt="Generated GIF" className="w-1/2 mb-4 mx-auto" />
-            <Button
-              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
-              onClick={handleDownloadClick}
-            >
-              Download GIF
-              <Download className="w-6 h-6 text-white" />
-            </Button>
+
+
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
-        </div>
-      )}
+        ) : (
+          gifUrl && (
+            <div ref={resultsRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
+              <div className="mt-4 w-full text-center">
+                <img src={gifUrl} alt="Generated GIF" className="w-1/2 mb-4 mx-auto" />
+                <Button
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+                  onClick={handleDownloadClick}
+                >
+                  Download GIF
+                  <Download className="w-6 h-6 text-white" />
+                </Button>
+              </div>
+            </div>
+          )
+        )}
+      </div>
+
+      
     </div>
   );
 }

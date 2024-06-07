@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw, Clipboard } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-
-
 
 export function SvgConverter() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +12,8 @@ export function SvgConverter() {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isImageGenerated, setIsImageGenerated] = useState(false);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return () => {
@@ -28,6 +27,8 @@ export function SvgConverter() {
     const file = e.target.files ? e.target.files[0] : null;
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       setSelectedFile(file);
+      setImageUrl("");
+      setIsImageGenerated(false);
     } else {
       toast.error("Please select a JPG or PNG image.");
     }
@@ -38,6 +39,8 @@ export function SvgConverter() {
     const file = e.dataTransfer.files[0];
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       setSelectedFile(file);
+      setImageUrl("");
+      setIsImageGenerated(false);
     } else {
       toast.error("Please drop a JPG or PNG image file.");
     }
@@ -49,21 +52,29 @@ export function SvgConverter() {
 
   const convertImage = async () => {
     setIsLoading(true);
+    setImageUrl("");
+    setIsImageGenerated(false);
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
     try {
       if (!selectedFile) {
         toast.error("Please select an image.");
+        setIsLoading(false);
         return;
       }
-  
+
       const formData = new FormData();
       formData.append("image", selectedFile);
-  
+
       const response = await axios.post(`${BASE_URL}/response/svgconvert?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
-  
+
       if (response.status === 200) {
-        // Assuming the backend is converting to SVG format
         const blob = new Blob([response.data], { type: "image/svg+xml" });
         const url = window.URL.createObjectURL(blob);
         setImageUrl(url);
@@ -79,11 +90,16 @@ export function SvgConverter() {
       setIsLoading(false);
     }
   };
-  
+
+  useEffect(() => {
+    if (!isLoading && imageUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, imageUrl]);
 
   return (
-    <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
-      <div 
+    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+      <div
         className="border border-gray-300 p-6 mb-5 rounded-md w-full flex items-center justify-between"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
@@ -104,19 +120,19 @@ export function SvgConverter() {
           </Button>
           <p className="text-gray-600">or drag and drop an image (JPG or PNG)</p>
         </div>
-        <RefreshCw 
+        <RefreshCw
           className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-          onClick={refreshSelection} 
+          onClick={refreshSelection}
         />
       </div>
       {isLoading && (
-        <div className="flex flex-col items-center mt-5">
-          <p className="text-gray-600">Converting...</p>
-          <Loader2 className="animate-spin w-10 h-10 text-black mt-3" />
+        <div ref={loaderRef} className="flex flex-col items-center mt-5">
+          <Loader2 className="animate-spin w-20 h-20 text-gray-300 mt-20" />
+          <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       )}
       {isImageGenerated && (
-        <div className="flex flex-col items-center mt-5">
+        <div ref={resultsRef} className="flex flex-col items-center mt-5">
           <img src={imageUrl} alt="Converted image" className="w-40 h-40 mb-4" />
           <Button
             className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
@@ -138,10 +154,10 @@ export function SvgConverter() {
             onClick={convertImage}
             disabled={!selectedFile || isLoading}
           >
-            Convert Image
+            {isLoading ? "Converting..." : "Convert Image"}
           </Button>
         </div>
       )}
-    </div>
-  );
+    </div>
+  );
 }
