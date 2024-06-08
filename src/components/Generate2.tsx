@@ -104,6 +104,7 @@ import { AudioRemover } from "./AudioRemover";
 import { PollGenerator } from "./PollGenerator";
 import { GeneratePrivacyPolicy } from "./PrivacyPolicyGenerator";
 import { BusinessPlanGenerator } from "./BusinessPlanGenerator";
+import { VideoAudioTrimmer } from "./AddAudio";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -560,6 +561,8 @@ const Generate = () => {
         <GeneratePrivacyPolicy/>
       ) : id === "6662e4c8fd944686812f59ef" ? (
         <BusinessPlanGenerator/>
+      ) : id === "66643b05acd3ab5713d7756d" ? (
+        <VideoAudioTrimmer/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import videoPlaceholder from "../assets/vid.svg";
 import { Loader2 } from "lucide-react";
-import { FaSyncAlt } from "react-icons/fa";
+import { FaSyncAlt, FaDownload } from "react-icons/fa";
 
 export function TikTokDownloader() {
   const [videoLink, setVideoLink] = useState("");
@@ -10,6 +10,9 @@ export function TikTokDownloader() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasFetched, setHasFetched] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
     setIsLoading(true);
@@ -57,7 +60,7 @@ export function TikTokDownloader() {
   };
 
   return (
-    <div className="w-96 mx-auto mt-8 p-4 bg-gray-100 rounded-lg shadow-md">
+    <div className="m-auto w-full max-w-xl mx-auto mt-8 dark:bg-[#5f5f5f] bg-white p-6 shadow-xl rounded-lg">
       <div className="flex items-center mb-4">
         <input
           type="text"
@@ -70,33 +73,54 @@ export function TikTokDownloader() {
           <FaSyncAlt />
         </button>
       </div>
-      <button
-        onClick={handleDownload}
-        disabled={isLoading || !videoLink || hasFetched}
-        className={`w-full py-2 text-white font-semibold rounded-md ${
-          isLoading || !videoLink || hasFetched ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-        }`}
-      >
-        {isLoading ? 'Getting Video...' : 'Get Video'}
-      </button>
-      {isLoading && (
-        <div className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20 text-black" />
-          <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
-        </div>
-      )}
-      {error && <p className="mt-4 text-red-600">{error}</p>}
-      {downloadLink && (
-        <div className="mt-4 flex flex-col justify-center items-center">
-          <img src={videoPlaceholder} alt="Video Thumbnail" className="w-52 h-auto rounded-md" />
-          <button
-            onClick={handleDownloadClick}
-            className="mt-2 w-full px-4 py-2 text-white font-semibold rounded-md bg-green-500 hover:bg-green-600"
-          >
-            Download Video
-          </button>
-        </div>
-      )}
-    </div>
-  );
+      <div className="flex justify-center">
+        <button
+          onClick={handleDownload}
+          disabled={isLoading || !videoLink || hasFetched}
+          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
+            isLoading || !videoLink || hasFetched ? 'bg-gray-400 cursor-not-allowed' : 'text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit'
+          }`}
+        >
+          {isLoading ? 'Getting Video...' : 'Get Video'}
+        </button>
+      </div>
+      <div className="w-full pl-2 flex flex-col gap-2 justify-between">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          <>
+            {error && (
+              <div className="text-red-500 mt-4">
+                {error}
+              </div>
+            )}
+            {downloadLink && (
+              <div className="mt-4 flex flex-col justify-center items-center relative border border-gray-300 rounded-md">
+                <img
+                  src={videoPlaceholder}
+                  alt="Video Thumbnail"
+                  className="w-52 h-auto rounded-md"
+                  onMouseEnter={() => setHovered(true)}
+                  onMouseLeave={() => setHovered(false)}
+                />
+                {hovered && (
+                  <div className="absolute inset-0 flex justify-center items-center bg-gray-700 bg-opacity-50 rounded-md">
+                    <button
+                      onClick={handleDownloadClick}
+                      className="px-4 py-2 text-white font-semibold rounded-md bg-green-500 hover:bg-green-600 flex items-center"
+                    >
+                      <FaDownload className="mr-2" /> Download Video
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
 }

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw,UploadIcon } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -103,6 +103,7 @@ export function FileToZipConverter() {
       >
         {/* File selection area */}
         <div className="flex flex-col items-center w-full relative">
+        <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
           {/* Browse button */}
           <input
             type="file"

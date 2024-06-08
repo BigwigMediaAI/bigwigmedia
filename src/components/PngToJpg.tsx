@@ -1,19 +1,19 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
-
 export function PNGtoJPGConverter() {
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [isImageGenerated, setIsImageGenerated] = useState(false);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     return () => {
@@ -24,28 +24,30 @@ export function PNGtoJPGConverter() {
   }, [imageUrl]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file && file.type === "image/png") {
-      setSelectedFile(file);
-    } else {
-      toast.error("Please select a PNG image.");
+    if (e.target.files) {
+      const file = e.target.files[0];
+      if (file && file.type === "image/png") {
+        setSelectedFiles([file]);
+      } else {
+        toast.error("Please select a PNG image.");
+      }
     }
-  };
-
-  const refreshSelection = () => {
-    window.location.reload();
   };
 
   const convertPNG = async () => {
     setIsLoading(true);
     try {
-      if (!selectedFile) {
+      if (selectedFiles.length === 0) {
         toast.error("Please select a PNG image.");
         return;
       }
 
+      setTimeout(() => {
+        loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
+
       const formData = new FormData();
-      formData.append("image", selectedFile);
+      formData.append("image", selectedFiles[0]);
 
       const response = await axios.post(`${BASE_URL}/response/pngtojpg?clerkId=${userId}`, formData, {
         responseType: "blob",
@@ -55,7 +57,6 @@ export function PNGtoJPGConverter() {
         const blob = new Blob([response.data], { type: "image/jpeg" });
         const url = window.URL.createObjectURL(blob);
         setImageUrl(url);
-        setIsImageGenerated(true);
         toast.success("Conversion successful. Ready to download.");
       } else {
         toast.error("Error converting image. Please try again later.");
@@ -68,60 +69,119 @@ export function PNGtoJPGConverter() {
     }
   };
 
+  const refreshSelection = () => {
+    window.location.reload();
+  };
+
+  const handleDownload = () => {
+    const a = document.createElement("a");
+    a.href = imageUrl;
+    a.download = "converted-image.jpg";
+    a.click();
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file && file.type === "image/png") {
+      setSelectedFiles([file]);
+    } else {
+      toast.error("Please select a PNG image.");
+    }
+  };
+
+  const removeFile = () => {
+    setSelectedFiles([]);
+    setImageUrl("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  useEffect(() => {
+    if (!isLoading && imageUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isLoading, imageUrl]);
+
   return (
-    <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
-      <div className="flex items-center justify-center mb-5 space-x-2">
-        <input
-          type="file"
-          accept="image/png"
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-          id="imageInput"
-        />
-        <Button
-          className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100 w-48"
-          onClick={() => document.getElementById("imageInput")?.click()}
-        >
-          {selectedFile ? selectedFile.name : "Select PNG Image"}
-        </Button>
-        <RefreshCw 
-          className="w-6 h-6 mb-3 text-blue-500 cursor-pointer hover:text-blue-800" 
-          onClick={refreshSelection} 
-        />
+    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+      <div
+        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
+        <div className="flex flex-col items-center w-full relative">
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/png"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+            ref={fileInputRef}
+          />
+          <Button
+            className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+            onClick={() => document.getElementById("fileInput")?.click()}
+          >
+            {selectedFiles.length > 0 ? selectedFiles[0].name : "Select PNG Image"}
+          </Button>
+          <p className="text-gray-400">or drag and drop files</p>
+          <RefreshCw
+            className="absolute top-1 right-1 w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
+            onClick={refreshSelection}
+          />
+        </div>
+        <div className="mt-4 w-full text-center">
+          {selectedFiles.length > 0 && (
+            <ul className="list-none">
+              <li key={0} className="text-gray-300">
+                <span className="mr-5">{selectedFiles[0].name}</span>
+                <button
+                  onClick={removeFile}
+                  className="text-gray-300 hover:text-gray-500"
+                >
+                  &#x2715;
+                </button>
+              </li>
+            </ul>
+          )}
+        </div>
       </div>
-      {isLoading && (
-        <div className="flex flex-col items-center mt-5">
-          <p className="text-gray-600">Converting...</p>
-          <Loader2 className="animate-spin w-10 h-10 text-black mt-3" />
-        </div>
-      )}
-      {isImageGenerated && (
-        <div className="flex flex-col items-center mt-5">
-          <img src={imageUrl} alt="Converted image" className="w-40 h-40 mb-4" />
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
-            onClick={() => {
-              const a = document.createElement("a");
-              a.href = imageUrl;
-              a.download = "converted-image.jpg";
-              a.click();
-            }}
-          >
-            Download JPG
-          </Button>
-        </div>
-      )}
       <div className="mt-5 flex justify-center">
-        {!isImageGenerated && (
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80"
-            onClick={convertPNG}
-            disabled={!selectedFile || isLoading}
-          >
-            Convert PNG
-          </Button>
+        <Button
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          onClick={convertPNG}
+          disabled={selectedFiles.length === 0 || isLoading}
+        >
+          {isLoading ? "Converting..." : imageUrl ? "Convert Again" : "Convert PNG"}
+        </Button>
+      </div>
+
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          imageUrl && (
+            <div ref={resultsRef} className="mt-5 text-center">
+              <img src={imageUrl} alt="Converted image" className="mx-auto mb-5 w-48" />
+              <Button
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                onClick={handleDownload}
+              >
+                Download JPG
+              </Button>
+            </div>
+          )
         )}
       </div>
-    </div>
-  );
+    </div>
+  );
 }

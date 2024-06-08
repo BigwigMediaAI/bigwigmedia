@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
-// Define the types for video format and video data
 type VideoFormat = {
   url: string;
   quality: string;
@@ -28,11 +27,18 @@ export function FacebookDownloader() {
   const [selectedFormat, setSelectedFormat] = useState<{ [key: string]: string }>({});
   const [hasFetched, setHasFetched] = useState<boolean>(false);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
     setIsLoading(true);
     setErrorMessage(null); // Reset the error message
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
     try {
       const response = await axios.post(`${BASE_URL}/response/fbinstadownload?clerkId=${userId}`, {
         url: postLink // Pass the URL in the request body
@@ -89,8 +95,14 @@ export function FacebookDownloader() {
     setHasFetched(false); // Reset the fetch status
   };
 
+  useEffect(() => {
+    if (!isLoading && videos.length > 0) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, videos]);
+
   return (
-    <div className="w-96 mx-auto mt-8 p-4 bg-gray-100 rounded-lg shadow-md">
+    <div className="m-auto w-full max-w-xl mx-auto mt-8 dark:bg-[#5f5f5f] bg-white p-6 shadow-xl rounded-lg">
       <div className="flex items-center mb-4">
         <input
           type="text"
@@ -103,21 +115,22 @@ export function FacebookDownloader() {
           <FaSyncAlt />
         </button>
       </div>
-      <button
-        onClick={handleDownload}
-        disabled={isLoading || !postLink || hasFetched}
-        className={`w-full py-2 text-white font-semibold rounded-md ${
-          isLoading || !postLink || hasFetched ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-        }`}
-      >
-        {isLoading ? 'Getting Video...' : 'Get Videos'}
-      </button>
-      
+      <div className="flex justify-center">
+        <button
+          onClick={handleDownload}
+          disabled={isLoading || !postLink || hasFetched}
+          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
+            isLoading || !postLink || hasFetched ? 'bg-gray-400 cursor-not-allowed' : 'text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit'
+          }`}
+        >
+          {isLoading ? 'Getting Video...' : 'Get Videos'}
+        </button>
+      </div>
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-black" />
-            <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           <>
@@ -127,7 +140,7 @@ export function FacebookDownloader() {
               </div>
             )}
             {videos.length > 0 && (
-              <div>
+              <div ref={resultsRef}>
                 {videos.map((video) => (
                   <div key={video.id} className="flex flex-col items-center mt-4">
                     <video controls className="w-72 h-auto rounded-md">
@@ -147,15 +160,17 @@ export function FacebookDownloader() {
                         </option>
                       ))}
                     </select>
-                    <button
-                      onClick={() => handleDownloadClick(video.id)}
-                      disabled={!selectedFormat[video.id]}
-                      className={`w-full py-2 mt-2 text-white font-semibold rounded-md ${
-                        !selectedFormat[video.id] ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600'
-                      }`}
-                    >
-                      Download Video
-                    </button>
+                    <div className="flex items-center justify-center mt-3">
+                      <button
+                        onClick={() => handleDownloadClick(video.id)}
+                        disabled={!selectedFormat[video.id]}
+                        className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
+                          !selectedFormat[video.id] ? 'bg-gray-400 cursor-not-allowed' : 'text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit'
+                        }`}
+                      >
+                        Download Video
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -163,6 +178,6 @@ export function FacebookDownloader() {
           </>
         )}
       </div>
-    </div>
-  );
+    </div>
+  );
 }

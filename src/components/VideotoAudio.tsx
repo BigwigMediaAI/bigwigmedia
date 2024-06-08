@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { Loader2 } from "lucide-react";
+import { Loader2, RefreshCw ,UploadIcon} from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-
-
 
 export function AudioConverter() {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<string | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const {  userId } = useAuth();
-
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string | null>(null);
+  const { userId } = useAuth();
+  const dropZoneRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setVideoFile(event.target.files[0]);
+      setVideoPreviewUrl(URL.createObjectURL(event.target.files[0])); // Set video preview URL
     }
   };
 
@@ -28,10 +30,19 @@ export function AudioConverter() {
     const formData = new FormData();
     formData.append("video", videoFile);
 
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
     try {
-      const response = await axios.post(`${BASE_URL}/response/convert?clerkId=${userId}`, formData, {
-        responseType: "blob", // Important for downloading binary data
-      });
+      const response = await axios.post(
+        `${BASE_URL}/response/convert?clerkId=${userId}`,
+        formData,
+        {
+          responseType: "blob", // Important for downloading binary data
+        }
+      );
 
       // Create a URL for the blob object
       const audioUrl = window.URL.createObjectURL(new Blob([response.data]));
@@ -60,48 +71,121 @@ export function AudioConverter() {
     }
   };
 
+  useEffect(() => {
+    if (!isLoading && audioUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isLoading, audioUrl]);
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      setVideoFile(files[0]);
+      setVideoPreviewUrl(URL.createObjectURL(files[0])); // Set video preview URL
+    }
+  };
+
+  const removeFile = () => {
+    setVideoFile(null);
+    setVideoPreviewUrl(null);
+  };
+
+  const refreshSelection = () => {
+    window.location.reload();
+  };
+
   return (
-    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded-lg shadow-md">
-      <input
-        type="file"
-        onChange={handleFileChange}
-        className="w-full mb-4 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500 text-black"
-      />
-      <button
-        onClick={handleDownload}
-        disabled={!videoFile || isLoading}
-        className={`w-full py-2 text-white font-semibold rounded-md ${
-          !videoFile || isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-        }`}
+    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+      <div
+        ref={dropZoneRef}
+        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
       >
-        {isLoading ? 'Converting...' : 'Convert to MP3'}
-      </button>
-      <div className="w-full  pl-2 flex flex-col gap-2 justify-between">
-          {isLoading ? (
-            <div className="w-full h-full flex flex-col items-center justify-center ">
-              <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
-              <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
-            </div>
-          ) : (
-            <div className="w-full">
-            {audioUrl && (
-        <audio controls className="mt-4">
-          <source src={audioUrl} type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-      )}
-      {downloadLink && (
-        <button
-          onClick={handleDownloadClick}
-          className="mt-4 w-full px-4 py-2 text-white font-semibold rounded-md bg-green-500 hover:bg-green-600"
-        >
-          Download MP3
-        </button>
-      )}
+        {/* File selection area */}
+        <div className="flex flex-col items-center w-full relative">
+          {/* Browse button */}
+          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <input
+            type="file"
+            id="fileInput"
+            accept="video/*"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+          <button
+            className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+            onClick={() => document.getElementById("fileInput")?.click()}
+          >
+            Browse Files
+          </button>
+          <p className="text-gray-400">or drag and drop files</p>
+          {/* Refresh button */}
+          <RefreshCw
+            className="absolute top-1 right-1 w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
+            onClick={refreshSelection}
+          />
+        </div>
+        {/* Display selected file */}
+        <div className="mt-4 w-full text-center">
+          {videoFile && (
+            <div className="text-gray-300">
+              <span>{videoFile.name}</span>
+              <button onClick={removeFile} className="text-gray-300 hover:text-gray-500">
+                &#x2715;
+              </button>
             </div>
           )}
         </div>
-      
+      </div>
+      {/* Video preview section */}
+      {videoPreviewUrl && (
+        <div className="mt-5 flex justify-center items-center">
+          <video controls className="max-w-full" style={{ maxHeight: '300px' }}>
+            <source src={videoPreviewUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      )}
+      {/* Convert to MP3 button */}
+      <div className="mt-5 flex justify-center">
+        <button
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          onClick={handleDownload}
+          disabled={!videoFile || isLoading}
+        >
+          {isLoading ? "Converting..." : audioUrl ? "Convert Again" : "Convert to MP3"}
+        </button>
+      </div>
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          audioUrl && (
+            <div ref={resultsRef} className="mt-5 text-center w-full m-auto">
+              <audio controls className="mb-5 w-96 m-auto">
+                <source src={audioUrl} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+              <button
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                onClick={handleDownloadClick}
+              >
+                Download MP3
+              </button>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 }
+
