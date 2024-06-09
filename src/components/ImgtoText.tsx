@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { BASE_URL } from "@/utils/funcitons";
-import { ClipboardCopyIcon, CopyIcon, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { CopyIcon, Loader2, UploadIcon } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -11,11 +11,13 @@ export function ImagetoText() {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTextGenerated, setIsTextGenerated] = useState(false);
-  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const { userId } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null; // Extract the selected file or set to null if no file selected
+    const file = e.target.files?.[0] || null;
     setSelectedFile(file);
   };
 
@@ -24,18 +26,20 @@ export function ImagetoText() {
       toast.error("Please select an image.");
       return;
     }
-    
+
     setIsLoading(true);
+    loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
 
     try {
       const formData = new FormData();
-      formData.append('image', selectedFile);
+      formData.append("image", selectedFile);
 
       const response = await axios.post(`${BASE_URL}/response/upload?clerkId=${userId}`, formData);
       setText(response.data);
       setIsTextGenerated(true);
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error("Error uploading image:", error);
       toast.error("Error uploading image.");
     } finally {
       setIsLoading(false);
@@ -48,6 +52,28 @@ export function ImagetoText() {
       .catch(() => toast.error("Failed to copy text"));
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setSelectedFile(file);
+    } else {
+      toast.error("Please select a valid image file.");
+    }
+  };
+
+  useEffect(() => {
+    if (isLoading) {
+      loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (isTextGenerated) {
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isLoading, isTextGenerated]);
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <input
@@ -55,51 +81,67 @@ export function ImagetoText() {
         id="fileInput"
         accept="image/*"
         onChange={handleFileChange}
-        style={{ display: 'none' }} // Hide the file input
+        style={{ display: "none" }}
       />
-      <div className="flex flex-col md:flex-col">
-        <div className="w-full pr-2">
-          <div className="flex items-center justify-between">
-            <Button
-              className="border border-gray-300 text-gray-600 px-4 py-2 mb-5 rounded-md hover:bg-gray-100"
-              onClick={() => document.getElementById("fileInput")?.click()}
-            >
-              {selectedFile ? selectedFile.name : "Select Image"}
-            </Button>
-          </div>
+      <div
+        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
+        <div className="flex flex-col items-center w-full relative">
+          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <Button
+            className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+            onClick={() => document.getElementById("fileInput")?.click()}
+          >
+            {selectedFile ? selectedFile.name : "Select Image"}
+          </Button>
+          <p className="text-gray-400">or drag and drop files</p>
+          <p className="text-red-500 mt-2">NOTE: The file should contain only text, not images.</p>
+        </div>
+      </div>
+
+      <div className="mt-5 flex justify-center">
+        <Button
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          onClick={handleGenerate}
+          disabled={!selectedFile || isLoading}
+        >
+          {isLoading ? (
+            <div className="w-full h-full flex items-center justify-center">
+              Generating...
+              <Loader2 className="animate-spin w-5 h-5" />
+            </div>
+          ) : isTextGenerated ? "Regenerate" : "Generate"}
+        </Button>
+      </div>
+
+      {isLoading && (
+        <div ref={loaderRef} className="mt-5 w-full h-full flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin w-12 h-12 text-gray-300" />
+          <p className="dark:text-white text-gray-300 text-center mt-2">Data processing in progress. Please bear with us...</p>
+        </div>
+      )}
+
+      {isTextGenerated && !isLoading && (
+        <div ref={resultRef} className="mt-5">
           <Textarea
             className="mb-4 h-60 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
             value={text}
-            placeholder="Select an image containing text to extract the text."
+            placeholder="Extracted text will appear here."
             readOnly
           />
-          <div className="flex w-full my-4 items-center justify-between">
-            {isTextGenerated && (
-              <Button
-                className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-                onClick={handleCopyText}
-              >
+          <div className="flex justify-center">
+            <Button
+              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+              onClick={handleCopyText}
+            >
               <CopyIcon className="mr-2 h-5 w-5" />
-              </Button>
-            )}
+              Copy Text
+            </Button>
           </div>
         </div>
-        <div className="w-full pl-2 flex flex-col gap-2 justify-between">
-          {isLoading ? (
-            <div className="w-full h-full flex flex-col items-center justify-center ">
-              <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
-              <p className="dark:text-white text-black text-justify">Data processing in progress. Please bear with us...</p>
-            </div>
-          ) : null}
-          <Button
-            className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-            onClick={handleGenerate} // Trigger text generation when "Generate" button is clicked
-            disabled={!selectedFile || isLoading || isTextGenerated}
-          >
-            {isTextGenerated ? "Text Generated" : "Generate"}
-          </Button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

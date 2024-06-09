@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { Loader2, UploadIcon } from "lucide-react";
 
 export function PDFMerger() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +12,9 @@ export function PDFMerger() {
   const { userId } = useAuth();
   const [pdfUrl, setPdfUrl] = useState<string>("");
   const [isPdfGenerated, setIsPdfGenerated] = useState(false);
-  const [showPlusButton, setShowPlusButton] = useState(true);
+
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return () => {
@@ -23,19 +26,31 @@ export function PDFMerger() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files || [];
-    if (selectedFiles.length < 10) {
-      setSelectedFiles((prevFiles) => [...prevFiles, ...Array.from(files).slice(0, 10 - prevFiles.length)]);
-      if (selectedFiles.length + files.length >= 10) {
-        setShowPlusButton(false);
-      }
+    const newFiles = Array.from(files).filter((file) => file.type === "application/pdf");
+    if (newFiles.length < files.length) {
+      toast.error("Please select only PDF format files.");
     }
+    setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles].slice(0, 10));
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    const newFiles = Array.from(files).filter((file) => file.type === "application/pdf");
+    if (newFiles.length < files.length) {
+      toast.error("Please select only PDF format files.");
+    }
+    setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles].slice(0, 10));
   };
 
   const removeFile = (index: number) => {
     const updatedFiles = [...selectedFiles];
     updatedFiles.splice(index, 1);
     setSelectedFiles(updatedFiles);
-    setShowPlusButton(true);
   };
 
   const generatePDF = async () => {
@@ -46,12 +61,16 @@ export function PDFMerger() {
         return;
       }
 
+      setTimeout(() => {
+        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+
       const formData = new FormData();
       selectedFiles.forEach((file) => {
         formData.append("pdfFiles", file);
       });
 
-      const response = await axios.post(`${BASE_URL}/response/mergePDF`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/mergePDF?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
 
@@ -70,69 +89,85 @@ export function PDFMerger() {
     }
   };
 
+  useEffect(() => {
+    if (!isLoading && pdfUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, pdfUrl]);
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
-      <input
-        type="file"
-        id="fileInput"
-        multiple
-        accept=".pdf"
-        className="hidden"
-        onChange={handleFileChange}
-      />
-      <div className="mb-5">
-        {selectedFiles.map((file, index) => (
-          <div key={index} className="flex items-center mb-2">
-            <span className="bg-white text-gray-500  py-1 px-2 rounded mr-2">{file.name}</span>
-            {index === selectedFiles.length - 1 && (
-              <Button
-                className="text-gray-500 hover:text-gray-700 mr-2"
-                onClick={() => document.getElementById("fileInput")?.click()}
-              >
-                Change
-              </Button>
-            )}
-            <Button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={() => removeFile(index)}
-            >
-              -
-            </Button>
-          </div>
-        ))}
-        {showPlusButton && (
+      <div
+        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
+        <div className="flex flex-col items-center w-full relative">
+          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <input
+            type="file"
+            id="fileInput"
+            accept="application/pdf"
+            multiple
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
           <Button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
             onClick={() => document.getElementById("fileInput")?.click()}
           >
-            + Add PDF
+            Browse Files
           </Button>
-        )}
-      </div>
-      {isPdfGenerated && (
-        <div>
-          <iframe src={pdfUrl} width="100%" height="500px"></iframe>
-          <Button
-            className="text-white bg-blue-500 hover:bg-blue-700 py-2 px-4 mt-4"
-            onClick={() => {
-              const a = document.createElement("a");
-              a.href = pdfUrl;
-              a.download = "merged.pdf";
-              a.click();
-            }}
-          >
-            Download Merged PDF
-          </Button>
+          <p className="text-gray-400">or drag and drop files</p>
         </div>
-      )}
-      <div className="mt-5">
+        <div className="mt-4 w-full text-center">
+          {selectedFiles.length > 0 && (
+            <ul className="list-none">
+              {selectedFiles.map((file, index) => (
+                <li key={index} className="text-gray-300">
+                  <span className="mr-5">{file.name}</span>
+                  <button onClick={() => removeFile(index)} className="text-gray-300 hover:text-gray-500">
+                    &#x2715;
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+      <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
           onClick={generatePDF}
           disabled={isLoading || selectedFiles.length < 2}
         >
-          {isLoading ? "Merging..." : isPdfGenerated ? "Re-Merge PDFs" : "Merge PDFs"}
+          {isPdfGenerated ? "Re-Merge PDFs" : isLoading ? "Merging..." : "Merge PDFs"}
         </Button>
+      </div>
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          pdfUrl && (
+            <div ref={resultsRef} className="mt-5 text-center">
+              <iframe src={pdfUrl} width="100%" height="500px"></iframe>
+              <Button
+                className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                onClick={() => {
+                  const a = document.createElement("a");
+                  a.href = pdfUrl;
+                  a.download = "merged.pdf";
+                  a.click();
+                }}
+              >
+                Download Merged PDF
+              </Button>
+            </div>
+          )
+        )}
       </div>
     </div>
   );

@@ -1,19 +1,20 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-import { Loader2 } from "lucide-react";
-
+import { Loader2, UploadIcon } from "lucide-react";
 
 export function JPEGtoPDFConverter() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [selectOptions, setSelectOptions] = useState<number[]>([1]); // Initial select option
   const { userId } = useAuth();
-  const [pdfUrl, setPdfUrl] = useState<string>(""); // Change null to an empty string
+  const [pdfUrl, setPdfUrl] = useState<string>("");
   const [isPdfGenerated, setIsPdfGenerated] = useState(false);
+
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return () => {
@@ -23,43 +24,38 @@ export function JPEGtoPDFConverter() {
     };
   }, [pdfUrl]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const files = e.target.files || [];
-    const newSelectedFiles = Array.from(files).slice(0, 1); // Limit to 1 file per select
-    
-    // Check if the selected file's format is JPG or JPEG
-    const allowedFormats = ["image/jpeg", "image/jpg"];
-    if (!allowedFormats.includes(newSelectedFiles[0].type)) {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files).filter(file => 
+        file.type === "image/jpeg" || file.type === "image/jpg"
+      );
+      if (newFiles.length < e.target.files.length) {
+        toast.error("Please select only JPG or JPEG format images.");
+      }
+      setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    const newFiles = Array.from(files).filter(file => 
+      file.type === "image/jpeg" || file.type === "image/jpg"
+    );
+    if (newFiles.length < files.length) {
       toast.error("Please select only JPG or JPEG format images.");
-      return;
     }
-  
-    const updatedSelectedFiles = [...selectedFiles];
-    updatedSelectedFiles[index - 1] = newSelectedFiles[0];
-    setSelectedFiles(updatedSelectedFiles);
+    setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
-  const handleRemoveImage = (index: number) => {
-    if (index === 1) {
-      toast.error("The first select image option cannot be removed.");
-      return;
-    }
-
-    const updatedSelectedFiles = [...selectedFiles];
-    updatedSelectedFiles.splice(index - 1, 1);
-    setSelectedFiles(updatedSelectedFiles);
-
-    const updatedSelectOptions = [...selectOptions];
-    updatedSelectOptions.splice(index - 1, 1);
-    setSelectOptions(updatedSelectOptions);
-  };
-
-  const handleAddSelectOption = () => {
-    if (selectOptions.length < 10) {
-      setSelectOptions([...selectOptions, selectOptions.length + 1]);
-    } else {
-      toast.error("Maximum limit of 10 images reached.");
-    }
+  const removeFile = (index: number) => {
+    const updatedFiles = [...selectedFiles];
+    updatedFiles.splice(index, 1);
+    setSelectedFiles(updatedFiles);
   };
 
   const generatePDF = async () => {
@@ -70,33 +66,28 @@ export function JPEGtoPDFConverter() {
         return;
       }
 
+      setTimeout(() => {
+        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+
       const formData = new FormData();
       selectedFiles.forEach((file) => {
-        formData.append("images", file); // Ensure the field name is "images"
+        formData.append("images", file);
       });
 
       const response = await axios.post(`${BASE_URL}/response/jpg2pdf?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
 
-      // Check if response status is successful (status code 200)
       if (response.status === 200) {
-        // Create a blob URL from the response data
         const blob = new Blob([response.data], { type: "application/pdf" });
         const url = window.URL.createObjectURL(blob);
 
-        // Set the blob URL to state
         setPdfUrl(url);
-
-        // Set flag indicating PDF is generated
         setIsPdfGenerated(true);
-
-        // Reset selected files
         setSelectedFiles([]);
-
         toast.success("PDF generated successfully.");
       } else {
-        // If response status is not successful, show error message
         toast.error("Error generating PDF. Please try again later.");
       }
     } catch (error) {
@@ -107,69 +98,85 @@ export function JPEGtoPDFConverter() {
     }
   };
 
+  useEffect(() => {
+    if (!isLoading && pdfUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, pdfUrl]);
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
-      {selectOptions.map((index) => (
-        <div key={`select_${index}`} className="flex items-center justify-start mb-5">
-          <div className="flex items-center">
-            <input
-              type="file"
-              id={`fileInput_${index}`}
-              accept="image/*"
-              onChange={(e) => handleFileChange(e, index)}
-              style={{ display: "none" }}
-            />
-            <Button
-              className="border border-gray-300 text-gray-600 px-4 py-2 mr-3 rounded-md hover:bg-gray-100"
-              onClick={() => document.getElementById(`fileInput_${index}`)?.click()}
-            >
-              {selectedFiles[index - 1] ? selectedFiles[index - 1].name : `Select Image ${index}`}
-            </Button>
-            {index !== 1 && (
-              <Button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => handleRemoveImage(index)}
-              >
-                -
-              </Button>
-            )}
-          </div>
-          {index === selectOptions.length && (
-            <Button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-3"
-              onClick={handleAddSelectOption}
-            >
-              +
-            </Button>
+      <div
+        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
+        <div className="flex flex-col items-center w-full relative">
+          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/jpeg,image/jpg"
+            onChange={handleFileChange}
+            multiple
+            style={{ display: "none" }}
+          />
+          <Button
+            className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+            onClick={() => document.getElementById("fileInput")?.click()}
+          >
+            Browse Files
+          </Button>
+          <p className="text-gray-400">or drag and drop files</p>
+        </div>
+        <div className="mt-4 w-full text-center">
+          {selectedFiles.length > 0 && (
+            <ul className="list-none">
+              {selectedFiles.map((file, index) => (
+                <li key={index} className="text-gray-300">
+                  <span className="mr-5">{file.name}</span>
+                  <button onClick={() => removeFile(index)} className="text-gray-300 hover:text-gray-500">
+                    &#x2715;
+                  </button>
+                </li>
+              ))}
+            </ul>
           )}
         </div>
-      ))}
-      {isPdfGenerated && (
-        <div>
-          <iframe src={pdfUrl} width="100%" height="500px"></iframe>
-          <Button
-            className="text-white bg-blue-500 hover:bg-blue-700 py-2 px-4 mt-4"
-            onClick={() => {
-              // Trigger download by creating an anchor element and setting its href to the blob URL
-              const a = document.createElement("a");
-              a.href = pdfUrl;
-              a.download = "converted.pdf";
-              a.click();
-            }}
-          >
-            Download PDF
-          </Button>
-        </div>
-      )}
-      <div className="mt-5">
+      </div>
+      <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
           onClick={generatePDF}
           disabled={selectedFiles.length === 0 || isLoading}
         >
-          {isPdfGenerated ? "Re-generate PDF" : isLoading ? <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
- : "Generate PDF"}
+          {isPdfGenerated ? "Re-generate PDF" : isLoading ? "Generating..." : "Generate PDF"}
         </Button>
+      </div>
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          pdfUrl && (
+            <div ref={resultsRef} className="mt-5 text-center">
+              <iframe src={pdfUrl} width="100%" height="500px"></iframe>
+              <Button
+                className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                onClick={() => {
+                  const a = document.createElement("a");
+                  a.href = pdfUrl;
+                  a.download = "converted.pdf";
+                  a.click();
+                }}
+              >
+                Download PDF
+              </Button>
+            </div>
+          )
+        )}
       </div>
     </div>
   );

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
-
 
 export function VideoDownloader() {
   const [videoLink, setVideoLink] = useState<string>("");
@@ -13,7 +12,9 @@ export function VideoDownloader() {
   const [videoThumb, setVideoThumb] = useState<string>("");
   const [hasFetched, setHasFetched] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const extractVideoId = (url: string): string | null => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -24,6 +25,12 @@ export function VideoDownloader() {
   const handleDownload = async () => {
     setIsLoading(true);
     setErrorMessage(null);
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+
     try {
       const videoId = extractVideoId(videoLink);
       if (!videoId) {
@@ -46,6 +53,11 @@ export function VideoDownloader() {
           .filter(link => link.quality === "360p" || link.quality === "720p");
         setDownloadLinks(links);
         setHasFetched(true);
+
+        // Scroll to results after a short delay to ensure they are rendered
+        setTimeout(() => {
+          resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+        }, 100);
       } else {
         setErrorMessage("API Error: " + JSON.stringify(response.data));
       }
@@ -77,6 +89,12 @@ export function VideoDownloader() {
     setSelectedQuality("");
     setErrorMessage(null);
   };
+
+  useEffect(() => {
+    if (!isLoading && downloadLinks.length > 0) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    }
+  }, [isLoading, downloadLinks]);
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 dark:bg-[#5f5f5f] bg-white p-6 shadow-xl rounded-lg">
@@ -112,9 +130,9 @@ export function VideoDownloader() {
       </div>
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-black" />
-            <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           <>
@@ -124,7 +142,7 @@ export function VideoDownloader() {
               </div>
             )}
             {videoTitle && (
-              <div className="mt-4 flex-col items-center">
+              <div ref={resultsRef} className="mt-4 flex-col items-center">
                 <img src={videoThumb} alt={videoTitle} className="w-full h-auto rounded-md" />
                 <p className="mt-2 text-lg font-semibold text-white">{videoTitle}</p>
               </div>
@@ -163,4 +181,3 @@ export function VideoDownloader() {
     </div>
   );
 }
-
