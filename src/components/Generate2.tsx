@@ -105,6 +105,8 @@ import { PollGenerator } from "./PollGenerator";
 import { GeneratePrivacyPolicy } from "./PrivacyPolicyGenerator";
 import { BusinessPlanGenerator } from "./BusinessPlanGenerator";
 import { VideoAudioTrimmer } from "./AddAudio";
+import { PdfSummarizer } from "./SummarizePdf";
+import { PdfChat } from "./ChatWithPdf";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -563,6 +565,10 @@ const Generate = () => {
         <BusinessPlanGenerator/>
       ) : id === "66643b05acd3ab5713d7756d" ? (
         <VideoAudioTrimmer/>
+      ) : id === "6666df6f884806754c30c811" ? (
+        <PdfSummarizer/>
+      ) : id === "6666df85884806754c30c812" ? (
+        <PdfChat/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
