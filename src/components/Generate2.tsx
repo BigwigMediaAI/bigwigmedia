@@ -107,6 +107,8 @@ import { BusinessPlanGenerator } from "./BusinessPlanGenerator";
 import { VideoAudioTrimmer } from "./AddAudio";
 import { PdfSummarizer } from "./SummarizePdf";
 import { PdfChat } from "./ChatWithPdf";
+import { AudioTranslation } from "./AudioTranslator";
+import { VideoTranslation } from "./TranslateVideo2Audio";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -569,6 +571,10 @@ const Generate = () => {
         <PdfSummarizer/>
       ) : id === "6666df85884806754c30c812" ? (
         <PdfChat/>
+      ) : id === "666824b841b7e2731cd6da69" ? (
+        <AudioTranslation/>
+      ) : id === "666824c741b7e2731cd6da6a" ? (
+        <VideoTranslation/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

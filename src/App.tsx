@@ -102,7 +102,7 @@ const App = () => {
         <Route path="/youtubemp3" element={<Mp3Downloader />} />
         <Route path="/audio" element={<AudioConverter />} />
         <Route path="/compressvideo" element={<VideoCompressor />} />
-      </Routes>
+</Routes>
     </div>
   );
 };
