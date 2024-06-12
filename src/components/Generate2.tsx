@@ -109,6 +109,7 @@ import { PdfSummarizer } from "./SummarizePdf";
 import { PdfChat } from "./ChatWithPdf";
 import { AudioTranslation } from "./AudioTranslator";
 import { VideoTranslation } from "./TranslateVideo2Audio";
+import { VideoTranslator } from "./VideoTranslator";
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -575,6 +576,8 @@ const Generate = () => {
         <AudioTranslation/>
       ) : id === "666824c741b7e2731cd6da6a" ? (
         <VideoTranslation/>
+      ) : id === "6669926f04450b0cc689fefa" ? (
+        <VideoTranslator/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
