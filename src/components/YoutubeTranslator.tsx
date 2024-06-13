@@ -103,12 +103,15 @@ export function YouTubeTranslator() {
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+        <div className="text-red-500 text-md mb-2">
+            Note: For Hindi translation, videos must be shorter than 2 minutes in length.
+        </div>
       <div className="mb-5">
         <label htmlFor="youtubeUrl" className="block text-gray-700">YouTube URL</label>
         <input
           id="youtubeUrl"
           type="text"
-          placeholder="Enter the Youtube url"
+          placeholder="eg: https://www.youtube.com/shorts/c5QDJwP1Wuo"
           value={youtubeUrl}
           onChange={(e) => setYoutubeUrl(e.target.value)}
           className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-blue-500"
