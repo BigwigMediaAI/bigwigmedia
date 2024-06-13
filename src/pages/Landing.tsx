@@ -215,8 +215,10 @@ console.log(cards)
       <Nav />
       <div className="px-5 min-h-screen">
         <Hero search={search} setSearch={setSearch} onClick={handleSearch} />
-
-        <div className="hidden md:block mt-10">
+        <div className="mt-2 flex items-center justify-center">
+          <Stats />
+        </div>
+        <div className="hidden md:block">
           {buttons.length > 0 && (
             <Menu
               buttons={buttons}
@@ -239,9 +241,7 @@ console.log(cards)
         </div>
       </div>
 
-      <div className="mt-16 flex items-center justify-center">
-      <Stats />
-    </div>
+      
 
 
 
