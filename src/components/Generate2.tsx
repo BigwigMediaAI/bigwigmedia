@@ -110,6 +110,9 @@ import { PdfChat } from "./ChatWithPdf";
 import { AudioTranslation } from "./AudioTranslator";
 import { VideoTranslation } from "./TranslateVideo2Audio";
 import { VideoTranslator } from "./VideoTranslator";
+import { YouTubeTranslator } from "./YoutubeTranslator";
+
+
 // import { ShareSocial } from "react-share-social"; 
 
 
@@ -578,6 +581,8 @@ const Generate = () => {
         <VideoTranslation/>
       ) : id === "6669926f04450b0cc689fefa" ? (
         <VideoTranslator/>
+      ) : id === "666ad7cee4fd998958cfccb2" ? (
+        <YouTubeTranslator/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
