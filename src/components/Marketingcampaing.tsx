@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef,useEffect } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -15,10 +15,18 @@ export function MarketingCampaign() {
   const [isLoading, setIsLoading] = useState(false);
   const [campaignData, setCampaignData] = useState<CampaignData | null>(null);
   const { userId } = useAuth();
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setCampaignData(null)
     e.preventDefault();
     setIsLoading(true);
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block:'center' });
+    }, 100);
 
     try {
       const res = await axios.post(
@@ -51,6 +59,12 @@ export function MarketingCampaign() {
       return <li>{category}</li>;
     }
   };
+
+  useEffect(() => {
+    if (!isLoading && campaignData) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, campaignData]);
 
   const renderSection = (section: string) => {
     const className = section.replace(/\s+/g, '-').toLowerCase();
@@ -96,15 +110,15 @@ Opening Car rental services Safar.
             className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
             disabled={isLoading}
           >
-            {isLoading ? <Loader2 className="animate-spin w-6 h-6" /> : "Generate"}
+            {isLoading ? "Generating" : "Generate"}
           </button>
         </div>
       </form>
 
       {isLoading && (
-        <div className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 text-black" />
-          <p className="text-black text-center">Data processing in progress. Please bear with us...</p>
+        <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
+          <p className="text-gray-300 text-center">Data processing in progress. Please bear with us...</p>
         </div>
       )}
 

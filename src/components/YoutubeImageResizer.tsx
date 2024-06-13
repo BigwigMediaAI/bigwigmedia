@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { BASE_URL } from "../utils/funcitons";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { Loader2, UploadIcon, RefreshCw } from "lucide-react";
+import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -14,11 +13,15 @@ export function YoutubeImageTool() {
   const [resizedImage, setResizedImage] = useState<string | null>(null);
   const { userId } = useAuth();
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+
   // Define resize options for YouTube image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
     channelProfilePicture: { width: 800, height: 800 },
     channelCoverPhoto: { width: 2560, height: 1440 },
-    videoThumbnail: { width: 1280, height: 720 }
+    videoThumbnail: { width: 1280, height: 720 },
   };
 
   const imageTypes = Object.keys(resizeOptions); // Get image type options
@@ -40,6 +43,11 @@ export function YoutubeImageTool() {
     }
 
     setIsLoading(true);
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
 
     try {
       const formData = new FormData();
@@ -73,11 +81,79 @@ export function YoutubeImageTool() {
     }
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setImage(file);
+    } else {
+      toast.error("Please select an image file.");
+    }
+  };
+
+  const refreshSelection = () => {
+    setImage(null);
+    setImageType("");
+    setResizedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const removeFile = () => {
+    setImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div className="flex flex-col md:flex-col">
         <div className="w-full pr-2">
-          <input className="mb-5" type="file" accept="image/*" onChange={handleFileChange} />
+          <div
+            className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+            <input
+              type="file"
+              id="fileInput"
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              ref={fileInputRef}
+            />
+            <Button
+              className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+              onClick={() => document.getElementById("fileInput")?.click()}
+            >
+              {image ? image.name : "Select Image File"}
+            </Button>
+            <p className="text-gray-400">or drag and drop files</p>
+            <RefreshCw
+              className="absolute top-1 right-1 w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
+              onClick={refreshSelection}
+            />
+          
+          {image && (
+            <div className="mt-4 w-full text-center">
+              <ul className="list-none">
+                <li key={0} className="text-gray-300">
+                  <span className="mr-5">{image.name}</span>
+                  <button onClick={removeFile} className="text-gray-300 hover:text-gray-500">
+                    &#x2715;
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
+          </div>
           <select
             className="mb-4 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
             value={imageType}
@@ -94,25 +170,25 @@ export function YoutubeImageTool() {
             <Button
               className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
               onClick={handleSubmit}
-              disabled={!imageType}
+              disabled={!imageType || isLoading}
             >
-              Generate
+              {isLoading ? "Generating..." : resizedImage ? "Regenerate" : "Generate"}
             </Button>
           </div>
         </div>
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-black" />
-            <p className="text-black text-justify">Resizing image. Please wait...</p>
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+            <p className="text-gray-300 text-justify">Resizing image. Please wait...</p>
           </div>
         ) : resizedImage ? (
-          <div className="w-full">
+          <div ref={resultsRef} className="w-full">
             <img src={resizedImage} alt="Resized" className="w-full" />
             <Button
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-5 w-full mx-auto"
+              className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-5"
               onClick={handleDownload}
             >
-              Download Resized Image
+              Download
             </Button>
           </div>
         ) : null}
