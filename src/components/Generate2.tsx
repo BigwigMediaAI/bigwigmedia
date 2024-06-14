@@ -111,6 +111,8 @@ import { AudioTranslation } from "./AudioTranslator";
 import { VideoTranslation } from "./TranslateVideo2Audio";
 import { VideoTranslator } from "./VideoTranslator";
 import { YouTubeTranslator } from "./YoutubeTranslator";
+import { FinanceAdvisor } from "./FinanceAdvisor";
+import { ImageCropper } from "./ImageCrop";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -583,6 +585,10 @@ const Generate = () => {
         <VideoTranslator/>
       ) : id === "666ad7cee4fd998958cfccb2" ? (
         <YouTubeTranslator/>
+      ) : id === "666c1f9d2ee240337cc199a2" ? (
+        <FinanceAdvisor/>
+      ) : id === "666c220d2ee240337cc199a3" ? (
+        <ImageCropper/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
