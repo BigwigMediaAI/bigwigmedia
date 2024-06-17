@@ -116,6 +116,8 @@ import { ImageCropper } from "./ImageCrop";
 import { AIDetector } from "./AiDetector";
 import { NewsSummarize } from "./NewsSummary";
 import { TextInfographic } from "./TextInfoGraphic";
+import { ImageCompressor } from "./ImageCompressor";
+import { AvatarTool } from "./Avatar";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -598,6 +600,10 @@ const Generate = () => {
         <NewsSummarize/>
       ) : id === "666da52a8e6978dd891a37e1" ? (
         <TextInfographic/>
+      ) : id === "66707c18595b6463098d789a" ? (
+        <ImageCompressor/>
+      ) : id === "66707c23595b6463098d789b" ? (
+        <AvatarTool/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
