@@ -118,6 +118,8 @@ import { NewsSummarize } from "./NewsSummary";
 import { TextInfographic } from "./TextInfoGraphic";
 import { ImageCompressor } from "./ImageCompressor";
 import { AvatarTool } from "./Avatar";
+import { SWOTGenerator } from "./SwotGenerator";
+import { CoverLetterGenerator } from "./CoverLetter";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -604,6 +606,10 @@ const Generate = () => {
         <ImageCompressor/>
       ) : id === "66707c23595b6463098d789b" ? (
         <AvatarTool/>
+      ) : id === "667178d85ae1c15aa15057c6" ? (
+        <SWOTGenerator/>
+      ) : id === "667178e95ae1c15aa15057c7" ? (
+        <CoverLetterGenerator/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(
