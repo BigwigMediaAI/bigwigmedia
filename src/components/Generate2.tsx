@@ -120,6 +120,7 @@ import { ImageCompressor } from "./ImageCompressor";
 import { AvatarTool } from "./Avatar";
 import { SWOTGenerator } from "./SwotGenerator";
 import { CoverLetterGenerator } from "./CoverLetter";
+import LogoGenerator from "./LogoGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -610,6 +611,8 @@ const Generate = () => {
         <SWOTGenerator/>
       ) : id === "667178e95ae1c15aa15057c7" ? (
         <CoverLetterGenerator/>
+      ) : id === "6673ccb99a855dfab85e0de8" ? (
+        <LogoGenerator/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
       ):(

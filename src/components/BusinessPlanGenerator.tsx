@@ -5,12 +5,12 @@ import { Loader2, Clipboard } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 
-
 export function BusinessPlanGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [businessType, setBusinessType] = useState('');
   const [industry, setIndustry] = useState('');
   const [targetMarket, setTargetMarket] = useState('');
+  const [language, setLanguage] = useState('English'); // Default language
   const [businessPlan, setBusinessPlan] = useState('');
   const [buttonText, setButtonText] = useState('Generate');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
@@ -32,14 +32,15 @@ export function BusinessPlanGenerator() {
 
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:"center" });
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: "center" });
     }, 100);
 
     try {
       const response = await axios.post(`${BASE_URL}/response/businessPlan?clerkId=${userId}`, {
         businessType,
         industry,
-        targetMarket
+        targetMarket,
+        language // Include language in request
       });
 
       if (response.status === 200) {
@@ -67,7 +68,7 @@ export function BusinessPlanGenerator() {
 
   useEffect(() => {
     if (!isLoading && businessPlan) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading, businessPlan]);
 
@@ -106,6 +107,46 @@ export function BusinessPlanGenerator() {
         />
       </div>
 
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <select
+          value={language}
+          onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        >
+          <option value="English">English</option>
+<option value="Spanish">Spanish</option>
+<option value="French">French</option>
+<option value="German">German</option>
+<option value="Chinese">Chinese</option>
+<option value="Japanese">Japanese</option>
+<option value="Korean">Korean</option>
+<option value="Portuguese">Portuguese</option>
+<option value="Russian">Russian</option>
+<option value="Arabic">Arabic</option>
+<option value="Hindi">Hindi</option>
+<option value="Bengali">Bengali</option>
+<option value="Gujarati">Gujarati</option>
+<option value="Kannada">Kannada</option>
+<option value="Malayalam">Malayalam</option>
+<option value="Marathi">Marathi</option>
+<option value="Nepali">Nepali</option>
+<option value="Odia">Odia</option>
+<option value="Punjabi">Punjabi</option>
+<option value="Tamil">Tamil</option>
+<option value="Telugu">Telugu</option>
+<option value="Assamese">Assamese</option>
+<option value="Bihari">Bihari</option>
+<option value="Kashmiri">Kashmiri</option>
+<option value="Konkani">Konkani</option>
+<option value="Maithili">Maithili</option>
+<option value="Manipuri">Manipuri</option>
+<option value="Santali">Santali</option>
+<option value="Sindhi">Sindhi</option>
+<option value="Urdu">Urdu</option>
+        </select>
+      </div>
+
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
@@ -139,6 +180,6 @@ export function BusinessPlanGenerator() {
           )
         )}
       </div>
-    </div>
-  );
+    </div>
+  );
 }

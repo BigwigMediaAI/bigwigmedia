@@ -10,6 +10,7 @@ export function GeneratePrivacyPolicy() {
   const [companyName, setCompanyName] = useState('');
   const [address, setAddress] = useState('');
   const [websiteURL, setWebsiteURL] = useState('');
+  const [language, setLanguage] = useState('English'); // default language
   const [privacyPolicy, setPrivacyPolicy] = useState('');
   const [buttonText, setButtonText] = useState('Generate');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
@@ -20,7 +21,7 @@ export function GeneratePrivacyPolicy() {
   const handleGenerate = async () => {
     setIsLoading(true);
     setPrivacyPolicy('');
-    
+
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
@@ -31,8 +32,9 @@ export function GeneratePrivacyPolicy() {
         companyName,
         address,
         websiteURL,
+        language,
       });
-      console.log(response.data.data)
+      console.log(response)
       if (response.status === 200) {
         setPrivacyPolicy(response.data.data.improvedContent.data.privacyPolicy);
       } else {
@@ -95,6 +97,47 @@ export function GeneratePrivacyPolicy() {
           placeholder="Enter your website URL"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
         />
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <select
+          value={language}
+          onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        >
+<option value="English">English</option>
+<option value="Spanish">Spanish</option>
+<option value="French">French</option>
+<option value="German">German</option>
+<option value="Chinese">Chinese</option>
+<option value="Japanese">Japanese</option>
+<option value="Korean">Korean</option>
+<option value="Portuguese">Portuguese</option>
+<option value="Russian">Russian</option>
+<option value="Arabic">Arabic</option>
+<option value="Hindi">Hindi</option>
+<option value="Bengali">Bengali</option>
+<option value="Gujarati">Gujarati</option>
+<option value="Kannada">Kannada</option>
+<option value="Malayalam">Malayalam</option>
+<option value="Marathi">Marathi</option>
+<option value="Nepali">Nepali</option>
+<option value="Odia">Odia</option>
+<option value="Punjabi">Punjabi</option>
+<option value="Tamil">Tamil</option>
+<option value="Telugu">Telugu</option>
+<option value="Assamese">Assamese</option>
+<option value="Bihari">Bihari</option>
+<option value="Kashmiri">Kashmiri</option>
+<option value="Konkani">Konkani</option>
+<option value="Maithili">Maithili</option>
+<option value="Manipuri">Manipuri</option>
+<option value="Santali">Santali</option>
+<option value="Sindhi">Sindhi</option>
+<option value="Urdu">Urdu</option>
+          {/* Add more languages as needed */}
+        </select>
       </div>
 
       <div className="mt-5 flex justify-center">
