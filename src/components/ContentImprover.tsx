@@ -16,42 +16,69 @@ const tones = [
   { value: 'informative', label: 'Informative' },
 ];
 
+const languages = [
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Spanish' },
+  { value: 'fr', label: 'French' },
+  { value: 'de', label: 'German' },
+  { value: 'zh', label: 'Chinese' },
+  { value: 'hi', label: 'Hindi' },
+  { value: 'ar', label: 'Arabic' },
+  { value: 'pt', label: 'Portuguese' },
+  { value: 'bn', label: 'Bengali' },
+  { value: 'ru', label: 'Russian' },
+  { value: 'ja', label: 'Japanese' },
+  { value: 'pa', label: 'Punjabi' },
+  { value: 'jw', label: 'Javanese' },
+  { value: 'ko', label: 'Korean' },
+  { value: 'te', label: 'Telugu' },
+  { value: 'mr', label: 'Marathi' },
+  { value: 'ta', label: 'Tamil' },
+  { value: 'tr', label: 'Turkish' },
+  { value: 'vi', label: 'Vietnamese' },
+  { value: 'it', label: 'Italian' },
+  { value: 'ur', label: 'Urdu' },
+  { value: 'fa', label: 'Persian' },
+  { value: 'ms', label: 'Malay' },
+  { value: 'th', label: 'Thai' },
+  { value: 'gu', label: 'Gujarati' },
+  { value: 'kn', label: 'Kannada' },
+  { value: 'pl', label: 'Polish' },
+  { value: 'uk', label: 'Ukrainian' },
+  { value: 'ro', label: 'Romanian' },
+  { value: 'la', label: 'Lahnda' }
+  // Add more languages as needed
+];
+
 export function ContentImprover() {
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState('');
   const [tone, setTone] = useState('');
-  const [improvedContent, setImprovedContent] = useState('');
+  const [language, setLanguage] = useState('');
+  const [output, setOutput] = useState(3); // Default number of outputs
+  const [improvedContents, setImprovedContents] = useState<string[]>([]);
   const [buttonText, setButtonText] = useState('Improve');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!improvedContent) {
-      setButtonText('Improve');
-    } else {
-      setButtonText('Re-Improve');
-    }
-  }, [improvedContent]);
-
   const handleImprove = async () => {
     setIsLoading(true);
-    setImprovedContent('');
-
-    // Scroll to loader after a short delay to ensure it's rendered
-    setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-
+    setImprovedContents([]);
+  
     try {
       const response = await axios.post(`${BASE_URL}/response/improve?clerkId=${userId}`, {
         content,
-        tone
+        tone,
+        language,
+        output,
       });
-
+  
       if (response.status === 200) {
-        setImprovedContent(response.data.data.improvedContent);
+        // Assuming response.data.data.improvedContent is a string with multiple paragraphs separated by "\n\n"
+        const improvedContentArray = response.data.data.improvedContent.split("\n\n");
+        setImprovedContents(improvedContentArray);
       } else {
         toast.error('Error improving content. Please try again later.');
       }
@@ -62,22 +89,23 @@ export function ContentImprover() {
       setIsLoading(false);
     }
   };
+  
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(improvedContent);
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
     toast.success('Improved content copied to clipboard!');
   };
 
   const handleInputChange = () => {
-    setImprovedContent('');
+    setImprovedContents([]);
     setButtonText('Improve');
   };
 
   useEffect(() => {
-    if (!isLoading && improvedContent) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (!isLoading && improvedContents.length > 0) {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [isLoading, improvedContent]);
+  }, [isLoading, improvedContents]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
@@ -105,6 +133,32 @@ export function ContentImprover() {
         </select>
       </div>
 
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <select
+          value={language}
+          onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        >
+          <option value="">Select Language</option>
+          {languages.map((langOption) => (
+            <option key={langOption.value} value={langOption.value}>{langOption.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Number of Outputs</label>
+        <input
+          type="number"
+          value={output}
+          onChange={(e) => { setOutput(parseInt(e.target.value)); handleInputChange(); }}
+          min={1}
+          max={10} // Adjust max number of outputs as needed
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        />
+      </div>
+
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
@@ -115,29 +169,31 @@ export function ContentImprover() {
         </button>
       </div>
 
-      <div className="mt-5">
-        {isLoading ? (
-          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
-          </div>
-        ) : (
-          improvedContent && (
-            <div ref={resultsRef} className="border border-gray-300 rounded-md mt-6">
+      {isLoading && (
+        <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+          <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+        </div>
+      )}
+
+      {improvedContents.length > 0 && (
+        <div className="mt-6">
+          <h2 className="text-2xl text-gray-700 dark:text-gray-300 mb-4 underline">Improved Content:</h2>
+          {improvedContents.map((content, index) => (
+            <div key={index} className="border border-gray-300 rounded-md mb-4">
               <div className="border p-4 rounded-lg relative">
-                <h2 className="text-2xl text-gray-700 dark:text-gray-300 mb-4 underline">Improved Content:</h2>
-                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{improvedContent}</p>
+                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{content}</p>
                 <button
                   className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-                  onClick={handleCopy}
+                  onClick={() => handleCopy(content)}
                 >
                   <Clipboard className="w-5 h-5" />
                 </button>
               </div>
             </div>
-          )
-        )}
-      </div>
-    </div>
-  );
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }

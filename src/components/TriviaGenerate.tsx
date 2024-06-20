@@ -12,6 +12,8 @@ interface TriviaQuestion {
 }
 
 const difficultyLevels = ['Easy', 'Medium', 'Hard'];
+const languages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Hindi', 'Arabic', 'Portuguese', 'Bengali', 'Russian', 'Japanese', 'Lahnda', 'Punjabi', 'Javanese', 'Korean', 'Telugu', 'Marathi', 'Tamil', 'Turkish', 'Vietnamese', 'Italian', 'Urdu', 'Persian', 'Malay', 'Thai', 'Gujarati', 'Kannada', 'Polish', 'Ukrainian', 'Romanian'];
+ // Add more languages as needed
 
 export function TriviaGenerator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +21,7 @@ export function TriviaGenerator() {
   const [numberOfQuestions, setNumberOfQuestions] = useState('');
   const [numberOfAnswers, setNumberOfAnswers] = useState('');
   const [difficultyLevel, setDifficultyLevel] = useState(difficultyLevels[0]);
+  const [language, setLanguage] = useState(languages[0]); // State for language selection
   const [triviaQuestions, setTriviaQuestions] = useState<TriviaQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [buttonText, setButtonText] = useState('Generate');
@@ -48,7 +51,8 @@ export function TriviaGenerator() {
         topic,
         numberOfQuestions: parseInt(numberOfQuestions),
         numberOfAnswers: parseInt(numberOfAnswers),
-        difficultyLevel
+        difficultyLevel,
+        language // Include language in the request payload
       });
 
       if (response.status === 200) {
@@ -150,6 +154,19 @@ export function TriviaGenerator() {
         </select>
       </div>
 
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <select
+          value={language}
+          onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        >
+          {languages.map(lang => (
+            <option key={lang} value={lang}>{lang}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
@@ -211,6 +228,6 @@ export function TriviaGenerator() {
           )
         )}
       </div>
-    </div>
-  );
+    </div>
+  );
 }

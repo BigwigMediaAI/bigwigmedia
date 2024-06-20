@@ -5,6 +5,7 @@ import { Loader2, Clipboard } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 
+// Define categories and languages
 const categories = [
   { value: 'technology', label: 'Technology' },
   { value: 'health', label: 'Health' },
@@ -35,7 +36,42 @@ const categories = [
   { value: 'personal-development', label: 'Personal Development' },
   { value: 'home-garden', label: 'Home & Garden' },
   { value: 'parenting', label: 'Parenting' },
-  { value: 'animals', label: 'Animals' },
+  { value: 'animals', label: 'Animals' }
+  // Add other categories as needed
+];
+
+const languages = [
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Spanish' },
+  { value: 'fr', label: 'French' },
+  { value: 'de', label: 'German' },
+  { value: 'zh', label: 'Chinese' },
+  { value: 'hi', label: 'Hindi' },
+  { value: 'ar', label: 'Arabic' },
+  { value: 'pt', label: 'Portuguese' },
+  { value: 'bn', label: 'Bengali' },
+  { value: 'ru', label: 'Russian' },
+  { value: 'ja', label: 'Japanese' },
+  { value: 'pa', label: 'Punjabi' },
+  { value: 'jw', label: 'Javanese' },
+  { value: 'ko', label: 'Korean' },
+  { value: 'te', label: 'Telugu' },
+  { value: 'mr', label: 'Marathi' },
+  { value: 'ta', label: 'Tamil' },
+  { value: 'tr', label: 'Turkish' },
+  { value: 'vi', label: 'Vietnamese' },
+  { value: 'it', label: 'Italian' },
+  { value: 'ur', label: 'Urdu' },
+  { value: 'fa', label: 'Persian' },
+  { value: 'ms', label: 'Malay' },
+  { value: 'th', label: 'Thai' },
+  { value: 'gu', label: 'Gujarati' },
+  { value: 'kn', label: 'Kannada' },
+  { value: 'pl', label: 'Polish' },
+  { value: 'uk', label: 'Ukrainian' },
+  { value: 'ro', label: 'Romanian' },
+  { value: 'la', label: 'Lahnda' }
+  // Add more languages as needed
 ];
 
 export function GenerateCurrentTopics() {
@@ -45,10 +81,11 @@ export function GenerateCurrentTopics() {
   const [numTopics, setNumTopics] = useState('');
   const [topics, setTopics] = useState([]);
   const [buttonText, setButtonText] = useState('Generate');
+  const [language, setLanguage] = useState('en'); // Default language
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
-  const loaderRef = useRef<HTMLDivElement>(null);
-  const resultsRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null); // Correctly define the type here
+  const resultsRef = useRef<HTMLDivElement>(null); // Correctly define the type here
 
   useEffect(() => {
     if (topics.length === 0) {
@@ -61,10 +98,10 @@ export function GenerateCurrentTopics() {
   const handleGenerate = async () => {
     setIsLoading(true);
     setTopics([]);
-    
+
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
     try {
@@ -72,6 +109,7 @@ export function GenerateCurrentTopics() {
         category,
         keywords,
         numTopics: parseInt(numTopics),
+        language,
       });
 
       if (response.status === 200) {
@@ -106,7 +144,7 @@ export function GenerateCurrentTopics() {
 
   useEffect(() => {
     if (!isLoading && topics.length > 0) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth' ,block:'center'});
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading, topics]);
 
@@ -146,6 +184,19 @@ export function GenerateCurrentTopics() {
           placeholder="Enter the number of topics"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
         />
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <select
+          value={language}
+          onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        >
+          {languages.map((lang) => (
+            <option key={lang.value} value={lang.value}>{lang.label}</option>
+          ))}
+        </select>
       </div>
 
       <div className="mt-5 flex justify-center">

@@ -14,6 +14,7 @@ export function NCAForm() {
   const [restrictedActivities, setRestrictedActivities] = useState('');
   const [restrictedDuration, setRestrictedDuration] = useState('');
   const [restrictedTerritory, setRestrictedTerritory] = useState('');
+  const [language, setLanguage] = useState('English');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -25,9 +26,10 @@ export function NCAForm() {
         employee,
         restrictedActivities,
         restrictedDuration,
-        restrictedTerritory
+        restrictedTerritory,
+        language,
       });
-        console.log(response)
+      console.log(response)
       if (response.status === 200) {
         const cleanContent = response.data.nda.replace(/\*\*/g, ''); // Remove asterisks
         setNcaContent(cleanContent);
@@ -49,6 +51,7 @@ export function NCAForm() {
     setRestrictedActivities('');
     setRestrictedDuration('');
     setRestrictedTerritory('');
+    setLanguage('English');
     setNcaContent(null);
   };
 
@@ -97,6 +100,44 @@ export function NCAForm() {
               className="border border-gray-300 p-2 mb-3 rounded-md w-full"
               required
             />
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="border border-gray-300 p-2 mb-3 rounded-md w-full"
+              required
+            >
+              <option value="English">English</option>
+<option value="Spanish">Spanish</option>
+<option value="French">French</option>
+<option value="German">German</option>
+<option value="Chinese">Chinese</option>
+<option value="Hindi">Hindi</option>
+<option value="Arabic">Arabic</option>
+<option value="Portuguese">Portuguese</option>
+<option value="Bengali">Bengali</option>
+<option value="Russian">Russian</option>
+<option value="Japanese">Japanese</option>
+<option value="Lahnda">Lahnda</option>
+<option value="Punjabi">Punjabi</option>
+<option value="Javanese">Javanese</option>
+<option value="Korean">Korean</option>
+<option value="Telugu">Telugu</option>
+<option value="Marathi">Marathi</option>
+<option value="Tamil">Tamil</option>
+<option value="Turkish">Turkish</option>
+<option value="Vietnamese">Vietnamese</option>
+<option value="Italian">Italian</option>
+<option value="Urdu">Urdu</option>
+<option value="Persian">Persian</option>
+<option value="Malay">Malay</option>
+<option value="Thai">Thai</option>
+<option value="Gujarati">Gujarati</option>
+<option value="Kannada">Kannada</option>
+<option value="Polish">Polish</option>
+<option value="Ukrainian">Ukrainian</option>
+<option value="Romanian">Romanian</option>
+
+            </select>
             <Button
               className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
               onClick={handleSubmit}

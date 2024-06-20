@@ -1,10 +1,10 @@
-import React, { useState, useRef,useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ClipboardCopyIcon, CopyIcon, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { BASE_URL } from '@/utils/funcitons'; // Fix typo in import path
+import { BASE_URL } from '@/utils/funcitons'; // Corrected import path
 import { useAuth } from '@clerk/clerk-react';
 
 interface NotesSummary {
@@ -19,8 +19,9 @@ export function NotesGenerator() {
   const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [summary, setSummary] = useState<NotesSummary | null>(null);
+  const [language, setLanguage] = useState('English'); // Default language
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-  const loaderRef = useRef<HTMLDivElement>(null); // Create a ref for the loader
+  const loaderRef = useRef<HTMLDivElement>(null);
 
   const handlePaste = async () => {
     const pastedText = await navigator.clipboard.readText();
@@ -29,7 +30,7 @@ export function NotesGenerator() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    setSummary(null); // Clear previous summary
+    setSummary(null);
     if (!text) {
       toast.error('Please enter the text to generate quick notes');
       setIsLoading(false);
@@ -38,9 +39,8 @@ export function NotesGenerator() {
     try {
       const res = await axios.post(
         `${BASE_URL}/response/getNotesSummary?clerkId=${userId}`,
-        { notes: text }
+        { notes: text, language: language.toLowerCase() } // Pass language to backend
       );
-      console.log(res.data); // Log the response
 
       if (res.status === 200) {
         setSummary(res.data.summary.Key_Points);
@@ -69,7 +69,7 @@ export function NotesGenerator() {
       } else {
         formattedText += `- ${sectionContent}\n`;
       }
-      formattedText += '\n'; // Adding a new line after each section for better readability
+      formattedText += '\n';
     });
 
     try {
@@ -115,7 +115,6 @@ export function NotesGenerator() {
     );
   };
 
-  // UseEffect to scroll to the loader when isLoading is true
   useEffect(() => {
     if (isLoading) {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -140,6 +139,47 @@ export function NotesGenerator() {
             <ClipboardCopyIcon className="mr-2 h-5 w-5" />
             Paste Text
           </Button>
+          <select
+            className="border-2 border-gray-300 dark:bg-[#262626] rounded-md py-2 px-4 text-gray-600 dark:text-gray-200 hover:bg-gray-100 hover:dark:bg-gray-800"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+          >
+            <option value="English">English</option>
+<option value="Spanish">Spanish</option>
+<option value="French">French</option>
+<option value="German">German</option>
+<option value="Chinese">Chinese</option>
+<option value="Hindi">Hindi</option>
+<option value="Arabic">Arabic</option>
+<option value="Portuguese">Portuguese</option>
+<option value="Bengali">Bengali</option>
+<option value="Russian">Russian</option>
+<option value="Japanese">Japanese</option>
+<option value="Lahnda">Lahnda</option>
+<option value="Punjabi">Punjabi</option>
+<option value="Javanese">Javanese</option>
+<option value="Korean">Korean</option>
+<option value="Telugu">Telugu</option>
+<option value="Marathi">Marathi</option>
+<option value="Tamil">Tamil</option>
+<option value="Turkish">Turkish</option>
+<option value="Vietnamese">Vietnamese</option>
+<option value="Italian">Italian</option>
+<option value="Urdu">Urdu</option>
+<option value="Persian">Persian</option>
+<option value="Malay">Malay</option>
+<option value="Thai">Thai</option>
+<option value="Gujarati">Gujarati</option>
+<option value="Kannada">Kannada</option>
+<option value="Polish">Polish</option>
+<option value="Ukrainian">Ukrainian</option>
+<option value="Romanian">Romanian</option>
+
+            {/* Add more languages as needed */}
+            <option value="hindi">Hindi</option>
+            <option value="tamil">Tamil</option>
+            {/* Add more Indian languages */}
+          </select>
         </div>
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">

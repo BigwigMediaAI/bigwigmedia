@@ -9,32 +9,32 @@ export function YouTubeScriptGenerator(){
   const [topic, setTopic] = useState('');
   const [tone, setTone] = useState('');
   const [length, setLength] = useState('');
+  const [language, setLanguage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [script, setScript] = useState('');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerateScript = async () => {
     setIsLoading(true);
-    if (!topic || !tone || !length) {
+    if (!topic || !tone || !length || !language) {
       toast.error('Please fill out all fields');
       setIsLoading(false);
       return;
     }
 
-    // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
-        loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
-      }, 100);
+        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 
     try {
       const res = await axios.post(`${BASE_URL}/response/youtubescript?clerkId=${userId}`, {
         topic,
         tone,
-        length
+        length,
+        language
       });
       if (res.status === 200) {
         setScript(res.data.script);
@@ -57,17 +57,15 @@ export function YouTubeScriptGenerator(){
     }
   };
 
-
   useEffect(() => {
     if (!isLoading && script.length > 0) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading, script]);
 
-  // Clear the script whenever any content is updated
   useEffect(() => {
     setScript('');
-  }, [topic, tone, length]);
+  }, [topic, tone, length, language]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
@@ -100,6 +98,28 @@ export function YouTubeScriptGenerator(){
           <option value="Short">Short</option>
           <option value="Medium">Medium</option>
           <option value="Long">Long</option>
+        </select>
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="border border-gray-300 rounded-md p-3 dark:text-gray-200"
+        >
+          <option value="">Select language</option>
+          <option value="English">English</option>
+          <option value="Spanish">Spanish</option>
+          <option value="French">French</option>
+          <option value="German">German</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Bengali">Bengali</option>
+          <option value="Telugu">Telugu</option>
+          <option value="Marathi">Marathi</option>
+          <option value="Tamil">Tamil</option>
+          <option value="Gujarati">Gujarati</option>
+          <option value="Kannada">Kannada</option>
+          <option value="Malayalam">Malayalam</option>
+          <option value="Punjabi">Punjabi</option>
         </select>
         <button
           onClick={handleGenerateScript}
