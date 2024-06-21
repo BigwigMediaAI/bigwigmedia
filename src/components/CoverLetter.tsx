@@ -13,14 +13,16 @@ export function CoverLetterGenerator() {
   const [userPhone, setUserPhone] = useState('');
   const [userAddress, setUserAddress] = useState('');
   const [highlights, setHighlights] = useState('');
-  const [coverLetter, setCoverLetter] = useState('');
+  const [language, setLanguage] = useState('English');
+  const [outputCount, setOutputCount] = useState(1);
+  const [coverLetters, setCoverLetters] = useState<string[]>([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
     setIsLoading(true);
-    setCoverLetter(""); // Clear previous cover letter
+    setCoverLetters([]); // Clear previous cover letters
     if (!jobDescription || !userName || !userEmail || !userPhone) {
       toast.error("Please fill in all required fields");
       setIsLoading(false);
@@ -40,13 +42,13 @@ export function CoverLetterGenerator() {
           phone: userPhone,
           address: userAddress
         },
-        highlights
+        highlights,
+        language,
+        outputCount
       });
 
-      
-
       if (response.status === 200) {
-        setCoverLetter(response.data.coverLetter);
+        setCoverLetters(response.data.coverLetters);
       } else {
         toast.error('Error generating cover letter. Please try again later.');
       }
@@ -58,7 +60,7 @@ export function CoverLetterGenerator() {
     }
   };
 
-  const handleCopy = async () => {
+  const handleCopy = async (coverLetter: string) => {
     try {
       await navigator.clipboard.writeText(coverLetter);
       toast.success('Cover letter copied to clipboard');
@@ -68,10 +70,10 @@ export function CoverLetterGenerator() {
   };
 
   useEffect(() => {
-    if (!isLoading && coverLetter) {
+    if (!isLoading && coverLetters.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isLoading, coverLetter]);
+  }, [isLoading, coverLetters]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
@@ -139,6 +141,58 @@ export function CoverLetterGenerator() {
         />
       </div>
 
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+        >
+          <option value="English">English</option>
+<option value="Spanish">Spanish</option>
+<option value="French">French</option>
+<option value="German">German</option>
+<option value="Chinese">Chinese</option>
+<option value="Hindi">Hindi</option>
+<option value="Arabic">Arabic</option>
+<option value="Portuguese">Portuguese</option>
+<option value="Bengali">Bengali</option>
+<option value="Russian">Russian</option>
+<option value="Japanese">Japanese</option>
+<option value="Lahnda">Lahnda</option>
+<option value="Punjabi">Punjabi</option>
+<option value="Javanese">Javanese</option>
+<option value="Korean">Korean</option>
+<option value="Telugu">Telugu</option>
+<option value="Marathi">Marathi</option>
+<option value="Tamil">Tamil</option>
+<option value="Turkish">Turkish</option>
+<option value="Vietnamese">Vietnamese</option>
+<option value="Italian">Italian</option>
+<option value="Urdu">Urdu</option>
+<option value="Persian">Persian</option>
+<option value="Malay">Malay</option>
+<option value="Thai">Thai</option>
+<option value="Gujarati">Gujarati</option>
+<option value="Kannada">Kannada</option>
+<option value="Polish">Polish</option>
+<option value="Ukrainian">Ukrainian</option>
+<option value="Romanian">Romanian</option>
+
+        </select>
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Number of Outputs</label>
+        <input
+          type="number"
+          value={outputCount}
+          onChange={(e) => setOutputCount(parseInt(e.target.value))}
+          placeholder="Enter number of outputs (e.g., 1)"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+        />
+      </div>
+
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
@@ -157,22 +211,22 @@ export function CoverLetterGenerator() {
           </div>
         ) : (
           <div>
-            {coverLetter && (
-              <div ref={resultsRef} className='border border-gray-300 rounded-md p-5 relative'>
-                <h3 className="text-gray-700 dark:text-gray-300">Generated Cover Letter:</h3>
+            {coverLetters.length > 0 && coverLetters.map((letter, index) => (
+              <div key={index} ref={resultsRef} className='border border-gray-300 rounded-md p-5 relative mb-5'>
+                <h3 className="text-gray-700 dark:text-gray-300">Generated Cover Letter {index + 1}:</h3>
                 <div className="mt-2 dark:bg-gray-700 p-4 rounded-md">
-                  {coverLetter.split('\n').map((line, index) => (
-                    <p key={index} className="text-gray-700 dark:text-gray-300">{line}</p>
+                  {letter.split('\n').map((line, lineIndex) => (
+                    <p key={lineIndex} className="text-gray-700 dark:text-gray-300">{line}</p>
                   ))}
                 </div>
                 <button
                   className="absolute top-2 right-2 rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:dark:bg-gray-800 dark:text-gray-200"
-                  onClick={handleCopy}
+                  onClick={() => handleCopy(letter)}
                 >
                   <CopyIcon className="h-5 w-5" />
                 </button>
               </div>
-            )}
+            ))}
           </div>
         )}
       </div>

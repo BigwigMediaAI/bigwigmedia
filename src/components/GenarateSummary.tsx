@@ -1,16 +1,14 @@
-import { useState, useEffect, useRef, ReactNode } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ClipboardCopyIcon, CopyIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner"; // Adjust the toast library as per your actual library
-// import { BASE_URL } from "@/utils/functions"; // Assuming this path is correct in your project
 import { useAuth } from "@clerk/clerk-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { BASE_URL } from "@/utils/funcitons";
 
 interface SummaryResponse {
-  [x: string]: ReactNode;
-  summary: string | string[]; // Adjusted to accept string or array of strings
+  summary: string | string[];
 }
 
 export function Summarize() {
@@ -31,33 +29,33 @@ export function Summarize() {
   const handleSubmit = async () => {
     setIsLoading(true);
     setSummaries([]);
-
+  
     if (!text) {
       toast.error("Please enter the text to generate summary");
       setIsLoading(false);
       return;
     }
-
+  
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
-
+  
     try {
       const res = await axios.post<SummaryResponse>(
-        `${BASE_URL}/response/getSummary?clerkId=${userId}`,
-        { text, language, output: outputCount }
+        `${BASE_URL}/response/getSummary`,
+        { text, language, outputCount },
+        { headers: { Authorization: `Bearer ${userId}` } }
       );
-      console.log(res.data.summary)
+  
       if (res.status === 200) {
-        if (typeof res.data.summary === "string") {
-          setSummaries([res.data.summary]); // Wrap single summary in an array
-        } else if (Array.isArray(res.data.summary)) {
-          setSummaries(res.data.summary); // Use as-is if already an array
+        const { data } = res;
+        if (Array.isArray(data)) {
+          setSummaries(data);
         } else {
           toast.error("Invalid data format received from the server");
         }
       } else {
-        toast.error(res.data.error);
+        toast.error("Failed to get summaries");
       }
     } catch (error: any) {
       toast.error(error.response?.data?.error || "An error occurred");
@@ -65,6 +63,7 @@ export function Summarize() {
       setIsLoading(false);
     }
   };
+  
 
   const handleCopy = (textToCopy: string) => {
     try {
@@ -134,7 +133,7 @@ export function Summarize() {
 <option value="Ukrainian">Ukrainian</option>
 <option value="Romanian">Romanian</option>
 
-              {/* Add more languages as needed */}
+              {/* Add other language options as needed */}
             </select>
 
             <select
@@ -142,17 +141,11 @@ export function Summarize() {
               onChange={(e) => setOutputCount(parseInt(e.target.value))}
               className="rounded-md px-4 py-2 text-gray-600 dark:text-gray-200 border-2 border-gray-300 hover:bg-gray-100 hover:dark:bg-gray-800 ml-4"
             >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-              <option value={6}>6</option>
-              <option value={7}>7</option>
-              <option value={8}>8</option>
-              <option value={9}>9</option>
-              <option value={10}>10</option>
-              {/* Add more options if needed */}
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((count) => (
+                <option key={count} value={count}>
+                  {count}
+                </option>
+              ))}
             </select>
           </div>
           <Button

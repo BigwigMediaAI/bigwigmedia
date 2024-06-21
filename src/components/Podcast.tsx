@@ -17,6 +17,7 @@ export function Seopodcast() {
   const [background, setBackground] = useState("");
   const [interests, setInterests] = useState("");
   const [tone, setTone] = useState("Formal");
+  const [language, setLanguage] = useState("English");
   const [isLoading, setIsLoading] = useState(false);
   const [qaPairs, setQAPairs] = useState<QAPair[]>([]);
   const { userId } = useAuth();
@@ -29,12 +30,11 @@ export function Seopodcast() {
     setIsLoading(true);
     setQAPairs([]);
 
-    // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
-    const maxRetries = 3; // Maximum number of retries
+    const maxRetries = 3;
     let attempt = 0;
 
     while (attempt < maxRetries) {
@@ -46,13 +46,14 @@ export function Seopodcast() {
           background,
           interests,
           tone,
+          language
         });
 
         const data = response.data.data.data;
         console.log("Response data:", data);
         if (data && Array.isArray(data.qaPairs) && data.qaPairs.length > 0) {
           setQAPairs(data.qaPairs);
-          break; // Exit loop if valid data is received
+          break;
         } else {
           setQAPairs([]);
         }
@@ -154,6 +155,47 @@ export function Seopodcast() {
           <option value="Insightful">Insightful</option>
           <option value="Engaging">Engaging</option>
           <option value="Thoughtful">Thoughtful</option>
+        </select>
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 dark:text-gray-300">Select the language for the podcast:</label>
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+        >
+          <option value="English">English</option>
+<option value="Spanish">Spanish</option>
+<option value="French">French</option>
+<option value="German">German</option>
+<option value="Chinese">Chinese</option>
+<option value="Hindi">Hindi</option>
+<option value="Arabic">Arabic</option>
+<option value="Portuguese">Portuguese</option>
+<option value="Bengali">Bengali</option>
+<option value="Russian">Russian</option>
+<option value="Japanese">Japanese</option>
+<option value="Lahnda">Lahnda</option>
+<option value="Punjabi">Punjabi</option>
+<option value="Javanese">Javanese</option>
+<option value="Korean">Korean</option>
+<option value="Telugu">Telugu</option>
+<option value="Marathi">Marathi</option>
+<option value="Tamil">Tamil</option>
+<option value="Turkish">Turkish</option>
+<option value="Vietnamese">Vietnamese</option>
+<option value="Italian">Italian</option>
+<option value="Urdu">Urdu</option>
+<option value="Persian">Persian</option>
+<option value="Malay">Malay</option>
+<option value="Thai">Thai</option>
+<option value="Gujarati">Gujarati</option>
+<option value="Kannada">Kannada</option>
+<option value="Polish">Polish</option>
+<option value="Ukrainian">Ukrainian</option>
+<option value="Romanian">Romanian</option>
+
         </select>
       </div>
 

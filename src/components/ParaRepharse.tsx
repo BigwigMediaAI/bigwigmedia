@@ -10,7 +10,10 @@ import { Textarea } from "@/components/ui/textarea";
 export function Rephrase() {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [output, setOutput] = useState("");
+  const [output, setOutput] = useState<string[]>([]);
+  const [language, setLanguage] = useState("English");
+  const [tone, setTone] = useState("neutral");
+  const [outputCount, setOutputCount] = useState(4); // Default output count
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -22,7 +25,7 @@ export function Rephrase() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    setOutput("");  // Clear previous output
+    setOutput([]); // Clear previous output
     if (!text) {
       toast.error("Please enter the text to generate");
       setIsLoading(false);
@@ -35,7 +38,12 @@ export function Rephrase() {
     }, 100);
 
     try {
-      const res = await axios.post(`${BASE_URL}/response/rephrase?clerkId=${userId}`, { prompt: text });
+      const res = await axios.post(`${BASE_URL}/response/rephrase?clerkId=${userId}`, {
+        prompt: text,
+        language,
+        tone,
+        outputCount
+      });
 
       if (res.status === 200 && res.data && res.data.status === "OK") {
         setOutput(res.data.data.data);
@@ -44,7 +52,7 @@ export function Rephrase() {
         toast.error("Failed to retrieve rephrased text");
         setIsLoading(false);
       }
-    } catch (error:any) {
+    } catch (error: any) {
       toast.error(error.response?.data?.error || "An error occurred");
       setIsLoading(false);
     }
@@ -61,11 +69,11 @@ export function Rephrase() {
 
   const handleTextChange = (e: any) => {
     setText(e.target.value);
-    setOutput("");
+    setOutput([]);
   };
 
   useEffect(() => {
-    if (!isLoading && output) {
+    if (!isLoading && output.length) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading, output]);
@@ -88,6 +96,64 @@ export function Rephrase() {
             <ClipboardCopyIcon className="mr-2 h-5 w-5" />
             Paste Text
           </Button>
+          <div className="flex gap-4">
+            <select
+              className="rounded-md px-2 py-1 text-gray-600 dark:text-gray-200 border-2 border-gray-300"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+            >
+              <option value="English">English</option>
+<option value="Spanish">Spanish</option>
+<option value="French">French</option>
+<option value="German">German</option>
+<option value="Chinese">Chinese</option>
+<option value="Hindi">Hindi</option>
+<option value="Arabic">Arabic</option>
+<option value="Portuguese">Portuguese</option>
+<option value="Bengali">Bengali</option>
+<option value="Russian">Russian</option>
+<option value="Japanese">Japanese</option>
+<option value="Lahnda">Lahnda</option>
+<option value="Punjabi">Punjabi</option>
+<option value="Javanese">Javanese</option>
+<option value="Korean">Korean</option>
+<option value="Telugu">Telugu</option>
+<option value="Marathi">Marathi</option>
+<option value="Tamil">Tamil</option>
+<option value="Turkish">Turkish</option>
+<option value="Vietnamese">Vietnamese</option>
+<option value="Italian">Italian</option>
+<option value="Urdu">Urdu</option>
+<option value="Persian">Persian</option>
+<option value="Malay">Malay</option>
+<option value="Thai">Thai</option>
+<option value="Gujarati">Gujarati</option>
+<option value="Kannada">Kannada</option>
+<option value="Polish">Polish</option>
+<option value="Ukrainian">Ukrainian</option>
+<option value="Romanian">Romanian</option>
+
+              {/* Add more languages as needed */}
+            </select>
+            <select
+              className="rounded-md px-2 py-1 text-gray-600 dark:text-gray-200 border-2 border-gray-300"
+              value={tone}
+              onChange={(e) => setTone(e.target.value)}
+            >
+              <option value="neutral">Neutral</option>
+              <option value="formal">Formal</option>
+              <option value="casual">Casual</option>
+              {/* Add more tones as needed */}
+            </select>
+            <input
+              type="number"
+              className="rounded-md px-2 py-1 text-gray-600 dark:text-gray-200 border-2 border-gray-300 w-20"
+              value={outputCount}
+              onChange={(e) => setOutputCount(parseInt(e.target.value))}
+              min={1}
+              max={10} // Adjust max number of outputs as needed
+            />
+          </div>
         </div>
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
@@ -95,32 +161,32 @@ export function Rephrase() {
             <p className="text-gray-400 text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
-          output && (
+          output.length > 0 && (
             <>
-              <div ref={resultsRef} className="flex flex-col gap-2 mt-4">
-                <div className="h-40 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 overflow-y-scroll relative">
-                  {output.split("\n").map((line, index) => (
-                    <p key={index}>{line}</p>
-                  ))}
-                  <Button
-                    className="absolute top-2 right-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
-                    variant="ghost"
-                    onClick={() => handleCopy(output)}
-                  >
-                    <CopyIcon className="h-5 w-5" />
-                  </Button>
-                </div>
-                <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-4"
-                  onClick={handleSubmit}
-                >
-                  Regenerate
-                </Button>
+              <div ref={resultsRef} className="flex flex-col gap-4 mt-4">
+                {output.map((item, index) => (
+                  <div key={index} className="relative h-40 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 overflow-y-scroll">
+                    {item}
+                    <Button
+                      className="absolute top-2 right-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                      variant="ghost"
+                      onClick={() => handleCopy(item)}
+                    >
+                      <CopyIcon className="h-5 w-5" />
+                    </Button>
+                  </div>
+                ))}
               </div>
+              <Button
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-4"
+                onClick={handleSubmit}
+              >
+                Regenerate
+              </Button>
             </>
           )
         )}
-        {!isLoading && !output && (
+        {!isLoading && output.length === 0 && (
           <Button
             className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
             onClick={handleSubmit}
