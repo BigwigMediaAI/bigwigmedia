@@ -27,21 +27,17 @@ const Footer = () => {
   }, []);
 
   const arr = [
-    "Popular Tools",
-    "Twitter Tools",
-    "Instagram Tools",
-    "Facebook Tools",
-    "LinkedIn Tools",
-    "TikTok Tools",
-    // "Threads Tools",
-    "YouTube Tools",
-    "Paraphrase Tools",
-    "Image Generator",
+    "Social Media Tools",
     "Email Tools",
-    "Blog Creator",
-    "Website Tools",
-    "SEO Tools",
-    "Audio Tools",
+    "Content Creation Tools",
+    "Marketing Tools",
+    "SEO & Web Tools",
+    "File & Image Tools",
+    // "Threads Tools",
+    "Video & Audio Tools",
+    "Business & HR Tools",
+    "Utility Generator",
+    "Creative & Design Tools"
   ];
   // const buttonFilter = buttons.filter((button) => !arr.includes(button ));
 
@@ -212,7 +208,7 @@ const Footer = () => {
                   setSearchParams(searchParams);
                   navigate(button);
                   console.log(button)
-                  window.location.href = `https://bigwigmedia.ai/?selectedButton=${button}`;
+                  window.location.href = `https://bigwigmedia.ai/category/${button}`;
 
                 }}
               >
