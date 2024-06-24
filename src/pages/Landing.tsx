@@ -6,16 +6,18 @@ import Menu from "../components/Menu";
 import Cards from "../components/Cards";
 import Stats from "./Stats";
 import MenuMobile from "@/components/MenuMobile";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import axios from "axios";
 import { useUser } from "@clerk/clerk-react";
 import { toast } from "sonner";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams,useNavigate } from "react-router-dom";
 import { Bookmark, Popsicle } from "lucide-react";
 import Modal from "../components/Model";
+import CategoryBox from "../components/CategoryBox";
 // @ts-ignore
 import { getLocation } from "current-location-geo";
+import {Loader2} from "lucide-react"
 // import Profile from "@/components/Profile";
 
 // type Props = {};
@@ -38,6 +40,7 @@ const Landing = () => {
   const [change, setChange] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const [showTrialModal, setShowTrialModal] = useState(false);
+  const [searchResults, setSearchResults] = useState<Card[]>([]);
 
   const urlParams = new URLSearchParams(window.location.search);
   const selectedButton = urlParams.get("selectedButton")?? "All Tools";
@@ -48,6 +51,8 @@ const Landing = () => {
   const [search, setSearch] = useState("");
   const [isSearched, setIsSearched] = useState<string>("");
   const [location, setLocation] = useState<string>("");
+  const resultRef=useRef<HTMLDivElement>(null)
+  const navigate = useNavigate();
 
   const handleCloseTrialModal = () => {
     // Function to handle closing the trial modal
@@ -97,7 +102,7 @@ const Landing = () => {
     setButtons(bookmarked);
     // console.log(bookmarked)
   };
-  console.log(buttons)
+  // console.log(buttons)
 
   useEffect(() => {
     getButtons();
@@ -124,26 +129,25 @@ const Landing = () => {
     } catch (error) {
       console.log("error", error);
     }
-    console.log("b")
-    console.log(location)
+    // console.log(location)
 
-    console.log("av", locationn, location);
+    // console.log("av", locationn, location);
 
     const res = await axios.get(
       `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location??locationn}`
     );
-    console.log(res)
-
+  
+  
     const cards = res.data.data.map((card: Card) => ({
       ...card,
       isBookmarked: true,
     }));
     // setCards(cards);
     setCardsBookmark(cards);
+  
     if (bool) setCards(cards);
     setIsLoading(false);
   };
-
   // useEffect(() => {
   //   if (mytools) {
   //     setTimeout(() => {
@@ -155,16 +159,16 @@ const Landing = () => {
 
   const getTemplates = async () => {
     let url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}`;
-    console.log("three", location);
+    // console.log("three", location);
 
     if (isSignedIn)
       url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location}`;
     const res = await axios.get(url);
-    console.log("this is respose",res)
+    // console.log("this is respose",res)
     setCards(res.data.message);
     setIsLoading(false);
   };
-console.log(cards)
+// console.log(cards)
   useEffect(() => {
     // if (buttons.length === 0) return;
     // getLocationFunction()
@@ -187,28 +191,23 @@ console.log(cards)
   }, [isLoaded, change]);
 
   const handleSearch = async () => {
-    // const res = await axios.get(
-    //   `${BASE_URL}/templates/search?search=${search}`
-    // );
-    setIsLoading(true);
+    setIsLoading(true); // Assuming you manage loading state
     const res = await axios.get(`${BASE_URL2}/objects/searchObjects/${search}`);
-    if (window.innerWidth < 768) {
-      if (!!isSearched) {
-        setButtons([search, ...buttons.slice(1)]);
-      } else setButtons([search, ...buttons]);
-      // setSelectedButton(search);
-      searchParams.set("selectedButton", search);
-      setSearchParams(searchParams);
-    }
-    setCards(res.data.message);
-    setIsSearched(search);
+    console.log(res.data.message)
+    setSearchResults(res.data.message);
+    setSearchParams(search);
     setIsLoading(false);
+    // Scroll to search results section
+    if (resultRef.current) {
+      resultRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const toolSetter = (tool:string)=>{
     searchParams.set("selectedButton", tool);
     setSearchParams(searchParams);
   }
+
 
   return (
     <div className="bg-white dark:bg-[#1E1E1E]">
@@ -218,7 +217,100 @@ console.log(cards)
         <div className="mt-2 flex items-center justify-center">
           <Stats />
         </div>
-        <div className="hidden md:block">
+
+        <div className=" max-w-6xl m-auto px-4">
+          <div className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/219380/tools-screwdriver.svg"
+              name="All Tools"
+              toolCount={100}
+              tagLine="Empower Your Productivity with Versatile Tools for Every Task"
+              redirectTo="/category/All Tools"
+            />
+
+            {/* Render CategoryBox conditionally based on isSignedIn */}
+            {isSignedIn && (
+              <CategoryBox
+                logo="https://www.svgrepo.com/show/407090/person-pouting-light-skin-tone.svg"
+                name="My Tools"
+                tagLine="View and manage your bookmarked tools"
+                redirectTo="/category/my-tools"
+              />
+            )}
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/343856/marketing-flow-business.svg"
+              name="Social Media Tools"
+              toolCount={20}
+              tagLine="Enhance Your Social Presence with Seamless Content Creation"
+              redirectTo="/category/Social Media Tools"
+            />
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/343852/email-marketing-envelope-letter.svg"
+              name="Email Tools"
+              toolCount={10}
+              tagLine="Effortless Email Solutions for Every Business Need"
+              redirectTo="/category/Email Tools"
+            />
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/387435/edit.svg"
+              name="Content Creation Tools"
+              toolCount={10}
+              tagLine="Create Compelling Content with Ease"
+              redirectTo="/category/Content Creation Tools"
+            />
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/242947/marketing-professions-and-jobs.svg"
+              name="Marketing Tools"
+              toolCount={6}
+              tagLine="Drive Your Campaigns with Innovative Marketing Tools"
+              redirectTo="/category/Marketing Tools"
+            />
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/299307/browser-seo-and-web.svg"
+              name="SEO & Web Tools"
+              toolCount={6}
+              tagLine="Optimize Your Online Presence for Maximum Impact"
+              redirectTo="/category/SEO & Web Tools"
+            />
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/375830/image.svg"
+              name="File & Image Tools"
+              toolCount={25}
+              tagLine="Streamline Your File Manangement and Image Editing"
+              redirectTo="/category/File & Image Tools"
+            />
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/520509/video-courses.svg"
+              name="Video & Audio Tools"
+              toolCount={25}
+              tagLine="Transform Your Media Content with Powerful Tools"
+              redirectTo="/category/Video & Audio Tools"
+            />
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/502417/business.svg"
+              name="Business & HR Tools"
+              toolCount={7}
+              tagLine="Boost Business Efficiency with Professional Solutions"
+              redirectTo="/category/Business & HR Tools"
+            />
+            <CategoryBox
+              logo="https://cdn-icons-png.flaticon.com/512/6230/6230391.png"
+              name="Utility Tools"
+              toolCount={15}
+              tagLine="Versatile Tools for Everyday Tasks and Problem-Solving"
+              redirectTo="/category/Utility Tools"
+            />
+            <CategoryBox
+              logo="https://www.svgrepo.com/show/449588/lightbulb-idea.svg"
+              name="Creative & Design Tools"
+              toolCount={5}
+              tagLine="Unleash Your Creativity with Desing-Driven Tools"
+              redirectTo="/category/Creative & Design Tools"
+            />
+          </div>
+        </div>
+
+        {/* <div className="hidden md:block">
           {buttons.length > 0 && (
             <Menu
               buttons={buttons}
@@ -226,6 +318,7 @@ console.log(cards)
               setSelectedButton={toolSetter}
             />
           )}
+          <div ref={resultRef} className="mt-10 max-w-6xl m-auto px-4"></div>
           <Cards cards={cards} isLoading={isLoading} setChange={setChange} />
         </div>
 
@@ -238,7 +331,22 @@ console.log(cards)
             isLoading={isLoading}
             setChange={setChange}
           />
-        </div>
+        </div> */}
+
+        {/* Render search results section */}
+        <div ref={resultRef} className="mt-10 max-w-6xl m-auto px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {!isLoading ? (
+                searchResults.map((card: Card, id: number) => (
+                  <Cards cards={[card]} key={id} isLoading={isLoading} />
+                ))
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Loader2 className="animate-spin w-20 h-20 mt-20" />
+                </div>
+              )}
+            </div>
+          </div>
       </div>
 
       
