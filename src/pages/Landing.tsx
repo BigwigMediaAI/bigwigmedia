@@ -2,10 +2,10 @@
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import Hero from "../components/Hero";
-import Menu from "../components/Menu";
+// import Menu from "../components/Menu";
 import Cards from "../components/Cards";
 import Stats from "./Stats";
-import MenuMobile from "@/components/MenuMobile";
+// import MenuMobile from "@/components/MenuMobile";
 import { useEffect, useState,useRef } from "react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import axios from "axios";
