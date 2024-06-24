@@ -13,9 +13,9 @@ interface CategoryBoxProps {
 const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLine, redirectTo }) => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate(`/category/${encodeURIComponent(name)}`); // Navigate to dynamic category route
-  };
+  // const handleClick = () => {
+  //   navigate(`/category/${encodeURIComponent(name)}`); // Navigate to dynamic category route
+  // };
 
   const handleArrowClick = () => {
     navigate(redirectTo); // Navigate to the redirectTo path
@@ -24,8 +24,8 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLin
   return (
     <div className="bt-gradient p-0.5 rounded-xl hover:scale-105 transition-transform duration-300 ease-in-out">
       <div
-        className="bg-white dark:bg-[#262626] border p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-200 h-56 w-70"
-        onClick={handleClick}
+        className="bg-white dark:bg-[#262626] border p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-56 w-70"
+        
       >
         <div className="flex justify-between items-center mb-3">
           <img src={logo} alt={name} className="w-12 h-12 object-contain mr-3" />
