@@ -27,37 +27,37 @@ const CategoryTools: React.FC = () => {
   const { user, isSignedIn } = useUser();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  useEffect(() => {
-    const fetchTools = async () => {
-      try {
-        let response;
-        if (categoryName === 'My Tools') {
-          if (isSignedIn && user) {
-            response = await axios.get(`${BASE_URL}/bookmarks?clerkId=${user.id}`);
-          } else {
-            setShowLoginModal(true);
-            setIsLoading(false);
-            return;
-          }
+  const fetchTools = async () => {
+    try {
+      let response;
+      if (categoryName === 'My Tools') {
+        if (isSignedIn && user) {
+          response = await axios.get(`${BASE_URL}/bookmarks?clerkId=${user.id}`);
         } else {
-          response = await axios.get(`${BASE_URL2}/objects/getObjectByLabel/${encodeURIComponent(categoryName || '')}`);
+          setShowLoginModal(true);
+          setIsLoading(false);
+          return;
         }
-
-        const responseData = categoryName === 'My Tools' ? response.data.data : response.data.message;
-        
-        const toolsData = responseData.map((tool: Tool) => ({
-          ...tool,
-          isBookmarked: categoryName === 'My Tools' ? true : false
-        }));
-        setTools(toolsData);
-        setFilteredTools(toolsData);
-      } catch (error) {
-        console.error('Error fetching tools:', error);
-      } finally {
-        setIsLoading(false);
+      } else {
+        response = await axios.get(`${BASE_URL2}/objects/getObjectByLabel/${encodeURIComponent(categoryName || '')}`);
       }
-    };
 
+      const responseData = categoryName === 'My Tools' ? response.data.data : response.data.message;
+
+      const toolsData = responseData.map((tool: Tool) => ({
+        ...tool,
+        isBookmarked: categoryName === 'My Tools' ? true : false
+      }));
+      setTools(toolsData);
+      setFilteredTools(toolsData);
+    } catch (error) {
+      console.error('Error fetching tools:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchTools();
   }, [categoryName, isSignedIn, user]);
 
@@ -78,12 +78,9 @@ const CategoryTools: React.FC = () => {
     try {
       const response = await axios.post(`${BASE_URL}/bookmarks/add-remove/${toolId}?clerkId=${user.id}`); 
       if (response.status === 200) {
-        setTools((prevTools) =>
-          prevTools.map((tool) =>
-            tool._id === toolId ? { ...tool, isBookmarked: !tool.isBookmarked } : tool
-          )
-        );
         toast.success('Bookmark status updated successfully!');
+        // Refetch tools after bookmark update
+        fetchTools();
       } else {
         throw new Error('Failed to update bookmark status');
       }
@@ -94,19 +91,15 @@ const CategoryTools: React.FC = () => {
   };
 
   const handleGenerateClick = (toolId: string) => {
-    // console.log(toolId)
     if (!isSignedIn) {
       setTimeout(() => {
-        console.log("Setting showLoginModal to true");
         setShowLoginModal(true);
       }, 0);
-  
       return;
-
-      } else {
-        const newPath = `/generate?id=${toolId}`;
-        window.open(newPath, "_blank");
-      }
+    } else {
+      const newPath = `/generate?id=${toolId}`;
+      window.open(newPath, "_blank");
+    }
   };
 
   const handleBackClick = () => {
@@ -132,7 +125,6 @@ const CategoryTools: React.FC = () => {
             </svg>
             <span>Back</span>
           </button>
-          
         </div>
         <h1 className="text-2xl font-bold text-center flex-grow">{decodeURIComponent(categoryName || '')}</h1>
         <div className="flex justify-center my-8">
@@ -160,6 +152,10 @@ const CategoryTools: React.FC = () => {
           <div className="w-full h-full flex flex-col items-center justify-center">
             <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
             <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) :  filteredTools.length === 0 && categoryName === 'My Tools' ? (
+          <div className="flex items-center justify-center ">
+            <h1 className='text-5xl text-gray-500'>No Bookmarks</h1>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

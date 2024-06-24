@@ -209,6 +209,8 @@ const Landing = () => {
   }
 
 
+
+
   return (
     <div className="bg-white dark:bg-[#1E1E1E]">
       <Nav />
@@ -234,7 +236,7 @@ const Landing = () => {
                 logo="https://www.svgrepo.com/show/407090/person-pouting-light-skin-tone.svg"
                 name="My Tools"
                 tagLine="View and manage your bookmarked tools"
-                redirectTo="/category/my-tools"
+                redirectTo="/category/My Tools"
               />
             )}
             <CategoryBox
