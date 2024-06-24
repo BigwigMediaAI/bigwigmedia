@@ -334,17 +334,13 @@ const Landing = () => {
         </div> */}
 
         {/* Render search results section */}
-        <div ref={resultRef} className="mt-10 max-w-6xl m-auto px-4">
+        <div ref={resultRef} className="mt-10 max-w-6xl m-auto px-4 flex justify-center">
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {!isLoading ? (
+              {
                 searchResults.map((card: Card, id: number) => (
                   <Cards cards={[card]} key={id} isLoading={isLoading} />
                 ))
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Loader2 className="animate-spin w-20 h-20 mt-20" />
-                </div>
-              )}
+               }
             </div>
           </div>
       </div>

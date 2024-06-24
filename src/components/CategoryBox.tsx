@@ -22,7 +22,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLin
   };
 
   return (
-    <div className="bt-gradient p-0.5 rounded-xl">
+    <div className="bt-gradient p-0.5 rounded-xl hover:scale-105 transition-transform duration-300 ease-in-out">
       <div
         className="bg-white dark:bg-[#262626] border p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-200 h-56 w-70"
         onClick={handleClick}
