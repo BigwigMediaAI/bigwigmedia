@@ -204,11 +204,10 @@ const Footer = () => {
                 className="text-black dark:text-white font-Outfit text-base font-medium leading-normal cursor-pointer pr-[20px]"
                 key={id}
                 onClick={() => {
-                  searchParams.set("selectedButton", button as string);
+                  const encodedButton = encodeURIComponent(button);
+                  searchParams.set("selectedButton", encodedButton);
                   setSearchParams(searchParams);
-                  navigate(button);
-                  console.log(button)
-                  window.location.href = `https://bigwigmedia.ai/category/${button}`;
+                  navigate(`/category/${encodedButton}`);
 
                 }}
               >
