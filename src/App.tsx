@@ -47,6 +47,7 @@ import { Mp3Downloader } from "./components/YoutubeMp3";
 import { AudioConverter } from "./components/VideotoAudio";
 import { VideoCompressor } from "./components/VideoCompressor";
 import CategoryTools from "./pages/CategoryTools";
+import BlogPostDetail from "./pages/BlogPostDetails";
 
 const App = () => {
  
@@ -73,6 +74,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/plan" element={<Plan />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPostDetail />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/transaction" element={<Transaction />} />
