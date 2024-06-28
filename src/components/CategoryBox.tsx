@@ -24,7 +24,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLin
   return (
     <div className="bt-gradient p-0.5 rounded-xl hover:scale-105 transition-transform duration-300 ease-in-out">
       <div
-        className="bg-white dark:bg-[#262626] border p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-56 w-70"
+        className="bg-white dark:bg-[#262626] border p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-60 w-70"
         
       >
         <div className="flex justify-between items-center mb-3">

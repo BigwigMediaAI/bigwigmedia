@@ -7,6 +7,7 @@ import { useUser } from "@clerk/clerk-react";
 import { toast } from "sonner";
 import LoginModal from "../components/Model2";
 import { Loader2 } from 'lucide-react';
+import Footer from '@/components/Footer';
 
 interface Tool {
   _id: string;
@@ -225,6 +226,7 @@ const CategoryTools: React.FC = () => {
           onClose={() => setShowLoginModal(false)}
         />
       )}
+        <Footer />
     </div>
   );
 };
