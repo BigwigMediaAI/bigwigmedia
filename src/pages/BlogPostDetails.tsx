@@ -53,6 +53,7 @@ type SuggestedPost = {
 
 const BlogPostDetails = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [title,setTitle]=useState<string | null>(null)
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,6 +69,7 @@ const BlogPostDetails = () => {
       try {
         const response = await axios.get(`${BASE_URL}/blog/${slug}`);
         setBlogPost(response.data);
+        setTitle(response.data.title)
         setEditedContent(response.data.content);
         setLoading(false);
         fetchSuggestedPosts(response.data.tags);
@@ -133,7 +135,7 @@ const BlogPostDetails = () => {
   return (
     <div className="bg-white dark:bg-[#1E1E1E]">
       <Helmet>
-        <title>{slug}</title>
+        <title>{title}</title>
       </Helmet>
       <Nav />
       <div className="p-4 sm:p-8 md:p-10 min-h-screen">
