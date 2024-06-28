@@ -10,7 +10,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useUser } from '@clerk/clerk-react';
 import { emails } from '@/utils/email'; // List of admin emails
 import { BASE_URL } from "@/utils/funcitons";
-
+import Comments from './Comments';
 
 const toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],
@@ -52,7 +52,8 @@ type SuggestedPost = {
 };
 
 const BlogPostDetails = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug:urlSlug } = useParams<{ slug: string }>();
+  const slug = urlSlug || '';
   const [title,setTitle]=useState<string | null>(null)
   const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
@@ -194,6 +195,10 @@ const BlogPostDetails = () => {
           <p className="text-gray-600 dark:text-gray-300">Status: {blogPost.status}</p>
         </div>
       </div>
+      
+      <div className="max-w-4xl mx-auto p-5">
+        <Comments slug={slug} />
+      </div>
 
       <div className="max-w-4xl mx-auto p-5">
         <h2 className="text-2xl font-bold mb-6 sm:mb-10 md:mb-12 lg:mb-16">Related Posts</h2>
@@ -209,6 +214,8 @@ const BlogPostDetails = () => {
           ))}
         </div>
       </div>
+
+      
 
       <Footer />
     </div>
