@@ -50,7 +50,7 @@ export function AvatarTool() {
 
   const generateAvatar = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/response/avatar`, {
+      const response = await axios.get(`${BASE_URL}/response/avatar?clerkId=${userId}`, {
         params: avatarOptions,
         responseType: 'blob',
       });
@@ -74,7 +74,7 @@ export function AvatarTool() {
 
   const handleDownload = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/response/avatar`, {
+      const response = await axios.get(`${BASE_URL}/response/avatar?clerkId=${userId}`, {
         params: avatarOptions,
         responseType: 'blob',
       });
