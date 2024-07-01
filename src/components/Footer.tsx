@@ -28,16 +28,15 @@ const Footer = () => {
 
   const arr = [
     "Social Media Tools",
-    "Email Tools",
-    "Content Creation Tools",
+    "Email Generator Tools",
+    "Content Generation Tools",
     "Marketing Tools",
-    "SEO & Web Tools",
-    "File & Image Tools",
-    // "Threads Tools",
-    "Video & Audio Tools",
-    "Business & HR Tools",
-    "Utility Generator",
-    "Creative & Design Tools"
+    "Image Generator & Image Tools",
+    "Video Tools",
+    "Audio Tools",
+    "File Converter Tools",
+    "PDF Tools",
+    "Start-Up Tools"
   ];
   // const buttonFilter = buttons.filter((button) => !arr.includes(button ));
 

@@ -75,7 +75,7 @@ const Nav = () => {
         <div className="flex flex-row  items-center">
           <div className="flex  gap-4 items-center justify-end front-normal max-h-[30px]">
             <div className="justify-center flex random">
-              <div id="google_translate_element" className=""></div>
+              <div id="google_translate_element" className="ml-1"></div>
             </div>
             <div className="ml-4 mr-1">
               <ModeToggle />

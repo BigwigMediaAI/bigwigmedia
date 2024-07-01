@@ -387,7 +387,7 @@ const Landing = () => {
               redirectTo="/category/Facebook Tools"
             />
             <CategoryBox
-              logo="https://www.svgrepo.com/show/354594/youtube.svg"
+              logo="https://www.svgrepo.com/show/475700/youtube-color.svg"
               name="Youtube Tools"
               toolCount={6}
               tagLine="Elevate Your YouTube Presence with Our Comprehensive Tools"
