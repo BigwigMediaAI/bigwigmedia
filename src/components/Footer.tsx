@@ -192,11 +192,11 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-start md:pl-[19px] gap-2 md:gap-[21px] ">
+        <div className="flex flex-col items-start gap-4 sm:w-auto ">
           <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
             Top Tools
           </div>
-          <div className="grid grid-cols-2 xl:grid-cols-2 items-start gap-[5px]">
+          <div className="grid grid-cols-2 gap-2">
             {arr.map((button, id) => (
               <div
                 className="text-black dark:text-white font-Outfit text-base font-medium leading-normal cursor-pointer pr-[20px]"
@@ -214,11 +214,11 @@ const Footer = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col items-start gap-2 md:gap-[21px]">
+        <div className="flex flex-col items-start gap-4 sm:w-auto ">
           <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
             Company
           </div>
-          <div className="flex flex-col items-start gap-[5px]">
+          <div className="flex flex-col items-start gap-2">
             <div
               className="text-black cursor-pointer dark:text-white font-Outfit text-base font-medium leading-normal"
               onClick={() => {
@@ -269,11 +269,11 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-start gap-2 md:gap-[21px]">
+        <div className="flex flex-col items-start gap-4 sm:w-auto ">
           <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
           Policies
           </div>
-          <div className="flex flex-col items-start gap-[5px]">
+          <div className="flex flex-col items-start gap-2">
             <div
               className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
