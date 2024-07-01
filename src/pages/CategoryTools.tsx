@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import LoginModal from "../components/Model2";
 import { Loader2 } from 'lucide-react';
 import Footer from '@/components/Footer';
+import { FiArrowLeft } from 'react-icons/fi';
 
 interface Tool {
   _id: string;
@@ -120,12 +121,8 @@ const CategoryTools: React.FC = () => {
       <Nav />
       <div className="container mx-auto px-4 py-8 w-5/6">
         <div className="flex mb-4">
-          <button onClick={handleBackClick} className="flex px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-500 hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            <span>Back</span>
-          </button>
+        <FiArrowLeft className="text-white text-2xl cursor-pointer hover:text-blue-700" onClick={handleBackClick} />
+
         </div>
         <h1 className="text-2xl font-bold text-center flex-grow">{decodeURIComponent(categoryName || '')}</h1>
         <div className="flex justify-center my-8">

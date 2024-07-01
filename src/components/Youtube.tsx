@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
+import { BASE_URL2 } from "@/utils/funcitons";
+import { useAuth } from "@clerk/clerk-react";
+
 
 export function VideoDownloader() {
   const [videoLink, setVideoLink] = useState<string>("");
@@ -12,6 +15,8 @@ export function VideoDownloader() {
   const [videoThumb, setVideoThumb] = useState<string>("");
   const [hasFetched, setHasFetched] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+
   
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -43,6 +48,7 @@ export function VideoDownloader() {
         }
       });
       if (response.data.status === "ok") {
+       await axios.post(`${BASE_URL2}/limits/decrease?clerkId=${userId}`)
         setVideoTitle(response.data.title);
         setVideoThumb(response.data.thumb);
         const links = Object.entries(response.data.link)

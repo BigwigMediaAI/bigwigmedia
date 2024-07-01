@@ -24,8 +24,8 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLin
   return (
     <div className="bt-gradient p-0.5 rounded-xl hover:scale-105 transition-transform duration-300 ease-in-out">
       <div
-        className="bg-white dark:bg-[#262626] border p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-60 w-70"
-        
+        className="bg-white dark:bg-[#262626] border p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-60 w-70 cursor-pointer"
+        onClick={handleArrowClick}
       >
         <div className="flex justify-between items-center mb-3">
           <img src={logo} alt={name} className="w-12 h-12 object-contain mr-3" />
@@ -40,7 +40,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLin
           {/* Arrow Icon */}
           <div
             className="flex items-center cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full p-2 hover:bg-gradient-to-r hover:from-blue-700 hover:to-blue-900"
-            onClick={handleArrowClick}
+           
           >
             <FiArrowRight className="text-white text-xl" />
           </div>
