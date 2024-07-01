@@ -242,7 +242,7 @@ const Landing = () => {
             <CategoryBox
               logo="https://www.svgrepo.com/show/343856/marketing-flow-business.svg"
               name="Social Media Tools"
-              toolCount={37}
+              toolCount={36}
               tagLine="Enhance Your Social Presence with Seamless Content Creation"
               redirectTo="/category/Social Media Tools"
             />
@@ -256,14 +256,14 @@ const Landing = () => {
             <CategoryBox
               logo="https://www.svgrepo.com/show/520509/video-courses.svg"
               name="Video Tools"
-              toolCount={8}
+              toolCount={12}
               tagLine="Transform Your Video Content with Powerful Tools"
               redirectTo="/category/Video Tools"
             />
             <CategoryBox
               logo="https://www.svgrepo.com/show/375830/image.svg"
               name="Image Generator & Image Tools"
-              toolCount={13}
+              toolCount={12}
               tagLine="Streamline Your File Manangement and Image Editing"
               redirectTo="/category/Image Generator & Image Tools"
             />
@@ -277,7 +277,7 @@ const Landing = () => {
             <CategoryBox
               logo="https://www.svgrepo.com/show/242947/marketing-professions-and-jobs.svg"
               name="Marketing Tools"
-              toolCount={11}
+              toolCount={8}
               tagLine="Drive Your Campaigns with Innovative Marketing Tools"
               redirectTo="/category/Marketing Tools"
             />
@@ -333,14 +333,14 @@ const Landing = () => {
             <CategoryBox
               logo="https://www.svgrepo.com/show/415749/email-inbox-letter.svg"
               name="Email Generator Tools"
-              toolCount={12}
+              toolCount={11}
               tagLine="Effortless Email Solutions for Every Business Need"
               redirectTo="/category/Email Generator Tools"
             />
             <CategoryBox
               logo="https://www.svgrepo.com/show/207030/startup-bussiness.svg"
               name="Start-Up Tools"
-              toolCount={17}
+              toolCount={12}
               tagLine="Empower Your Startup with Essential Tools for Success"
               redirectTo="/category/Start-Up Tools"
             />
@@ -354,7 +354,7 @@ const Landing = () => {
             <CategoryBox
               logo="https://www.svgrepo.com/show/475656/google-color.svg"
               name="Google Adwords & Meta Ads"
-              toolCount={3}
+              toolCount={2}
               tagLine="Maximize Your Reach with Our Powerful Google Ad Tools"
               redirectTo="/category/Google Adwords & Meta Ads"
             />
@@ -368,7 +368,7 @@ const Landing = () => {
             <CategoryBox
               logo="https://www.svgrepo.com/show/349410/instagram.svg"
               name="Instagram Tools"
-              toolCount={7}
+              toolCount={8}
               tagLine="Elevate Your Instagram Presence with Our Essential Tools"
               redirectTo="/category/Instagram Tools"
             />
@@ -410,7 +410,7 @@ const Landing = () => {
             <CategoryBox
               logo="https://www.svgrepo.com/show/303299/linkedin-icon-2-logo.svg"
               name="Linkedin Tools"
-              toolCount={5}
+              toolCount={6}
               tagLine="Optimize Your LinkedIn Presence with Our Comprehensive Tools"
               redirectTo="/category/Linkedin Tools"
             />
@@ -522,7 +522,7 @@ const Landing = () => {
             <CategoryBox
               logo="https://cdn-icons-png.flaticon.com/512/6230/6230391.png"
               name="Utility Tools"
-              toolCount={7}
+              toolCount={11}
               tagLine="Empowering Efficiency: Your One-Stop Solution for Essential Tools"
               redirectTo="/category/Utility Tools"
             />

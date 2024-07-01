@@ -31,7 +31,6 @@ const Footer = () => {
     "Email Generator Tools",
     "Content Generation Tools",
     "Marketing Tools",
-    "Image Generator & Image Tools",
     "Video Tools",
     "Audio Tools",
     "File Converter Tools",
