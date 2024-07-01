@@ -14,7 +14,7 @@ const Stats: React.FC = () => {
             <p className="text-2xl bg-clip-text font-outfit font-semibold">
               <FaMedal />
             </p>
-            <p className="text-sm sm:text-md lg:text-lg text-gray-300">Prestigious Accolades</p>
+            <p className="text-sm sm:text-md lg:text-lg text-gray-300">No. 1 Awarded Product</p>
           </div>
           <div className="text-center p-2 sm:p-4 flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 lg:gap-4">
             <div className="flex items-center">
