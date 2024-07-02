@@ -92,7 +92,7 @@ const BlogTitle = styled.h1`
   color: #777;
   text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
   @media (max-width: 768px) {
-    font-size: 3rem; /* Adjust font size for smaller screens */
+    font-size: 2rem; /* Adjust font size for smaller screens */
   }
 `;
 
