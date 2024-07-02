@@ -85,7 +85,7 @@ const Container = styled.div`
 `;
 
 const BlogTitle = styled.h1`
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 2rem;
@@ -99,7 +99,7 @@ const BlogTitle = styled.h1`
 const Grid = styled.div`
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(4,1fr);
 `;
 
 const BookContainer = styled.div`

@@ -45,13 +45,13 @@ const FAQ: React.FC = () => {
   return (
     <div className='mt-10'><BlogTitle>Frequently Asked Quesitons</BlogTitle>
     
-    <div className="lg:max-w-screen-xl mx-auto mt-5 p-8  rounded-lg shadow-xl shadow-purple-600">
+    <div className="lg:max-w-screen-lg mx-auto mt-5 p-8  rounded-lg shadow-xl shadow-purple-600">
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {faqData.map((item, index) => (
           <div key={index} className="space-y-2 text-justify">
-            <h3 className="text-2xl text-gray-300 font-outfit font-semibold">{item.question}</h3>
-            <p className="text-gray-400 text-lg ">{item.answer}</p>
+            <h3 className="text-xl text-gray-300 font-outfit font-semibold">{item.question}</h3>
+            <p className="text-gray-400 text-base ">{item.answer}</p>
           </div>
         ))}
       </div>
@@ -64,7 +64,7 @@ export default FAQ;
 
 
 const BlogTitle = styled.h1`
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 2rem;
