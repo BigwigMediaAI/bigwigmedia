@@ -160,19 +160,13 @@ const Blog = () => {
       <Nav />
       
       <div className="p-10 w-5/6 m-auto">
-      <div className="text-center mb-10">
-      <h1 className="h-14  bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text text-5xl font-bold mb-4">
-        BigWigMedia Blogs
-      </h1>  
+        <div className="text-center mb-10">
+          <h1 className="h-14  bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text text-5xl font-bold mb-4">
+            BigWigMedia Blogs
+          </h1>  
         </div>
-        <div className='flex flex-col md:flex-row justify-between items-center px-4 mb-10'>
-          <div className='w-full md:w-3/5 m-auto flex justify-between space-x-4 mb-4 md:mb-0'>
-            <a href="/" className='hover:underline'>Home</a>
-            <a href="/blog" className='bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-transparent bg-clip-text hover:underline'>Blog</a>
-            <a href="/contact" className='hover:underline'>Contact Us</a>
-            <a href="/about" className='hover:underline'>About Us</a>
-          </div>
-        </div>
+
+        
 
         <div className="w-full md:w-2/5 m-auto">
           <div className="relative flex items-center">
@@ -197,24 +191,25 @@ const Blog = () => {
         <div className="mt-8 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map(post => (
             <div className='bt-gradient p-0.5 rounded-lg h-fit'>
-              <div key={post._id} className="h-fit relative bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer" onClick={() => handlePostClick(post.slug)}>
-                <img src={post.image} alt={post.title} className="w-full h-48 object-cover" />
-                <div className="p-6">
-                  <h2 className="text-xl font-bold mb-2">{post.title}</h2>
-                  <p className="text-gray-700 dark:text-gray-300 mb-4">{post.excerpt}</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">{new Date(post.datePublished).toLocaleDateString()}</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">by {post.author}</p>
-                  {isAdmin && (
-                    <div className="absolute top-2 right-2">
-                      <FaEdit onClick={(e) => { e.stopPropagation(); handleUpdate(post); }} className="text-blue-500 cursor-pointer inline-block mr-2" />
-                      <FaTrashAlt onClick={(e) => { e.stopPropagation(); handleDelete(post.slug); }} className="text-red-500 cursor-pointer inline-block" />
-                    </div>
-                  )}
+              <div key={post._id} className="h-fit relative bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105" onClick={() => handlePostClick(post.slug)}>
+                <div className="w-full h-72 object-cover relative">
+                  <img src={post.image} alt={post.title} className="w-full h-full object-cover absolute top-0 left-0" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-50 text-white">
+                    <h2 className="text-xl font-bold mb-2">{post.title}</h2>
+                    <p className="text-sm">by {post.author}</p>
+                    <p className="text-sm">{new Date(post.datePublished).toLocaleDateString()}</p>
+                  </div>
                 </div>
+                {isAdmin && (
+                  <div className="absolute top-2 right-2">
+                    <FaEdit onClick={(e) => { e.stopPropagation(); handleUpdate(post); }} className="text-blue-500 cursor-pointer inline-block mr-2" />
+                    <FaTrashAlt onClick={(e) => { e.stopPropagation(); handleDelete(post.slug); }} className="text-red-500 cursor-pointer inline-block" />
+                  </div>
+                )}
               </div>
             </div>
           ))}
-        </div>
+        </div>
 
         {/* Add Blog Modal */}
          {/* Add Blog Modal */}

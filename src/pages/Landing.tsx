@@ -18,6 +18,9 @@ import CategoryBox from "../components/CategoryBox";
 // @ts-ignore
 import { getLocation } from "current-location-geo";
 import {Loader2} from "lucide-react"
+import FAQ from "./Faq";
+import LandingBlog from "./LandingBlog";
+import TestimonialsSlider from "./Testimonials";
 // import Profile from "@/components/Profile";
 
 // type Props = {};
@@ -565,12 +568,13 @@ const Landing = () => {
           </div>
       </div>
 
+      <LandingBlog />
+
       
-
-
 
       {/* Render the trial modal */}
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
+      <FAQ />
       <Footer  />
     </div>
   );
