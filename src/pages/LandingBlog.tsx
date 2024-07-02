@@ -100,6 +100,12 @@ const Grid = styled.div`
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(4,1fr);
+  @media (max-width: 968px) {
+    grid-template-columns: repeat(2,1fr);
+  }
+    @media (max-width: 568px) {
+    grid-template-columns: repeat(1,1fr); 
+  }
 `;
 
 const BookContainer = styled.div`
