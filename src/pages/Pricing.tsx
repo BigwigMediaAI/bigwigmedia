@@ -13,7 +13,7 @@ const PricingPlan = () => {
   return (
     <div className='mt-10'>
     <BlogTitle>Pricing Plan</BlogTitle>
-    <div className="flex flex-col  items-center py-12 ">
+    <div className="flex flex-col  items-center py-6 ">
       <div className="flex flex-col md:flex-row gap-20">
       {/* Monthly Plan */}
       <div className="max-w-md bg-green-100 rounded-lg shadow-lg p-6 shadow-violet-700">
