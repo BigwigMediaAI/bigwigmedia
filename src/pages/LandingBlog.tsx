@@ -79,6 +79,7 @@ export default Blog;
 const Container = styled.div`
   width: 80%;
   margin: auto;
+  margin-top:14px;
   @media (prefers-color-scheme: dark) {
     background-color: #1e1e1e;
   }

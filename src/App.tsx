@@ -1,6 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 
 import Generate from "./components/Generate";
 import Generate2 from "./components/Generate2";

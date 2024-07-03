@@ -20,7 +20,9 @@ import { getLocation } from "current-location-geo";
 import {Loader2} from "lucide-react"
 import FAQ from "./Faq";
 import LandingBlog from "./LandingBlog";
-import TestimonialsSlider from "./Testimonials";
+import TestimonialsCarousel from "./Testimonials";
+import Testimonials from "./Testimonials";
+import PricingPlan from "./Pricing";
 // import Profile from "@/components/Profile";
 
 // type Props = {};
@@ -570,8 +572,9 @@ const Landing = () => {
 
       <LandingBlog />
 
-      
+      <Testimonials />
 
+      <PricingPlan />
       {/* Render the trial modal */}
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
       <FAQ />

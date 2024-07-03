@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Slider from 'react-slick';
+import styled from 'styled-components';
 
-interface Testimonial {
-    name: string;
-    company: string;
-    avatar: string;
-    comment: string;
-    rating: number;
-}
-
-// Define sample testimonial data
 const testimonialsData = [
     {
         name: "John Doe",
@@ -61,49 +54,88 @@ const testimonialsData = [
     }
 ];
 
-// Testimonial card component
-const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => (
-    <div className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-2">
-        <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center mb-4">
-                <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
-                <div>
-                    <h4 className="text-lg font-bold">{testimonial.name}</h4>
-                    <p className="text-gray-600">{testimonial.company}</p>
-                </div>
-            </div>
-            <p className="text-gray-700 mb-6">{testimonial.comment}</p>
-            <div className="flex items-center">
-                {/* Rating stars or any other rating indicator */}
-                {Array.from({ length: testimonial.rating }, (_, index) => (
-                    <img key={index} src="/star.svg" alt="Star" className="w-4 h-4 mr-1 text-yellow-500" />
-                ))}
-            </div>
-        </div>
-    </div>
-);
-
-// Testimonials slider component
-const TestimonialsSlider = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonialsData.length);
-        }, 5000); // Adjust interval as needed (in milliseconds)
-
-        return () => clearInterval(interval);
-    }, []);
+const Testimonials = () => {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3, // Show 3 testimonials at a time
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        pauseOnHover: true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
+        ]
+    };
 
     return (
-        <div className="relative overflow-hidden">
-            <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-                {[testimonialsData[testimonialsData.length - 1], ...testimonialsData, testimonialsData[0]].map((testimonial, index) => (
-                    <TestimonialCard key={index} testimonial={testimonial} />
-                ))}
+        <div className='mt-14'>
+            <BlogTitle>Testimonials</BlogTitle>
+            
+            <div className="max-w-screen-lg mx-auto ">
+                <StyledSlider {...settings}>
+                    {testimonialsData.map((testimonial, index) => (
+                        <div key={index} className="testimonial-item">
+                            <div className="p-6 bg-gray-300 rounded-lg shadow-lg">
+                                <div className="flex items-center mb-4">
+                                    <img src={testimonial.avatar} alt={`${testimonial.name}'s avatar`} className="w-12 h-12 rounded-full mr-4" />
+                                    <div>
+                                        <h3 className="text-lg text-gray-800 font-semibold">{testimonial.name}</h3>
+                                        <h4 className="text-sm text-gray-600">{testimonial.company}</h4>
+                                    </div>
+                                </div>
+                                <p className="text-base text-gray-800 mb-4 h-20 overflow-hidden">{testimonial.comment}</p>
+                                <div className="flex justify-center">
+                                    {[...Array(testimonial.rating)].map((_, i) => (
+                                        <span key={i} className="text-yellow-500 text-xl">&#9733;</span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </StyledSlider>
             </div>
+            
         </div>
     );
 };
 
-export default TestimonialsSlider;
+const BlogTitle = styled.h1`
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #777;
+    text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
+    @media (max-width: 768px) {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+    }
+`;
+
+const StyledSlider = styled(Slider)`
+    .slick-slide {
+        padding: 0 10px; /* Adjust the padding here to create space between slides */
+    }
+`;
+const Underline = styled.div`
+    width: 100%;
+    height: 1px;
+    background-color: white; /* Choose your underline color */
+    margin-top: 20px; /* Adjust margin as needed */
+`;
+
+export default Testimonials;

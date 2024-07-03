@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface FAQItem {
@@ -8,50 +8,64 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
+    question: 'What is the duration of the free trial?',
+    answer: 'New users can enjoy a 7-day free trial of our AI tools.',
+  },
+  {
     question: 'Can I change my plan at any time?',
     answer: 'Yes, you can upgrade or downgrade your plan at any time.',
   },
   {
-    question: 'Is there a discount for annual subscriptions?',
-    answer: 'Yes, we offer a 40% discount if you choose the annual plan.',
+    question: 'How are credits used on the platform?',
+    answer: 'Credits are deducted based on the usage of different AI tools. Each tool specifies the number of credits required for its use.',
   },
   {
-    question: 'When will I be billed?',
-    answer: 'You will be billed at the start of your subscription.',
-  },
-  {
-    question: 'Is there a money-back guarantee?',
-    answer: 'If you don\'t find Easy-Peasy.AI meets your needs, we guarantee a full refund of your payment within 30 days of purchase—no questions asked.',
+    question: 'Can I upgrade my plan before it expires?',
+    answer: 'Yes, you can upgrade your plan at any time. The new plan will be activated immediately, and the remaining credits from your current plan will be added to your account.',
   },
   {
     question: 'Are there any hidden fees?',
     answer: 'No, there are no hidden fees. You just pay the monthly subscription fee.',
   },
   {
-    question: 'How do I cancel my subscription?',
-    answer: 'You can easily cancel your subscription at any time by going to your account settings.',
+    question: 'How do I make payments on the website?',
+    answer: 'We use Razorpay as our secure payment gateway, ensuring safe and seamless transactions.',
   },
   {
     question: 'Do you offer any kind of support?',
     answer: 'Yes, we offer email and live chat support for all of our customers.',
   },
   {
-    question: 'What payment methods are accepted?',
-    answer: 'We support all major credit cards and debit cards. Your payment method is secured by Stripe for your privacy and protection.',
+    question: 'Is my payment information secure?',
+    answer: 'Absolutely. Razorpay is a highly secure payment gateway, and we ensure that all your payment information is protected and encrypted.',
   },
 ];
 
 const FAQ: React.FC = () => {
-  return (
-    <div className='mt-10'><BlogTitle>Frequently Asked Quesitons</BlogTitle>
-    
-    <div className="lg:max-w-screen-lg mx-auto mt-5 p-8  rounded-lg shadow-xl shadow-purple-600">
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+  const toggleAnswer = (index: number) => {
+    if (activeIndex === index) {
+      setActiveIndex(null);
+    } else {
+      setActiveIndex(index);
+    }
+  };
+
+  return (
+    <div><BlogTitle>Frequently Asked Questions</BlogTitle>
+    <div className="lg:max-w-screen-lg mx-auto mt-14 p-8 rounded-lg shadow-xl shadow-purple-600">
+      
+      <div className="space-y-4">
         {faqData.map((item, index) => (
-          <div key={index} className="space-y-2 text-justify">
-            <h3 className="text-xl text-gray-300 font-outfit font-semibold">{item.question}</h3>
-            <p className="text-gray-400 text-base ">{item.answer}</p>
+          <div key={index} className="bg-#1e1e1e rounded-lg p-4  border ">
+            <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleAnswer(index)}>
+              <h3 className="text-lg text-gray-400 font-semibold">{item.question}</h3>
+              <span className="text-gray-400">{activeIndex === index ? '-' : '+'}</span>
+            </div>
+            {activeIndex === index && (
+              <p className="text-gray-600 mt-2">{item.answer}</p>
+            )}
           </div>
         ))}
       </div>
@@ -61,7 +75,6 @@ const FAQ: React.FC = () => {
 };
 
 export default FAQ;
-
 
 const BlogTitle = styled.h1`
   font-size: 2.5rem;
