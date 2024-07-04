@@ -22,7 +22,7 @@ export function VideoDownloader() {
 
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
     try {
@@ -56,7 +56,7 @@ export function VideoDownloader() {
 
   useEffect(() => {
     if (!isLoading) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading]);
 
@@ -83,10 +83,10 @@ export function VideoDownloader() {
       </div>
       <div className="flex justify-center">
         <button
-          onClick={handleDownload}
-          disabled={!!isLoading || !videoLink || !!downloadUrl}
-          className={`text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-5 ${
-            !!isLoading || !videoLink || !!downloadUrl ? 'bg-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-80'
+          onClick={downloadUrl ? handleDownloadClick : handleDownload}
+          disabled={isLoading || !videoLink}
+          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-5 ${
+            isLoading || !videoLink ? 'bg-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-80'
           }`}
         >
           {isLoading ? (
@@ -94,6 +94,8 @@ export function VideoDownloader() {
               <Loader2 className="animate-spin mr-2 inline-block" />
               Getting Video...
             </>
+          ) : downloadUrl ? (
+            'Download Video'
           ) : (
             'Get Videos'
           )}
@@ -112,20 +114,7 @@ export function VideoDownloader() {
                 {errorMessage}
               </div>
             )}
-          
-            {downloadUrl && (
-              <div className="flex justify-center mt-4">
-                <button
-                  onClick={handleDownloadClick}
-                  disabled={!downloadUrl}
-                  className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
-                    !downloadUrl ? 'bg-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-80'
-                  }`}
-                >
-                  Download Video
-                </button>
-              </div>
-            )}
+            
           </>
         )}
       </div>
