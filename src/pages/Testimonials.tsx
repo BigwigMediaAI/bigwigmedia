@@ -89,16 +89,16 @@ const Testimonials = () => {
             <div className="max-w-screen-lg mx-auto ">
                 <StyledSlider {...settings}>
                     {testimonialsData.map((testimonial, index) => (
-                        <div key={index} className="testimonial-item">
-                            <div className="p-6 bg-gray-300 rounded-lg shadow-lg">
+                        <div key={index} className="testimonial-item p-5">
+                            <div className="p-6 rounded-lg  bg-zinc-800 shadow-md  shadow-violet-500 ">
                                 <div className="flex items-center mb-4">
                                     <img src={testimonial.avatar} alt={`${testimonial.name}'s avatar`} className="w-12 h-12 rounded-full mr-4" />
                                     <div>
-                                        <h3 className="text-lg text-gray-800 font-semibold">{testimonial.name}</h3>
-                                        <h4 className="text-sm text-gray-600">{testimonial.company}</h4>
+                                        <h3 className="text-lg text-gray-200 font-semibold">{testimonial.name}</h3>
+                                        <h4 className="text-sm text-gray-400">{testimonial.company}</h4>
                                     </div>
                                 </div>
-                                <p className="text-base text-gray-800 mb-4 h-20 overflow-hidden">{testimonial.comment}</p>
+                                <p className="text-base text-gray-300 mb-4 h-20 overflow-hidden">{testimonial.comment}</p>
                                 <div className="flex justify-center">
                                     {[...Array(testimonial.rating)].map((_, i) => (
                                         <span key={i} className="text-yellow-500 text-xl">&#9733;</span>
