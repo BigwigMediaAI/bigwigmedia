@@ -23,6 +23,7 @@ import LandingBlog from "./LandingBlog";
 import TestimonialsCarousel from "./Testimonials";
 import Testimonials from "./Testimonials";
 import PricingPlan from "./Pricing";
+import Features from "./Features";
 // import Profile from "@/components/Profile";
 
 // type Props = {};
@@ -578,6 +579,7 @@ const Landing = () => {
       {/* Render the trial modal */}
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
       <FAQ />
+      <Features />
       <Footer  />
     </div>
   );

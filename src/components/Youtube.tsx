@@ -2,34 +2,25 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
-import { BASE_URL2 } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-
+import { BASE_URL } from "../utils/funcitons";
 
 export function VideoDownloader() {
-  const [videoLink, setVideoLink] = useState<string>("");
-  const [downloadLinks, setDownloadLinks] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedQuality, setSelectedQuality] = useState<string>("");
-  const [videoTitle, setVideoTitle] = useState<string>("");
-  const [videoThumb, setVideoThumb] = useState<string>("");
-  const [hasFetched, setHasFetched] = useState<boolean>(false);
+  const [videoLink, setVideoLink] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const [showVideoPreview, setShowVideoPreview] = useState(false);
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string | null>(null);
+  const { userId } = useAuth();
 
-  
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-
-  const extractVideoId = (url: string): string | null => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : null;
-  };
 
   const handleDownload = async () => {
     setIsLoading(true);
     setErrorMessage(null);
+    setDownloadUrl(null);
 
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
@@ -37,35 +28,14 @@ export function VideoDownloader() {
     }, 100);
 
     try {
-      const videoId = extractVideoId(videoLink);
-      if (!videoId) {
-        throw new Error("Invalid YouTube video link");
-      }
-      const response = await axios.get(`https://youtube-video-download-info.p.rapidapi.com/dl?id=${videoId}`, {
-        headers: {
-          'X-RapidAPI-Key': 'b3402da2eemsh9f38aabddad6fabp1be739jsn49f1254bdd37',
-          'X-RapidAPI-Host': 'youtube-video-download-info.p.rapidapi.com'
-        }
-      });
-      if (response.data.status === "ok") {
-       await axios.post(`${BASE_URL2}/limits/decrease?clerkId=${userId}`)
-        setVideoTitle(response.data.title);
-        setVideoThumb(response.data.thumb);
-        const links = Object.entries(response.data.link)
-          .map(([key, value]: [string, any]) => ({
-            url: value[0],
-            quality: value[3]
-          }))
-          .filter(link => link.quality === "360p" || link.quality === "720p");
-        setDownloadLinks(links);
-        setHasFetched(true);
+      const response = await axios.post(`${BASE_URL}/response/ytdl?clerkId=${userId}`, { url: videoLink });
 
-        // Scroll to results after a short delay to ensure they are rendered
-        setTimeout(() => {
-          resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
-        }, 100);
+      if (response.data.downloadUrl) {
+        setDownloadUrl(response.data.downloadUrl);
+        setVideoPreviewUrl(response.data.downloadUrl); // Set preview URL
+        setShowVideoPreview(true); // Show video preview
       } else {
-        setErrorMessage("API Error: " + JSON.stringify(response.data));
+        throw new Error("Failed to get the download URL.");
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -78,29 +48,22 @@ export function VideoDownloader() {
     }
   };
 
-  const handleDownloadClick = (url: string) => {
-    window.open(url, '_blank');
-  };
-
   const handleRefresh = () => {
     window.location.reload();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVideoLink(e.target.value);
-    setDownloadLinks([]);
-    setVideoTitle("");
-    setVideoThumb("");
-    setHasFetched(false);
-    setSelectedQuality("");
+    setDownloadUrl(null);
     setErrorMessage(null);
+    setShowVideoPreview(false); // Hide video preview on input change
   };
 
   useEffect(() => {
-    if (!isLoading && downloadLinks.length > 0) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    if (!isLoading) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [isLoading, downloadLinks]);
+  }, [isLoading]);
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 dark:bg-[#5f5f5f] bg-white p-6 shadow-xl rounded-lg">
@@ -119,9 +82,9 @@ export function VideoDownloader() {
       <div className="flex justify-center">
         <button
           onClick={handleDownload}
-          disabled={isLoading || !videoLink || hasFetched}
-          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
-            isLoading || !videoLink || hasFetched ? 'bg-gray-500 cursor-not-allowed' : 'text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit'
+          disabled={!!isLoading || !videoLink || !!downloadUrl}
+          className={`text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-5 ${
+            !!isLoading || !videoLink || !!downloadUrl ? 'bg-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-80'
           }`}
         >
           {isLoading ? (
@@ -147,43 +110,15 @@ export function VideoDownloader() {
                 {errorMessage}
               </div>
             )}
-            {videoTitle && (
-              <div ref={resultsRef} className="mt-4 flex-col items-center">
-                <img src={videoThumb} alt={videoTitle} className="w-full h-auto rounded-md" />
-                <p className="mt-2 text-lg font-semibold text-white">{videoTitle}</p>
-              </div>
-            )}
-            {downloadLinks.length > 0 && (
-              <div className="mt-4">
-                <p>Select Quality:</p>
-                <div className="flex flex-wrap">
-                  {downloadLinks.map((link, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedQuality(link.url)}
-                      className={`px-4 py-2 mr-2 mb-2 text-white font-semibold rounded-md ${
-                        selectedQuality === link.url ? 'bg-blue-500' : 'bg-gray-400 hover:bg-blue-500'
-                      }`}
-                    >
-                      {link.quality}
-                    </button>
-                  ))}
-                </div>
-                {selectedQuality && (
-                  <div className="flex items-center justify-center mt-3">
-                  <button
-                    onClick={() => handleDownloadClick(selectedQuality)}
-                    className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
-                  >
-                    Download Video
-                  </button>
-                  </div>
-                )}
-              </div>
+            {showVideoPreview && videoPreviewUrl && (  // Ensure videoPreviewUrl is not null or empty
+            <div className="mt-4 flex-col items-center">
+              <video controls className="w-full" src={videoPreviewUrl} />
+
+            </div>
             )}
           </>
         )}
       </div>
-    </div>
-  );
+    </div>
+  );
 }
