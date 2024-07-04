@@ -10,8 +10,6 @@ export function VideoDownloader() {
   const [isLoading, setIsLoading] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [showVideoPreview, setShowVideoPreview] = useState(false);
-  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string | null>(null);
   const { userId } = useAuth();
 
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -32,8 +30,6 @@ export function VideoDownloader() {
 
       if (response.data.downloadUrl) {
         setDownloadUrl(response.data.downloadUrl);
-        setVideoPreviewUrl(response.data.downloadUrl); // Set preview URL
-        setShowVideoPreview(true); // Show video preview
       } else {
         throw new Error("Failed to get the download URL.");
       }
@@ -56,7 +52,6 @@ export function VideoDownloader() {
     setVideoLink(e.target.value);
     setDownloadUrl(null);
     setErrorMessage(null);
-    setShowVideoPreview(false); // Hide video preview on input change
   };
 
   useEffect(() => {
@@ -64,6 +59,13 @@ export function VideoDownloader() {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [isLoading]);
+
+  const handleDownloadClick = () => {
+    if (downloadUrl) {
+      // Trigger download
+      window.open(downloadUrl, '_blank');
+    }
+  };
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 dark:bg-[#5f5f5f] bg-white p-6 shadow-xl rounded-lg">
@@ -110,11 +112,19 @@ export function VideoDownloader() {
                 {errorMessage}
               </div>
             )}
-            {showVideoPreview && videoPreviewUrl && (  // Ensure videoPreviewUrl is not null or empty
-            <div className="mt-4 flex-col items-center">
-              <video controls className="w-full" src={videoPreviewUrl} />
-
-            </div>
+          
+            {downloadUrl && (
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={handleDownloadClick}
+                  disabled={!downloadUrl}
+                  className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
+                    !downloadUrl ? 'bg-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-80'
+                  }`}
+                >
+                  Download Video
+                </button>
+              </div>
             )}
           </>
         )}
