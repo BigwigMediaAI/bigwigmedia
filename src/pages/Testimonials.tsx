@@ -83,7 +83,7 @@ const Testimonials = () => {
     };
 
     return (
-        <div className='mt-14'>
+        <div className='mt-2'>
             <BlogTitle>Testimonials</BlogTitle>
             
             <div className="max-w-screen-lg mx-auto ">

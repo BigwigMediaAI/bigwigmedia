@@ -53,18 +53,18 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <div><BlogTitle>Frequently Asked Questions</BlogTitle>
+    <div className='mt-10'><BlogTitle>Frequently Asked Questions</BlogTitle>
     <div className="lg:max-w-screen-lg mx-auto p-8 rounded-lg shadow-xl shadow-purple-600">
       
       <div className="space-y-4">
         {faqData.map((item, index) => (
           <div key={index} className="bg-#1e1e1e rounded-lg p-4  border ">
             <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleAnswer(index)}>
-              <h3 className="text-lg text-gray-400 font-semibold">{item.question}</h3>
+              <h3 className="text-lg text-gray-300 font-semibold">{item.question}</h3>
               <span className="text-gray-400">{activeIndex === index ? '-' : '+'}</span>
             </div>
             {activeIndex === index && (
-              <p className="text-gray-600 mt-2">{item.answer}</p>
+              <p className="text-gray-400 mt-2">{item.answer}</p>
             )}
           </div>
         ))}

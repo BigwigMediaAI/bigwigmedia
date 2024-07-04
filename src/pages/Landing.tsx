@@ -573,9 +573,9 @@ const Landing = () => {
 
       <LandingBlog />
 
+      <PricingPlan />
       <Testimonials />
 
-      <PricingPlan />
       {/* Render the trial modal */}
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
       <FAQ />
