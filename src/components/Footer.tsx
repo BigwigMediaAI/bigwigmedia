@@ -214,6 +214,7 @@ const Footer = () => {
             ))}
           </div>
         </div>
+        <div className="flex gap-16">
         <div className="flex flex-col items-start gap-4 sm:w-auto ">
           <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
             Company
@@ -317,6 +318,7 @@ const Footer = () => {
             </div>
            
           </div>
+        </div>
         </div>
       </div>
       {/* <ModeToggle /> */}
