@@ -570,15 +570,13 @@ const Landing = () => {
             </div>
           </div>
       </div>
-
-      <LandingBlog />
-
       <PricingPlan />
+      <FAQ />
       <Testimonials />
 
       {/* Render the trial modal */}
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
-      <FAQ />
+      <LandingBlog />
       <Features />
       <Footer  />
     </div>
