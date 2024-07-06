@@ -1,7 +1,7 @@
 // import React from "react";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
-import Hero from "../components/Hero";
+// import Hero from "../components/Hero";
 // import Menu from "../components/Menu";
 import Cards from "../components/Cards";
 import Stats from "./Stats";
