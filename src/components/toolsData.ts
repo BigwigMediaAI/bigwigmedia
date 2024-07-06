@@ -210,6 +210,13 @@ export interface Category {
       redirectTo: "/category/Website Tools"
     },
     {
+        logo: "https://www.svgrepo.com/show/54359/logo.svg",
+        name: "Logo Generator Tools",
+        toolCount: 1,
+        tagLine: "Create Stunning Logos Effortlessly with Our Powerful Design Tools",
+        redirectTo: "/category/Logo Generator Tools"
+      },
+    {
       logo: "https://www.svgrepo.com/show/446529/avatar.svg",
       name: "Avatar Generator Tools",
       toolCount: 1,
