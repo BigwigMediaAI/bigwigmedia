@@ -51,13 +51,21 @@ import { AudioConverter } from "./components/VideotoAudio";
 import { VideoCompressor } from "./components/VideoCompressor";
 import CategoryTools from "./pages/CategoryTools";
 import BlogPostDetail from "./pages/BlogPostDetails";
+import initializeGA from "../src/analytics"
+import ReactGA from 'react-ga4';
+
 
 const App = () => {
  
-  // const location = useLocation();
-  // useEffect(() => {
-  //   ReactGA.send({ hitType: "pageview", page: location.pathname + location.search , title: "Home Page"});
-  // }, []);
+  const location = useLocation();
+
+  useEffect(() => {
+  initializeGA();
+  }, []);
+
+  useEffect(() => {
+  ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search });
+  }, [location]);
   
   return (
     <div className=" min-w-screen min-h-screen bg-white dark:bg-[#1E1E1E]">
