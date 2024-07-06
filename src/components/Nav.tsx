@@ -28,7 +28,7 @@ interface NavProps {
   blogsRef: RefObject<HTMLDivElement>;
 }
 
-const Nav: React.FC<NavProps> = ({ testimonialsRef,blogsRef }) => {
+const Nav=() => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { isLoaded, isSignedIn, user } = useUser();
@@ -70,16 +70,12 @@ const Nav: React.FC<NavProps> = ({ testimonialsRef,blogsRef }) => {
     loadGoogleTranslateScript();
   }, []);
 
-  const handleScrollToTestimonials = () => {
-    if (testimonialsRef.current) {
-      testimonialsRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleContacts = () => {
+    window.location.href="/contact"
   };
 
-  const handleScrollToBlogs = () => {
-    if (blogsRef.current) {
-      blogsRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleBlogs = () => {
+    window.location.href="/blog"
   };
 
   return (
@@ -105,9 +101,9 @@ const Nav: React.FC<NavProps> = ({ testimonialsRef,blogsRef }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="dark:bg-zinc-900">
               <DropdownMenuItem onClick={() => navigate("/")}>Home</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleScrollToBlogs}>Blogs</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleScrollToTestimonials}>
-                Testimonial
+              <DropdownMenuItem onClick={handleBlogs}>Blogs</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleContacts}>
+                Contact us
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -120,9 +116,9 @@ const Nav: React.FC<NavProps> = ({ testimonialsRef,blogsRef }) => {
             alt="bigwig-logo"
             className="w-10 h-10 md:w-12 md:h-12 rounded-lg"
           />
-          <span className="text-gray-900 hidden md:none dark:text-white font-outfit text-2xl font-semibold">
+          <span className="text-gray-900 hidden md:block dark:text-white font-outfit text-2xl font-semibold">
             BigWigMedia.ai
-            <sup className="text-xs px-4 ml-2 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] bg-green-400 border-black">
+            <sup className="text-xs px-4 ml-2 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] bg-green-400 border-black ">
               beta
             </sup>
           </span>
@@ -131,22 +127,20 @@ const Nav: React.FC<NavProps> = ({ testimonialsRef,blogsRef }) => {
         <div className="flex-grow flex justify-center">
           {/* Navigation links */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#" className="text-gray-900 dark:text-white font-semibold">
+            <a href="/" className="text-gray-900 dark:text-white font-semibold">
               Home
             </a>
             <a
-              href="#"
+              href="/blog"
               className="text-gray-900 dark:text-white font-semibold"
-              onClick={handleScrollToBlogs}
             >
               Blogs
             </a>
             <a
-              href="#"
+              href="/contact"
               className="text-gray-900 dark:text-white font-semibold"
-              onClick={handleScrollToTestimonials}
             >
-              Testimonial
+              Contact us
             </a>
           </div>
         </div>

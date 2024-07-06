@@ -59,8 +59,6 @@ const Landing = () => {
   const [location, setLocation] = useState<string>("");
   const resultRef=useRef<HTMLDivElement>(null)
   const navigate = useNavigate();
-  const testimonialsRef = useRef<HTMLDivElement>(null);
-  const blogsRef = useRef<HTMLDivElement>(null);
 
   const handleCloseTrialModal = () => {
     // Function to handle closing the trial modal
@@ -221,7 +219,7 @@ const Landing = () => {
 
   return (
     <div className="bg-white dark:bg-[#1E1E1E]">
-      <Nav testimonialsRef={testimonialsRef} blogsRef={blogsRef}/>
+      <Nav />
       <div className="px-5 min-h-screen">
         <Hero search={search} setSearch={setSearch} onClick={handleSearch} />
         <div className="mt-2 flex items-center justify-center">
@@ -575,13 +573,13 @@ const Landing = () => {
       <PricingPlan />
       <FAQ />
       
-      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto" ref={testimonialsRef}>
+      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto">
       <Testimonials />
     </div>
 
       {/* Render the trial modal */}
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
-      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto" ref={blogsRef}>
+      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto" >
       <LandingBlog />
     </div>
       
