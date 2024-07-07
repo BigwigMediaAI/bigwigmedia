@@ -156,7 +156,7 @@ const BlogPostDetails = () => {
                 onChange={setEditedContent}
                 modules={{ toolbar: toolbarOptions }}
               />
-              <button onClick={handleSave} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+              <button onClick={handleSave} className="mb-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded">
                 Save
               </button>
             </div>

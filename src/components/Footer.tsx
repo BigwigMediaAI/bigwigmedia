@@ -41,7 +41,7 @@ const Footer = () => {
 
   return (
     <div className="flex flex-col relative items-center gap-[25px] shrink-0 mt-14 pb-4 border-t pt-8 px-8 justify-center w-full h-110">
-      <svg
+      {/* <svg
         xmlns="http://www.w3.org/2000/svg"
         width="231"
         height="252"
@@ -160,7 +160,7 @@ const Footer = () => {
             />
           </filter>
         </defs>
-      </svg>
+      </svg> */}
       <div className="flex flex-wrap items-start gap-2 px-5 md:px-auto md:gap-[83px]">
         <div className="flex flex-col items-start justify-center gap-[18px] w-fit h-[167px] mt-[-30px]">
           <div

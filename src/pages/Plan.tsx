@@ -221,14 +221,7 @@ const Plan = (props: Props) => {
         <Nav />
         <div className=" dark:!text-white flex flex-col  min-h-[calc(100vh-90px)] w-full h-full justify-center items-center px-5">
           {/*  @ts-ignore */}
-          <div
-            ref={ref}
-            className={cn(
-              "w-full snap-always  overflow-y-hidden snap-center  h-full flex flex-row gap-11 justify-center items-center  max-w-[1200px]  ",
-              isScroll &&
-                "overflow-x-scroll  snap-x px-5 justify-start scroll-smooth snap-mandatory 	"
-            )}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-7xl mx-auto">
             {isLoaded &&
               plans.map((ite, index) => (
                 <div  key={index}

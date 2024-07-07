@@ -161,9 +161,11 @@ const Blog = () => {
       
       <div className="p-10 w-5/6 m-auto">
         <div className="text-center mb-10">
-          <h1 className="h-14  bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text text-5xl font-bold mb-4">
-            BigWigMedia Blogs
-          </h1>  
+        <h1 className=" bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text text-2xl sm:text-4xl md:text-4xl lg:text-5xl font-bold mb-4">
+          BigWigMedia Blogs
+        </h1>
+
+ 
         </div>
 
         

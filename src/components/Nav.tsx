@@ -127,22 +127,25 @@ const Nav=() => {
         <div className="flex-grow flex justify-center">
           {/* Navigation links */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="/" className="text-gray-900 dark:text-white font-semibold">
-              Home
-            </a>
-            <a
-              href="/blog"
-              className="text-gray-900 dark:text-white font-semibold"
-            >
-              Blogs
-            </a>
-            <a
-              href="/contact"
-              className="text-gray-900 dark:text-white font-semibold"
-            >
-              Contact us
-            </a>
-          </div>
+          <button
+            onClick={() => navigate('/')}
+            className="text-gray-900 dark:text-white font-semibold"
+          >
+            Home
+          </button>
+          <button
+            onClick={() => navigate('/blog')}
+            className="text-gray-900 dark:text-white font-semibold"
+          >
+            Blogs
+          </button>
+          <button
+            onClick={() => navigate('/contact')}
+            className="text-gray-900 dark:text-white font-semibold"
+          >
+            Contact us
+          </button>
+        </div>
         </div>
 
         {/* Language selector */}
