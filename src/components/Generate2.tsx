@@ -35,6 +35,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { button } from "@nextui-org/react";
 import { ClipboardList } from "lucide-react";
+import { FaDownload, FaShareAlt } from "react-icons/fa";
 import { Paraphrase } from "./paraphrase";
 import { Special } from "./Special";
 import { Decision } from "./DecisionTool";
@@ -382,6 +383,41 @@ const Generate = () => {
     setOutput(undefined);
     setIsGenerated(false);
   };
+  const removeHtmlTags = (html:any) => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  };
+  
+  const handleDownload = () => {
+    const textContent = removeHtmlTags(output?.output || ''); // Assuming output.output contains your HTML content
+  
+    const element = document.createElement("a");
+    const file = new Blob([textContent], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = "generated_text.txt";
+    document.body.appendChild(element); // Required for Firefox
+    element.click();
+    document.body.removeChild(element);
+  };
+  
+  const handleShare = () => {
+    const textContent = removeHtmlTags(output?.output || ''); // Assuming output.output contains your HTML content
+  
+    // Check if the navigator.share API is available in the browser
+    if (navigator.share) {
+      navigator.share({
+        title: 'Shared Text', // Title of the shared content (optional)
+        text: textContent,    // Text content to be shared
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      // Fallback option if navigator.share is not supported (e.g., show an alert with instructions)
+      alert('Sharing is not supported in your browser. Please copy the text manually and share it.');
+    }
+  };
+  
+  
 
   const handleCopy = () => {
     try {
@@ -628,16 +664,23 @@ const Generate = () => {
                 ))}
               </div>
             ))}
+            <div className=" flex justify-start">
+          <p className=" text-base text-gray-400 mt-2">
+        👉 Try a few combinations to generate the best result for your needs.
+        </p>
           </div>
-
+          </div>
+          
+          <div className="mt-5 flex justify-center">
           <button
-            className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
             onClick={(e) => void handleSubmit(e)}
             disabled={isLoading}
           >
             {isLoading && <Loader2 className="animate-spin w-7 h-7 " />}
             {isGenerated ? "Regenerate" : "Generate"}
           </button>
+          </div>
         </>
       )}
 
@@ -650,13 +693,22 @@ const Generate = () => {
             >
               Your Pitch
             </h1>
-            <div className="absolute bottom-2 right-4">
+            <div className="flex gap-3 absolute bottom-2 right-4">
               {output && (
-                <button onClick={handleCopy}>
-                  <ClipboardList className="w-5 h-5" />
-                </button>
+                <>
+                  <button onClick={handleCopy}>
+                    <ClipboardList className="w-5 h-5" />
+                  </button>
+                  <button onClick={handleDownload}>
+                    <FaDownload className="w-5 h-5" />
+                  </button>
+                  <button onClick={handleShare}>
+                    <FaShareAlt className="w-5 h-5" />
+                  </button>
+                </>
               )}
             </div>
+
           </div>
           {!isLoading ? (
             <p
@@ -664,8 +716,9 @@ const Generate = () => {
               dangerouslySetInnerHTML={{ __html: output?.output as string }}
             />
           ) : (
-            <div className="w-full h-full flex items-center text-justify justify-center">
+            <div className="w-full h-full flex flex-col items-center text-justify justify-center">
               <Loader2 className="animate-spin w-20 h-20 mt-20" />
+              <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           )}
         </div>

@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { ClipboardCopyIcon, Loader2 } from 'lucide-react';
+import { ClipboardCopyIcon, DownloadIcon, ShareIcon, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { FaDownload, FaShareAlt } from "react-icons/fa";
 
-export function YouTubeScriptGenerator(){
+export function YouTubeScriptGenerator() {
   const [topic, setTopic] = useState('');
   const [tone, setTone] = useState('');
   const [length, setLength] = useState('');
@@ -26,7 +27,7 @@ export function YouTubeScriptGenerator(){
     }
 
     setTimeout(() => {
-        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
     try {
@@ -55,6 +56,32 @@ export function YouTubeScriptGenerator(){
     } catch (error) {
       toast.error('Failed to copy script');
     }
+  };
+
+  const handleShareScript = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'YouTube Script',
+        text: script
+      }).then(() => {
+        toast.success('Script shared successfully');
+      }).catch((error) => {
+        toast.error('Failed to share script');
+      });
+    } else {
+      toast.error('Share feature is not supported in this browser');
+    }
+  };
+
+  const handleDownloadScript = () => {
+    const element = document.createElement("a");
+    const file = new Blob([script], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = "YouTubeScript.txt";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+    toast.success('Script downloaded');
   };
 
   useEffect(() => {
@@ -121,6 +148,9 @@ export function YouTubeScriptGenerator(){
           <option value="Malayalam">Malayalam</option>
           <option value="Punjabi">Punjabi</option>
         </select>
+        <p className="text-base text-gray-400 mt-2">
+        👉 Try a few combinations to generate the best script for your needs.
+        </p>
         <button
           onClick={handleGenerateScript}
           className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -139,12 +169,27 @@ export function YouTubeScriptGenerator(){
           <h3 className="text-xl font-semibold mb-4">Generated Script</h3>
           <div className="border border-gray-300 rounded-md p-4 dark:text-gray-200 relative overflow-x-auto max-w-full">
             <pre className="whitespace-pre-wrap">{script}</pre>
-            <button
-              onClick={handleCopyScript}
-              className="absolute top-2 right-2 bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
-            >
-              <ClipboardCopyIcon className="inline-block w-5 h-5" />
-            </button>
+            <div className="absolute top-2 right-2 flex gap-2">
+              <button
+                onClick={handleCopyScript}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <ClipboardCopyIcon className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={handleDownloadScript}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaDownload className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={handleShareScript}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaShareAlt className="inline-block w-5 h-5" />
+              </button>
+              
+            </div>
           </div>
         </div>
       )}

@@ -85,6 +85,8 @@ const Plan = (props: Props) => {
         // @ts-ignore
         if (res.showTop) {
           const arr = res.data.data;
+          console.log(arr);
+          
           setplans([arr.TOPUP, arr.YEARLY]);
         } else {
           const arr = res.data.data;
@@ -139,7 +141,7 @@ const Plan = (props: Props) => {
     try {
       console.log(ite)
       const { name, price } = ite; 
-      const resposedata = await axios.post(`https://bigwigmedia-backend.onrender.com/api/v2/Razorpay/order?clerkId=${userId}`, {
+      const resposedata = await axios.post(`${BASE_URL2}/Razorpay/order?clerkId=${userId}`, {
         name:name,
         amount:price 
       });
@@ -152,7 +154,7 @@ const Plan = (props: Props) => {
         "description": "Test Transaction",
         "image": "https://bigwigmedia.ai/assets/bigwig-img-pvLFkfcL.jpg",
         "order_id": "", 
-        "callback_url": "https://bigwigmedia-backend.onrender.com/api/v2/verify/payment-verification",
+        "callback_url": `${BASE_URL2}/verify/payment-verification`,
         "prefill": {
             "name": user,
             "email": "gaurav.kumar@example.com",
