@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Loader2, ClipboardCopyIcon, CopyIcon } from "lucide-react";
+import { Loader2, ClipboardCopyIcon, CopyIcon, Share2Icon, DownloadIcon } from "lucide-react";
 import { toast } from "sonner";
+import { saveAs } from "file-saver";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
@@ -67,6 +68,24 @@ export function Rephrase() {
     }
   };
 
+  const handleShare = (textToShare: string) => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Rephrased Text',
+        text: textToShare,
+      })
+        .then(() => toast.success("Shared successfully"))
+        .catch((error) => toast.error("Failed to share"));
+    } else {
+      toast.error("Sharing is not supported in this browser");
+    }
+  };
+
+  const handleDownload = (textToDownload: string) => {
+    const blob = new Blob([textToDownload], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, "rephrased_text.txt");
+  };
+
   const handleTextChange = (e: any) => {
     setText(e.target.value);
     setOutput([]);
@@ -103,37 +122,35 @@ export function Rephrase() {
               onChange={(e) => setLanguage(e.target.value)}
             >
               <option value="English">English</option>
-<option value="Spanish">Spanish</option>
-<option value="French">French</option>
-<option value="German">German</option>
-<option value="Chinese">Chinese</option>
-<option value="Hindi">Hindi</option>
-<option value="Arabic">Arabic</option>
-<option value="Portuguese">Portuguese</option>
-<option value="Bengali">Bengali</option>
-<option value="Russian">Russian</option>
-<option value="Japanese">Japanese</option>
-<option value="Lahnda">Lahnda</option>
-<option value="Punjabi">Punjabi</option>
-<option value="Javanese">Javanese</option>
-<option value="Korean">Korean</option>
-<option value="Telugu">Telugu</option>
-<option value="Marathi">Marathi</option>
-<option value="Tamil">Tamil</option>
-<option value="Turkish">Turkish</option>
-<option value="Vietnamese">Vietnamese</option>
-<option value="Italian">Italian</option>
-<option value="Urdu">Urdu</option>
-<option value="Persian">Persian</option>
-<option value="Malay">Malay</option>
-<option value="Thai">Thai</option>
-<option value="Gujarati">Gujarati</option>
-<option value="Kannada">Kannada</option>
-<option value="Polish">Polish</option>
-<option value="Ukrainian">Ukrainian</option>
-<option value="Romanian">Romanian</option>
-
-              {/* Add more languages as needed */}
+              <option value="Spanish">Spanish</option>
+              <option value="French">French</option>
+              <option value="German">German</option>
+              <option value="Chinese">Chinese</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Arabic">Arabic</option>
+              <option value="Portuguese">Portuguese</option>
+              <option value="Bengali">Bengali</option>
+              <option value="Russian">Russian</option>
+              <option value="Japanese">Japanese</option>
+              <option value="Lahnda">Lahnda</option>
+              <option value="Punjabi">Punjabi</option>
+              <option value="Javanese">Javanese</option>
+              <option value="Korean">Korean</option>
+              <option value="Telugu">Telugu</option>
+              <option value="Marathi">Marathi</option>
+              <option value="Tamil">Tamil</option>
+              <option value="Turkish">Turkish</option>
+              <option value="Vietnamese">Vietnamese</option>
+              <option value="Italian">Italian</option>
+              <option value="Urdu">Urdu</option>
+              <option value="Persian">Persian</option>
+              <option value="Malay">Malay</option>
+              <option value="Thai">Thai</option>
+              <option value="Gujarati">Gujarati</option>
+              <option value="Kannada">Kannada</option>
+              <option value="Polish">Polish</option>
+              <option value="Ukrainian">Ukrainian</option>
+              <option value="Romanian">Romanian</option>
             </select>
             <select
               className="rounded-md px-2 py-1 text-gray-600 dark:text-gray-200 border-2 border-gray-300"
@@ -143,7 +160,6 @@ export function Rephrase() {
               <option value="neutral">Neutral</option>
               <option value="formal">Formal</option>
               <option value="casual">Casual</option>
-              {/* Add more tones as needed */}
             </select>
             <input
               type="number"
@@ -166,13 +182,27 @@ export function Rephrase() {
               <div ref={resultsRef} className="flex flex-col gap-4 mt-4">
                 {output.map((item, index) => (
                   <div key={index} className="relative h-40 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 overflow-y-scroll">
-                    {item}
+                    <p className="mt-6 text-justify">{item}</p>
                     <Button
                       className="absolute top-2 right-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                       variant="ghost"
                       onClick={() => handleCopy(item)}
                     >
                       <CopyIcon className="h-5 w-5" />
+                    </Button>
+                    <Button
+                      className="absolute top-2 right-12 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                      variant="ghost"
+                      onClick={() => handleShare(item)}
+                    >
+                      <Share2Icon className="h-5 w-5" />
+                    </Button>
+                    <Button
+                      className="absolute top-2 right-20 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                      variant="ghost"
+                      onClick={() => handleDownload(item)}
+                    >
+                      <DownloadIcon className="h-5 w-5" />
                     </Button>
                   </div>
                 ))}

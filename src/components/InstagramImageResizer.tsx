@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Upload } from "lucide-react";
+import { Loader2, RefreshCw, Download, UploadIcon, Share2 } from "lucide-react";
 import { BASE_URL } from "../utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -81,6 +81,29 @@ export function InstagramImageTool() {
     }
   };
 
+  const handleShare = async () => {
+    if (resizedImage) {
+      try {
+        const response = await fetch(resizedImage);
+        const blob = await response.blob();
+        const file = new File([blob], "resized_image.jpg", { type: blob.type });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: "Resized Image",
+            text: "Check out this resized image!",
+            files: [file],
+          });
+        } else {
+          toast.error("Sharing not supported on this device.");
+        }
+      } catch (error) {
+        console.error("Error sharing image:", error);
+        toast.error("Failed to share image.");
+      }
+    }
+  };
+
   const refreshSelection = () => {
     setImage(null);
     setImageType("");
@@ -126,7 +149,7 @@ export function InstagramImageTool() {
             onDrop={handleDrop}
           >
             <div className="flex flex-col items-center w-full relative">
-              <Upload className="w-12 h-12 text-gray-300 mb-4" />
+              <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
               <input
                 type="file"
                 id="fileInput"
@@ -189,12 +212,21 @@ export function InstagramImageTool() {
           </div>
         ) : resizedImage ? (
           <div ref={resultsRef} className="w-full">
-            <img src={resizedImage} alt="Resized" className="w-full" />
+            <div className="w-full flex justify-center items-center">
+            <img src={resizedImage} alt="Resized" className="w-auto" />
+            </div>
             <Button
               className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-5"
               onClick={handleDownload}
             >
               Download
+            </Button>
+            <Button
+              className="mt-5 text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+              onClick={handleShare}
+            >
+              <Share2 className="inline-block w-4 h-4 mr-2" />
+              Share
             </Button>
           </div>
         ) : null}

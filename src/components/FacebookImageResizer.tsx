@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { BASE_URL } from "../utils/funcitons";
-import { Loader2,UploadIcon } from "lucide-react";
+import { Loader2, RefreshCw, Download, UploadIcon, Share2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
@@ -77,6 +77,29 @@ export function FacebookImageTool() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    }
+  };
+
+  const handleShare = async () => {
+    if (resizedImage) {
+      try {
+        const response = await fetch(resizedImage);
+        const blob = await response.blob();
+        const file = new File([blob], "resized_image.jpg", { type: blob.type });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: "Resized Image",
+            text: "Check out this resized image!",
+            files: [file],
+          });
+        } else {
+          toast.error("Sharing not supported on this device.");
+        }
+      } catch (error) {
+        console.error("Error sharing image:", error);
+        toast.error("Failed to share image.");
+      }
     }
   };
 
@@ -173,6 +196,13 @@ export function FacebookImageTool() {
               onClick={handleDownload}
             >
               Download
+            </Button>
+            <Button
+              className="mt-5 text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+              onClick={handleShare}
+            >
+              <Share2 className="inline-block w-4 h-4 mr-2" />
+              Share
             </Button>
           </div>
         ) : null}

@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import ReactPlayer from "react-player";
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCw, Download,UploadIcon } from "lucide-react";
+import { Loader2, RefreshCw, Download,UploadIcon,Share2 } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -102,6 +102,27 @@ export function VideoTranslation() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+  const handleShare = async () => {
+    if (translatedAudioUrl) {
+      try {
+        const response = await fetch(translatedAudioUrl);
+        const blob = await response.blob();
+        const file = new File([blob], "audio.mp3", { type: "audio/mpeg" });
+
+        if (navigator.share) {
+          await navigator.share({
+            title: "Converted Audio",
+            text: "Check out this converted audio file!",
+            files: [file],
+          });
+        } else {
+          alert("Sharing is not supported in this browser.");
+        }
+      } catch (error) {
+        console.error("Error sharing file:", error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -222,6 +243,14 @@ export function VideoTranslation() {
                   Download
                   <Download className="w-6 h-6 text-white" />
                 </Button>
+                <button
+                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                onClick={handleShare}
+              >
+             <Share2 className="w-6 h-6 text-white" />
+
+                Share MP3
+              </button>
               </div>
             </div>
           )

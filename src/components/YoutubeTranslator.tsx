@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import ReactPlayer from "react-player";
 import { Button } from "@/components/ui/button";
-import { Loader2, Download } from "lucide-react";
+import { Loader2, Download, Share2 } from "lucide-react"; // Add Share2 icon
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -95,6 +95,29 @@ export function YouTubeTranslator() {
     document.body.removeChild(link);
   };
 
+  const handleShareClick = async () => {
+    if (!translatedVideoUrl) return;
+  
+    try {
+      const response = await fetch(translatedVideoUrl);
+      const blob = await response.blob();
+      const file = new File([blob], "translated_video.mp4", { type: blob.type });
+  
+      if (navigator.share) {
+        navigator.share({
+          title: 'Translated Video',
+          files: [file],
+        }).catch((error) => console.error('Error sharing video:', error));
+      } else {
+        toast.error("Share functionality is not supported on this browser.");
+      }
+    } catch (error) {
+      console.error("Error sharing video:", error);
+      toast.error("Error sharing video. Please try again later.");
+    }
+  };
+  
+
   useEffect(() => {
     if (!isLoading && translatedVideoUrl) {
       resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -103,9 +126,9 @@ export function YouTubeTranslator() {
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
-        <div className="text-red-500 text-md mb-2">
-            Note: For Hindi translation, videos must be shorter than 2 minutes in length.
-        </div>
+      <div className="text-red-500 text-md mb-2">
+        Note: For Hindi translation, videos must be shorter than 2 minutes in length.
+      </div>
       <div className="mb-5">
         <label htmlFor="youtubeUrl" className="block text-gray-700">YouTube URL</label>
         <input
@@ -172,13 +195,22 @@ export function YouTubeTranslator() {
             <div ref={resultRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6  mt-5 flex flex-col items-center">
               <div className="mt-4 w-full text-center">
                 <ReactPlayer url={translatedVideoUrl} controls width="100%" />
-                <Button
-                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
-                  onClick={handleDownloadClick}
-                >
-                  Download
-                  <Download className=" w-6 h-6 text-white" />
-                </Button>
+                <div className="flex justify-center items-center gap-4 mt-5">
+                  <Button
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit"
+                    onClick={handleDownloadClick}
+                  >
+                    Download
+                    <Download className="w-6 h-6 text-white" />
+                  </Button>
+                  <Button
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit"
+                    onClick={handleShareClick}
+                  >
+                    Share
+                    <Share2 className="w-6 h-6 text-white" />
+                  </Button>
+                </div>
               </div>
             </div>
           )

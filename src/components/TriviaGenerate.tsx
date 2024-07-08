@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, Clipboard } from 'lucide-react';
+import { Loader2, Clipboard, Share2 } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -13,7 +13,6 @@ interface TriviaQuestion {
 
 const difficultyLevels = ['Easy', 'Medium', 'Hard'];
 const languages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Hindi', 'Arabic', 'Portuguese', 'Bengali', 'Russian', 'Japanese', 'Lahnda', 'Punjabi', 'Javanese', 'Korean', 'Telugu', 'Marathi', 'Tamil', 'Turkish', 'Vietnamese', 'Italian', 'Urdu', 'Persian', 'Malay', 'Thai', 'Gujarati', 'Kannada', 'Polish', 'Ukrainian', 'Romanian'];
- // Add more languages as needed
 
 export function TriviaGenerator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +20,7 @@ export function TriviaGenerator() {
   const [numberOfQuestions, setNumberOfQuestions] = useState('');
   const [numberOfAnswers, setNumberOfAnswers] = useState('');
   const [difficultyLevel, setDifficultyLevel] = useState(difficultyLevels[0]);
-  const [language, setLanguage] = useState(languages[0]); // State for language selection
+  const [language, setLanguage] = useState(languages[0]);
   const [triviaQuestions, setTriviaQuestions] = useState<TriviaQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [buttonText, setButtonText] = useState('Generate');
@@ -52,7 +51,7 @@ export function TriviaGenerator() {
         numberOfQuestions: parseInt(numberOfQuestions),
         numberOfAnswers: parseInt(numberOfAnswers),
         difficultyLevel,
-        language // Include language in the request payload
+        language
       });
 
       if (response.status === 200) {
@@ -79,6 +78,30 @@ export function TriviaGenerator() {
 
     navigator.clipboard.writeText(formattedTrivia.join('\n'));
     toast.success('Trivia questions copied to clipboard!');
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      const formattedTrivia = triviaQuestions.map((question: TriviaQuestion) => {
+        const formattedOptions = question.answers.map((option, index) => {
+          return `${String.fromCharCode(97 + index)}. ${option}`;
+        }).join('\n');
+
+        return `${question.question}\n${formattedOptions}\nCorrect Answer: ${question.correctAnswer}\n`;
+      }).join('\n');
+
+      navigator.share({
+        title: 'Trivia Questions',
+        text: formattedTrivia,
+      }).then(() => {
+        toast.success('Trivia questions shared successfully!');
+      }).catch((error) => {
+        console.error('Error sharing trivia questions:', error);
+        toast.error('Error sharing trivia questions. Please try again later.');
+      });
+    } else {
+      toast.error('Sharing is not supported in this browser.');
+    }
   };
 
   const handleInputChange = () => {
@@ -217,12 +240,20 @@ export function TriviaGenerator() {
                     Next
                   </button>
                 </div>
-                <button
-                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-                  onClick={handleCopy}
-                >
-                  <Clipboard className="w-5 h-5" />
-                </button>
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={handleCopy}
+                  >
+                    <Clipboard className="w-5 h-5" />
+                  </button>
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={handleShare}
+                  >
+                    <Share2 className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
             </div>
           )

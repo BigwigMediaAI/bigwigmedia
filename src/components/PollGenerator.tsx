@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, Clipboard } from 'lucide-react';
+import { FaDownload, FaShareAlt } from "react-icons/fa";
+import { Loader2, Clipboard, Share, Download } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
+import { saveAs } from 'file-saver';
 
 export function PollGenerator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +31,7 @@ export function PollGenerator() {
     setGeneratedPoll('');
 
     setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
     try {
@@ -56,6 +58,28 @@ export function PollGenerator() {
     toast.success('Generated poll copied to clipboard!');
   };
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Generated Poll',
+        text: generatedPoll
+      }).then(() => {
+        toast.success('Poll shared successfully!');
+      }).catch((error) => {
+        console.error('Error sharing poll:', error);
+        toast.error('Error sharing poll. Please try again later.');
+      });
+    } else {
+      toast.error('Web Share API is not supported in your browser.');
+    }
+  };
+
+  const handleDownload = () => {
+    const blob = new Blob([generatedPoll], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, 'generated_poll.txt');
+    toast.success('Poll downloaded successfully!');
+  };
+
   const handleInputChange = () => {
     setGeneratedPoll('');
     setButtonText('Generate Poll');
@@ -70,7 +94,7 @@ export function PollGenerator() {
 
   useEffect(() => {
     if (!isLoading && generatedPoll) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading, generatedPoll]);
 
@@ -126,6 +150,18 @@ export function PollGenerator() {
                   onClick={handleCopy}
                 >
                   <Clipboard className="w-5 h-5" />
+                </button>
+                <button
+                  className="absolute top-2 right-12 text-gray-500 hover:text-gray-700"
+                  onClick={handleShare}
+                >
+                  <FaShareAlt className="w-5 h-5" />
+                </button>
+                <button
+                  className="absolute top-2 right-20 text-gray-500 hover:text-gray-700"
+                  onClick={handleDownload}
+                >
+                  <Download className="w-5 h-5" />
                 </button>
               </div>
             </div>

@@ -81,6 +81,21 @@ export function FacebookDownloader() {
     }
   };
 
+  const handleShareClick = async (videoId: string) => {
+    const format = videos.find(video => video.id === videoId)?.formats.find(f => f.subName === selectedFormat[videoId]);
+    if (format && navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Facebook Video',
+          text: 'Check out this video I downloaded from Facebook!',
+          url: format.url
+        });
+      } catch (error) {
+        console.error('Error sharing', error);
+      }
+    }
+  };
+
   const handleRefresh = () => {
     window.location.reload();
   };
@@ -169,6 +184,15 @@ export function FacebookDownloader() {
                         }`}
                       >
                         Download Video
+                      </button>
+                      <button
+                        onClick={() => handleShareClick(video.id)}
+                        disabled={!selectedFormat[video.id]}
+                        className={`ml-2 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
+                          !selectedFormat[video.id] ? 'bg-gray-400 cursor-not-allowed' : 'text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit'
+                        }`}
+                      >
+                        Share Video
                       </button>
                     </div>
                   </div>

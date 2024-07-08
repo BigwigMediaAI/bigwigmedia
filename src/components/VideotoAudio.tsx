@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { Loader2, RefreshCw ,UploadIcon} from "lucide-react";
+import { Loader2, RefreshCw, UploadIcon,Share2 } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -68,6 +68,28 @@ export function AudioConverter() {
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(downloadLink);
+    }
+  };
+
+  const handleShare = async () => {
+    if (downloadLink) {
+      try {
+        const response = await fetch(downloadLink);
+        const blob = await response.blob();
+        const file = new File([blob], "audio.mp3", { type: "audio/mpeg" });
+
+        if (navigator.share) {
+          await navigator.share({
+            title: "Converted Audio",
+            text: "Check out this converted audio file!",
+            files: [file],
+          });
+        } else {
+          alert("Sharing is not supported in this browser.");
+        }
+      } catch (error) {
+        console.error("Error sharing file:", error);
+      }
     }
   };
 
@@ -181,6 +203,14 @@ export function AudioConverter() {
               >
                 Download MP3
               </button>
+              <button
+                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                onClick={handleShare}
+              >
+             <Share2 className="w-6 h-6 text-white" />
+
+                Share MP3
+              </button>
             </div>
           )
         )}
@@ -188,4 +218,3 @@ export function AudioConverter() {
     </div>
   );
 }
-
