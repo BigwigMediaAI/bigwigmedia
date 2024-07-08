@@ -664,7 +664,13 @@ const Generate = () => {
                 ))}
               </div>
             ))}
+            <div className=" flex justify-start">
+          <p className=" text-base text-gray-400 mt-2">
+        👉 Try a few combinations to generate the best result for your needs.
+        </p>
           </div>
+          </div>
+          
           <div className="mt-5 flex justify-center">
           <button
             className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
