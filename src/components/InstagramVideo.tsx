@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import thumbnail from "../assets/video.svg"; // Import default thumbnail image
 import { Loader2 } from "lucide-react";
-import { FaSyncAlt, FaDownload } from "react-icons/fa";
+import { FaSyncAlt, FaDownload, FaShareAlt } from "react-icons/fa";
 
 export function InstagramDownloader() {
   const [postLink, setPostLink] = useState<string>("");
@@ -58,6 +58,18 @@ export function InstagramDownloader() {
 
   const handleDownloadClick = (url: string) => {
     window.open(url, '_blank');
+  };
+
+  const handleShareClick = (url: string) => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Instagram Video',
+        text: 'Check out this video!',
+        url: url
+      }).catch(console.error);
+    } else {
+      alert('Sharing is not supported in your browser.');
+    }
   };
 
   const handleRefresh = () => {
@@ -120,15 +132,23 @@ export function InstagramDownloader() {
                 {thumbnails.map((thumbnail, index) => (
                   <div
                     key={index}
-                    className="relative flex items-center p-2 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
+                    className="relative flex items-center p-2 border border-gray-300 rounded-md hover:bg-[#757474] transition-colors"
                   >
                     <img src={thumbnail} alt={`Thumbnail ${index + 1}`} className="w-16 h-auto rounded-md mr-4" />
-                    <button
-                      onClick={() => handleDownloadClick(downloadLinks[index])}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 text-white bg-green-500 rounded-full hover:bg-green-600"
-                    >
-                      <FaDownload />
-                    </button>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex gap-2">
+                      <button
+                        onClick={() => handleDownloadClick(downloadLinks[index])}
+                        className="p-2 text-white bg-green-500 rounded-full hover:bg-green-600"
+                      >
+                        <FaDownload />
+                      </button>
+                      <button
+                        onClick={() => handleShareClick(downloadLinks[index])}
+                        className="p-2 text-white bg-blue-500 rounded-full hover:bg-blue-600"
+                      >
+                        <FaShareAlt />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
