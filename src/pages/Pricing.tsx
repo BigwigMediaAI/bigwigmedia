@@ -124,8 +124,10 @@ const PricingPlan = () => {
 
       {/* Safe Payment Section */}
       <div className="mt-8 text-center">
-        <p className="text-gray-300 mb-4">We ensure safe payment with:</p>
-        <img src={paymentGatewayLogo} alt="Payment Gateway Logo" className="mx-auto w-36" />
+        <p className="text-gray-300 mb-4">🔒 Payments are securely processed by RAZORPAY.
+        </p>
+        <p className="text-gray-300 mb-4">🌏 Bigwigmedia.AI contributes 1% of purchases to remove CO₂ from the atmosphere.
+        </p>
       </div>
     </div>
     </div>

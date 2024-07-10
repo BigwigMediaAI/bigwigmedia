@@ -1,12 +1,30 @@
 import Footer from '@/components/Footer';
 import Nav from '@/components/Nav';
-import React from 'react';
+import React,{useState,useEffect} from 'react';
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 function Terms() {
+
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
     
       <Nav/>
+      <div className="max-w-6xl mx-auto px-2 pt-6 flex mb-4">
+        <FiArrowLeft
+          className="text-white text-2xl cursor-pointer hover:text-blue-700"
+          onClick={handleBackClick}
+        />
+      </div>
     <div className="max-w-4xl mx-auto py-8 px-4">
       <h1 className="text-3xl font-bold mb-4">Terms and Conditions</h1>
       <ol className="list-decimal pl-6">

@@ -4,22 +4,22 @@ import styled from 'styled-components';
 const features = [
   {
     title: 'Effective',
-    description: 'Save time and effort with our automation tools for social media, video editing, and file conversions etc.',
+    description: 'Consolidated AI Tools. Why spend more on individual AI tools when you can access everything in a single platform.',
     icon: 'https://www.svgrepo.com/show/273656/tools-and-utensils-microchip.svg', // replace with your icon path
   },
   {
-    title: 'Simple',
-    description: 'Simplify your tasks with intuitive interfaces and minimal setup for starting campaigns and managing media etc.',
+    title: 'Easy to Use',
+    description: 'Streamline your activities with user-friendly interfaces and minimal efforts for your tasks.',
     icon: 'https://www.svgrepo.com/show/477058/internet.svg', // replace with your icon path
   },
   {
-    title: 'Secure',
-    description: 'We Protect your data with robust security measures. We prioritize your privacy and confidentiality.',
+    title: 'Security',
+    description: 'We safeguard your information using comprehensive security protocols. Ensuring your privacy and confidentiality is our highest priority.',
     icon: 'https://www.svgrepo.com/show/485059/security-shield.svg', // replace with your icon path
   },
   {
-    title: 'Trusted',
-    description: 'Join thousands of satisfied users who rely on us for their social media, video, audio, and file management needs.',
+    title: 'Reliability',
+    description: 'Become part of millions of happy trusted users who depend on our services for their everyday activities.',
     icon: 'https://www.svgrepo.com/show/271589/social-media-like.svg', // replace with your icon path
   },
 ];

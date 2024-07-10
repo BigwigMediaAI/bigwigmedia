@@ -4,40 +4,49 @@ import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import { toast } from "sonner";
-
-
 import axios from "axios";
-
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const ContactUs: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleFormSubmit = async(e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you can handle form submission logic, like sending the email.
-    // You can also integrate with your backend or any email service to send the message.
-    // For mailto link, it will open the default email client on the user's machine.
+    // Handle form submission logic
     await axios.post(`${BASE_URL}/contact/form`, {
       name,
       email,
       message,
-    });   
-    toast(`Your message has been sent successfully.`)
-    
+    });
+    toast("Your message has been sent successfully.");
+
     window.location.href = `mailto:marketing@bigwigmedia.in?subject=Contact%20Form&body=Name:%20${name}%0AEmail:%20${email}%0AMessage:%20${message}`;
     // Reset form fields after submission (optional)
     setName("");
     setEmail("");
     setMessage("");
-    console.log(name,email,message)
+    console.log(name, email, message);
   };
 
   return (
     <div className="bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100">
       <Nav />
-      <div className="p-10 flex flex-col justify-center items-center text-center min-h-screen">
+      <div className="max-w-6xl mx-auto px-2 pt-6 flex mb-4">
+        <FiArrowLeft
+          className="text-white text-2xl cursor-pointer hover:text-blue-700"
+          onClick={handleBackClick}
+        />
+      </div>
+      <div className="flex flex-col px-4 justify-center items-center text-center">
         <h1 className="text-4xl font-bold mb-6">Contact Us</h1>
         <div className="mb-8 max-w-4xl text-lg">
           <p className="text-base text-justify mt-[2vh] mb-[2vh] lg:mx-[25vh]">
@@ -56,7 +65,6 @@ const ContactUs: React.FC = () => {
                 marketing@bigwigmedia.in
               </a>
             </p>
-            
           </div>
         </div>
         <form

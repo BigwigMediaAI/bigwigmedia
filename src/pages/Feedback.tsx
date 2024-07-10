@@ -4,6 +4,8 @@ import { Button } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import { toast } from "sonner";
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 
 import axios from "axios";
@@ -15,9 +17,19 @@ const Feedback: React.FC = () => {
   const [selectedTool, setSelectedTool] = useState(""); // New state for selected tool
   const [tools, setTools] = useState([]); // State to store tools fetched from API
 
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     // Fetch tools from your API when component mounts
     fetchTools();
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, []);
 
   const fetchTools = async () => {
@@ -53,6 +65,12 @@ const Feedback: React.FC = () => {
   return (
     <div className="bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100">
       <Nav />
+      <div className="max-w-6xl mx-auto px-2 pt-6 flex mb-4">
+        <FiArrowLeft
+          className="text-white text-2xl cursor-pointer hover:text-blue-700"
+          onClick={handleBackClick}
+        />
+      </div>
       <div className="p-10 flex flex-col justify-center items-center text-center min-h-screen">
         <h1 className="text-4xl font-bold mb-6">Feedback Form 📝</h1>
 
