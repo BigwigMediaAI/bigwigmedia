@@ -250,14 +250,14 @@ export function GifConverter() {
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
                   onClick={handleDownloadClick}
-                >
+                title="Download">
                   Download GIF
                   <Download className="w-6 h-6 text-white" />
                 </Button>
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
                   onClick={handleShareClick}
-                >
+                title="Share">
                   Share GIF
                   <Share2 className="w-6 h-6 text-white" />
                 </Button>

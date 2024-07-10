@@ -143,7 +143,7 @@ export function Mp3Downloader() {
                 <button
                   onClick={handleDownloadClick}
                   className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
-                >
+                title="Download">
                   Download MP3
                 </button>
               </div>

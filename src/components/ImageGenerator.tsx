@@ -194,7 +194,7 @@ const ImageGenerator = (props: Props) => {
                 <button
                   className="absolute shadow-sm shadow-gray-500 top-4 right-4 opacity-40 hover:opacity-70 text-white bg-gray-800  transition-all duration-300 p-2 rounded-md"
                   onClick={() => handleDownload(img)}
-                >
+                title="Download">
                   <Download />
                 </button>
               </div>

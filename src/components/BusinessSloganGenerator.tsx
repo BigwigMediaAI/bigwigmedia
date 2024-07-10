@@ -189,14 +189,14 @@ export function BusinessSloganGenerator(){
             <button
               onClick={handleDownloadSlogans}
               className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
-            >
+            title='Download'>
               <FaDownload className="text-lg" />
               
             </button>
             <button
               onClick={handleShareSlogans}
               className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
-            >
+            title='Share'>
               <FaShareAlt className="text-lg" />
              
             </button>
@@ -209,7 +209,7 @@ export function BusinessSloganGenerator(){
                 <button
                   onClick={() => handleCopySlogan(slogan)}
                   className="absolute top-2 right-2 bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
-                >
+                title='Copy'>
                   <ClipboardCopyIcon className="inline-block w-5 h-5" />
                 </button>
               </div>

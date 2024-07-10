@@ -111,7 +111,7 @@ export function TikTokDownloader() {
                     <button
                       onClick={handleDownloadClick}
                       className="px-4 py-2 text-white font-semibold rounded-md bg-green-500 hover:bg-green-600 flex items-center"
-                    >
+                    title="Download">
                       <FaDownload className="mr-2" /> Download Video
                     </button>
                   </div>

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, Clipboard, Share2 } from 'lucide-react';
+import { Loader2, Clipboard, Share2, Download } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -102,6 +102,25 @@ export function TriviaGenerator() {
     } else {
       toast.error('Sharing is not supported in this browser.');
     }
+  };
+
+  const handleDownload = () => {
+    const formattedTrivia = triviaQuestions.map((question: TriviaQuestion) => {
+      const formattedOptions = question.answers.map((option, index) => {
+        return `${String.fromCharCode(97 + index)}. ${option}`;
+      }).join('\n');
+
+      return `${question.question}\n${formattedOptions}\nCorrect Answer: ${question.correctAnswer}\n`;
+    }).join('\n\n');
+
+    const blob = new Blob([formattedTrivia], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'trivia_questions.txt';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    toast.success('Trivia questions downloaded!');
   };
 
   const handleInputChange = () => {
@@ -244,14 +263,20 @@ export function TriviaGenerator() {
                   <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={handleCopy}
-                  >
+                 title='Copy' >
                     <Clipboard className="w-5 h-5" />
                   </button>
                   <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={handleShare}
-                  >
+                  title='Share'>
                     <Share2 className="w-5 h-5" />
+                  </button>
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={handleDownload}
+                  title='Download'>
+                    <Download className="w-5 h-5" />
                   </button>
                 </div>
               </div>

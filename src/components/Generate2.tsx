@@ -726,13 +726,13 @@ useEffect(() => {
             <div className="flex gap-3 absolute bottom-2 right-4">
               {output && (
                 <>
-                  <button onClick={handleCopy}>
+                  <button onClick={handleCopy} title="Copy">
                     <ClipboardList className="w-5 h-5" />
                   </button>
-                  <button onClick={handleDownload}>
+                  <button onClick={handleDownload} title="Download">
                     <FaDownload className="w-5 h-5" />
                   </button>
-                  <button onClick={handleShare}>
+                  <button onClick={handleShare} title="Share">
                     <FaShareAlt className="w-5 h-5" />
                   </button>
                 </>

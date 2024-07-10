@@ -239,7 +239,7 @@ export function ImageTool() {
             <Button
               className="mt-5 text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
               onClick={handleDownload}
-            >
+            title="Download">
               <Download className="inline-block w-4 h-4 mr-2" />
               Download
             </Button>

@@ -133,7 +133,7 @@ export function LetterheadGenerator() {
             <Button
               className="text-white font-semibold py-3 px-6 rounded-md bg-blue-500 hover:bg-blue-600"
               onClick={handleDownload}
-            >
+            title="Download">
               Download
             </Button>
           </>

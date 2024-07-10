@@ -187,21 +187,21 @@ export function Rephrase() {
                       className="absolute top-2 right-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                       variant="ghost"
                       onClick={() => handleCopy(item)}
-                    >
+                    title="Share">
                       <CopyIcon className="h-5 w-5" />
                     </Button>
                     <Button
                       className="absolute top-2 right-12 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                       variant="ghost"
                       onClick={() => handleShare(item)}
-                    >
+                    title="Share">
                       <Share2Icon className="h-5 w-5" />
                     </Button>
                     <Button
                       className="absolute top-2 right-20 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                       variant="ghost"
                       onClick={() => handleDownload(item)}
-                    >
+                    title="Download">
                       <DownloadIcon className="h-5 w-5" />
                     </Button>
                   </div>

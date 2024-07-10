@@ -215,13 +215,13 @@ export function Paraphrase() {
                             <Button
                                 className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
                                 onClick={handleDownload}
-                            >
+                            title="Download">
                                 <FaDownload className="mr-1 h-4 w-4" />
                             </Button>
                             <Button
                                 className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
                                 onClick={handleShare}
-                            >
+                            title="Share">
                                 <FaShareAlt className="mr-1 h-4 w-4" />
                             </Button>
                         </div>
@@ -233,7 +233,7 @@ export function Paraphrase() {
                                 <Button
                                     className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
                                     onClick={() => handleCopy(output)}
-                                >
+                                title="Copy">
                                     <ClipboardCopyIcon className="mr-1 h-4 w-4" />
                                 </Button>
                             </div>

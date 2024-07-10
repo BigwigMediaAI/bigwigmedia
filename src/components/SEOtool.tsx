@@ -131,19 +131,19 @@ Digital media"
                 <Button
                   className="bg-gray-200 mr-4 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                   onClick={handleShare}
-                >
+                title="Share">
                   <Share2 />
                 </Button>
                 <Button
                   className="bg-gray-200 mr-4 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                   onClick={handleDownload}
-                >
+                title="Download">
                   <Download />
                 </Button>
                 <Button
                   className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                   onClick={handleCopy}
-                >
+                title="Copy">
                   <Copy />
                 </Button>
               </div>

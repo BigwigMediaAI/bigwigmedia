@@ -252,19 +252,19 @@ export function CoverLetterGenerator() {
                 <button
                   className="absolute top-2 right-2 rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:dark:bg-gray-800 dark:text-gray-200"
                   onClick={() => handleCopy(letter)}
-                >
+                title='Copy'>
                   <CopyIcon className="h-5 w-5" />
                 </button>
                 <button
                     className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80 mr-3"
                     onClick={handleShare}
-                  >
+                  title='Share'>
                    <Share2/>
                   </button>
                   <button
                     className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
                     onClick={handleDownload}
-                  >
+                  title='Download'>
                     <Download/>
                   </button>
                 </div>

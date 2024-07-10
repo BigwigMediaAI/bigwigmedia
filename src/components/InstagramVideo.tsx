@@ -139,13 +139,13 @@ export function InstagramDownloader() {
                       <button
                         onClick={() => handleDownloadClick(downloadLinks[index])}
                         className="p-2 text-white bg-green-500 rounded-full hover:bg-green-600"
-                      >
+                      title="Download">
                         <FaDownload />
                       </button>
                       <button
                         onClick={() => handleShareClick(downloadLinks[index])}
                         className="p-2 text-white bg-blue-500 rounded-full hover:bg-blue-600"
-                      >
+                      title="Share">
                         <FaShareAlt />
                       </button>
                     </div>
