@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useState, useRef,useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Download } from "lucide-react";
+import { Loader2, RefreshCw, Download, Upload, Share2 } from "lucide-react";
 import ReactPlayer from "react-player";
 import Slider from "rc-slider";
 import { BASE_URL } from "@/utils/funcitons";
@@ -64,10 +64,9 @@ export function GifConverter() {
   };
 
   const handleConvertClick = async () => {
-
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
     try {
@@ -108,6 +107,24 @@ export function GifConverter() {
     document.body.removeChild(link);
   };
 
+  const handleShareClick = () => {
+    if (navigator.share && gifUrl) {
+      fetch(gifUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "generated.gif", { type: "image/gif" });
+          navigator
+            .share({
+              title: "generated gif",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
+    }
+  };
+
   const handleVideoDuration = (duration: number) => {
     setVideoDuration(duration);
     setEndTime(duration);
@@ -121,7 +138,7 @@ export function GifConverter() {
 
   useEffect(() => {
     if (!isLoading && gifUrl) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth' ,block:'center'});
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading, gifUrl]);
 
@@ -135,6 +152,7 @@ export function GifConverter() {
         >
           <div className="flex justify-between w-full">
             <div className="flex flex-col items-center w-full">
+              <Upload className="w-12 h-12 text-gray-400" />
               <input
                 type="file"
                 ref={fileInputRef}
@@ -168,10 +186,9 @@ export function GifConverter() {
               onDuration={handleVideoDuration}
             />
             <div className="w-11/12 mt-4">
-              
               <div className="flex justify-between">
                 <div className="w-1/2 mr-2">
-                <label className="mb-2 text-gray-400">Start time</label>
+                  <label className="mb-2 text-gray-400">Start time</label>
                   <Slider
                     min={0}
                     max={videoDuration}
@@ -188,7 +205,7 @@ export function GifConverter() {
                   <span>{formatTime(startTime)}</span>
                 </div>
                 <div className="w-1/2 ml-2">
-                <label className="mb-2 text-gray-400"> End time</label>
+                  <label className="mb-2 text-gray-400"> End time</label>
                   <Slider
                     min={0}
                     max={videoDuration}
@@ -219,7 +236,6 @@ export function GifConverter() {
         </div>
       </div>
 
-
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
@@ -238,13 +254,18 @@ export function GifConverter() {
                   Download GIF
                   <Download className="w-6 h-6 text-white" />
                 </Button>
+                <Button
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
+                  onClick={handleShareClick}
+                >
+                  Share GIF
+                  <Share2 className="w-6 h-6 text-white" />
+                </Button>
               </div>
             </div>
           )
         )}
       </div>
-
-      
-    </div>
-  );
+    </div>
+  );
 }

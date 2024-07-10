@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Download } from "lucide-react";
+import { Loader2, RefreshCw, Download,Share2 } from "lucide-react";
 import ReactPlayer from "react-player";
 import ReactAudioPlayer from "react-audio-player";
 import Slider from "rc-slider";
@@ -114,6 +114,24 @@ export function VideoAudioTrimmer() {
     link.click();
     document.body.removeChild(link);
   };
+
+  const handleShareClick = () => {
+    if (navigator.share && outputVideoUrl) {
+      fetch(outputVideoUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "video.mp4", { type: "video/mp4" });
+          navigator
+            .share({
+              title: "Add audio into video",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
+    }
+  };
 
   const formatTime = (seconds: number) => {
     const date = new Date(0);
@@ -278,7 +296,13 @@ export function VideoAudioTrimmer() {
             </div>
           </div>
         )}
-        <div className="flex justify-center mb-5">
+        <div className=" flex justify-start">
+          <p className=" text-base text-gray-400 mt-2">
+        👉 Audio and Video length should be same
+        </p>
+          </div>
+        <div className="flex justify-center mt-10 mb-5">
+        
           <Button
             className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto ${selectedVideoFile && selectedAudioFile ? '' : 'opacity-50 cursor-not-allowed'}`}
             onClick={handleConvertClick}
@@ -298,6 +322,7 @@ export function VideoAudioTrimmer() {
         )}
         {outputVideoUrl && (
           <div ref={resultsRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
+            
             <div className="mt-4 w-full text-center">
               <ReactPlayer url={outputVideoUrl} controls className="w-full mb-4" />
               <Button
@@ -307,6 +332,13 @@ export function VideoAudioTrimmer() {
                 Download
                 <Download className="w-6 h-6 text-white" />
               </Button>
+              <Button
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
+                  onClick={handleShareClick}
+                >
+                  Share
+                  <Share2 className="w-6 h-6 text-white" />
+                </Button>
             </div>
           </div>
         )}

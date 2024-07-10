@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Download } from "lucide-react";
+import { Loader2, RefreshCw, Download,Upload,Share2 } from "lucide-react";
 import ReactPlayer from "react-player";
 import Slider from "rc-slider";
 import 'rc-slider/assets/index.css';
@@ -108,6 +108,24 @@ export function VideoTrimmer() {
     document.body.removeChild(link);
   };
 
+  const handleShareClick = () => {
+    if (navigator.share && trimmedVideoUrl) {
+      fetch(trimmedVideoUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "video.mp4", { type: "video/mp4" });
+          navigator
+            .share({
+              title: "trimmed video",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
+    }
+  };
+
   const handleVideoDuration = (duration: number) => {
     setVideoDuration(duration);
     setEndTime(duration);
@@ -145,6 +163,7 @@ export function VideoTrimmer() {
         >
           <div className="flex justify-between w-full">
             <div className="flex flex-col items-center w-full">
+            <Upload className="w-12 h-12 text-gray-400" />
               <input
                 type="file"
                 ref={fileInputRef}
@@ -231,7 +250,7 @@ export function VideoTrimmer() {
         {isLoading && (
           <div ref={loaderRef} className="w-full flex flex-col items-center justify-center dark:bg-[#3f3e3e] m-auto  max-w-4xl rounded-b-md">
             <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
-            <p className="text-gray-300 text-center mt-4">Data processing in progress. Please bear with us...</p>
+            <p className="text-gray-300 text-center mt-4 mb-10">Data processing in progress. Please bear with us...</p>
           </div>
         )}
       
@@ -250,6 +269,13 @@ export function VideoTrimmer() {
               Download
               <Download className="w-6 h-6 text-white" />
             </Button>
+            <Button
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
+                  onClick={handleShareClick}
+                >
+                  Share
+                  <Share2 className="w-6 h-6 text-white" />
+                </Button>
           </div>
         </div>
       )}
