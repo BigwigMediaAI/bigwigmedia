@@ -38,7 +38,7 @@ const Stats: React.FC = () => {
           </div>
           <div className=" text-center p-4 flex flex-col justify-center items-center">
             <p className="text-lg sm:text-xl lg:text-2xl bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold">10.6M+</p>
-            <p className="text-sm sm:text-md lg:text-lg text-gray-300">Files Generated</p>
+            <p className="text-sm sm:text-md lg:text-lg text-gray-300">Content Generated</p>
           </div>
         </div>
       </div>

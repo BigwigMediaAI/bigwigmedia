@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import ReactPlayer from "react-player";
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCw, Download, UploadIcon } from "lucide-react";
+import { Loader2, RefreshCw, Download, UploadIcon,Share2 } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -100,6 +100,24 @@ export function VideoTranslator() {
     link.click();
     document.body.removeChild(link);
   };
+
+  const handleShareClick = () => {
+    if (navigator.share && translatedVideoUrl) {
+      fetch(translatedVideoUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "video.mp4", { type: "video/mp4" });
+          navigator
+            .share({
+              title: "Translated video",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
+    }
+  };
 
   useEffect(() => {
     if (!isLoading && translatedVideoUrl) {
@@ -198,7 +216,7 @@ export function VideoTranslator() {
             {isLoading ? "Translating..." : 'Translate'}
           </Button>
         </div>
-      </div>
+      
 
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
@@ -208,8 +226,8 @@ export function VideoTranslator() {
           </div>
         ) : (
           translatedVideoUrl && (
-            <div ref={resultRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
-              <div className="mt-4 w-full text-center">
+            <div ref={resultRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6  flex flex-col items-center">
+              <div className=" w-full text-center">
                 <ReactPlayer url={translatedVideoUrl} controls width="100%" />
                 <Button
                   className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
@@ -218,10 +236,18 @@ export function VideoTranslator() {
                   Download
                   <Download className=" w-6 h-6 text-white" />
                 </Button>
+                <Button
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
+                  onClick={handleShareClick}
+                >
+                  Share
+                  <Share2 className="w-6 h-6 text-white" />
+                </Button>
               </div>
             </div>
           )
         )}
+      </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { ChromePicker } from 'react-color';
-import { Loader2, Palette } from 'lucide-react';
+import { Loader2, Palette,Share2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { BASE_URL } from "../utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
@@ -72,6 +72,23 @@ export function QRCodeGenerator() {
       document.body.removeChild(a);
     }
   };
+  const handleShareClick = () => {
+    if (navigator.share && qrCode) {
+      fetch(qrCode)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "qr.jpeg", { type: "image/jpeg" });
+          navigator
+            .share({
+              title: "QR code",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
+    }
+  };
 
   useEffect(() => {
     if (!isLoading && qrCode) {
@@ -200,6 +217,12 @@ export function QRCodeGenerator() {
             >
               Download
             </button>
+            <button
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
+                  onClick={handleShareClick}
+                >
+                  Share
+              </button>
           </div>
         </div>
       )}
