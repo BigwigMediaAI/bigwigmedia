@@ -126,7 +126,7 @@ const PricingPlan = () => {
       <div className="mt-8 text-center">
         <p className="text-gray-300 mb-4">🔒 Payments are securely processed by RAZORPAY.
         </p>
-        <p className="text-gray-300 mb-4">🌏 Bigwigmedia.AI contributes 1% of purchases to remove CO₂ from the atmosphere.
+        <p className="text-gray-300 mb-4">🌏 Bigwigmedia.AI contributes 1% from your purchases to remove CO₂ by planting trees.
         </p>
       </div>
     </div>

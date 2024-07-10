@@ -278,7 +278,7 @@ const Landing = () => {
     </div>
     <div className="mt-5 mb-5">
   <h3 className="w-4/5 m-auto text-center text-white sm:text-sm md:text-md lg:text-base text">
-    Choose tool ➔ Share input ➜ Generate desired results.... Its that easy.
+    Choose Tool ➔ Share Brief ➜ Generate Desired Results 100X Faster.... Its That Easy.
     </h3>
   </div>
 
