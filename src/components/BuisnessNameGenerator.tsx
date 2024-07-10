@@ -189,13 +189,13 @@ export function GenerateBusinessNames() {
                   <button
                     onClick={handleShare}
                     className="text-white bg-blue-500 hover:bg-blue-700 text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
-                  >
+                  title='Share'>
                     <Share2/>
                   </button>
                   <button
                     onClick={handleDownload}
                     className="text-white bg-green-500 hover:bg-green-700 text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
-                  >
+                  title='Download'>
                     <Download/>
                   </button>
                 </div>

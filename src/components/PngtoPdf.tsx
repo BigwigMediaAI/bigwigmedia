@@ -185,14 +185,14 @@ export function PNGtoPDFConverter() {
                   a.download = "converted.pdf";
                   a.click();
                 }}
-              >
+              title="Download">
                 Download PDF
               </Button>
               <Button
                   className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                   onClick={sharePDF}
                   disabled={!navigator.share}
-                >
+                title="Share">
                   Share PDF
                   <Share2 className="ml-2 w-5 h-5" />
                 </Button>

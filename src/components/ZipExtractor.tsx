@@ -188,7 +188,7 @@ export function ZipExtractor() {
                     <button
                       className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-2 py-1 rounded-md bg-gray-400 text-white"
                       onClick={() => handleDownload(file.filename)}
-                    >
+                    title="Download" >
                       <DownloadIcon className="w-4 h-4 mr-1 inline-block" />
                     </button>
                   )}

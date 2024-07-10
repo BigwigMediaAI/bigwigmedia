@@ -175,13 +175,13 @@ export function VideoCompressor() {
               className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
               href={downloadUrl}
               download="compressed_video.mp4"
-            >
+            title="Download">
               Download
             </a>
             <Button
               className="mt-4 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
               onClick={handleShare}
-            >
+            title="Share">
               Share Video
             </Button>
           </div>

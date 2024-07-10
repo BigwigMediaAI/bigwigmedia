@@ -137,7 +137,7 @@ const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true });
         href={audioBuffer}
         download="audio_file.mp3"
         className="bg-blue-500 rounded-full text-white p-3 hover:bg-blue-600 mx-auto  block mt-2"
-      >
+      title="Download">
         Download Audio
       </a>}
     </div>

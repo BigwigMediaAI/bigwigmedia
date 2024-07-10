@@ -200,16 +200,16 @@ export function AudioConverter() {
               <button
                 className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                 onClick={handleDownloadClick}
-              >
+              title="Download">
                 Download MP3
               </button>
               <button
                 className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                 onClick={handleShare}
-              >
+             title="Share" >
              <Share2 className="w-6 h-6 text-white" />
 
-                Share MP3
+                Share
               </button>
             </div>
           )

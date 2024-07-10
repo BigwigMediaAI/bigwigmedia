@@ -209,19 +209,19 @@ export function ContentImprover() {
                   <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={() => handleCopy(content)}
-                  >
+                  title='Copy'>
                     <Clipboard className="w-5 h-5" />
                   </button>
                   <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={() => handleShare(content)}
-                  >
+                  title='Share'>
                     <Share2 className="w-5 h-5" />
                   </button>
                   <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={() => handleDownload(content)}
-                  >
+                  title='Download'>
                     <Download className="w-5 h-5" />
                   </button>
                 </div>

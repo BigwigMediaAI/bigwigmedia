@@ -196,7 +196,7 @@ export function AudioTranslation() {
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
                   onClick={handleDownloadClick}
-                >
+                title="Download">
                   Download
                   <Download className="w-6 h-6 text-white" />
                 </Button>

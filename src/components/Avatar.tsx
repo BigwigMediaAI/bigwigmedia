@@ -109,7 +109,7 @@ export function AvatarTool() {
             <button
               onClick={handleDownload}
               className="absolute top-0 right-0 bg-white p-1 rounded-full shadow-md hover:bg-gray-100"
-            >
+            title='Download'>
               <Download className="w-5 h-5 text-gray-500" />
             </button>
           )}

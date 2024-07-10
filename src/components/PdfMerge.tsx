@@ -162,7 +162,7 @@ export function PDFMerger() {
                   a.download = "merged.pdf";
                   a.click();
                 }}
-              >
+              title="Download">
                 Download
               </Button>
             </div>

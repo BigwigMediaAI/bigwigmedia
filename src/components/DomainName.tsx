@@ -157,13 +157,13 @@ export function GenerateDomainNames() {
                   <button
                     className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
                     onClick={handleShare}
-                  >
+                  title='Share'>
                     Share
                   </button>
                   <button
                     className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
                     onClick={handleDownload}
-                  >
+                  title='Download'>
                     Download
                   </button>
                 </div>

@@ -188,13 +188,13 @@ export function FileToZipConverter() {
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                   onClick={handleDownload}
-                >
+                title="Share">
                   Download Zip
                 </Button>
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                   onClick={handleShare}
-                >
+                title="Share">
                   Share Zip
                 </Button>
               </div>

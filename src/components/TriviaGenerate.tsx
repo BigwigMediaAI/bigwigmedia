@@ -263,19 +263,19 @@ export function TriviaGenerator() {
                   <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={handleCopy}
-                  >
+                 title='Copy' >
                     <Clipboard className="w-5 h-5" />
                   </button>
                   <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={handleShare}
-                  >
+                  title='Share'>
                     <Share2 className="w-5 h-5" />
                   </button>
                   <button
                     className="text-gray-500 hover:text-gray-700"
                     onClick={handleDownload}
-                  >
+                  title='Download'>
                     <Download className="w-5 h-5" />
                   </button>
                 </div>

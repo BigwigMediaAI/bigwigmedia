@@ -137,7 +137,7 @@ export function Script
                 variant="ghost"
                 onClick={handleCopy}
                 disabled={isLoading}
-              >
+              title="Share">
                 <CopyIcon className="mr-2 h-5 w-5" />
                 Copy
               </Button>
@@ -146,7 +146,7 @@ export function Script
                 variant="ghost"
                 onClick={handleShare}
                 disabled={isLoading}
-              >
+              title="Share">
                 <ShareIcon className="mr-2 h-5 w-5" />
                 Share
               </Button>
@@ -155,7 +155,7 @@ export function Script
                 variant="ghost"
                 onClick={handleDownload}
                 disabled={isLoading}
-              >
+              title="Download">
                 <DownloadIcon className="mr-2 h-5 w-5" />
                 Download
               </Button>

@@ -258,19 +258,19 @@ export function GenerateCurrentTopics() {
                 <button
                   className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
                   onClick={handleCopy}
-                >
+                title='Copy'>
                   <Clipboard className="w-5 h-5" />
                 </button>
                 <button
                     className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80 mr-3"
                     onClick={handleShare}
-                  >
+                  title='Share'>
                    <Share2/>
                   </button>
                   <button
                     className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
                     onClick={handleDownload}
-                  >
+                  title='Download'>
                     <Download/>
                   </button>
                   </div>

@@ -207,19 +207,19 @@ export function Summarize() {
                     className="mt-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                     variant="ghost"
                     onClick={() => handleCopy(summary)}
-                  >
+                  title="Copy">
                     <CopyIcon className="h-5 w-5" />
                   </Button>
                   <button
                     className="mt-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                     onClick={handleShare}
-                  >
+                  title="Share">
                    <Share2/>
                   </button>
                   <button
                     className="mt-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                     onClick={handleDownload}
-                  >
+                  title="Download">
                     <Download/>
                   </button>
                   </div>

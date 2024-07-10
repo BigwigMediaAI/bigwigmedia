@@ -173,19 +173,19 @@ export function VideoToTextConverter() {
                 <button
                 onClick={copyToClipboard}
                 className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
-              >
+              title='Copy'>
                 <ClipboardList className="inline-block w-5 h-5" />
               </button>
               <button
                 onClick={downloadText}
                 className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
-              >
+              title='Download'>
                 <FaDownload className="inline-block w-5 h-5" />
               </button>
               <button
                 onClick={shareText}
                 className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
-              >
+             title='Share' >
                 <FaShareAlt className="inline-block w-5 h-5" />
               </button>
                 </div>

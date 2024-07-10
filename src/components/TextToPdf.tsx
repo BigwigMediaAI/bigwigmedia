@@ -141,14 +141,14 @@ export function TextToPdfConverter() {
           <button
             onClick={handleDownloadClick}
             className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
-          >
+         title="Download" >
             Download PDF
           </button>
           <button
                   className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                   onClick={sharePDF}
                   disabled={!navigator.share}
-                >
+                title="Share">
                   Share
                   <Share2 className="ml-2 w-5 h-5" />
                 </button>

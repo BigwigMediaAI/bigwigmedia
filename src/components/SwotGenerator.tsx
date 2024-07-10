@@ -170,21 +170,21 @@ const handleDownload = (textToDownload:any) => {
                                             className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                                             variant="ghost"
                                             onClick={() => handleCopy(analysis)}
-                                        >
+                                        title="Copy">
                                             <ClipboardCopy className="h-5 w-5" />
                                         </Button>
                                         <Button
                                             className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                                             variant="ghost"
                                             onClick={() => handleShare(analysis)}
-                                        >
+                                        title="Share">
                                             <FaShareAlt className="h-5 w-5" />
                                         </Button>
                                         <Button
                                             className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                                             variant="ghost"
                                             onClick={() => handleDownload(analysis)}
-                                        >
+                                        title="Download">
                                             <FaDownload className="h-5 w-5" />
                                         </Button>
                                     </div>

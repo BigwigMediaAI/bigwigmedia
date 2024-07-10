@@ -273,7 +273,7 @@ export function TextInfographic() {
                       className="absolute top-2 right-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                       variant="ghost"
                       onClick={() => handleCopy(text)}
-                    >
+                    title="Copy">
                       <CopyIcon className="h-5 w-5" />
                     </Button>
                   </div>
