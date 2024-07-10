@@ -14,10 +14,11 @@ const PricingPlan = () => {
   };
 
   return (
-    <div className='mt-10'>
+    <div className='mt-20'>
     <BlogTitle>Pricing Plan</BlogTitle>
-    <div className='px-5'>
-      <h1 className='text-center text-gray-400'>Experience results from day one with our self-paying pricing. Try it for free now! </h1>
+    <div className='px-5 mb-10'>
+      <h1 className='text-center text-gray-200'>Why pay seperately for each AI tool when you can have them all in single platform.  </h1>
+      <h1 className='text-center text-gray-200'>Experience results from day one with our self-paying pricing. Try it for <span className='text-lg sm:text-md lg:text-xl bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold'>FREE NOW</span>!</h1>
     </div>
     <div className="flex flex-col  items-center py-6 ">
       <div className="flex flex-col md:flex-row gap-10">

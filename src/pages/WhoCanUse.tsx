@@ -3,6 +3,8 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useEffect, useState,useRef } from "react";
+
 
 
 const usersData = [
@@ -18,79 +20,38 @@ const usersData = [
     "Business Enterprises"
 ];
 
+
 const WhoCanUseIt = () => {
-    const settings = {
-        dots: false,
-        arrows: false, // Remove side buttons
-        infinite: true,
-        speed: 5000,
-        slidesToShow: 5, // Show 5 items at a time
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 0,
-        cssEase: 'linear',
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                }
-            }
-        ]
-    };
+    const [wordIndex, setWordIndex] = useState(0);
+    const [change, setChange] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+          setWordIndex((prevIndex) => (prevIndex + 1) % usersData.length);
+        }, 2000);
+        return () => clearInterval(interval);
+      }, []);
 
     return (
-        <div>
-            <BlogTitle>Who Can Use It</BlogTitle>
-            <div className="max-w-screen-lg mx-auto">
-                <StyledSlider {...settings}>
-                    {usersData.map((user, index) => (
-                        <div key={index} className="user-item px-2 py-2 md:px-5 md:py-5">
-                            <div className="text-center">
-                                <h3 className="text-lg text-gray-200 font-semibold">{user}</h3>
-                            </div>
-                        </div>
-                    ))}
-                </StyledSlider>
-            </div>
-        </div>
+        <div className="mt-20   text-black dark:text-gray-200 text-center font-outfit text-[14px] md:text-[20px] lg:text-[30px] font-normal max-w-5xl mx-auto flex gap-2 justify-center flex-wrap">
+        <span className='w-1/2  '>Tools Meticulously Designed for{" "}</span>
+        <span className="w-1/2 rotating-words fontW  bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold" style={{ animation: "rotate 2s infinite" }}>
+          {usersData[wordIndex]}
+        </span>{" "}
+      </div>
     );
 };
 
-const StyledSlider = styled(Slider)`
-    .slick-track {
-        display: flex;
-        align-items: center;
-    }
-    .slick-slide {
-        padding: 0 5px; /* Adjust the padding here to create space between slides */
-    }
-`;
-
 const BlogTitle = styled.h1`
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-align: center;
-    color: #777;
-    text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);  
-    @media (max-width: 768px) {
-        font-size: 2rem; /* Adjust font size for smaller screens */
-    }
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom:2.5rem;
+  color: #777;
+  text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
+  @media (max-width: 768px) {
+    font-size: 2rem; /* Adjust font size for smaller screens */
+  }
 `;
 
 export default WhoCanUseIt;

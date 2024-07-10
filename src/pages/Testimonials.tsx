@@ -15,7 +15,7 @@ const testimonialsData = [
         company: "XYZ Corp.",
         avatar: "https://randomuser.me/api/portraits/women/2.jpg",
         comment: "Impressive AI capabilities that transformed how we approach customer service.",
-        rating: 4
+        rating: 5
     },
     {
         name: "Michael Johnson",
@@ -25,11 +25,11 @@ const testimonialsData = [
         rating: 5
     },
     {
-        name: "Emily Brown",
-        company: "Digital Innovations",
-        avatar: "https://randomuser.me/api/portraits/women/4.jpg",
-        comment: "Highly recommend this AI service for its reliability and performance.",
-        rating: 4
+        name: "Atul Chopra",
+        company: " Indus Hospitality",
+        avatar: "https://lh3.googleusercontent.com/a-/ALV-UjWRzI2Z1MO95VkHQowijTU1kEv8xcL2IXZ6yCkmA5dnjTDzWbMr=w54-h54-p-rp-mo-br100",
+        comment: "Brilliant service.  Keep it up.",
+        rating: 5
     },
     {
         name: "David Lee",
@@ -39,11 +39,13 @@ const testimonialsData = [
         rating: 5
     },
     {
-        name: "Sarah Wilson",
-        company: "Tech Startups",
-        avatar: "https://randomuser.me/api/portraits/women/6.jpg",
-        comment: "Incredible AI features that helped us innovate faster and smarter.",
-        rating: 4
+        name: "Varun",
+        company: "Melbourne, Australia",
+        avatar: "https://lh3.googleusercontent.com/a/ACg8ocKNscdwnoaPd1mP5irWpb9bre8dOcRZPR8FQwMpmY5-_osBAw=w54-h54-p-rp-mo-br100",
+        comment: `I recently had the opportunity to try this new AI app from Bigwigmedia and I was impressed with its capabilities.
+The app is user-friendly and easy to navigate. I was able to quickly get started and create my own AI-generated content. The results were impressive, and I was able to use the content for a variety of purposes.
+I'm confident that Bigwigmedia AI app can be a valuable tool for anyone looking to create high-quality content quickly and easily. I highly recommend it to anyone looking for an AI-powered content creation tool.`,
+        rating: 5
     },
     {
         name: "Alex Clark",
@@ -83,10 +85,10 @@ const Testimonials = () => {
     };
 
     return (
-        <div className='mt-14 mb-14'>
+        <div className='mt-16 mb-14'>
             <BlogTitle>Testimonials</BlogTitle>
-            <div>
-            <h1 className='text-center text-gray-400'>#1 most used & most talked-about Generative AI Tool</h1>
+            <div className='mb-10'>
+            <h1 className='text-center text-gray-200'>#1 Most Recommended & Most Talked-about Generative AI Tools</h1>
             </div>
             <div className="max-w-screen-lg mx-auto ">
                 <StyledSlider {...settings}>

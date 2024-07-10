@@ -53,6 +53,9 @@ const Blog = () => {
   return (
     <Container>
       <BlogTitle>Our Trending Blogs</BlogTitle>
+      <div className='mb-10'>
+            <h1 className='text-center text-gray-200'>For insights on how artificial intelligence can enhance your content creation, save time, and boost productivity exponentially, and to learn about the ways Bigwigmedia.AI can assist you, be sure to check out our blogs.</h1>
+        </div>
       <Grid>
         {blogPosts.slice(0, 4).map(post => (
           <BookContainer key={post._id} onClick={() => handlePostClick(post.slug)}>
@@ -77,9 +80,9 @@ const Blog = () => {
 export default Blog;
 
 const Container = styled.div`
-  width: 80%;
+  width: 90%;
   margin: auto;
-  margin-top:14px;
+  margin-top:16px;
   @media (prefers-color-scheme: dark) {
     background-color: #1e1e1e;
   }
@@ -89,7 +92,7 @@ const BlogTitle = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 2rem;
+
   color: #777;
   text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
   @media (max-width: 768px) {
@@ -99,7 +102,7 @@ const BlogTitle = styled.h1`
 
 const Grid = styled.div`
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(4,1fr);
   @media (max-width: 968px) {
     grid-template-columns: repeat(2,1fr);

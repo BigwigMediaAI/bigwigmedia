@@ -26,7 +26,7 @@ const features = [
 
 const Features = () => {
   return (
-    <div className='mt-14'>
+    <div className='mt-20'>
       <BlogTitle>Significant Benefits</BlogTitle>
     <div className="max-w-screen-xl mx-auto mt-6">
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 ">
@@ -50,6 +50,7 @@ const BlogTitle = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
+  margin-bottom:2.5rem;
   color: #777;
   text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
   @media (max-width: 768px) {

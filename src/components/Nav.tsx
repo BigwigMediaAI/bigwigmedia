@@ -80,7 +80,7 @@ const Nav=() => {
 
   return (
     <nav className="sticky top-0 z-50 backnavdrop shadow-md dark:shadow-black">
-      <div className="h-10vh flex justify-between z-50 text-black dark:text-white lg:py-5 px-5 md:px-14 lg:px-24 mx-auto py-4 border-b items-center">
+      <div className="h-10vh flex justify-between z-50 text-black dark:text-white lg:py-5 px-5 md:px-14  mx-auto py-4 border-b items-center">
         {/* Hamburger menu for smaller screens */}
         <div className="md:hidden mr-3">
           <DropdownMenu>
@@ -118,9 +118,9 @@ const Nav=() => {
           />
           <span className="text-gray-900 hidden md:block dark:text-white font-outfit text-2xl font-semibold">
             BigWigMedia.ai
-            <sup className="text-xs px-4 ml-2 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] bg-green-400 border-black ">
+            {/* <sup className="text-xs px-4 ml-2 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] bg-green-400 border-black ">
               beta
-            </sup>
+            </sup> */}
           </span>
         </div>
 
