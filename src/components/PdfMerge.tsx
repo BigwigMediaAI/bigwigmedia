@@ -163,7 +163,7 @@ export function PDFMerger() {
                   a.click();
                 }}
               >
-                Download Merged PDF
+                Download
               </Button>
             </div>
           )

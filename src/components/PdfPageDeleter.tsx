@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Download } from "lucide-react";
+import { Loader2, RefreshCw, Download,Upload,Share2 } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 
@@ -90,6 +90,24 @@ export function PdfPageDeleter() {
     document.body.removeChild(link);
   };
 
+  const handleShareClick = () => {
+    if (navigator.share && modifiedPdfUrl) {
+      fetch(modifiedPdfUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "modified.pdf", { type: "application/pdf" });
+          navigator
+            .share({
+              title: "modified pdf",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
+    }
+  };
+
   useEffect(() => {
     if (modifiedPdfUrl && modifiedPdfRef.current) {
       modifiedPdfRef.current.scrollIntoView({ behavior: 'smooth',block:'center' });
@@ -106,6 +124,7 @@ export function PdfPageDeleter() {
         >
           <div className="flex justify-between w-full">
             <div className="flex flex-col items-center w-full">
+            <Upload className="w-12 h-12 text-gray-400" />
               <input
                 type="file"
                 ref={fileInputRef}
@@ -190,6 +209,13 @@ export function PdfPageDeleter() {
                 >
                   Download
                   <Download className="w-6 h-6 text-white" />
+                </Button>
+                <Button
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
+                  onClick={handleShareClick}
+                >
+                  Share
+                  <Share2 className="w-6 h-6 text-white" />
                 </Button>
               </div>
             </div>
