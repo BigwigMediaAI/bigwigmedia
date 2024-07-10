@@ -3,8 +3,9 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
-import { Loader2, Clipboard } from "lucide-react";
+import { Loader2, ClipboardCopy } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
+import { FaDownload, FaShareAlt } from "react-icons/fa";
 
 interface QAPair {
   question: string;
@@ -76,6 +77,37 @@ export function Seopodcast() {
     toast.success('Q&A pairs copied to clipboard!');
   };
 
+  const handleDownload = () => {
+    const qaText = qaPairs.map(pair => `${pair.question}\n${pair.answer}`).join('\n\n');
+    const blob = new Blob([qaText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'QAPairs.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      const qaText = qaPairs.map(pair => `${pair.question}\n${pair.answer}`).join('\n\n');
+      navigator.share({
+        title: 'Shared Q&A Pairs',
+        text: qaText,
+
+      }).then(() => {
+        console.log('Successfully shared.');
+      }).catch((error) => {
+        console.error('Error sharing:', error);
+        toast.error('Failed to share Q&A pairs.');
+      });
+    } else {
+      toast.error('Sharing is not supported on this browser.');
+    }
+  };
+
   const handleInputChange = () => {
     setQAPairs([]);
   };
@@ -87,12 +119,12 @@ export function Seopodcast() {
   }, [isLoading, qaPairs]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#3f3e3e]">
       <div className="mb-5">
         <textarea
           disabled
           value="Please provide questions and answers for the podcast."
-          className="w-full p-2 border rounded bg-black text-white"
+          className="w-full p-2 rounded text-[#3f3e3e]"
         />
       </div>
 
@@ -103,7 +135,7 @@ export function Seopodcast() {
           value={topic}
           onChange={(e) => { setTopic(e.target.value); handleInputChange(); }}
           placeholder="Example: The Future of Artificial Intelligence"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
@@ -114,7 +146,7 @@ export function Seopodcast() {
           value={guest}
           onChange={(e) => { setGuest(e.target.value); handleInputChange(); }}
           placeholder="Example: Dr. Jane Smith"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500  dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
@@ -125,7 +157,7 @@ export function Seopodcast() {
           value={background}
           onChange={(e) => { setBackground(e.target.value); handleInputChange(); }}
           placeholder="Example: Expert in machine learning with 10 years of experience"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
@@ -136,7 +168,7 @@ export function Seopodcast() {
           value={interests}
           onChange={(e) => { setInterests(e.target.value); handleInputChange(); }}
           placeholder="Example: AI ethics, robotics, deep learning"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
@@ -145,7 +177,7 @@ export function Seopodcast() {
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         >
           <option value="Formal">Formal</option>
           <option value="Informative">Informative</option>
@@ -163,39 +195,38 @@ export function Seopodcast() {
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         >
           <option value="English">English</option>
-<option value="Spanish">Spanish</option>
-<option value="French">French</option>
-<option value="German">German</option>
-<option value="Chinese">Chinese</option>
-<option value="Hindi">Hindi</option>
-<option value="Arabic">Arabic</option>
-<option value="Portuguese">Portuguese</option>
-<option value="Bengali">Bengali</option>
-<option value="Russian">Russian</option>
-<option value="Japanese">Japanese</option>
-<option value="Lahnda">Lahnda</option>
-<option value="Punjabi">Punjabi</option>
-<option value="Javanese">Javanese</option>
-<option value="Korean">Korean</option>
-<option value="Telugu">Telugu</option>
-<option value="Marathi">Marathi</option>
-<option value="Tamil">Tamil</option>
-<option value="Turkish">Turkish</option>
-<option value="Vietnamese">Vietnamese</option>
-<option value="Italian">Italian</option>
-<option value="Urdu">Urdu</option>
-<option value="Persian">Persian</option>
-<option value="Malay">Malay</option>
-<option value="Thai">Thai</option>
-<option value="Gujarati">Gujarati</option>
-<option value="Kannada">Kannada</option>
-<option value="Polish">Polish</option>
-<option value="Ukrainian">Ukrainian</option>
-<option value="Romanian">Romanian</option>
-
+          <option value="Spanish">Spanish</option>
+          <option value="French">French</option>
+          <option value="German">German</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Arabic">Arabic</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Bengali">Bengali</option>
+          <option value="Russian">Russian</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Lahnda">Lahnda</option>
+          <option value="Punjabi">Punjabi</option>
+          <option value="Javanese">Javanese</option>
+          <option value="Korean">Korean</option>
+          <option value="Telugu">Telugu</option>
+          <option value="Marathi">Marathi</option>
+          <option value="Tamil">Tamil</option>
+          <option value="Turkish">Turkish</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Italian">Italian</option>
+          <option value="Urdu">Urdu</option>
+          <option value="Persian">Persian</option>
+          <option value="Malay">Malay</option>
+          <option value="Thai">Thai</option>
+          <option value="Gujarati">Gujarati</option>
+          <option value="Kannada">Kannada</option>
+          <option value="Polish">Polish</option>
+          <option value="Ukrainian">Ukrainian</option>
+          <option value="Romanian">Romanian</option>
         </select>
       </div>
 
@@ -228,12 +259,26 @@ export function Seopodcast() {
                     </li>
                   ))}
                 </ul>
-                <button
-                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-                  onClick={handleCopy}
-                >
-                  <Clipboard className="w-5 h-5" />
-                </button>
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    onClick={handleCopy}
+                    className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                  >
+                    <ClipboardCopy className="inline-block w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                  >
+                    <FaDownload className="inline-block w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={handleShare}
+                    className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                  >
+                    <FaShareAlt className="inline-block w-5 h-5" />
+                  </button>
+                </div>
               </div>
             </div>
           )

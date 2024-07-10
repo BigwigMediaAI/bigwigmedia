@@ -1,11 +1,10 @@
-// FinanceAdvisor.js
-
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, Copy } from 'lucide-react';
+import { Loader2,ClipboardCopy } from 'lucide-react';
 import { BASE_URL } from '@/utils/funcitons';
 import { useAuth } from '@clerk/clerk-react';
+import { FaDownload, FaShareAlt } from 'react-icons/fa';
 
 const languageOptions = [
     { value: 'English', label: 'English' },
@@ -48,13 +47,20 @@ export function FinanceAdvisor() {
     const [amount, setAmount] = useState('');
     const [language, setLanguage] = useState('English');
     const [outputCount, setOutputCount] = useState(3); // Default output count
-    const [advices, setAdvices] = useState([]);
+    const [advices, setAdvices] = useState<string[]>([]);
     const { userId } = useAuth();
     const loaderRef = useRef<HTMLDivElement | null>(null);
     const resultsRef = useRef<HTMLDivElement | null>(null);
 
     const handleGenerate = async () => {
         setIsLoading(true);
+        setAdvices([]); // Clear previous advices
+
+        // Scroll to loader after a short delay to ensure it's rendered
+        setTimeout(() => {
+            loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+
         try {
             const response = await axios.post(`${BASE_URL}/response/finance?clerkId=${userId}`, {
                 description,
@@ -62,13 +68,9 @@ export function FinanceAdvisor() {
                 language,
                 outputCount,
             });
-            console.log(response.data)
 
             if (response.status === 200) {
                 setAdvices(response.data.advice);
-                if (resultsRef.current) {
-                    resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
             } else {
                 toast.error('Error generating financial advice. Please try again later.');
             }
@@ -80,9 +82,35 @@ export function FinanceAdvisor() {
         }
     };
 
-    const handleCopy = (text:any) => {
+    const handleCopy = (text: string) => {
         navigator.clipboard.writeText(text);
         toast.success('Advice copied to clipboard');
+    };
+
+    const handleShare = (text: string) => {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Financial Advice',
+                text,
+            }).then(() => {
+                toast.success('Advice shared successfully');
+            }).catch((error) => {
+                console.error('Error sharing advice:', error);
+                toast.error('Error sharing advice');
+            });
+        } else {
+            toast.error('Web Share API not supported in this browser');
+        }
+    };
+
+    const handleDownload = (text: string) => {
+        const element = document.createElement('a');
+        const file = new Blob([text], { type: 'text/plain' });
+        element.href = URL.createObjectURL(file);
+        element.download = 'financial_advice.txt';
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
+        toast.success('Advice downloaded');
     };
 
     useEffect(() => {
@@ -92,7 +120,7 @@ export function FinanceAdvisor() {
     }, [isLoading, advices]);
 
     return (
-        <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+        <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#3f3e3e]">
             <div className="mb-5">
                 <label className="block text-gray-700 dark:text-gray-300">Description</label>
                 <input
@@ -100,7 +128,7 @@ export function FinanceAdvisor() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Enter your financial situation description"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 px-3 py-2"
                 />
             </div>
 
@@ -111,7 +139,7 @@ export function FinanceAdvisor() {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="Enter the amount"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 px-3 py-2"
                 />
             </div>
 
@@ -120,7 +148,7 @@ export function FinanceAdvisor() {
                 <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 px-3 py-2"
                 >
                     {languageOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -136,7 +164,7 @@ export function FinanceAdvisor() {
                     type="number"
                     value={outputCount}
                     onChange={(e) => setOutputCount(parseInt(e.target.value))}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 px-3 py-2"
                 />
             </div>
 
@@ -146,7 +174,7 @@ export function FinanceAdvisor() {
                     onClick={handleGenerate}
                     disabled={isLoading}
                 >
-                    {isLoading ? 'Generating...' : 'Generate'}
+                    {isLoading ? 'Generating...' : advices.length > 0 ? 'Regenerate' : 'Generate'}
                 </button>
             </div>
 
@@ -159,14 +187,31 @@ export function FinanceAdvisor() {
                 ) : (
                     <div>
                         {advices.map((advice, index) => (
-                            <div key={index} className='border border-gray-300 rounded-md p-5 mb-4'>
-                                <div className="flex justify-between items-center">
-                                    <h3 className="text-gray-700 dark:text-gray-300">Generated Financial Advice {index + 1}:</h3>
-                                    <button onClick={() => handleCopy(advice)} className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-                                        <Copy className="w-5 h-5" />
-                                    </button>
+                            <div key={index} className="border border-gray-300 rounded-md p-4 mb-4 max-h-80 overflow-y-auto">
+                                <div className="flex justify-between items-center mb-2">
+                                    <h3 className="text-gray-700 dark:text-gray-300">Generated Financial Advice {index + 1}</h3>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => handleCopy(advice)}
+                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                        >
+                                            <ClipboardCopy className="inline-block w-5 h-5" />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDownload(advice)}
+                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                        >
+                                            <FaDownload className="inline-block w-5 h-5" />
+                                        </button>
+                                        <button
+                                            onClick={() => handleShare(advice)}
+                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                        >
+                                            <FaShareAlt className="inline-block w-5 h-5" />
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 mt-2">
+                                <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300">
                                     {advice}
                                 </div>
                             </div>
@@ -175,7 +220,7 @@ export function FinanceAdvisor() {
                 )}
             </div>
 
-            <div ref={resultsRef} /> {/* This empty div is used for scrolling */}
+            <div ref={resultsRef}></div>
         </div>
     );
 }

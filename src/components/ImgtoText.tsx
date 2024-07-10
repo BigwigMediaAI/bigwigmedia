@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { BASE_URL } from "@/utils/funcitons";
-import { CopyIcon, Loader2, UploadIcon } from "lucide-react";
+import { ClipboardCopy, Loader2, UploadIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
+import { FaDownload, FaShareAlt } from "react-icons/fa";
 
 export function ImagetoText() {
   const [text, setText] = useState("");
@@ -52,6 +53,35 @@ export function ImagetoText() {
       .catch(() => toast.error("Failed to copy text"));
   };
 
+  const handleDownloadText = () => {
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'extracted_text.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleShareText = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Shared Extracted Text',
+        text: text,
+
+      }).then(() => {
+        console.log('Successfully shared.');
+      }).catch((error) => {
+        console.error('Error sharing:', error);
+        toast.error('Failed to share extracted text.');
+      });
+    } else {
+      toast.error('Sharing is not supported on this browser.');
+    }
+  };
+
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
@@ -75,7 +105,7 @@ export function ImagetoText() {
   }, [isLoading, isTextGenerated]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl relative">
       <input
         type="file"
         id="fileInput"
@@ -118,27 +148,38 @@ export function ImagetoText() {
 
       {isLoading && (
         <div ref={loaderRef} className="mt-5 w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-12 h-12 text-gray-300" />
-          <p className="dark:text-white text-gray-300 text-center mt-2">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
+          <p className="text-gray-300 text-center">Data processing in progress. Please bear with us...</p>
         </div>
       )}
 
       {isTextGenerated && !isLoading && (
-        <div ref={resultRef} className="mt-5">
+        <div ref={resultRef} className="relative mt-5">
           <Textarea
             className="mb-4 h-60 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
             value={text}
             placeholder="Extracted text will appear here."
             readOnly
           />
-          <div className="flex justify-center">
-            <Button
-              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          <div className=" top-2 right-2 flex gap-2">
+            <button
               onClick={handleCopyText}
+              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
             >
-              <CopyIcon className="mr-2 h-5 w-5" />
-              Copy Text
-            </Button>
+              <ClipboardCopy className="inline-block w-5 h-5" />
+            </button>
+            <button
+              onClick={handleDownloadText}
+              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+            >
+              <FaDownload className="inline-block w-5 h-5" />
+            </button>
+            <button
+              onClick={handleShareText}
+              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+            >
+              <FaShareAlt className="inline-block w-5 h-5" />
+            </button>
           </div>
         </div>
       )}

@@ -4,22 +4,22 @@ import styled from 'styled-components';
 const features = [
   {
     title: 'Effective',
-    description: 'Save time and effort with our automation tools for social media, video editing, and file conversion.',
+    description: 'Save time and effort with our automation tools for social media, video editing, and file conversions etc.',
     icon: 'https://www.svgrepo.com/show/273656/tools-and-utensils-microchip.svg', // replace with your icon path
   },
   {
     title: 'Simple',
-    description: 'Simplify your tasks with intuitive interfaces and minimal setup for starting campaigns and managing media.',
+    description: 'Simplify your tasks with intuitive interfaces and minimal setup for starting campaigns and managing media etc.',
     icon: 'https://www.svgrepo.com/show/477058/internet.svg', // replace with your icon path
   },
   {
     title: 'Secure',
-    description: 'Protect your data with robust security measures. We prioritize your privacy and confidentiality.',
+    description: 'We Protect your data with robust security measures. We prioritize your privacy and confidentiality.',
     icon: 'https://www.svgrepo.com/show/485059/security-shield.svg', // replace with your icon path
   },
   {
     title: 'Trusted',
-    description: 'Join thousands of satisfied users who rely on us for their social media, video, audio, and file management needs.',
+    description: 'Join thousands of satisfied users who rely on us for their social media, video, audio, and file management needs.',
     icon: 'https://www.svgrepo.com/show/271589/social-media-like.svg', // replace with your icon path
   },
 ];

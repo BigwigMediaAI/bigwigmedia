@@ -33,7 +33,7 @@ const Stats: React.FC = () => {
             <p className="text-sm sm:text-md lg:text-lg text-gray-300">Files Converted</p>
           </div>
           <div className=" text-center p-4 flex flex-col justify-center items-center">
-            <p className="text-lg sm:text-xl lg:text-2xl bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold">100+</p>
+            <p className="text-lg sm:text-xl lg:text-2xl bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold">150+</p>
             <p className="text-sm sm:text-md lg:text-lg text-gray-300">Online Tools</p>
           </div>
           <div className=" text-center p-4 flex flex-col justify-center items-center">

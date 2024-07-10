@@ -26,6 +26,7 @@ import PricingPlan from "./Pricing";
 import Features from "./Features";
 import categories from "@/components/toolsData";
 import gradient from "../assets/gradient.png";
+import WhoCanUseIt from "./WhoCanUse";
 // import Profile from "@/components/Profile";
 
 // type Props = {};
@@ -272,6 +273,12 @@ const Landing = () => {
         <img src={gradient} className="absolute -z-1" alt="gradient" />
       </div>
     </div>
+    <div className="mt-10">
+  <h3 className="w-4/5 m-auto text-center text-gray-400 text-sm sm:text-sm md:text-lg lg:text-xl">
+    Discover the world's most popular AI platform where you can find all the tools you need, give your input, and effortlessly generate exactly what you want.
+  </h3>
+</div>
+
         <div className="mt-2 flex items-center justify-center">
           <Stats />
         </div>
@@ -308,6 +315,8 @@ const Landing = () => {
     </div>
       
       <Features />
+
+      <WhoCanUseIt />
       <Footer  />
     </div>
   );
