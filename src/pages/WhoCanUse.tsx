@@ -33,7 +33,7 @@ const WhoCanUseIt = () => {
       }, []);
 
     return (
-        <div className="mt-20   text-black dark:text-gray-200 text-center font-outfit text-[16px] md:text-[20px] lg:text-[30px] font-normal md:max-w-5xl max-w-7xl mx-auto flex gap-2 justify-center flex-wrap">
+        <div className="mt-20   text-black dark:text-gray-200 text-center font-outfit text-[20px] md:text-[20px] lg:text-[30px] font-normal md:max-w-5xl max-w-7xl mx-auto flex gap-2 justify-center flex-wrap">
         <span className='w-2/3  '>Tools Meticulously Designed for{" "}</span>
         <span className="w-2/3 rotating-words fontW  bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold" style={{ animation: "rotate 2s infinite" }}>
           {usersData[wordIndex]}
