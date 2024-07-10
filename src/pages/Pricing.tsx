@@ -16,6 +16,10 @@ const PricingPlan = () => {
   return (
     <div className='mt-10'>
     <BlogTitle>Pricing Plan</BlogTitle>
+    <div>
+      <h1 className='text-center text-gray-400'>Experience results from day one with our self-paying pricing </h1>
+      <h3 className='text-center text-gray-400'>Try it for free now!</h3>
+    </div>
     <div className="flex flex-col  items-center py-6 ">
       <div className="flex flex-col md:flex-row gap-10">
          {/* Free Plan */}

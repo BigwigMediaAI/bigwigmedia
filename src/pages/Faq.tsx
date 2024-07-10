@@ -39,6 +39,10 @@ const faqData: FAQItem[] = [
     question: 'Is my payment information secure?',
     answer: 'Absolutely. Razorpay is a highly secure payment gateway, and we ensure that all your payment information is protected and encrypted.',
   },
+  {
+    question: 'What is Credit?',
+    answer: 'Credits are what you use to download each content that you generate on BigwigMedia.ai. Depending on the package you select, you will have a set number of credits available to you each month. These credits renew every month and can be used to download your generated content.',
+  }
 ];
 
 const FAQ: React.FC = () => {

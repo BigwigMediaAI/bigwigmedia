@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-import { Loader2, Copy, RefreshCw, Upload } from 'lucide-react';
+import { Loader2, ClipboardCopy, RefreshCw, Upload } from 'lucide-react';
+import { FaDownload, FaShareAlt } from "react-icons/fa";
 
 export function PdfToTextConverter() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,6 +14,7 @@ export function PdfToTextConverter() {
   const [isTextExtracted, setIsTextExtracted] = useState(false);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -39,6 +41,11 @@ export function PdfToTextConverter() {
     setIsLoading(true);
     setExtractedText(''); // Clear previous extracted text
     setIsTextExtracted(false); // Reset the flag
+
+    
+        setTimeout(() => {
+            loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
     try {
       if (!selectedFile) {
         toast.error('Please select a PDF file.');
@@ -74,11 +81,40 @@ export function PdfToTextConverter() {
     toast.success('Text copied to clipboard.');
   };
 
-  useEffect(() => {
-    if (isLoading) {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const downloadText = () => {
+    const blob = new Blob([extractedText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'extracted-text.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleShare = async () => {
+    if (!navigator.share) {
+      toast.error('Share not supported on this device.');
+      return;
     }
-  }, [isLoading]);
+
+    try {
+      await navigator.share({
+        title: 'Extracted Text',
+        text: extractedText,
+      });
+
+      toast.success('Text shared successfully!');
+    } catch (error: any) {
+      console.error('Error during sharing:', error);
+      toast.error('Failed to share text. ' + error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (!isLoading && extractedText) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, extractedText]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
@@ -132,13 +168,29 @@ export function PdfToTextConverter() {
         </div>
       )}
       {isTextExtracted && (
-        <div className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
+        <div ref={resultsRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Extracted Text:</h2>
-            <Copy 
-              className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800" 
-              onClick={copyToClipboard} 
-            />
+            <div className="flex gap-2">
+              <button
+                onClick={copyToClipboard}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <ClipboardCopy className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={downloadText}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaDownload className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={handleShare}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaShareAlt className="inline-block w-5 h-5" />
+              </button>
+            </div>
           </div>
           <pre className="p-4 border border-gray-300 rounded-md shadow-inner">{extractedText}</pre>
         </div>

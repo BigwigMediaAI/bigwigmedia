@@ -85,7 +85,9 @@ const Testimonials = () => {
     return (
         <div className='mt-14 mb-14'>
             <BlogTitle>Testimonials</BlogTitle>
-            
+            <div>
+            <h1 className='text-center text-gray-400'>#1 most used & most talked-about Generative AI Tool</h1>
+            </div>
             <div className="max-w-screen-lg mx-auto ">
                 <StyledSlider {...settings}>
                     {testimonialsData.map((testimonial, index) => (
@@ -118,7 +120,6 @@ const BlogTitle = styled.h1`
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 2rem;
     color: #777;
     text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
     @media (max-width: 768px) {

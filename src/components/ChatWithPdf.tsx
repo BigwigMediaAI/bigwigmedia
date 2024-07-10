@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-import { Loader2, Copy, Upload, RefreshCw } from 'lucide-react';
+import { Loader2, ClipboardCopy, Upload, RefreshCw} from 'lucide-react';
+import { FaDownload, FaShareAlt } from "react-icons/fa";
 
 export function PdfChat() {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +30,10 @@ export function PdfChat() {
         toast.error('Please select a PDF file.');
         return;
       }
+
+      setTimeout(() => {
+        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 
       const formData = new FormData();
       formData.append('pdf', selectedFile);
@@ -70,6 +75,37 @@ export function PdfChat() {
   const refreshSelection = () => {
     setSelectedFile(null);
     setAnswer(''); // Clear previous answer
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(answer);
+    toast.success('Answer copied to clipboard.');
+  };
+
+  const downloadAnswer = () => {
+    const element = document.createElement('a');
+    const file = new Blob([answer], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'answer.txt';
+    document.body.appendChild(element);
+    element.click();
+    toast.success('Answer downloaded.');
+  };
+
+  const shareAnswer = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Answer from PDF Chat',
+          text: answer,
+        });
+        toast.success('Answer shared.');
+      } catch (error) {
+        toast.error('Error sharing answer.');
+      }
+    } else {
+      toast.error('Web Share API not supported in this browser.');
+    }
   };
 
   useEffect(() => {
@@ -143,10 +179,26 @@ export function PdfChat() {
         <div ref={resultRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Answer:</h2>
-            <Copy 
-              className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800" 
-              onClick={() => navigator.clipboard.writeText(answer)} 
-            />
+            <div className="flex gap-2">
+              <button
+                onClick={copyToClipboard}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <ClipboardCopy className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={downloadAnswer}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaDownload className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={shareAnswer}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaShareAlt className="inline-block w-5 h-5" />
+              </button>
+            </div>
           </div>
           <pre className="p-4 border border-gray-300 rounded-md shadow-inner whitespace-pre-line">{answer}</pre>
         </div>

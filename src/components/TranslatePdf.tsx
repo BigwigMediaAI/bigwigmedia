@@ -3,9 +3,10 @@ import axios from 'axios';
 import Select from 'react-select';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Loader2, Copy, RefreshCw } from 'lucide-react';
+import { Loader2, Copy, RefreshCw,Upload} from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
+import { FaDownload, FaShareAlt } from "react-icons/fa";
 
 export function PdfTranslate() {
   const [isLoading, setIsLoading] = useState(false);
@@ -150,6 +151,36 @@ export function PdfTranslate() {
     navigator.clipboard.writeText(translatedText);
     toast.success('Translated text copied to clipboard.');
   };
+  
+
+  const downloadText = () => {
+    const blob = new Blob([translatedText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'extracted-text.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleShare = async () => {
+    if (!navigator.share) {
+      toast.error('Share not supported on this device.');
+      return;
+    }
+
+    try {
+      await navigator.share({
+        title: 'Extracted Text',
+        text: translatedText,
+      });
+
+      toast.success('Text shared successfully!');
+    } catch (error: any) {
+      console.error('Error during sharing:', error);
+      toast.error('Failed to share text. ' + error.message);
+    }
+  };
 
 
   useEffect(() => {
@@ -171,6 +202,7 @@ export function PdfTranslate() {
       >
         <div className="flex justify-between w-full">
           <div className="flex flex-col items-center w-full">
+          <Upload className="w-12 h-12 text-gray-400" />
             <input
               type="file"
               accept="application/pdf"
@@ -198,13 +230,29 @@ export function PdfTranslate() {
         )}
       </div>
       <div className="flex justify-center mb-5 w-full">
-        <Select
+      <Select
           options={languages}
           onChange={setSelectedLanguage}
           value={selectedLanguage}
           placeholder="Select target language"
           isSearchable
           className="w-full text-black"
+          styles={{
+            control: (provided) => ({
+              ...provided,
+              backgroundColor: 'transparent',
+              color: 'white',
+            }),
+            singleValue: (provided) => ({
+              ...provided,
+              color: 'white',
+            }),
+            menu: (provided) => ({
+              ...provided,
+              backgroundColor: '#3f3e3e',
+              color: 'white',
+            }),
+          }}
         />
       </div>
       <div className="mt-5 flex justify-center">
@@ -227,10 +275,26 @@ export function PdfTranslate() {
             <div ref={resultsRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Translated Text:</h2>
-                <Copy 
-                  className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800" 
-                  onClick={copyToClipboard} 
-                />
+                <div className="flex gap-2">
+              <button
+                onClick={copyToClipboard}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <Copy className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={downloadText}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaDownload className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={handleShare}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaShareAlt className="inline-block w-5 h-5" />
+              </button>
+            </div>
               </div>
               <pre className="p-4 border border-gray-300 rounded-md shadow-inner  whitespace-pre-wrap max-h-64 overflow-y-auto">
                 {translatedText}

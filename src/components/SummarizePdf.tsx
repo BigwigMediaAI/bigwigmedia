@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { Loader2, Copy, RefreshCw, Upload } from 'lucide-react';
+import { FaDownload, FaShareAlt } from "react-icons/fa";
 
 export function PdfSummarizer() {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,17 +34,17 @@ export function PdfSummarizer() {
   };
 
   const summarizePdf = async () => {
-    setSummary('')
+    setSummary('');
     setIsLoading(true);
-    setSummary(''); // Clear previous summary
     try {
       if (!selectedFile) {
         toast.error('Please select a PDF file.');
         return;
       }
-
-      setIsLoading(true);
-      loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      
+        setTimeout(() => {
+            loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
 
       const formData = new FormData();
       formData.append('pdf', selectedFile);
@@ -68,6 +69,45 @@ export function PdfSummarizer() {
     }
   };
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(summary);
+    toast.success('Summary copied to clipboard.');
+  };
+
+  const downloadText = () => {
+    const blob = new Blob([summary], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'summary.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleShare = async () => {
+    if (!navigator.share) {
+      toast.error('Share not supported on this device.');
+      return;
+    }
+
+    try {
+      await navigator.share({
+        title: 'PDF Summary',
+        text: summary,
+      });
+
+      toast.success('Summary shared successfully!');
+    } catch (error: any) {
+      console.error('Error during sharing:', error);
+      toast.error('Failed to share summary. ' + error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoading) {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (!isLoading && summary) {
@@ -128,14 +168,30 @@ export function PdfSummarizer() {
       )}
       {summary && (
         <div ref={resultRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner">
-            <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Summary:</h2>
-            <Copy 
-                className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800" 
-                onClick={() => navigator.clipboard.writeText(summary)} 
-            />
+            <div className="flex gap-2">
+              <button
+                onClick={copyToClipboard}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <Copy className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={downloadText}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaDownload className="inline-block w-5 h-5" />
+              </button>
+              <button
+                onClick={handleShare}
+                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              >
+                <FaShareAlt className="inline-block w-5 h-5" />
+              </button>
             </div>
-            <pre className="p-4 border border-gray-300 rounded-md shadow-inner whitespace-pre-line">{summary}</pre>
+          </div>
+          <pre className="p-4 border border-gray-300 rounded-md shadow-inner whitespace-pre-line">{summary}</pre>
         </div>
       )}
     </div>
