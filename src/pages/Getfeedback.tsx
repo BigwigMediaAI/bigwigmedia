@@ -16,7 +16,6 @@ interface FormData {
 
 const Getfeedback = () => {
   const [formData, setFormData] = useState<FormData[]>([]); // Specify the type of formData
-
   useEffect(() => {
     // Fetch form data from backend API
     const fetchFormData = async () => {
@@ -32,6 +31,10 @@ const Getfeedback = () => {
 
     fetchFormData();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0,0);
+  }, [formData]);
 
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-slate-400">

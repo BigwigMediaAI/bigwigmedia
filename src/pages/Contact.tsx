@@ -33,7 +33,7 @@ const ContactUs: React.FC = () => {
     setMessage("");
     console.log(name,email,message)
   };
-
+  window.scrollTo(0,0)
   return (
     <div className="bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100">
       <Nav />

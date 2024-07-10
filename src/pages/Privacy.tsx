@@ -5,7 +5,9 @@ import React from 'react'
 type Props = {}
 
 const Privacy = (props: Props) => {
+  window.scrollTo(0,0)
   return (
+    
     <div>
       <Nav />
 
