@@ -5,16 +5,11 @@ import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 function Terms() {
-
   const navigate = useNavigate();
 
   const handleBackClick = () => {
     navigate(-1);
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <>
     

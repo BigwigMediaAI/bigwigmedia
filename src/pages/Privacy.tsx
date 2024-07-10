@@ -12,11 +12,8 @@ const Privacy = (props: Props) => {
   const handleBackClick = () => {
     navigate(-1);
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
+    
     <div>
       <Nav />
       <div className="max-w-6xl mx-auto px-2 pt-6 flex mb-4">

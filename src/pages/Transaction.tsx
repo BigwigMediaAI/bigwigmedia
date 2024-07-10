@@ -5,6 +5,8 @@ import React from 'react'
 type Props = {}
 
 const Transaction = (props: Props) => {
+  window.scrollTo(0, 0);
+ 
   return (
     <div className='flex flex-col gap-2'><Nav />
       <div className="flex flex-col gap-3 max-w-4xl mx-auto py-8 px-4">

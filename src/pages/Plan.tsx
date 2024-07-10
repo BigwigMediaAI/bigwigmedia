@@ -100,6 +100,7 @@ const Plan = (props: Props) => {
   };
 
   useEffect(() => {
+    window.scrollTo(0,0);
     if (isLoaded) {
       if (isSignedIn) {
         getPlans();
