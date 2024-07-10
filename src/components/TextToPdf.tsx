@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FaSyncAlt } from "react-icons/fa";
-import { Loader2 } from "lucide-react";
+import { Loader2, Share2 } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { toast } from "sonner";
 
 export function TextToPdfConverter() {
   const [text, setText] = useState("");
@@ -66,12 +67,31 @@ export function TextToPdfConverter() {
     }
   }, [text]);
 
+
   const handleDownloadClick = () => {
     if (pdfUrl) {
       const link = document.createElement('a');
       link.href = pdfUrl;
       link.download = 'output.pdf';
       link.click();
+    }
+  };
+
+  const sharePDF = () => {
+    if (navigator.share && pdfUrl) {
+      fetch(pdfUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "converted.pdf", { type: "application/pdf" });
+          navigator
+            .share({
+              title: "Generated PDF",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
     }
   };
 
@@ -117,12 +137,22 @@ export function TextToPdfConverter() {
           </button>
         )}
         {pdfUrl && showPdf && !isLoading && (
+          <div>
           <button
             onClick={handleDownloadClick}
             className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
           >
             Download PDF
           </button>
+          <button
+                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                  onClick={sharePDF}
+                  disabled={!navigator.share}
+                >
+                  Share
+                  <Share2 className="ml-2 w-5 h-5" />
+                </button>
+          </div>
         )}
       </div>
       {error && <div className="mt-4 text-red-500">{error}</div>}
