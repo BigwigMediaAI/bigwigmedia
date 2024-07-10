@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, CopyIcon } from 'lucide-react';
+import { Loader2, CopyIcon, Share2, Download } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons"; // Ensure the BASE_URL is correct
 import { useAuth } from "@clerk/clerk-react";
 
@@ -46,9 +46,9 @@ export function CoverLetterGenerator() {
         language,
         outputCount
       });
-
+        console.log(response.data)
       if (response.status === 200) {
-        setCoverLetters(response.data.coverLetters);
+        setCoverLetters(response.data);
       } else {
         toast.error('Error generating cover letter. Please try again later.');
       }
@@ -74,6 +74,35 @@ export function CoverLetterGenerator() {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading, coverLetters]);
+
+  const handleShare = () => {
+    const textToShare = coverLetters.join('\n');
+    if (navigator.share) {
+      navigator.share({
+        title: 'Generated Domain Names',
+        text: textToShare,
+      }).catch((error) => console.error('Error sharing:', error));
+    } else {
+      navigator.clipboard.writeText(textToShare).then(() => {
+        toast.success('Domain names copied to clipboard');
+      }).catch((error) => {
+        console.error('Error copying to clipboard:', error);
+        toast.error('Failed to copy domain names to clipboard');
+      });
+    }
+  };
+
+  const handleDownload = () => {
+    const textToDownload = coverLetters.join('\n');
+    const blob = new Blob([textToDownload], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'domain-names.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
@@ -219,12 +248,27 @@ export function CoverLetterGenerator() {
                     <p key={lineIndex} className="text-gray-700 dark:text-gray-300">{line}</p>
                   ))}
                 </div>
+                <div className='flex justify-center items-center mt-4'>
                 <button
                   className="absolute top-2 right-2 rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:dark:bg-gray-800 dark:text-gray-200"
                   onClick={() => handleCopy(letter)}
                 >
                   <CopyIcon className="h-5 w-5" />
                 </button>
+                <button
+                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80 mr-3"
+                    onClick={handleShare}
+                  >
+                   <Share2/>
+                  </button>
+                  <button
+                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
+                    onClick={handleDownload}
+                  >
+                    <Download/>
+                  </button>
+                </div>
+               
               </div>
             ))}
           </div>

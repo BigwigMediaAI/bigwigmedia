@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, Clipboard } from 'lucide-react';
+import { Loader2, Clipboard, Share2, Download } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
+import { saveAs } from 'file-saver';
 
 const tones = [
   { value: 'formal', label: 'Formal' },
@@ -76,7 +77,6 @@ export function ContentImprover() {
       });
   
       if (response.status === 200) {
-        // Assuming response.data.data.improvedContent is a string with multiple paragraphs separated by "\n\n"
         const improvedContentArray = response.data.data.improvedContent.split("\n\n");
         setImprovedContents(improvedContentArray);
       } else {
@@ -89,11 +89,33 @@ export function ContentImprover() {
       setIsLoading(false);
     }
   };
-  
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success('Improved content copied to clipboard!');
+  };
+
+  const handleShare = async (text: string) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Improved Content',
+          text,
+        });
+        toast.success('Content shared successfully!');
+      } catch (error) {
+        console.error('Error sharing content:', error);
+        toast.error('Error sharing content. Please try again later.');
+      }
+    } else {
+      toast.error('Share API not supported in this browser.');
+    }
+  };
+
+  const handleDownload = (text: string) => {
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, 'improved-content.txt');
+    toast.success('Content downloaded successfully!');
   };
 
   const handleInputChange = () => {
@@ -182,13 +204,27 @@ export function ContentImprover() {
           {improvedContents.map((content, index) => (
             <div key={index} className="border border-gray-300 rounded-md mb-4">
               <div className="border p-4 rounded-lg relative">
-                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{content}</p>
-                <button
-                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-                  onClick={() => handleCopy(content)}
-                >
-                  <Clipboard className="w-5 h-5" />
-                </button>
+                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line mt-5 justify-center">{content}</p>
+                <div className="absolute top-2 right-2 flex space-x-2">
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={() => handleCopy(content)}
+                  >
+                    <Clipboard className="w-5 h-5" />
+                  </button>
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={() => handleShare(content)}
+                  >
+                    <Share2 className="w-5 h-5" />
+                  </button>
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={() => handleDownload(content)}
+                  >
+                    <Download className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
             </div>
           ))}

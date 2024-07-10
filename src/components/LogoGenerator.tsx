@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2,Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -98,6 +98,33 @@ const LogoGenerator = (props: Props) => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Shared Logo",
+          text: "Check out this logo I generated!",
+          url: output,
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback for browsers that do not support the Web Share API
+      // Implement your own custom sharing method here, like copying to clipboard or showing a share dialog
+      // Example:
+      // const shareUrl = output; // Your generated logo URL
+      // const shareDialog = document.createElement("textarea");
+      // shareDialog.value = shareUrl;
+      // document.body.appendChild(shareDialog);
+      // shareDialog.select();
+      // document.execCommand("copy");
+      // document.body.removeChild(shareDialog);
+      // alert("Link copied to clipboard!");
+      toast.error("Sharing not supported on this browser.");
+    }
   };
 
   useEffect(() => {
@@ -201,6 +228,13 @@ const LogoGenerator = (props: Props) => {
                 onClick={() => handleDownload(output)}
               >
                 <Download />
+              </button>
+
+              <button
+                className="absolute shadow-sm shadow-gray-500 top-4 left-4 opacity-40 hover:opacity-70 text-white bg-gray-800 transition-all duration-300 p-2 rounded-md"
+                onClick={() => handleShare()}
+              >
+               <Share2/>
               </button>
             </div>
           </div>

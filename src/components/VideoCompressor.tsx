@@ -96,6 +96,22 @@ export function VideoCompressor() {
     }
   }, [isLoading, downloadUrl]);
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Compressed Video',
+          files: [new File([await (await fetch(downloadUrl)).blob()], 'compressed_video.mp4', { type: 'video/mp4' })]
+        });
+        toast.success("Video shared successfully!");
+      } catch (error) {
+        toast.error("An error occurred while sharing the video.");
+      }
+    } else {
+      toast.error("Sharing is not supported on this browser.");
+    }
+  };
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div className="flex flex-col items-center">
@@ -154,7 +170,7 @@ export function VideoCompressor() {
         )}
 
         {downloadUrl && !isLoading && (
-          <div ref={resultsRef} className="w-full mt-4">
+          <div ref={resultsRef} className="w-full mt-4 flex flex-col items-center">
             <a
               className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
               href={downloadUrl}
@@ -162,6 +178,12 @@ export function VideoCompressor() {
             >
               Download
             </a>
+            <Button
+              className="mt-4 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+              onClick={handleShare}
+            >
+              Share Video
+            </Button>
           </div>
         )}
       </div>

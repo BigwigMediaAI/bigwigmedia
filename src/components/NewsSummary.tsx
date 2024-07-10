@@ -2,7 +2,7 @@
   import { Textarea } from "@/components/ui/textarea";
   import { useState, useEffect, useRef } from "react";
   import axios from "axios";
-  import { ClipboardCopyIcon, CopyIcon, Loader2 } from "lucide-react";
+  import { ClipboardCopyIcon, CopyIcon, Download, Loader2, Share2 } from "lucide-react";
   import { toast } from "sonner";
   import { BASE_URL } from "@/utils/funcitons";
   import { useAuth } from "@clerk/clerk-react";
@@ -76,6 +76,35 @@
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }, [isLoading, summaries]);
+
+    const handleShare = () => {
+      const textToShare = summaries.join('\n');
+      if (navigator.share) {
+        navigator.share({
+          title: 'Generated Domain Names',
+          text: textToShare,
+        }).catch((error) => console.error('Error sharing:', error));
+      } else {
+        navigator.clipboard.writeText(textToShare).then(() => {
+          toast.success('Domain names copied to clipboard');
+        }).catch((error) => {
+          console.error('Error copying to clipboard:', error);
+          toast.error('Failed to copy domain names to clipboard');
+        });
+      }
+    };
+  
+    const handleDownload = () => {
+      const textToDownload = summaries.join('\n');
+      const blob = new Blob([textToDownload], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'domain-names.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
 
     return (
       <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
@@ -173,8 +202,8 @@
               <>
                 <div ref={resultsRef} className="flex flex-col gap-2 mt-4">
                   {summaries.map((summary, index) => (
-                    <div key={index} className="h-40 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 overflow-y-scroll relative">
-                      <p>{summary}</p>
+                    <div key={index} className="h-44 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 overflow-y-scroll relative">
+                      <p className="mt-5">{summary}</p>
                       <Button
                         className="absolute top-2 right-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
                         variant="ghost"
@@ -182,6 +211,18 @@
                       >
                         <CopyIcon className="h-5 w-5" />
                       </Button>
+                      <button
+                    className="absolute top-2 right-10 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                    onClick={handleShare}
+                  >
+                   <Share2/>
+                  </button>
+                  <button
+                    className="absolute top-2 right-20 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                    onClick={handleDownload}
+                  >
+                    <Download/>
+                  </button>
                     </div>
                   ))}
                   <Button

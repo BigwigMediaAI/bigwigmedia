@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState,useEffect,useRef } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
-import { Download, Loader2, Copy } from "lucide-react"; // Assuming Copy icon from lucide-react
+import { Download, Loader2, Copy, Share2 } from "lucide-react"; // Assuming Copy icon from lucide-react
 
 import { BASE_URL } from "../utils/funcitons";
 
@@ -69,6 +69,32 @@ export function CodeConverter() {
     toast.success("Converted code copied to clipboard!");
   };
 
+  const downloadAsText = () => {
+    const element = document.createElement("a");
+    const file = new Blob([convertedCode], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = "extracted_text.txt";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Extracted Text',
+          text: convertedCode,
+        });
+      } else {
+        toast.error('Web Share API not supported in this browser.');
+      }
+    } catch (error) {
+      console.error('Error sharing text:', error);
+      toast.error('Error sharing text.');
+    }
+  };
+
   useEffect(() => {
     if (!isLoading && convertedCode) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -119,9 +145,17 @@ console.log(data);
           </div>
         ) : convertedCode ? (
           <div ref={resultsRef} className="w-full">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-evenly items-center mb-4">
               <h3 className="text-lg font-semibold">Converted Code</h3>
-              <Copy className="cursor-pointer" onClick={handleCopyCode} />
+              <Copy className="cursor-pointer hover:text-blue-800" onClick={handleCopyCode} />
+              <Download
+                className="w-6 h-6  cursor-pointer hover:text-blue-800"
+                onClick={downloadAsText}
+              />
+              <Share2
+                className="w-6 h-6  cursor-pointer hover:text-blue-800"
+                onClick={handleShare}
+              />
             </div>
             <Textarea
               className="w-full mb-4 h-40"

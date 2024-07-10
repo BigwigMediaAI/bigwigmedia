@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw, Share2 } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -108,6 +108,23 @@ export function PNGtoJPGConverter() {
     }
   }, [isLoading, imageUrl]);
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Converted Image",
+          text: "Here is the converted PNG image.",
+          files: [new File([await fetch(imageUrl).then(r => r.blob())], "converted-image.png", { type: "image/png" })],
+        });
+        toast.success("Image shared successfully.");
+      } catch (error) {
+        toast.error("Error sharing image. Please try again later.");
+      }
+    } else {
+      toast.error("Sharing is not supported on this device.");
+    }
+  };
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div
@@ -177,6 +194,13 @@ export function PNGtoJPGConverter() {
                 onClick={handleDownload}
               >
                 Download JPG
+              </Button>
+              <Button
+                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                onClick={handleShare}
+              >
+                Share Image
+                <Share2/>
               </Button>
             </div>
           )

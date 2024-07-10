@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState,useRef,useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { BASE_URL } from '@/utils/funcitons';
-import { Loader2 } from "lucide-react";
+import { CopyIcon, Download, Loader2, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -15,6 +15,8 @@ export function Special() {
 
   const [language, setLanguage] = useState("");
   const [outputCount, setOutputCount] = useState(1);
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const { isSignedIn, userId } = useAuth();
   const navigate = useNavigate();
@@ -29,6 +31,9 @@ export function Special() {
   ) => {
     e.preventDefault();
     setIsLoading(true);
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 
     if (!isSignedIn) {
       navigate("/login");
@@ -73,6 +78,41 @@ export function Special() {
       toast.error("Failed to copy");
     }
   };
+
+  const handleShare = () => {
+    const textToShare = output.join('\n');
+    if (navigator.share) {
+      navigator.share({
+        title: 'Generated Domain Names',
+        text: textToShare,
+      }).catch((error) => console.error('Error sharing:', error));
+    } else {
+      navigator.clipboard.writeText(textToShare).then(() => {
+        toast.success('Domain names copied to clipboard');
+      }).catch((error) => {
+        console.error('Error copying to clipboard:', error);
+        toast.error('Failed to copy domain names to clipboard');
+      });
+    }
+  };
+
+  const handleDownload = () => {
+    const textToDownload = output.join('\n');
+    const blob = new Blob([textToDownload], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'domain-names.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  useEffect(() => {
+    if (!isLoading && output.length > 0) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, output]);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
@@ -148,30 +188,43 @@ export function Special() {
         </div>
         <div className="w-full pl-2 flex flex-col gap-2 justify-between">
           {isLoading ? (
-            <div className="w-full h-full flex items-center justify-center">
-              <Loader2 className="animate-spin w-20 h-20 mt-20" />
-              <p className="text-black text-justify">Processing data...</p>
-            </div>
+            <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center ">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-400 " />
+            <p className="text-gray-400 text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
           ) : (
             output.map((item, index) => (
               <div
+              ref={resultsRef}
                 key={index}
                 className="h-60 md:h-96 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-4 overflow-y-auto"
               >
+                <div className="flex mt-2">
+            <button
+              className="rounded-md self-end mb-6 px-4 py-0 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+              onClick={handleCopy}
+            >
+              <CopyIcon/>
+            </button>
+            <button
+                    className="rounded-md self-end mb-6 px-4 py-0 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                    onClick={handleShare}
+                  >
+                   <Share2/>
+                  </button>
+                  <button
+                    className="rounded-md self-end mb-6 px-4 py-0 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                    onClick={handleDownload}
+                  >
+                    <Download/>
+                  </button>
+            </div>
                 {item.split("\n").map((line, idx) => (
                   <p key={idx}>{line}</p>
                 ))}
+                
               </div>
             ))
-          )}
-          {!!output.length && (
-            <Button
-              className="rounded-md self-end mb-6 px-4 py-0 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
-              variant="ghost"
-              onClick={handleCopy}
-            >
-              Copy All
-            </Button>
           )}
         </div>
       </div>

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { BASE_URL } from "../utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-import { Loader2, UploadIcon } from "lucide-react";
+import { Loader2, Share2, UploadIcon } from "lucide-react";
 
 export function PNGtoPDFConverter() {
   const [isLoading, setIsLoading] = useState(false);
@@ -100,6 +100,24 @@ export function PNGtoPDFConverter() {
     }
   }, [isLoading, pdfUrl]);
 
+  const sharePDF = () => {
+    if (navigator.share && pdfUrl) {
+      fetch(pdfUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "converted.pdf", { type: "application/pdf" });
+          navigator
+            .share({
+              title: "Generated PDF",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
+    }
+  };
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div
@@ -170,6 +188,14 @@ export function PNGtoPDFConverter() {
               >
                 Download PDF
               </Button>
+              <Button
+                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                  onClick={sharePDF}
+                  disabled={!navigator.share}
+                >
+                  Share PDF
+                  <Share2 className="ml-2 w-5 h-5" />
+                </Button>
             </div>
           )
         )}

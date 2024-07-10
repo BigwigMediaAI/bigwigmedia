@@ -68,6 +68,27 @@ export function GenerateBusinessNames() {
     { value: 'elegant', label: 'Elegant' },
   ];
 
+  const handleDownload = () => {
+    const element = document.createElement("a");
+    const file = new Blob([businessNames.join("\n")], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "business_names.txt";
+    document.body.appendChild(element);
+    element.click();
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Generated Business Names',
+      text: businessNames.join("\n"),
+    };
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      console.error('Error sharing business names:', err);
+    }
+  };
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
       <div className="mb-5">
@@ -164,6 +185,20 @@ export function GenerateBusinessNames() {
                     <li key={index} className="mb-2 list-none">{name}</li>
                   ))}
                 </ul>
+                <div className="mt-4 flex space-x-4">
+                  <button
+                    onClick={handleShare}
+                    className="text-white bg-blue-500 hover:bg-blue-700 text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
+                  >
+                    Share
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="text-white bg-green-500 hover:bg-green-700 text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
+                  >
+                    Download
+                  </button>
+                </div>
               </div>
             </div>
           )
