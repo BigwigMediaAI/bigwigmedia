@@ -1,10 +1,9 @@
-import React, { useState,useRef,useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-import { domAnimation } from 'framer-motion';
 
 export function GenerateDomainNames() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +18,9 @@ export function GenerateDomainNames() {
 
   const handleGenerate = async () => {
     setIsLoading(true);
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
     try {
       const response = await axios.post(`${BASE_URL}/response/domain?clerkId=${userId}`, {
         companyName,
@@ -28,9 +30,7 @@ export function GenerateDomainNames() {
       });
 
       // Scroll to loader after a short delay to ensure it's rendered
-    setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
-    }, 100);
+      
 
       if (response.status === 200) {
         setDomainNames(response.data.data);
@@ -47,9 +47,38 @@ export function GenerateDomainNames() {
 
   useEffect(() => {
     if (!isLoading && domainNames.length > 0) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth' ,block:'center'});
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [isLoading, domainNames]);
+
+  const handleShare = () => {
+    const textToShare = domainNames.join('\n');
+    if (navigator.share) {
+      navigator.share({
+        title: 'Generated Domain Names',
+        text: textToShare,
+      }).catch((error) => console.error('Error sharing:', error));
+    } else {
+      navigator.clipboard.writeText(textToShare).then(() => {
+        toast.success('Domain names copied to clipboard');
+      }).catch((error) => {
+        console.error('Error copying to clipboard:', error);
+        toast.error('Failed to copy domain names to clipboard');
+      });
+    }
+  };
+
+  const handleDownload = () => {
+    const textToDownload = domainNames.join('\n');
+    const blob = new Blob([textToDownload], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'domain-names.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
@@ -118,17 +147,31 @@ export function GenerateDomainNames() {
           <div>
             {domainNames.length > 0 && (
               <div ref={resultsRef} className='border border-gray-300 rounded-md p-5'>
-                <h3 className="text-gray-700  dark:text-gray-300">Generated Domain Names:</h3>
+                <h3 className="text-gray-700 dark:text-gray-300">Generated Domain Names:</h3>
                 <ul className="list-disc pl-5 mt-2">
                   {domainNames.map((name, index) => (
                     <li key={index} className="text-gray-700 dark:text-gray-300">{name}</li>
                   ))}
                 </ul>
+                <div className="mt-5 flex space-x-4">
+                  <button
+                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
+                    onClick={handleShare}
+                  >
+                    Share
+                  </button>
+                  <button
+                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
+                    onClick={handleDownload}
+                  >
+                    Download
+                  </button>
+                </div>
               </div>
             )}
           </div>
         )}
       </div>
-    </div>
-  );
+    </div>
+  );
 }

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-import { Loader2, UploadIcon } from "lucide-react";
+import { Loader2, UploadIcon, Share2 } from "lucide-react";
 
 export function JPEGtoPDFConverter() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +26,7 @@ export function JPEGtoPDFConverter() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const newFiles = Array.from(e.target.files).filter(file => 
+      const newFiles = Array.from(e.target.files).filter((file) =>
         file.type === "image/jpeg" || file.type === "image/jpg"
       );
       if (newFiles.length < e.target.files.length) {
@@ -43,8 +43,8 @@ export function JPEGtoPDFConverter() {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const files = e.dataTransfer.files;
-    const newFiles = Array.from(files).filter(file => 
-      file.type === "image/jpeg" || file.type === "image/jpg"
+    const newFiles = Array.from(files).filter(
+      (file) => file.type === "image/jpeg" || file.type === "image/jpg"
     );
     if (newFiles.length < files.length) {
       toast.error("Please select only JPG or JPEG format images.");
@@ -67,7 +67,7 @@ export function JPEGtoPDFConverter() {
       }
 
       setTimeout(() => {
-        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100);
 
       const formData = new FormData();
@@ -100,9 +100,27 @@ export function JPEGtoPDFConverter() {
 
   useEffect(() => {
     if (!isLoading && pdfUrl) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [isLoading, pdfUrl]);
+
+  const sharePDF = () => {
+    if (navigator.share && pdfUrl) {
+      fetch(pdfUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const file = new File([blob], "converted.pdf", { type: "application/pdf" });
+          navigator
+            .share({
+              title: "Generated PDF",
+              files: [file],
+            })
+            .catch((error) => console.error("Error sharing:", error));
+        });
+    } else {
+      toast.error("Sharing not supported on this browser.");
+    }
+  };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
@@ -163,17 +181,27 @@ export function JPEGtoPDFConverter() {
           pdfUrl && (
             <div ref={resultsRef} className="mt-5 text-center">
               <iframe src={pdfUrl} width="100%" height="500px"></iframe>
-              <Button
-                className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-                onClick={() => {
-                  const a = document.createElement("a");
-                  a.href = pdfUrl;
-                  a.download = "converted.pdf";
-                  a.click();
-                }}
-              >
-                Download PDF
-              </Button>
+              <div className="flex justify-center gap-4">
+                <Button
+                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                  onClick={() => {
+                    const a = document.createElement("a");
+                    a.href = pdfUrl;
+                    a.download = "converted.pdf";
+                    a.click();
+                  }}
+                >
+                  Download PDF
+                </Button>
+                <Button
+                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                  onClick={sharePDF}
+                  disabled={!navigator.share}
+                >
+                  Share PDF
+                  <Share2 className="ml-2 w-5 h-5" />
+                </Button>
+              </div>
             </div>
           )
         )}

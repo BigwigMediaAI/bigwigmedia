@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, Clipboard } from 'lucide-react';
+import { Loader2, Clipboard, Share2, Download } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 
@@ -148,6 +148,35 @@ export function GenerateCurrentTopics() {
     }
   }, [isLoading, topics]);
 
+  const handleShare = () => {
+    const textToShare = topics.join('\n');
+    if (navigator.share) {
+      navigator.share({
+        title: 'Generated Domain Names',
+        text: textToShare,
+      }).catch((error) => console.error('Error sharing:', error));
+    } else {
+      navigator.clipboard.writeText(textToShare).then(() => {
+        toast.success('Domain names copied to clipboard');
+      }).catch((error) => {
+        console.error('Error copying to clipboard:', error);
+        toast.error('Failed to copy domain names to clipboard');
+      });
+    }
+  };
+
+  const handleDownload = () => {
+    const textToDownload = topics.join('\n');
+    const blob = new Blob([textToDownload], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'domain-names.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
       <div className="mb-5">
@@ -225,12 +254,26 @@ export function GenerateCurrentTopics() {
                     <li key={index} className="mb-2 list-none">{topic}</li>
                   ))}
                 </ul>
+                <div className='flex justify-center items-center mt-4'>
                 <button
                   className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
                   onClick={handleCopy}
                 >
                   <Clipboard className="w-5 h-5" />
                 </button>
+                <button
+                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80 mr-3"
+                    onClick={handleShare}
+                  >
+                   <Share2/>
+                  </button>
+                  <button
+                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
+                    onClick={handleDownload}
+                  >
+                    <Download/>
+                  </button>
+                  </div>
               </div>
             </div>
           )
