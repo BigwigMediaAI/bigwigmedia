@@ -379,6 +379,36 @@ const Generate = () => {
     }
   };
 
+
+  // Add an event listener for the 'copy' event to handle manual copying
+useEffect(() => {
+  const handleManualCopy = (event: ClipboardEvent) => {
+    event.preventDefault();
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = output?.output as string;
+
+    // Replace newline characters (\n) with <br> elements
+    tempElement.querySelectorAll("br")?.forEach((br) => {
+      br.insertAdjacentHTML("beforebegin", "\n");
+      // @ts-ignore
+      br.parentNode.removeChild(br);
+    });
+
+    // Extract the text content from the temporary element
+    const textContent = tempElement.innerText;
+
+    if (event.clipboardData) {
+      event.clipboardData.setData("text/plain", textContent);
+    }
+  };
+
+  document.addEventListener("copy", handleManualCopy);
+
+  // Cleanup event listener on component unmount
+  return () => {
+    document.removeEventListener("copy", handleManualCopy);
+  };
+}, [output]);
   const handleRegenerate = () => {
     setOutput(undefined);
     setIsGenerated(false);
