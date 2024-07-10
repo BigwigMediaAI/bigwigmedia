@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Loader2,Share2,Download } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -190,13 +190,13 @@ export function GenerateBusinessNames() {
                     onClick={handleShare}
                     className="text-white bg-blue-500 hover:bg-blue-700 text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
                   >
-                    Share
+                    <Share2/>
                   </button>
                   <button
                     onClick={handleDownload}
                     className="text-white bg-green-500 hover:bg-green-700 text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
                   >
-                    Download
+                    <Download/>
                   </button>
                 </div>
               </div>
