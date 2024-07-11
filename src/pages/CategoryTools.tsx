@@ -120,11 +120,14 @@ const CategoryTools: React.FC = () => {
   return (
     <div>
       <Nav />
-      <div className="container mx-auto px-4 py-8 w-5/6">
-        <div className="flex mb-4">
-        <FiArrowLeft className="text-white text-2xl cursor-pointer hover:text-blue-700" onClick={handleBackClick} />
-
-        </div>
+      
+      <div className="max-w-6xl mx-auto px-6 md:px-2 pt-6 flex mb-4">
+        <FiArrowLeft
+          className="text-white text-2xl cursor-pointer hover:text-blue-700"
+          onClick={handleBackClick}
+        />
+      </div>
+        <div className="container mx-auto px-4 py-4 w-5/6">
         <h1 className="text-2xl font-bold text-center flex-grow">{decodeURIComponent(categoryName || '')}</h1>
         <div className="flex justify-center my-8">
           <div className="w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit mb-12">
