@@ -243,12 +243,18 @@ const Landing = () => {
     <div className="bg-white dark:bg-[#1E1E1E]">
       <Nav />
       <div className="px-5 min-h-screen">
+        <div className="flex w-full pt-4">
+          <div className="w-1/3 pl-8"><img src={google} alt="" className="w-12 md:w-24  bg-white rounded-lg"/></div>
+        
+        <div className=" text-xs md:text-[30px] w-2/3 md:w-1/3">All-In-One AI Tools Platform</div>
+        <div className="w-1/3"></div>
+        </div>
       <div className="flex flex-col justify-center items-center  relative">
-        <div className="md:text-[30px] mt-6">All-In-One AI Tools Platform</div>
+       
         
       <div className=" text-black dark:text-white text-center font-outfit text-[20px] md:text-[30px] lg:text-[40px] font-normal w-full flex gap-2 justify-center flex-wrap">
         <span>Tools to Make{" "}</span>
-        <span className="rotating-words fontW w-1/3 md:w-1/5 lg:w-1/5  bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold" style={{ animation: "rotate 2s infinite" }}>
+        <span className="rotating-words fontW w-1/3 md:w-1/5 lg:w-1/6  bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold" style={{ animation: "rotate 2s infinite" }}>
           {rotatingWords[wordIndex]}
         </span>{" "}
         <span>Simple</span>
@@ -277,7 +283,7 @@ const Landing = () => {
       </div>
     </div>
     <div className="mt-5 mb-5">
-  <h3 className="w-4/5 m-auto text-center text-white sm:text-sm md:text-md lg:text-base text">
+  <h3 className="w-4/5 m-auto text-center text-white text-[8px] md:text-md lg:text-base text">
     Choose Tool ➔ Share Brief ➜ Generate Desired Results 100X Faster.... Its That Easy.
     </h3>
   </div>

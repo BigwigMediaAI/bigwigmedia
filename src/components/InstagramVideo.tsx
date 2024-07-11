@@ -96,7 +96,7 @@ export function InstagramDownloader() {
           type="text"
           value={postLink}
           onChange={handleInputChange}
-          placeholder="Paste Instagram Image Link"
+          placeholder="Paste Instagram Video Link"
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
         />
         <button onClick={handleRefresh} className="ml-2 text-blue-500 hover:text-blue-700">
