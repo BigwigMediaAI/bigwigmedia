@@ -21,13 +21,15 @@ export function Paraphrase() {
     const loaderRef = useRef<HTMLDivElement>(null);
     const resultsRef = useRef<HTMLDivElement>(null);
 
-    // Function to paste text from clipboard
     const handlePaste = async () => {
-        const text = await navigator.clipboard.readText();
-        setText(text);
+        try {
+            const text = await navigator.clipboard.readText();
+            setText(text);
+        } catch (error) {
+            toast.error("Failed to paste text from clipboard");
+        }
     };
 
-    // Function to handle form submission
     const handleSubmit = async () => {
         setOutputs([]);
         setIsLoading(true);
@@ -41,6 +43,7 @@ export function Paraphrase() {
         }, 100);
 
         try {
+            console.log("Submitting request with userId:", userId);
             const res = await axios.post(
                 `${BASE_URL}/response/paraphrase?clerkId=${userId}`,
                 {
@@ -57,13 +60,15 @@ export function Paraphrase() {
                 toast.error(res.data.error);
             }
         } catch (error: any) {
+            console.error("Error submitting request:", error.response?.data?.error || error.message);
             toast.error(error.response?.data?.error || "Failed to generate paraphrases");
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Function to copy output text to clipboard
+
+
     const handleCopy = async (output: string) => {
         try {
             await navigator.clipboard.writeText(output);
@@ -73,7 +78,6 @@ export function Paraphrase() {
         }
     };
 
-    // Function to download outputs as a file
     const handleDownload = () => {
         const blob = new Blob([outputs.join("\n\n")], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
@@ -85,7 +89,6 @@ export function Paraphrase() {
         document.body.removeChild(a);
     };
 
-    // Function to share outputs using the Web Share API
     const handleShare = () => {
         if (navigator.share) {
             navigator.share({
@@ -101,27 +104,23 @@ export function Paraphrase() {
         }
     };
 
-    useEffect(() => {
-        const handleCopyEvent = (e: ClipboardEvent) => {
-            const selectedText = window.getSelection()?.toString() || '';
-            if (selectedText) {
-                e.clipboardData?.setData('text/plain', selectedText);
-                e.preventDefault();
-            }
-        };
-
-        document.addEventListener('copy', handleCopyEvent);
-
-        return () => {
-            document.removeEventListener('copy', handleCopyEvent);
-        };
-    }, []);
+    
 
     useEffect(() => {
         if (!isLoading && outputs.length > 0) {
             resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }, [isLoading, outputs]);
+
+    const handleCopyEvent = (e: ClipboardEvent) => {
+        const selectedText = window.getSelection()?.toString() || '';
+        if (selectedText) {
+            e.clipboardData?.setData('text/plain', selectedText);
+            e.preventDefault();
+        }
+    };
+
+    document.addEventListener('copy', handleCopyEvent);
 
     return (
         <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
@@ -197,30 +196,34 @@ export function Paraphrase() {
                             <option value="kn">Kannada</option>
                             <option value="pl">Polish</option>
                             <option value="uk">Ukrainian</option>
-                            <option value="ro">Romanian</option>
-                            {/* Add more languages as needed */}
+                            <option value="ml">Malayalam</option>
+                            <option value="or">Odia</option>
+                            <option value="my">Burmese</option>
                         </select>
                     </div>
                     <div className="flex-col w-1/3">
                         <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
-                            Number of Outputs:
+                            Select Output Count:
                         </label>
                         <input
                             type="number"
+                            min="1"
+                            max="5"
                             value={outputCount}
                             onChange={(e) => setOutputCount(parseInt(e.target.value))}
                             className="rounded-md border-2 border-gray-300 p-2 mb-4 w-full"
                         />
                     </div>
                 </div>
-                <div className="flex w-full my-4 items-center justify-center">
-                    <Button
-                        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-4"
-                        onClick={handleSubmit}
-                    >
-                        {isLoading ? "Generating..." : (outputs.length > 0 ? "Regenerate" : "Generate")}
-                    </Button>
-                </div>
+
+                <Button
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-4"
+                    onClick={handleSubmit}
+                    disabled={isLoading}
+                >
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Generate
+                </Button>
             </div>
 
             {outputs.length > 0 && (
