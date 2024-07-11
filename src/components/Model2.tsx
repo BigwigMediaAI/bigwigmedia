@@ -35,7 +35,7 @@ const LoginModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <div className="w-full md:w-1/2 md:mt-0 mt-4 flex flex-col justify-between">
             <div className="modal-content-right p-4">
               <p className="subtitle text-lg font-semibold mb-4 text-black">Unlock Your Creativity with AI Tools</p>
-              <p className="text-black mb-4">Experience the next generation of AI-powered tools designed to fuel your creativity and productivity.</p>
+              <p className="text-black mb-4 hidden md:block">Experience the next generation of AI-powered tools designed to fuel your creativity and productivity.</p>
               <p className="text-black mb-4">To use our powerful tools, please login or create an account.</p>
             </div>
             <div className="w-full flex justify-center pb-4 pl-4 pr-4">
