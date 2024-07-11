@@ -99,6 +99,24 @@ export function Paraphrase() {
             toast.error("Sharing not supported on this browser");
         }
     };
+    useEffect(() => {
+        const handleCopyEvent = (e: ClipboardEvent) => {
+            const selectedText = window.getSelection()?.toString() || '';
+            if (selectedText) {
+                e.clipboardData?.setData('text/plain', selectedText);
+                e.preventDefault(); // Prevent default copy behavior
+                console.log('Manual copy event:', selectedText); // Debug log
+            }
+        };
+    
+        document.addEventListener('copy', handleCopyEvent);
+    
+        return () => {
+            document.removeEventListener('copy', handleCopyEvent);
+        };
+    }, []);
+    
+    
 
     useEffect(() => {
         if (!isLoading && outputs.length > 0) {
