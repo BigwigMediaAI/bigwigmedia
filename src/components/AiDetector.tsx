@@ -13,6 +13,7 @@ export function AIDetector() {
   const [aiLikelihood, setAILikelihood] = useState("");
   const { userId } = useAuth(); // Assuming you need userId for API call
   const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handlePaste = async () => {
     const pastedText = await navigator.clipboard.readText();
@@ -22,6 +23,10 @@ export function AIDetector() {
   const handleSubmit = async () => {
     setIsLoading(true);
     setAILikelihood(""); // Clear previous result
+     // Scroll to loader after a short delay to ensure it's rendered
+     setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 
     try {
       const res = await axios.post(
@@ -55,6 +60,12 @@ export function AIDetector() {
     setAILikelihood("");
   };
 
+  useEffect(() => {
+    if (!isLoading && aiLikelihood) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isLoading, aiLikelihood]);
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
       <div className="flex flex-col">
@@ -64,7 +75,7 @@ export function AIDetector() {
           value={text}
           onChange={handleTextChange}
         />
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between ">
           <Button
             className="rounded-md px-4 py-2 text-gray-600 dark:text-gray-200 hover:bg-gray-100 hover:dark:bg-gray-800"
             variant="ghost"
@@ -74,9 +85,20 @@ export function AIDetector() {
             Paste Text
           </Button>
         </div>
+
         <div className="flex flex-col gap-2 mt-4">
+        <Button
+            className="mb-8 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+            onClick={handleSubmit}
+          >
+            {isLoading ? (
+              "Detecting AI..."
+            ) : (
+              "Detect AI"
+            )}
+          </Button>
           {isLoading ? (
-            <div className="w-full h-full flex flex-col items-center justify-center">
+            <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
               <Loader2 className="animate-spin w-20 h-20 text-gray-400" />
               <p className="text-gray-400 text-justify">Detecting AI content. Please wait...</p>
             </div>
@@ -95,16 +117,7 @@ export function AIDetector() {
               </div>
             )
           )}
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-            onClick={handleSubmit}
-          >
-            {isLoading ? (
-              "Detecting AI"
-            ) : (
-              "Detect AI"
-            )}
-          </Button>
+          
         </div>
       </div>
     </div>

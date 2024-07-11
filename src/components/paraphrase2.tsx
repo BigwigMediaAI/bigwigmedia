@@ -5,7 +5,7 @@ import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState,useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Element } from "./Generate2";
@@ -20,6 +20,8 @@ export function Script
 }) {
   const [text, setText] = useState("");
   const navigate = useNavigate();
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   console.log(groups)
 
@@ -119,7 +121,7 @@ document.addEventListener('copy', handleCopyEvent);
           </div>
           <div className="flex w-full my-4 items-center justify-center">
             <Button
-              className="rounded-md bt-gradient bg-green-500 px-6 py-2 text-white hover:bg-green-600"
+              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
               onClick={(e) => void handleSubmit(e)}
             >
               {isLoading}
@@ -129,11 +131,12 @@ document.addEventListener('copy', handleCopyEvent);
         </div>
         <div className="w-full pl-2 flex flex-col gap-2 justify-between">
           {isLoading ? (
-            <div className="w-full h-full flex items-center justify-center">
+            <div ref={loaderRef} className="w-full h-full flex-col items-center justify-center">
               <Loader2 className="animate-spin w-20 h-20 mt-20" />
+              <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           ) : (
-            <div className=" w-full rounded-md  dark:text-gray-200 text-gray-800 p-5 ">
+            <div ref={resultsRef} className=" w-full rounded-md  dark:text-gray-200 text-gray-800 p-5 ">
               <p
                 className="p-5 text-base md:text-xl font-medium output-div"
                 dangerouslySetInnerHTML={{ __html: output?.output as string }}
