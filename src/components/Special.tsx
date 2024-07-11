@@ -108,6 +108,16 @@ export function Special() {
     document.body.removeChild(a);
   };
 
+  const handleCopyEvent = (e: ClipboardEvent) => {
+    const selectedText = window.getSelection()?.toString() || '';
+    if (selectedText) {
+        e.clipboardData?.setData('text/plain', selectedText);
+        e.preventDefault();
+    }
+};
+
+document.addEventListener('copy', handleCopyEvent);
+
   useEffect(() => {
     if (!isLoading && output.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
