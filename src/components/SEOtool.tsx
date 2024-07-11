@@ -97,6 +97,16 @@ export function Seotool() {
       });
   };
 
+  const handleCopyEvent = (e: ClipboardEvent) => {
+    const selectedText = window.getSelection()?.toString() || '';
+    if (selectedText) {
+        e.clipboardData?.setData('text/plain', selectedText);
+        e.preventDefault();
+    }
+};
+
+document.addEventListener('copy', handleCopyEvent);
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
       <div className="flex flex-col md:flex-col">

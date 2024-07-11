@@ -108,6 +108,16 @@ export function PdfChat() {
     }
   };
 
+  const handleCopyEvent = (e: ClipboardEvent) => {
+    const selectedText = window.getSelection()?.toString() || '';
+    if (selectedText) {
+        e.clipboardData?.setData('text/plain', selectedText);
+        e.preventDefault();
+    }
+};
+
+document.addEventListener('copy', handleCopyEvent);
+
   useEffect(() => {
     if (!isLoading && answer) {
       resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });

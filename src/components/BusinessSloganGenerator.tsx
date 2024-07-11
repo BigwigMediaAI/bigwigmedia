@@ -90,6 +90,16 @@ export function BusinessSloganGenerator(){
       toast.error("Sharing is not supported on this browser.");
     }
   };
+
+  const handleCopyEvent = (e: ClipboardEvent) => {
+    const selectedText = window.getSelection()?.toString() || '';
+    if (selectedText) {
+        e.clipboardData?.setData('text/plain', selectedText);
+        e.preventDefault();
+    }
+};
+
+document.addEventListener('copy', handleCopyEvent);
   
 
   useEffect(() => {

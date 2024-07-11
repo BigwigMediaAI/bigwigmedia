@@ -177,6 +177,16 @@ export function GenerateCurrentTopics() {
     document.body.removeChild(a);
   };
 
+  const handleCopyEvent = (e: ClipboardEvent) => {
+    const selectedText = window.getSelection()?.toString() || '';
+    if (selectedText) {
+        e.clipboardData?.setData('text/plain', selectedText);
+        e.preventDefault();
+    }
+};
+
+document.addEventListener('copy', handleCopyEvent);
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
       <div className="mb-5">
