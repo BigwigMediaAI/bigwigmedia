@@ -1,4 +1,4 @@
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,15 +19,17 @@ export function Paraphrase() {
     const { userId } = useAuth();
     const navigate = useNavigate();
     const loaderRef = useRef<HTMLDivElement>(null);
-  const resultsRef = useRef<HTMLDivElement>(null);
+    const resultsRef = useRef<HTMLDivElement>(null);
 
+    // Function to paste text from clipboard
     const handlePaste = async () => {
         const text = await navigator.clipboard.readText();
         setText(text);
     };
 
+    // Function to handle form submission
     const handleSubmit = async () => {
-        setOutputs([])
+        setOutputs([]);
         setIsLoading(true);
         if (!text) {
             toast.error("Please enter the text to generate");
@@ -36,7 +38,7 @@ export function Paraphrase() {
         }
         setTimeout(() => {
             loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 100);
+        }, 100);
 
         try {
             const res = await axios.post(
@@ -54,13 +56,14 @@ export function Paraphrase() {
             } else {
                 toast.error(res.data.error);
             }
-        } catch (error:any) {
+        } catch (error: any) {
             toast.error(error.response?.data?.error || "Failed to generate paraphrases");
         } finally {
             setIsLoading(false);
         }
     };
 
+    // Function to copy output text to clipboard
     const handleCopy = async (output: string) => {
         try {
             await navigator.clipboard.writeText(output);
@@ -70,9 +73,8 @@ export function Paraphrase() {
         }
     };
 
+    // Function to download outputs as a file
     const handleDownload = () => {
-        // Implement download functionality here
-        // For demonstration, let's create a downloadable file with all outputs
         const blob = new Blob([outputs.join("\n\n")], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -83,9 +85,8 @@ export function Paraphrase() {
         document.body.removeChild(a);
     };
 
+    // Function to share outputs using the Web Share API
     const handleShare = () => {
-        // Implement share functionality here
-        // For demonstration, let's use the Web Share API if available
         if (navigator.share) {
             navigator.share({
                 title: "Shared Paraphrases",
@@ -99,6 +100,7 @@ export function Paraphrase() {
             toast.error("Sharing not supported on this browser");
         }
     };
+
     useEffect(() => {
         const handleCopyEvent = (e: ClipboardEvent) => {
             const selectedText = window.getSelection()?.toString() || '';
@@ -108,21 +110,19 @@ export function Paraphrase() {
                 console.log('Manual copy event:', selectedText); // Debug log
             }
         };
-    
+
         document.addEventListener('copy', handleCopyEvent);
-    
+
         return () => {
             document.removeEventListener('copy', handleCopyEvent);
         };
     }, []);
-    
-    
 
     useEffect(() => {
         if (!isLoading && outputs.length > 0) {
-          resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-      }, [isLoading, outputs]);
+    }, [isLoading, outputs]);
 
     return (
         <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
@@ -168,36 +168,37 @@ export function Paraphrase() {
                             onChange={(e) => setLanguage(e.target.value)}
                             className="rounded-md border-2 border-gray-300 p-2 mb-4 w-full"
                         >
-                            <option value="English">English</option>
-                            <option value="Spanish">Spanish</option>
-                            <option value="French">French</option>
-                            <option value="German">German</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="Hindi">Hindi</option>
-                            <option value="Arabic">Arabic</option>
-                            <option value="Portuguese">Portuguese</option>
-                            <option value="Bengali">Bengali</option>
-                            <option value="Russian">Russian</option>
-                            <option value="Japanese">Japanese</option>
-                            <option value="Lahnda">Lahnda</option>
-                            <option value="Punjabi">Punjabi</option>
-                            <option value="Javanese">Javanese</option>
-                            <option value="Korean">Korean</option>
-                            <option value="Telugu">Telugu</option>
-                            <option value="Marathi">Marathi</option>
-                            <option value="Tamil">Tamil</option>
-                            <option value="Turkish">Turkish</option>
-                            <option value="Vietnamese">Vietnamese</option>
-                            <option value="Italian">Italian</option>
-                            <option value="Urdu">Urdu</option>
-                            <option value="Persian">Persian</option>
-                            <option value="Malay">Malay</option>
-                            <option value="Thai">Thai</option>
-                            <option value="Gujarati">Gujarati</option>
-                            <option value="Kannada">Kannada</option>
-                            <option value="Polish">Polish</option>
-                            <option value="Ukrainian">Ukrainian</option>
-                            <option value="Romanian">Romanian</option>
+                            {/* Added language options */}
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="zh">Chinese</option>
+                            <option value="hi">Hindi</option>
+                            <option value="ar">Arabic</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="bn">Bengali</option>
+                            <option value="ru">Russian</option>
+                            <option value="ja">Japanese</option>
+                            <option value="lah">Lahnda</option>
+                            <option value="pa">Punjabi</option>
+                            <option value="jv">Javanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="te">Telugu</option>
+                            <option value="mr">Marathi</option>
+                            <option value="ta">Tamil</option>
+                            <option value="tr">Turkish</option>
+                            <option value="vi">Vietnamese</option>
+                            <option value="it">Italian</option>
+                            <option value="ur">Urdu</option>
+                            <option value="fa">Persian</option>
+                            <option value="ms">Malay</option>
+                            <option value="th">Thai</option>
+                            <option value="gu">Gujarati</option>
+                            <option value="kn">Kannada</option>
+                            <option value="pl">Polish</option>
+                            <option value="uk">Ukrainian</option>
+                            <option value="ro">Romanian</option>
                             {/* Add more languages as needed */}
                         </select>
                     </div>
@@ -233,13 +234,15 @@ export function Paraphrase() {
                             <Button
                                 className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
                                 onClick={handleDownload}
-                            title="Download">
+                                title="Download"
+                            >
                                 <FaDownload className="mr-1 h-4 w-4" />
                             </Button>
                             <Button
                                 className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
                                 onClick={handleShare}
-                            title="Share">
+                                title="Share"
+                            >
                                 <FaShareAlt className="mr-1 h-4 w-4" />
                             </Button>
                         </div>
@@ -251,7 +254,8 @@ export function Paraphrase() {
                                 <Button
                                     className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
                                     onClick={() => handleCopy(output)}
-                                title="Copy">
+                                    title="Copy"
+                                >
                                     <ClipboardCopyIcon className="mr-1 h-4 w-4" />
                                 </Button>
                             </div>
@@ -262,9 +266,9 @@ export function Paraphrase() {
 
             {isLoading && (
                 <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-                <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-                <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
-              </div>
+                    <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
+                    <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+                </div>
             )}
         </div>
     );
