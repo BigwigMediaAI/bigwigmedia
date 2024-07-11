@@ -1,14 +1,27 @@
 import Footer from '@/components/Footer'
 import Nav from '@/components/Nav'
 import React from 'react'
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 type Props = {}
 
 const Transaction = (props: Props) => {
   window.scrollTo(0, 0);
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
  
   return (
     <div className='flex flex-col gap-2'><Nav />
+    <div className="max-w-4xl px-3  md:px-12 pt-6 flex mb-4">
+        <FiArrowLeft
+          className="text-white text-2xl cursor-pointer hover:text-blue-700"
+          onClick={handleBackClick}
+        />
+      </div>
       <div className="flex flex-col gap-3 max-w-4xl mx-auto py-8 px-4">
         <h1 className='text-3xl font-bold'>Secure Transaction Policy
 </h1>
