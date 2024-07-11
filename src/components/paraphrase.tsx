@@ -106,8 +106,7 @@ export function Paraphrase() {
             const selectedText = window.getSelection()?.toString() || '';
             if (selectedText) {
                 e.clipboardData?.setData('text/plain', selectedText);
-               
-                console.log('Manual copy event:', selectedText); // Debug log
+                e.preventDefault();
             }
         };
 
