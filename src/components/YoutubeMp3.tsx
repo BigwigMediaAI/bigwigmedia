@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { Loader2 } from "lucide-react";
+import { Loader2, Share2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
 
 export function Mp3Downloader() {
@@ -67,6 +67,22 @@ export function Mp3Downloader() {
     window.open(downloadLink, '_blank');
   };
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: videoTitle,
+          text: `Check out this MP3: ${videoTitle}`,
+          url: downloadLink,
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      alert("Sharing is not supported on this browser.");
+    }
+  };
+
   const handleRefresh = () => {
     window.location.reload();
   };
@@ -85,6 +101,8 @@ export function Mp3Downloader() {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
     }
   }, [isLoading, hasFetched]);
+
+  
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 dark:bg-[#5f5f5f] bg-white p-6 shadow-xl rounded-lg">
@@ -139,12 +157,19 @@ export function Mp3Downloader() {
               </div>
             )}
             {downloadLink && (
-              <div ref={resultsRef} className="flex items-center justify-center mt-3">
+              <div ref={resultsRef} className="flex items-center justify-center mt-3 gap-3">
                 <button
                   onClick={handleDownloadClick}
                   className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
                 title="Download">
                   Download MP3
+                </button>
+                <button
+                  onClick={handleShare}
+                  className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
+                  title="Share"
+                >
+                  <Share2/>
                 </button>
               </div>
             )}

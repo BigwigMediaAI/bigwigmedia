@@ -188,35 +188,35 @@ document.addEventListener('copy', handleCopyEvent);
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
         >
           <option value="English">English</option>
-<option value="Spanish">Spanish</option>
-<option value="French">French</option>
-<option value="German">German</option>
-<option value="Chinese">Chinese</option>
-<option value="Hindi">Hindi</option>
-<option value="Arabic">Arabic</option>
-<option value="Portuguese">Portuguese</option>
-<option value="Bengali">Bengali</option>
-<option value="Russian">Russian</option>
-<option value="Japanese">Japanese</option>
-<option value="Lahnda">Lahnda</option>
-<option value="Punjabi">Punjabi</option>
-<option value="Javanese">Javanese</option>
-<option value="Korean">Korean</option>
-<option value="Telugu">Telugu</option>
-<option value="Marathi">Marathi</option>
-<option value="Tamil">Tamil</option>
-<option value="Turkish">Turkish</option>
-<option value="Vietnamese">Vietnamese</option>
-<option value="Italian">Italian</option>
-<option value="Urdu">Urdu</option>
-<option value="Persian">Persian</option>
-<option value="Malay">Malay</option>
-<option value="Thai">Thai</option>
-<option value="Gujarati">Gujarati</option>
-<option value="Kannada">Kannada</option>
-<option value="Polish">Polish</option>
-<option value="Ukrainian">Ukrainian</option>
-<option value="Romanian">Romanian</option>
+          <option value="Spanish">Spanish</option>
+          <option value="French">French</option>
+          <option value="German">German</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Arabic">Arabic</option>
+          <option value="Portuguese">Portuguese</option>
+          <option value="Bengali">Bengali</option>
+          <option value="Russian">Russian</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Lahnda">Lahnda</option>
+          <option value="Punjabi">Punjabi</option>
+          <option value="Javanese">Javanese</option>
+          <option value="Korean">Korean</option>
+          <option value="Telugu">Telugu</option>
+          <option value="Marathi">Marathi</option>
+          <option value="Tamil">Tamil</option>
+          <option value="Turkish">Turkish</option>
+          <option value="Vietnamese">Vietnamese</option>
+          <option value="Italian">Italian</option>
+          <option value="Urdu">Urdu</option>
+          <option value="Persian">Persian</option>
+          <option value="Malay">Malay</option>
+          <option value="Thai">Thai</option>
+          <option value="Gujarati">Gujarati</option>
+          <option value="Kannada">Kannada</option>
+          <option value="Polish">Polish</option>
+          <option value="Ukrainian">Ukrainian</option>
+          <option value="Romanian">Romanian</option>
 
         </select>
       </div>
@@ -266,13 +266,13 @@ document.addEventListener('copy', handleCopyEvent);
                   <CopyIcon className="h-5 w-5" />
                 </button>
                 <button
-                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80 mr-3"
+                    className="absolute top-2 right-10 rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:dark:bg-gray-800 dark:text-gray-200"
                     onClick={handleShare}
                   title='Share'>
                    <Share2/>
                   </button>
                   <button
-                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
+                    className="absolute top-2 right-20 rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:dark:bg-gray-800 dark:text-gray-200"
                     onClick={handleDownload}
                   title='Download'>
                     <Download/>
