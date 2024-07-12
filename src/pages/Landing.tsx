@@ -293,21 +293,28 @@ const Landing = () => {
         </div>
 
         <div className="max-w-6xl m-auto px-4">
-          <div className="mb-10 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {filteredCategories.map((category) => (
-              category.name === "My Tools" && !isSignedIn ? null : (
-                <CategoryBox
-                  key={category.name}
-                  logo={category.logo}
-                  name={category.name}
-                  toolCount={category.toolCount}
-                  tagLine={category.tagLine}
-                  redirectTo={category.redirectTo}
-                />
-              )
-            ))}
+          <div className="mb-6">
+            {filteredCategories.length === 0 ? (
+              <p className="text-center text-2xl md:text-5xl mt-8 text-gray-500">No such category found</p>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                {filteredCategories.map((category) => (
+                  category.name === "My Tools" && !isSignedIn ? null : (
+                    <CategoryBox
+                      key={category.name}
+                      logo={category.logo}
+                      name={category.name}
+                      toolCount={category.toolCount}
+                      tagLine={category.tagLine}
+                      redirectTo={category.redirectTo}
+                    />
+                  )
+                ))}
+              </div>
+            )}
           </div>
         </div>
+
 
       </div>
 
