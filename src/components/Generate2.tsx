@@ -23,7 +23,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth,useUser } from "@clerk/clerk-react";
 import {
   Link,
   Navigate,
@@ -122,6 +122,7 @@ import { AvatarTool } from "./Avatar";
 import { SWOTGenerator } from "./SwotGenerator";
 import { CoverLetterGenerator } from "./CoverLetter";
 import LogoGenerator from "./LogoGenerator";
+import Model3 from './Model3'
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -201,6 +202,9 @@ const Generate = () => {
   const [isGenerated, setIsGenerated] = useState(false);
   const [generatedInput, setGeneratedInput] = useState<any[]>()
   const arr = useMemo(() => groups, [groups])
+  const [showModel3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(Number)
+  
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       navigate({
@@ -255,6 +259,20 @@ const Generate = () => {
     setrelatedTemplates(res.data.message.similarObject);
     setDescription(res.data.message.object);
   };
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL2}/plans/current?clerkId=${userId}`
+      );
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+      } else {
+        toast.error("Error Occured activating account");
+      }
+    } catch (error) {}
+  };
+  getCredits();
 
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -323,11 +341,18 @@ const Generate = () => {
         // setGeneratedInput(dupVal);
       } else {
         toast.error(res.data.error);
+        
         setIsLoading(false);
       }
     } catch (error: any) {
       // toast.error(error);
-      toast.error(error.response.data.error);
+      if(credits<=0){
+
+        setTimeout(() => {
+          setShowModal3(true);
+        }, 0);
+      }
+      // console.log(error.response.data.error)
       setIsLoading(false);
     }
   };
@@ -817,7 +842,12 @@ document.addEventListener('copy', handleCopyEvent);
           ))}
         </Accordion>
       </div>
-
+      {showModel3 && (
+        <Model3
+          isOpen={true}
+          onClose={() => setShowModal3(false)}
+        />
+      )}
       <Footer />
     </div>
   );
