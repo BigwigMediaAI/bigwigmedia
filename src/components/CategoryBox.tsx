@@ -22,7 +22,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLin
   };
 
   return (
-    <div className="bt-gradient p-0.5 rounded-xl hover:scale-105 transition-transform duration-300 ease-in-out">
+    <div className="sm:h-fit bt-gradient p-0.5 rounded-xl hover:scale-105 transition-transform duration-300 ease-in-out">
       <div
         className="bg-white dark:bg-[#262626] border p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-60 w-70 cursor-pointer"
         onClick={handleArrowClick}
@@ -34,15 +34,15 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLin
           </span>:<span></span>}
           
         </div>
-        <h2 className="text-lg font-semibold mb-1">{name}</h2>
-        <div className="flex mt-5 items-center justify-between">
-          <p className="text-gray-500">{tagLine}</p>
+        <h2 className="text-sm md:text-lg md:font-semibold mb-1">{name}</h2>
+        <div className="flex mt-2 md:mt-5 items-center justify-between">
+          <p className="text-sm md:text-medium text-gray-500">{tagLine}</p>
           {/* Arrow Icon */}
           <div
-            className="flex items-center cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full p-2 hover:bg-gradient-to-r hover:from-blue-700 hover:to-blue-900"
+            className="hidden md:block items-center cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full p-2 hover:bg-gradient-to-r hover:from-blue-700 hover:to-blue-900"
            
           >
-            <FiArrowRight className="text-white text-xl" />
+            <FiArrowRight className=" text-white text-xl" />
           </div>
         </div>
       </div>

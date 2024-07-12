@@ -80,9 +80,9 @@ const Landing = () => {
       const currentDate = new Date();
       const differenceInMilliseconds = currentDate.getTime() - userCreatedAt.getTime();
       const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
-      console.log("User created at:", userCreatedAt);
-      console.log("Current time:", currentDate);
-      console.log("Difference in days:", differenceInDays);
+      // console.log("User created at:", userCreatedAt);
+      // console.log("Current time:", currentDate);
+      // console.log("Difference in days:", differenceInDays);
       if (differenceInDays <= 1) { // Show modal only if user is signed in and created within the last 1 days
         setShowTrialModal(true);
       }
@@ -259,7 +259,7 @@ const Landing = () => {
         </span>{" "}
         <span>Simple</span>
       </div>
-      <div className=" sm:text-[14px] md:text-[17px] lg:text-[20px] py-4 text-center font-outfit text-black dark:text-gray-400 z-10 w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] mx-auto font-normal">
+      <div className=" text-[10px] md:text-[17px] lg:text-[20px] py-4 text-center font-outfit text-black dark:text-gray-400 z-10 w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] mx-auto font-normal">
        <em>#1 Most Used & Most Reliable AI Tools Platform in the World!</em>
       </div>
       <div className=" w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit">
@@ -293,7 +293,7 @@ const Landing = () => {
         </div>
 
         <div className="max-w-6xl m-auto px-4">
-          <div className="mb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="mb-10 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {filteredCategories.map((category) => (
               category.name === "My Tools" && !isSignedIn ? null : (
                 <CategoryBox
