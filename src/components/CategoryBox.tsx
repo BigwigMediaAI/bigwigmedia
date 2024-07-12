@@ -36,7 +36,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({ logo, name, toolCount, tagLin
         </div>
         <h2 className="text-sm md:text-lg md:font-semibold mb-1">{name}</h2>
         <div className="flex mt-2 md:mt-5 items-center justify-between">
-          <p className="text-sm md:text-medium text-gray-500">{tagLine}</p>
+          <p className="text-xs md:text-medium text-gray-500">{tagLine}</p>
           {/* Arrow Icon */}
           <div
             className="hidden md:block items-center cursor-pointer bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full p-2 hover:bg-gradient-to-r hover:from-blue-700 hover:to-blue-900"
