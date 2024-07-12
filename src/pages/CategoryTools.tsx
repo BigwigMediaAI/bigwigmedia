@@ -9,6 +9,7 @@ import LoginModal from "../components/Model2";
 import { Loader2 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import { FiArrowLeft } from 'react-icons/fi';
+import Model3 from '../components/Model3'
 
 interface Tool {
   _id: string;
@@ -28,6 +29,8 @@ const CategoryTools: React.FC = () => {
   const [filteredTools, setFilteredTools] = useState<Tool[]>([]);
   const { user, isSignedIn } = useUser();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showModel3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(Number)
 
   const fetchTools = async () => {
     try {
@@ -93,6 +96,20 @@ const CategoryTools: React.FC = () => {
     }
   };
 
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL2}/plans/current?clerkId=${user!.id}`
+      );
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+      } else {
+        toast.error("Error Occured activating account");
+      }
+    } catch (error) {}
+  };
+  getCredits();
+
   const handleGenerateClick = (toolId: string) => {
     if (!isSignedIn) {
       setTimeout(() => {
@@ -100,10 +117,20 @@ const CategoryTools: React.FC = () => {
       }, 0);
       return;
     } else {
-      const newPath = `/generate?id=${toolId}`;
+      if(credits<=0){
+
+        setTimeout(() => {
+          setShowModal3(true);
+        }, 0);
+      }
+      else{
+        const newPath = `/generate?id=${toolId}`;
       window.open(newPath, "_blank");
+      }
+      
     }
   };
+
 
   const handleBackClick = () => {
     navigate('/');
@@ -225,6 +252,12 @@ const CategoryTools: React.FC = () => {
         <LoginModal
           isOpen={true}
           onClose={() => setShowLoginModal(false)}
+        />
+      )}
+      {showModel3 && (
+        <Model3
+          isOpen={true}
+          onClose={() => setShowModal3(false)}
         />
       )}
         <Footer />
