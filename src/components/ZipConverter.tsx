@@ -153,7 +153,9 @@ export function FileToZipConverter() {
             <ul className="list-none">
               {selectedFiles.map((file, index) => (
                 <li key={index} className="text-gray-300">
-                  <span className="mr-5">{file.name}</span>
+                  <span className="inline-block w-full truncate mr-5" style={{ maxWidth: '90%' }}>
+                    {file.name}
+                  </span>
                   <button onClick={() => removeFile(index)} className="text-gray-300 hover:text-gray-500">
                     &#x2715;
                   </button>
@@ -184,17 +186,19 @@ export function FileToZipConverter() {
           zipFile && (
             <div ref={resultsRef} className="mt-5 text-center">
               <img src={zip} alt="Zip file ready" className="mx-auto mb-5 w-48" />
-              <div className="flex justify-center space-x-4">
+              <div className="flex justify-center">
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                   onClick={handleDownload}
-                title="Share">
+                  title="Download"
+                >
                   Download Zip
                 </Button>
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                   onClick={handleShare}
-                title="Share">
+                  title="Share"
+                >
                   Share Zip
                 </Button>
               </div>

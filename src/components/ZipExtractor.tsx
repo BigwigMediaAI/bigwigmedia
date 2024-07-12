@@ -183,7 +183,7 @@ export function ZipExtractor() {
                   onMouseEnter={() =>setHoveredFile(file.filename)}
                   onMouseLeave={() => setHoveredFile(null)}
                 >
-                  <span className="text-gray-300">{file.filename}</span>
+                  <span className="inline-block w-full truncate text-gray-300">{file.filename}</span>
                   {hoveredFile === file.filename && (
                     <button
                       className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-2 py-1 rounded-md bg-gray-400 text-white"
