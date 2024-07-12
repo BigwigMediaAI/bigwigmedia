@@ -573,8 +573,6 @@ document.addEventListener('copy', handleCopyEvent);
         <YoutubeImageTool/>
       ) : id === "6642052d3748e094e4b1e784" ? (
         <PDFMerger/>
-      ) : id === "664482cf3748e094e4b1e787" ? (
-        <VideoDownloader/>
       ) : id === "66448f523748e094e4b1e788" ? (
         <Mp3Downloader/>
       ) : id === "664497a53748e094e4b1e789" ? (
@@ -667,8 +665,6 @@ document.addEventListener('copy', handleCopyEvent);
         <VideoTranslation/>
       ) : id === "6669926f04450b0cc689fefa" ? (
         <VideoTranslator/>
-      ) : id === "666ad7cee4fd998958cfccb2" ? (
-        <YouTubeTranslator/>
       ) : id === "666c1f9d2ee240337cc199a2" ? (
         <FinanceAdvisor/>
       ) : id === "666c220d2ee240337cc199a3" ? (

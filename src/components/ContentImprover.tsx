@@ -58,7 +58,7 @@ export function ContentImprover() {
   const [language, setLanguage] = useState('');
   const [output, setOutput] = useState(3); // Default number of outputs
   const [improvedContents, setImprovedContents] = useState<string[]>([]);
-  const [buttonText, setButtonText] = useState('Improve');
+  const [buttonText, setButtonText] = useState('Generate');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -67,6 +67,11 @@ export function ContentImprover() {
   const handleImprove = async () => {
     setIsLoading(true);
     setImprovedContents([]);
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
   
     try {
       const response = await axios.post(`${BASE_URL}/response/improve?clerkId=${userId}`, {
@@ -140,14 +145,14 @@ document.addEventListener('copy', handleCopyEvent);
   }, [isLoading, improvedContents]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#3f3e3e]">
       <div className="mb-5">
         <label className="block text-gray-700 dark:text-gray-300">Content</label>
         <textarea
           value={content}
           onChange={(e) => { setContent(e.target.value); handleInputChange(); }}
           placeholder="Enter your content here..."
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4 h-40"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500  dark:text-gray-300 p-3 mb-4 h-40"
         />
       </div>
 
@@ -156,7 +161,7 @@ document.addEventListener('copy', handleCopyEvent);
         <select
           value={tone}
           onChange={(e) => { setTone(e.target.value); handleInputChange(); }}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500  dark:text-gray-300 p-3 mb-4"
         >
           <option value="">Select Tone</option>
           {tones.map((toneOption) => (
@@ -170,7 +175,7 @@ document.addEventListener('copy', handleCopyEvent);
         <select
           value={language}
           onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         >
           <option value="">Select Language</option>
           {languages.map((langOption) => (
@@ -187,17 +192,17 @@ document.addEventListener('copy', handleCopyEvent);
           onChange={(e) => { setOutput(parseInt(e.target.value)); handleInputChange(); }}
           min={1}
           max={10} // Adjust max number of outputs as needed
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-          onClick={buttonText === 'Improve' ? handleImprove : handleImprove}
+          onClick={buttonText === 'Generate' ? handleImprove : handleImprove}
           disabled={isLoading}
         >
-          {isLoading ? 'Improving...' : buttonText}
+          {isLoading ? 'Generating...' :(improvedContents.length>0?"Regenerate":"Generate") }
         </button>
       </div>
 
@@ -209,7 +214,7 @@ document.addEventListener('copy', handleCopyEvent);
       )}
 
       {improvedContents.length > 0 && (
-        <div className="mt-6">
+        <div ref={resultsRef} className="mt-6">
           <h2 className="text-2xl text-gray-700 dark:text-gray-300 mb-4 underline">Improved Content:</h2>
           {improvedContents.map((content, index) => (
             <div key={index} className="border border-gray-300 rounded-md mb-4">

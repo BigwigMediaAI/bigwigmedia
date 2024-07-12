@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
@@ -16,6 +16,8 @@ export function Decision() {
     const [language, setLanguage] = useState('English'); // Default language
     const { userId } = useAuth();
     const [showActions, setShowActions] = useState(false); // To show share and download buttons
+    const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
     const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setLanguage(e.target.value);
@@ -24,6 +26,10 @@ export function Decision() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
+        // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
 
         try {
             const res = await axios.post(
@@ -92,46 +98,84 @@ export function Decision() {
     
     document.addEventListener('copy', handleCopyEvent);
 
+    useEffect(() => {
+        if (!isLoading && pros.length > 0) {
+          loaderRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, [isLoading, pros]);
+
     return (
         <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-col">
                     <div className="w-full pr-2">
+                    <label className="mb-2 block text-gray-700 dark:text-gray-300">Enter Your Decision:</label>
                         <Textarea
                             className="mb-4 h-20 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
-                            placeholder="Enter your decision here..."
+                            placeholder="e.g: Starting a Bakery shop..."
                             value={text}
                             onChange={(e) => setText(e.target.value)}
                         />
-                        <div className="flex w-full my-4 items-center justify-between">
+                        <div className="flex-col w-full my-4">
+                        <label className="mb-2 block text-gray-700 dark:text-gray-300">Language:</label>
                             <select
-                                className="rounded-md border-2 dark:bg-[#262626] border-gray-300 p-2"
+                                className="w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-2"
                                 value={language}
                                 onChange={handleLanguageChange}
                             >
                                 <option value="English">English</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Arabic">Arabic</option>
+                                <option value="Portuguese">Portuguese</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Russian">Russian</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Lahnda">Lahnda</option>
+                                <option value="Punjabi">Punjabi</option>
+                                <option value="Javanese">Javanese</option>
+                                <option value="Korean">Korean</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Marathi">Marathi</option>
+                                <option value="Tamil">Tamil</option>
+                                <option value="Turkish">Turkish</option>
+                                <option value="Vietnamese">Vietnamese</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Urdu">Urdu</option>
+                                <option value="Persian">Persian</option>
+                                <option value="Malay">Malay</option>
+                                <option value="Thai">Thai</option>
+                                <option value="Gujarati">Gujarati</option>
+                                <option value="Kannada">Kannada</option>
+                                <option value="Polish">Polish</option>
+                                <option value="Ukrainian">Ukrainian</option>
+                                <option value="Romanian">Romanian</option>
                                 {/* Add other language options */}
                             </select>
-                            <Button
+                           
+                        </div>
+                        <Button
                                 className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                                 type="submit"
                             >
-                                Generate
+                                {isLoading?"Generating...":(pros.length>0?"Regenerate":"Generate")}
                             </Button>
-                        </div>
                     </div>
                     <div className="w-full pl-2 flex flex-col gap-2 justify-between">
                         {isLoading ? (
-                            <div className="w-full h-full flex flex-col items-center justify-center ">
-                                <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
-                                <p className="text-black text-justify">
+                            <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center ">
+                                <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300 " />
+                                <p className="text-gray-300 text-justify">
                                     Data processing in progress. Please bear with us...
                                 </p>
                             </div>
                         ) : (
-                            <div className="w-full">
+                            <div className="mt-5 w-full">
                                 {pros.length > 0 && cons.length > 0 && (
-                                    <div className="w-full">
+                                    <div ref={resultsRef} className="w-full">
                                         <table className="w-full border-collapse border border-gray-200">
                                             <thead>
                                                 <tr>
@@ -156,16 +200,17 @@ export function Decision() {
                                             <div className="flex justify-center gap-4 mt-4">
                                                 <Button
                                                     className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-                                                    onClick={handleShare}
-                                                title='Share'><Share2/>
-                                                    Share
-                                                </Button>
-                                                <Button
-                                                    className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
                                                     onClick={handleDownload}
                                                 title='Download'>
                                                     Download
                                                 </Button>
+                                                <Button
+                                                    className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                                                    onClick={handleShare}
+                                                title='Share'><Share2/>
+                                                    Share
+                                                </Button>
+                                                
                                             </div>
                                         )}
                                     </div>

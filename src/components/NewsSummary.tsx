@@ -81,15 +81,15 @@
       const textToShare = summaries.join('\n');
       if (navigator.share) {
         navigator.share({
-          title: 'Generated Domain Names',
+          title: 'Generated Summary',
           text: textToShare,
         }).catch((error) => console.error('Error sharing:', error));
       } else {
         navigator.clipboard.writeText(textToShare).then(() => {
-          toast.success('Domain names copied to clipboard');
+          toast.success('Summary copied to clipboard');
         }).catch((error) => {
           console.error('Error copying to clipboard:', error);
-          toast.error('Failed to copy domain names to clipboard');
+          toast.error('Failed to copy summary to clipboard');
         });
       }
     };
@@ -100,7 +100,7 @@
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'domain-names.txt';
+      a.download = 'summary.txt';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -136,22 +136,7 @@
             </Button>
           </div>
           <div className="flex items-center justify-between mb-4 space-x-4">
-            <div className="flex flex-col">
-              <label htmlFor="outputCount">Number of Outputs:</label>
-              <select
-                id="outputCount"
-                value={outputCount}
-                onChange={(e) => setOutputCount(parseInt(e.target.value))}
-                className="rounded-md border-2 border-gray-300 p-2 dark:bg-[#262626]"
-              >
-                {[1, 2, 3, 4, 5].map((count) => (
-                  <option key={count} value={count}>
-                    {count}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex flex-col">
+          <div className="w-1/2 flex flex-col">
               <label htmlFor="languageCode">Language:</label>
               <select
                 id="languageCode"
@@ -201,6 +186,22 @@
                 ))}
               </select>
             </div>
+            <div className="w-1/2 flex flex-col">
+              <label htmlFor="outputCount">Number of Outputs:</label>
+              <select
+                id="outputCount"
+                value={outputCount}
+                onChange={(e) => setOutputCount(parseInt(e.target.value))}
+                className="rounded-md border-2 border-gray-300 p-2 dark:bg-[#262626]"
+              >
+                {[1, 2, 3, 4, 5].map((count) => (
+                  <option key={count} value={count}>
+                    {count}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
           </div>
           {isLoading ? (
             <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center ">
