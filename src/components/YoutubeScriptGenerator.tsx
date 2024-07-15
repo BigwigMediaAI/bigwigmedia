@@ -25,6 +25,7 @@ export function YouTubeScriptGenerator() {
       setIsLoading(false);
       return;
     }
+    setScript("")
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -155,7 +156,7 @@ export function YouTubeScriptGenerator() {
           onClick={handleGenerateScript}
           className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          {isLoading ? "Generating..." : 'Generate'}
+          {isLoading ? "Generating..." :(script?"Regenerate":'Generate') }
         </button>
       </div>
       {isLoading && (
