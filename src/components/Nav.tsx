@@ -14,6 +14,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import axios from "axios";
 import {
   SignOutButton,
   SignIn,
@@ -32,6 +35,61 @@ const Nav=() => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { isLoaded, isSignedIn, user } = useUser();
+  const [credits, setCredits] = useState<{
+    currentLimit: number;
+    maxLimit: number;
+    plan: string;
+  } | null>();
+
+
+
+    const getCredits = async () => {
+      try {
+        const res = await axios.get(
+          `${BASE_URL2}/plans/current?clerkId=${user!.id}`
+        );
+        if (res.status === 200) {
+          setCredits(res.data.data);
+          if (res.data.data.currentLimit === 0) {
+            sendCreditLimitWarningEmail(user?.primaryEmailAddress?.emailAddress,user!.id);
+          }else if (res.data.data.currentLimit > 0) {
+            resetEmailSentFlag();
+        }
+          
+        } else {
+          toast.error("Error Occured activating account");
+        }
+      } catch (error) {}
+    };
+    const sendCreditLimitWarningEmail = async (email:any, clerkId:any) => {
+      try {
+          const res = await axios.post('https://bigwigmedia-backend.onrender.com/send-email', { email,clerkId });
+          if (res.status === 200) {
+              console.log('Credit limit warning email sent to:', email);
+          } else {
+              console.error('Failed to send credit limit warning email');
+          }
+      } catch (error) {
+          console.error('Error sending credit limit warning email:', error);
+      }
+  };
+
+  const resetEmailSentFlag = async () => {
+    try {
+        const res = await axios.put('https://bigwigmedia-backend.onrender.com/reset-email-sent', { clerkId: user!.id });
+        if (res.status === 200) {
+            console.log(res.data);
+        } else {
+            console.error('Failed to reset email sent flag');
+        }
+    } catch (error) {
+        console.error('Error resetting email sent flag:', error);
+    }
+};
+
+useEffect(()=>{
+  getCredits();
+},[isLoaded])
 
   const googleTranslateElementInit = () => {
     // @ts-ignore

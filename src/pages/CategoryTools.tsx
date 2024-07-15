@@ -117,7 +117,7 @@ const CategoryTools: React.FC = () => {
       }, 0);
       return;
     } else {
-      if(credits<=0){
+      if(credits===0){
 
         setTimeout(() => {
           setShowModal3(true);
