@@ -163,10 +163,7 @@ const Profile = () => {
                 <button
                   className=" flex items-center text-black dark:text-white font-Outfit text-base  leading-normal cursor-pointer font-bold"
                   onClick={() => {
-                    navigate({
-                      pathname: "/",
-                      search: "?selectedButton=My Tools",
-                    });
+                    navigate('/category/My Tools');
                   }}
                 >
                   View All
