@@ -89,7 +89,7 @@ const Nav=() => {
 
 useEffect(()=>{
   getCredits();
-},[isLoaded])
+},[isLoaded,credits])
 
   const googleTranslateElementInit = () => {
     // @ts-ignore
