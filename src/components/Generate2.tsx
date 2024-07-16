@@ -186,6 +186,7 @@ const Generate = () => {
   const [description, setDescription] = useState<Tool | undefined>();
   const [text, settext] = useState("");
   const [output, setOutput] = useState<{ output: string } | undefined>();
+  const [outputs, setOutputs] = useState<{ output: string }[]>([]);
   const [hashTag, setHashTag] = useState(true);
   const [icons, setIcons] = useState(true);
   const urlParams = new URLSearchParams(window.location.search);
@@ -335,10 +336,11 @@ const Generate = () => {
       if (res.status === 200) {
         setIsGenerated(true);
         setIsLoading(false);
-        const formatted = extractJSON(res.data.data);
-        const json = JSON.parse(formatted.replace("</p>", "</p><br/>"));
-        setOutput(json);
-        // setGeneratedInput(dupVal);
+        const formattedOutputs = res.data.data.map((item: string) => {
+          return JSON.parse(item.replace("</p>", "</p><br/>"));
+        });
+        setOutputs(formattedOutputs);
+        
       } else {
         toast.error(res.data.error);
         
@@ -388,10 +390,11 @@ const Generate = () => {
       if (res.status === 200) {
         setIsGenerated(true);
         setIsLoading(false);
-        const formatted = extractJSON(res.data.data);
-        const json = JSON.parse(formatted.replace("</p>", "</p><br/>"));
-        console.log(json);
-        setOutput(json);
+        const formattedOutputs = res.data.data.map((item: string) => {
+          return JSON.parse(item.replace("</p>", "</p><br/>"));
+        });
+        console.log(formattedOutputs);
+        setOutput(formattedOutputs);
         // setGeneratedInput(dupVal);
       } else {
         toast.error(res.data.error);
@@ -444,56 +447,44 @@ useEffect(() => {
   };
   
   const handleDownload = () => {
-    const textContent = removeHtmlTags(output?.output || ''); // Assuming output.output contains your HTML content
-  
-    const element = document.createElement("a");
-    const file = new Blob([textContent], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = "generated_text.txt";
-    document.body.appendChild(element); // Required for Firefox
-    element.click();
-    document.body.removeChild(element);
+    if (outputs && outputs.length > 0) {
+      const textContent = outputs.map(item => removeHtmlTags(item.output)).join("\n\n");
+      
+      const element = document.createElement("a");
+      const file = new Blob([textContent], { type: 'text/plain' });
+      element.href = URL.createObjectURL(file);
+      element.download = "generated_text.txt";
+      document.body.appendChild(element); // Required for Firefox
+      element.click();
+      document.body.removeChild(element);
+    }
   };
   
   const handleShare = () => {
-    const textContent = removeHtmlTags(output?.output || ''); // Assuming output.output contains your HTML content
-  
-    // Check if the navigator.share API is available in the browser
     if (navigator.share) {
+      const textContent = outputs.map(item => removeHtmlTags(item.output)).join("\n\n");
+      
       navigator.share({
-        title: 'Shared Text', // Title of the shared content (optional)
-        text: textContent,    // Text content to be shared
+        title: 'Generated Text',
+        text: textContent,
       })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing:', error));
+      .then(() => console.log('Share successful'))
+      .catch((error) => console.error('Error sharing:', error));
     } else {
-      // Fallback option if navigator.share is not supported (e.g., show an alert with instructions)
-      alert('Sharing is not supported in your browser. Please copy the text manually and share it.');
+      alert('Web Share API is not supported in your browser.');
     }
   };
   
   
+  
 
-  const handleCopy = () => {
-    try {
-      const tempElement = document.createElement("div");
-      tempElement.innerHTML = output?.output as string;
-
-      // Replace newline characters (\n) with <br> elements
-      tempElement.querySelectorAll("br")?.forEach((br) => {
-        br.insertAdjacentHTML("beforebegin", "\n");
-        // @ts-ignore
-        br!.parentNode.removeChild(br);
-      });
-
-      // Extract the text content from the temporary element
-      const textContent = tempElement.innerText;
-      navigator.clipboard.writeText(textContent);
-      toast.success("Copied to Clipboard");
-    } catch (error) {
-      toast.error("Failed to copy");
-    }
+  const handleCopy = (index:any) => {
+    const textContent = removeHtmlTags(outputs[index].output);
+    navigator.clipboard.writeText(textContent)
+      .then(() => toast.success('Copied to clipboard!'))
+      .catch(err => console.error('Failed to copy: ', err));
   };
+  
 
   const handleCopyEvent = (e: ClipboardEvent) => {
     const selectedText = window.getSelection()?.toString() || '';
@@ -745,45 +736,43 @@ document.addEventListener('copy', handleCopyEvent);
         </>
       )}
 
-      {(id !== "6601b84f03d49ef5e50f3caf")&&(!!output || isLoading) && (
-        <div className="flex flex-col border xl:w-full w-[calc(100%-40px)] mx-5 lg:mx-auto max-w-[1084px] pb-8 rounded-xl relative">
-          <div className="w-full border p-5 rounded-t-xl flex flex-row justify-between">
-            <h1
-              className="text-base md:text-3xl font-semibold"
-              ref={basicOutputRef}
-            >
-              Your Pitch
-            </h1>
-            <div className="flex gap-3 absolute bottom-2 right-4">
-              {output && (
-                <>
-                  <button onClick={handleCopy} title="Copy">
-                    <ClipboardList className="w-5 h-5" />
-                  </button>
-                  <button onClick={handleDownload} title="Download">
-                    <FaDownload className="w-5 h-5" />
-                  </button>
-                  <button onClick={handleShare} title="Share">
-                    <FaShareAlt className="w-5 h-5" />
-                  </button>
-                </>
-              )}
-            </div>
-
-          </div>
-          {!isLoading ? (
-            <p
-              className="p-5 text-base md:text-lg font-medium"
-              dangerouslySetInnerHTML={{ __html: output?.output as string }}
-            />
-          ) : (
-            <div className="w-full h-full flex flex-col items-center text-justify justify-center">
-              <Loader2 className="animate-spin w-20 h-20 mt-20" />
-              <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
-            </div>
-          )}
+{id !== "6601b84f03d49ef5e50f3caf" && (outputs.length > 0 || isLoading) && (
+  <div className="flex flex-col border xl:w-full w-[calc(100%-40px)] mx-5 lg:mx-auto max-w-[1084px] pb-8 rounded-xl relative">
+    <div className="w-full border p-5 rounded-t-xl flex flex-row justify-between items-center">
+      <h1
+        className="text-base md:text-3xl font-semibold"
+        ref={basicOutputRef}
+      >
+        Your Pitch
+      </h1>
+      <div className="flex gap-3">
+        <button onClick={handleDownload} title="Download">
+          <FaDownload className="w-5 h-5" />
+        </button>
+        <button onClick={handleShare} title="Share">
+          <FaShareAlt className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+    {!isLoading ? (
+      outputs.map((item: any, index: any) => (
+        <div key={index} className="m-4 relative p-5 text-base md:text-lg font-medium border rounded-md mt-4">
+          <button onClick={() => handleCopy(index)} title="Copy" className="absolute top-2 right-2">
+            <ClipboardList className="w-5 h-5" />
+          </button>
+          <p dangerouslySetInnerHTML={{ __html: item.output }} />
         </div>
-      )}
+      ))
+    ) : (
+      <div className="w-full h-full flex flex-col items-center text-justify justify-center">
+        <Loader2 className="animate-spin w-20 h-20 mt-20" />
+        <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+      </div>
+    )}
+  </div>
+)}
+
+
 
       <h1 className="  dark:text-white text-black text-center font-outfit text-md md:text-lg lg:text-xl  font-medium">
         Related Tools
