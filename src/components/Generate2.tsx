@@ -123,6 +123,10 @@ import { SWOTGenerator } from "./SwotGenerator";
 import { CoverLetterGenerator } from "./CoverLetter";
 import LogoGenerator from "./LogoGenerator";
 import Model3 from './Model3'
+import { GenerateLinkedInPosts } from "./LinkedinPostGenerator";
+import { GenerateLinkedInConnection } from "./LinkedinConnection";
+import { GenerateLinkedInBio } from "./LinkedinBioGenerator";
+import GenerateLinkedInRecommendations from "./LinkedinRecommendatin";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -712,6 +716,16 @@ document.addEventListener('copy', handleCopyEvent);
         <LogoGenerator/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
         <Decision/>
+      ) : id === "6697c11e17d5e2950f5ef979" ? (
+        <GenerateLinkedInPosts/>
+      ) : id === "6697c14517d5e2950f5ef97c" ? (
+        <GenerateLinkedInConnection/>
+      ) : id === "6697c12d17d5e2950f5ef97a" ? (
+        <GenerateLinkedInBio/>
+      ) : id === "6697c13a17d5e2950f5ef97b" ? (
+        <GenerateLinkedInRecommendations/>
+      ) : id === "6697c14e17d5e2950f5ef97d" ? (
+        <VideoDownloader/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
