@@ -53,6 +53,12 @@ import CategoryTools from "./pages/CategoryTools";
 import BlogPostDetail from "./pages/BlogPostDetails";
 import initializeGA from "../src/analytics"
 import ReactGA from 'react-ga4';
+import { AttentionGrabbingTitleGenerator } from "./components/TitleGenerator";
+import { YoutubeTitleGenerator } from "./components/YoutubeTitleGenerator";
+import { YoutubeVideoIdeas } from "./components/YoutubeVideoIdeas";
+import { YoutubeScriptOutline } from "./components/YoutubeScriptOutline";
+import { TiktokCaption } from "./components/TiktokCaption";
+import { AboutmeGenerator } from "./components/AboutmeGenerator";
 
 
 const App = () => {
@@ -117,7 +123,13 @@ const App = () => {
         <Route path="/youtubemp3" element={<Mp3Downloader />} />
         <Route path="/audio" element={<AudioConverter />} />
         <Route path="/compressvideo" element={<VideoCompressor />} />  
-        <Route path="/category/:categoryName" element={<CategoryTools />} />   
+        <Route path="/category/:categoryName" element={<CategoryTools />} /> 
+        <Route path="/title" element={<AttentionGrabbingTitleGenerator />} />   
+        <Route path="/yttitle" element={<YoutubeTitleGenerator />} /> 
+        <Route path="/idea" element={<YoutubeVideoIdeas />} />  
+        <Route path="/outline" element={<YoutubeScriptOutline />} />
+        <Route path="/caption" element={<TiktokCaption />} />   
+        <Route path="/aboutme" element={<AboutmeGenerator />} />
 
 </Routes>
     </div>

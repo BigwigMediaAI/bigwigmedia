@@ -127,6 +127,12 @@ import { GenerateLinkedInPosts } from "./LinkedinPostGenerator";
 import { GenerateLinkedInConnection } from "./LinkedinConnection";
 import { GenerateLinkedInBio } from "./LinkedinBioGenerator";
 import GenerateLinkedInRecommendations from "./LinkedinRecommendatin";
+import { YoutubeScriptOutline } from "./YoutubeScriptOutline";
+import { YoutubeTitleGenerator } from "./YoutubeTitleGenerator";
+import { YoutubeVideoIdeas } from "./YoutubeVideoIdeas";
+import { AttentionGrabbingTitleGenerator } from "./TitleGenerator";
+import { TiktokCaption } from "./TiktokCaption";
+import { AboutmeGenerator } from "./AboutmeGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -726,6 +732,18 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateLinkedInRecommendations/>
       ) : id === "6697c14e17d5e2950f5ef97d" ? (
         <VideoDownloader/>
+      ): id === "6698fe070e14d980a108a66c" ? (
+        <YoutubeScriptOutline/>
+      ):id === "6698fe140e14d980a108a66d" ? (
+        <YoutubeTitleGenerator/>
+      ):id === "6698fe1e0e14d980a108a66e" ? (
+        <YoutubeVideoIdeas/>
+      ):id === "6698fe280e14d980a108a66f" ? (
+        <AttentionGrabbingTitleGenerator/>
+      ):id === "6698fe310e14d980a108a670" ? (
+        <TiktokCaption/>
+      ):id === "6698fe390e14d980a108a671" ? (
+        <AboutmeGenerator/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
