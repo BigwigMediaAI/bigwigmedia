@@ -133,6 +133,11 @@ import { YoutubeVideoIdeas } from "./YoutubeVideoIdeas";
 import { AttentionGrabbingTitleGenerator } from "./TitleGenerator";
 import { TiktokCaption } from "./TiktokCaption";
 import { AboutmeGenerator } from "./AboutmeGenerator";
+import { ReelScriptGenerator } from "./ReelScriptGenerator";
+import { ReelIdeasGenerator } from "./ReelIdeas";
+import { AboutCompanyGenerator } from "./AboutCompanyGenerator";
+import { TweetReplyGenerator } from "./TweetReplyGenerator";
+import { SocialMediaPostGenerator } from "./SocialMediaPostGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -744,6 +749,16 @@ document.addEventListener('copy', handleCopyEvent);
         <TiktokCaption/>
       ):id === "6698fe390e14d980a108a671" ? (
         <AboutmeGenerator/>
+      ):id === "669a616a719c629535e83a86" ? (
+        <ReelScriptGenerator/>
+      ):id === "669a6178719c629535e83a87" ? (
+        <ReelIdeasGenerator/>
+      ):id === "669a6181719c629535e83a88" ? (
+        <AboutCompanyGenerator/>
+      ):id === "669a618b719c629535e83a89" ? (
+        <TweetReplyGenerator/>
+      ):id === "669a6197719c629535e83a8a" ? (
+        <SocialMediaPostGenerator/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
