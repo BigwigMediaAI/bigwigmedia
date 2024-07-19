@@ -138,6 +138,8 @@ import { ReelIdeasGenerator } from "./ReelIdeas";
 import { AboutCompanyGenerator } from "./AboutCompanyGenerator";
 import { TweetReplyGenerator } from "./TweetReplyGenerator";
 import { SocialMediaPostGenerator } from "./SocialMediaPostGenerator";
+import { GenerateTiktokHastag } from "./TiktokHastagGenerator";
+import { GenerateCalenderContent } from "./ContentCalenderGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -757,8 +759,12 @@ document.addEventListener('copy', handleCopyEvent);
         <AboutCompanyGenerator/>
       ):id === "669a618b719c629535e83a89" ? (
         <TweetReplyGenerator/>
-      ):id === "669a6197719c629535e83a8a" ? (
-        <SocialMediaPostGenerator/>
+      ):id === "669a618b719c629535e83a89" ? (
+        <TweetReplyGenerator/>
+      ):id === "669a77a7fd2127d8423de85c" ? (
+        <GenerateTiktokHastag/>
+      ):id === "669a7794fd2127d8423de85b" ? (
+        <GenerateCalenderContent/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
