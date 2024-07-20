@@ -5,16 +5,14 @@ import { Loader2, Share2, Download, Copy } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
-export function AboutCompanyGenerator() {
+export function TinerBioGenerator() {
   const [isLoading, setIsLoading] = useState(false);
-  const [companyName, setcompanyName] = useState('');
-  const [industry, setindustry] = useState('');
-  const [mission, setMission] = useState('');
-  const [values, setValues] = useState('');
+  const [personalityTraits, setpersonalityTraits] = useState('');
+  const [interests,setInterests] = useState('')
   const [tone, setTone] = useState('');
   const [language, setLanguage] = useState('');
   const [outputCount, setOutputCount] = useState(1);
-  const [generatedAboutCompany, setgeneratedAboutCompany] = useState([]);
+  const [generatedTinerBio, setgeneratedTinerBio] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -22,18 +20,16 @@ export function AboutCompanyGenerator() {
 
   const handleGenerate = async () => {
     setIsLoading(true);
-    setgeneratedAboutCompany([]);
+    setgeneratedTinerBio([]);
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/generateAboutCompanyPage?clerkId=${userId}`, {
-        companyName,
-        industry,
-        mission,
-        values,
+      const response = await axios.post(`${BASE_URL}/response/generateTinderBio?clerkId=${userId}`, {
+        personalityTraits,
+        interests,
         tone,
         language,
         outputCount,
@@ -41,24 +37,23 @@ export function AboutCompanyGenerator() {
 
       if (response.status === 200) {
         console.log(response.data);
-        setgeneratedAboutCompany(response.data);
+        setgeneratedTinerBio(response.data);
       } else {
-        toast.error('Error generating about me. Please try again later.');
+        toast.error('Error generating tinder bio. Please try again later.');
       }
     } catch (error) {
-      console.error('Error generating about me:', error);
-      toast.error('Error generating about me. Please try again later.');
+      console.error('Error generating tinder bio:', error);
+      toast.error('Error generating tinder bio. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!isLoading && generatedAboutCompany.length > 0) {
+    if (!isLoading && generatedTinerBio.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isLoading, generatedAboutCompany]);
-
+  }, [isLoading, generatedTinerBio]);
 
   const tones = [
     { value: '', label: 'Select tone' },
@@ -116,64 +111,44 @@ export function AboutCompanyGenerator() {
 
   const handleDownload = () => {
     const element = document.createElement("a");
-    const file = new Blob([generatedAboutCompany.join("\n\n")], { type: "text/plain" });
+    const file = new Blob([generatedTinerBio.join("\n\n")], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "youtube_titles.txt";
+    element.download = "tiner_bio.txt";
     document.body.appendChild(element);
     element.click();
   };
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Youtube Titles',
-      text: generatedAboutCompany.join("\n\n"),
+      title: 'Tinder Bio',
+      text: generatedTinerBio.join("\n\n"),
     };
     try {
       await navigator.share(shareData);
     } catch (err) {
-      console.error('Error sharing youtube titles:', err);
+      console.error('Error sharing tinder bio:', err);
     }
   };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#262626]">
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">companyName</label>
+        <label className="block text-gray-700 dark:text-gray-300">Personality Traits</label>
         <input
           type="text"
-          value={companyName}
-          onChange={(e) => setcompanyName(e.target.value)}
-          placeholder="E.g., Tech Innovators Inc."
+          value={personalityTraits}
+          onChange={(e) => setpersonalityTraits(e.target.value)}
+          placeholder="E.g, adventurous, witty, kind"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Industry</label>
+        <label className="block text-gray-700 dark:text-gray-300">Interests</label>
         <input
           type="text"
-          value={industry}
-          onChange={(e) => setindustry(e.target.value)}
-          placeholder="E.g., Technology"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Mission</label>
-        <input
-          type="text"
-          value={mission}
-          onChange={(e) => setMission(e.target.value)}
-          placeholder="E.g., To innovate and lead the tech industry with groundbreaking solutions."
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Values</label>
-        <input
-          type="text"
-          value={values}
-          onChange={(e) => setValues(e.target.value)}
-          placeholder="E.g., Innovation, Integrity, Customer Focus"
+          value={interests}
+          onChange={(e) => setInterests(e.target.value)}
+          placeholder="E.g, traveling, cooking, hiking"
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
         />
       </div>
@@ -219,7 +194,7 @@ export function AboutCompanyGenerator() {
           onClick={handleGenerate}
           disabled={isLoading}
         >
-          {isLoading ? 'Generating...' : (generatedAboutCompany.length > 0 ? "Regenerate" : 'Generate')}
+          {isLoading ? 'Generating...' : (generatedTinerBio.length > 0 ? "Regenerate" : 'Generate')}
         </button>
       </div>
       <div className="mt-5">
@@ -229,10 +204,10 @@ export function AboutCompanyGenerator() {
             <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
             </div>
         ) : (
-            generatedAboutCompany.length > 0 && (
+            generatedTinerBio.length > 0 && (
             <div ref={resultsRef} className="border border-gray-300 rounded-md mt-6 p-5 relative">
                 <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-gray-700 dark:text-gray-300 ">Generated Output</h1>
+                <h1 className="text-2xl text-gray-700 dark:text-gray-300 ">Generated Tinder Bio</h1>
                 <div className="flex gap-2">
                     <button
                     onClick={handleShare}
@@ -251,7 +226,7 @@ export function AboutCompanyGenerator() {
                 </div>
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedAboutCompany.map((post, index) => (
+              {generatedTinerBio.map((post, index) => (
           <div key={index} className="border border-gray-300 p-4 rounded-lg mb-4 relative ">
             <div className="flex justify-between items-center mb-2">
               <div className="absolute top-2 right-2 space-x-2">

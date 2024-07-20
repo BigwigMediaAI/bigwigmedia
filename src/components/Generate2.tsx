@@ -140,6 +140,13 @@ import { TweetReplyGenerator } from "./TweetReplyGenerator";
 import { SocialMediaPostGenerator } from "./SocialMediaPostGenerator";
 import { GenerateTiktokHastag } from "./TiktokHastagGenerator";
 import { GenerateCalenderContent } from "./ContentCalenderGenerator";
+import { BulletPointGenerator } from "./BulletPointGenerator";
+import { EventNameGenerator } from "./EventNameGenerator";
+import { ProfessionalBioGenerator } from "./ProfessionalBioGenerator";
+import { SeoBriefGenerator } from "./SeoBriefGenerator";
+import { CompanyProfileGenerator } from "./CompanyProfileGenerator";
+import { EventReminderEmail } from "./EventRemiderEmail";
+import { TinerBioGenerator } from "./TinderBioGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -765,6 +772,22 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateTiktokHastag/>
       ):id === "669a7794fd2127d8423de85b" ? (
         <GenerateCalenderContent/>
+      ):id === "669baac1b372a9153918cd88" ? (
+        <BulletPointGenerator/>
+      ):id === "669baacbb372a9153918cd89" ? (
+        <EventNameGenerator/>
+      ):id === "669baad4b372a9153918cd8a" ? (
+        <ProfessionalBioGenerator/>
+      ):id === "669baaddb372a9153918cd8b" ? (
+        <SeoBriefGenerator/>
+      ):id === "669baae5b372a9153918cd8c" ? (
+        <CompanyProfileGenerator/>
+      ):id === "669baaedb372a9153918cd8d" ? (
+        <EventNameGenerator/>
+      ):id === "669baaf5b372a9153918cd8e" ? (
+        <EventReminderEmail/>
+      ):id === "669baafeb372a9153918cd8f" ? (
+        <TinerBioGenerator/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
