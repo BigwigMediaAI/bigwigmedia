@@ -132,8 +132,7 @@ export function BulletPointGenerator() {
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#262626]">
       <div className="mb-5">
         <label className="block text-gray-700 dark:text-gray-300">Topic</label>
-        <input
-          type="text"
+        <textarea
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           placeholder="E.g, Benefits of Regular Exercise"
