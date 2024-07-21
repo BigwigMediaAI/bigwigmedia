@@ -147,6 +147,8 @@ import { SeoBriefGenerator } from "./SeoBriefGenerator";
 import { CompanyProfileGenerator } from "./CompanyProfileGenerator";
 import { EventReminderEmail } from "./EventRemiderEmail";
 import { TinerBioGenerator } from "./TinderBioGenerator";
+import { InstagramHashtag } from "./InstagramHashtag";
+import { FollowupEmail } from "./FollowUpEmail";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -788,6 +790,10 @@ document.addEventListener('copy', handleCopyEvent);
         <EventReminderEmail/>
       ):id === "669baafeb372a9153918cd8f" ? (
         <TinerBioGenerator/>
+      ):id === "669cb83357cc40569bc24817" ? (
+        <InstagramHashtag/>
+      ):id === "669cb83e57cc40569bc24818" ? (
+        <FollowupEmail/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
