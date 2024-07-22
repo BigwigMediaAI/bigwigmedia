@@ -149,6 +149,14 @@ import { EventReminderEmail } from "./EventRemiderEmail";
 import { TinerBioGenerator } from "./TinderBioGenerator";
 import { InstagramHashtag } from "./InstagramHashtag";
 import { FollowupEmail } from "./FollowUpEmail";
+import { EmailSubjectLine } from "./EmailSubjectline";
+import { ResumeSkills } from "./ResumeSkills";
+import { PerformanceReview } from "./PerformanceReviewGenerator";
+import { OfferLetter } from "./JobOfferLetter";
+import { ElevatorPitch } from "./ElevatorPitchGenerator";
+import { ResignationLetter } from "./ResignationLetter";
+import { ReviewResponse } from "./ReviewResponse";
+import { JobDescription } from "./JobDescription";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -794,6 +802,22 @@ document.addEventListener('copy', handleCopyEvent);
         <InstagramHashtag/>
       ):id === "669cb83e57cc40569bc24818" ? (
         <FollowupEmail/>
+      ):id === "669e51bb18819926d2cbef5a" ? (
+        <EmailSubjectLine/>
+      ):id === "669e51c618819926d2cbef5b" ? (
+        <ResumeSkills/>
+      ):id === "669e51d118819926d2cbef5c" ? (
+        <PerformanceReview/>
+      ):id === "669e51da18819926d2cbef5d" ? (
+        <OfferLetter/>
+      ):id === "669e51e618819926d2cbef5e" ? (
+        <ElevatorPitch/>
+      ):id === "669e51f018819926d2cbef5f" ? (
+        <ResignationLetter/>
+      ):id === "669e51fe18819926d2cbef60" ? (
+        <ReviewResponse/>
+      ):id === "669e55fa18819926d2cbef61" ? (
+        <JobDescription/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
