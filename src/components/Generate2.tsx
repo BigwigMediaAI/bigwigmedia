@@ -157,6 +157,13 @@ import { ElevatorPitch } from "./ElevatorPitchGenerator";
 import { ResignationLetter } from "./ResignationLetter";
 import { ReviewResponse } from "./ReviewResponse";
 import { JobDescription } from "./JobDescription";
+import WatermarkEditor from "./editor";
+import { CTAGenerator } from "./CallToActionGenerator";
+import { GMBPost } from "./GMBPostGenerator";
+import { GMBProductDescription } from "./GMBProductDescription";
+import { MeetingInvite } from "./MeetingInvite";
+import { ProductDescription } from "./ProductDescription";
+import { ProjectReport } from "./ProjectReportGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -818,6 +825,20 @@ document.addEventListener('copy', handleCopyEvent);
         <ReviewResponse/>
       ):id === "669e55fa18819926d2cbef61" ? (
         <JobDescription/>
+      ):id === "669f95581fa385cf9e9973a8" ? (
+        <WatermarkEditor/>
+      ):id === "669f95621fa385cf9e9973a9" ? (
+        <CTAGenerator/>
+      ):id === "669f956b1fa385cf9e9973aa" ? (
+        <GMBPost/>
+      ):id === "669f95741fa385cf9e9973ab" ? (
+        <GMBProductDescription/>
+      ):id === "669f957c1fa385cf9e9973ac" ? (
+        <MeetingInvite/>
+      ):id === "669f95831fa385cf9e9973ad" ? (
+        <ProductDescription/>
+      ):id === "669f958d1fa385cf9e9973ae" ? (
+        <ProjectReport/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">

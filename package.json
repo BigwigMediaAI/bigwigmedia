@@ -35,6 +35,7 @@
     "current-location-geo": "^1.1.5",
     "file-saver": "^2.0.5",
     "framer-motion": "^10.18.0",
+    "konva": "^9.3.14",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.314.0",
     "next-themes": "^0.2.1",
@@ -54,6 +55,7 @@
     "react-geolocated": "^4.1.2",
     "react-helmet": "^6.1.0",
     "react-icons": "^5.2.1",
+    "react-konva": "^18.2.10",
     "react-microsoft-clarity": "^1.2.0",
     "react-pdf": "^8.0.2",
     "react-player": "^2.16.0",
@@ -67,7 +69,8 @@
     "slick-carousel": "^1.8.1",
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "use-image": "^1.1.1"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
