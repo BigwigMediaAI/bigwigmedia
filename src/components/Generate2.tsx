@@ -164,6 +164,12 @@ import { GMBProductDescription } from "./GMBProductDescription";
 import { MeetingInvite } from "./MeetingInvite";
 import { ProductDescription } from "./ProductDescription";
 import { ProjectReport } from "./ProjectReportGenerator";
+import { RefrenceLetter } from "./RefrenceLetterGenerator";
+import { ExperienceLetter } from "./ExperienceLetterGenerator";
+import { ProductName } from "./ProductNameGenerator";
+import { SOPGenerator } from "./SOPGenerator";
+import { BusinessProposal } from "./BusinessProposal";
+import { CatchtTagline } from "./CatchyTagline";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -839,6 +845,18 @@ document.addEventListener('copy', handleCopyEvent);
         <ProductDescription/>
       ):id === "669f958d1fa385cf9e9973ae" ? (
         <ProjectReport/>
+      ):id === "66a0f3b75b35dd60efa2fa7c" ? (
+        <RefrenceLetter/>
+      ):id === "66a0f3c35b35dd60efa2fa7d" ? (
+        <ExperienceLetter/>
+      ):id === "66a0f3eb5b35dd60efa2fa81" ? (
+        <ProductName/>
+      ):id === "66a0f3e15b35dd60efa2fa80" ? (
+        <SOPGenerator/>
+      ):id === "66a0f3d75b35dd60efa2fa7f" ? (
+        <BusinessProposal/>
+      ):id === "66a0f3cd5b35dd60efa2fa7e" ? (
+        <CatchtTagline/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
