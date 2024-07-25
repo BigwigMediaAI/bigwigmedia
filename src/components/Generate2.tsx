@@ -170,6 +170,14 @@ import { ProductName } from "./ProductNameGenerator";
 import { SOPGenerator } from "./SOPGenerator";
 import { BusinessProposal } from "./BusinessProposal";
 import { CatchtTagline } from "./CatchyTagline";
+import { MottoGenerator } from "./MottoGenerator";
+import { ProductBrochure } from "./ProductBrochure";
+import { BusinessMemo } from "./BusinessMemoGenerator";
+import { PasFramework } from "./PASFramework";
+import { AidaFramework } from "./AIDAGenerator";
+import { ColdEmail } from "./ColdEmail";
+import { MetaDescription } from "./MetaDescription";
+import { NewsLetterNameGenerator } from "./NewsLetterName";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -857,6 +865,22 @@ document.addEventListener('copy', handleCopyEvent);
         <BusinessProposal/>
       ):id === "66a0f3cd5b35dd60efa2fa7e" ? (
         <CatchtTagline/>
+      ):id === "66a25166ed834074a59bb932" ? (
+        <MottoGenerator/>
+      ):id === "66a2516fed834074a59bb933" ? (
+        <ProductBrochure/>
+      ):id === "66a25179ed834074a59bb934" ? (
+        <BusinessMemo/>
+      ):id === "66a25183ed834074a59bb935" ? (
+        <PasFramework/>
+      ):id === "66a2518ced834074a59bb936" ? (
+        <AidaFramework/>
+      ):id === "66a25196ed834074a59bb937" ? (
+        <ColdEmail/>
+      ):id === "66a251a0ed834074a59bb938" ? (
+        <MetaDescription/>
+      ):id === "66a251aaed834074a59bb939" ? (
+        <NewsLetterNameGenerator/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
