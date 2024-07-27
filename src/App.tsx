@@ -59,6 +59,13 @@ import { YoutubeVideoIdeas } from "./components/YoutubeVideoIdeas";
 import { YoutubeScriptOutline } from "./components/YoutubeScriptOutline";
 import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
+import { JobResponsibility } from "./components/JobResponsibilityGenerator";
+import { JobQualification } from "./components/JobQualification";
+import { JobSummary } from "./components/JobSummary";
+import { SubHeading } from "./components/SubHeadingGenerator";
+import { UniqueValue } from "./components/UniqueValueProposition";
+import { OkrGenerator } from "./components/OkrGenerator";
+import { ProjectTimeline } from "./components/ProjectTimeline";
 
 
 const App = () => {
@@ -130,6 +137,13 @@ const App = () => {
         <Route path="/outline" element={<YoutubeScriptOutline />} />
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
+        <Route path="/jobr" element={<JobResponsibility />} />
+        <Route path="/jobq" element={<JobQualification />} />
+        <Route path="/jobs" element={<JobSummary />} />
+        <Route path="/sub" element={<SubHeading />} />
+        <Route path="/uvp" element={<UniqueValue />} />
+        <Route path="/okr" element={<OkrGenerator />} />
+        <Route path="/timeline" element={<ProjectTimeline />} />
 
 </Routes>
     </div>
