@@ -137,13 +137,6 @@ const App = () => {
         <Route path="/outline" element={<YoutubeScriptOutline />} />
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
-        <Route path="/jobr" element={<JobResponsibility />} />
-        <Route path="/jobq" element={<JobQualification />} />
-        <Route path="/jobs" element={<JobSummary />} />
-        <Route path="/sub" element={<SubHeading />} />
-        <Route path="/uvp" element={<UniqueValue />} />
-        <Route path="/okr" element={<OkrGenerator />} />
-        <Route path="/timeline" element={<ProjectTimeline />} />
 
 </Routes>
     </div>

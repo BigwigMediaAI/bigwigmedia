@@ -178,6 +178,13 @@ import { AidaFramework } from "./AIDAGenerator";
 import { ColdEmail } from "./ColdEmail";
 import { MetaDescription } from "./MetaDescription";
 import { NewsLetterNameGenerator } from "./NewsLetterName";
+import { JobResponsibility } from "./JobResponsibilityGenerator";
+import { JobQualification } from "./JobQualification";
+import { JobSummary } from "./JobSummary";
+import { OkrGenerator } from "./OkrGenerator";
+import { ProjectTimeline } from "./ProjectTimeline";
+import { UniqueValue } from "./UniqueValueProposition";
+import { SubHeading } from "./SubHeadingGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -881,6 +888,20 @@ document.addEventListener('copy', handleCopyEvent);
         <MetaDescription/>
       ):id === "66a251aaed834074a59bb939" ? (
         <NewsLetterNameGenerator/>
+      ):id === "66a7208c5f1d43b937d6d8d0" ? (
+        <JobResponsibility/>
+      ):id === "66a7209a5f1d43b937d6d8d1" ? (
+        <JobQualification/>
+      ):id === "66a720a35f1d43b937d6d8d2" ? (
+        <JobSummary/>
+      ):id === "66a720ac5f1d43b937d6d8d3" ? (
+        <OkrGenerator/>
+      ):id === "66a720b65f1d43b937d6d8d4" ? (
+        <ProjectTimeline/>
+      ):id === "66a720c75f1d43b937d6d8d5" ? (
+        <UniqueValue/>
+      ):id === "66a720d15f1d43b937d6d8d6" ? (
+        <SubHeading/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
