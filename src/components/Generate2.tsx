@@ -185,6 +185,7 @@ import { OkrGenerator } from "./OkrGenerator";
 import { ProjectTimeline } from "./ProjectTimeline";
 import { UniqueValue } from "./UniqueValueProposition";
 import { SubHeading } from "./SubHeadingGenerator";
+import { BackgroundRemover } from "./BgRemover";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -902,6 +903,8 @@ document.addEventListener('copy', handleCopyEvent);
         <UniqueValue/>
       ):id === "66a720d15f1d43b937d6d8d6" ? (
         <SubHeading/>
+      ):id === "66a76db0d6ca77c31063b25d" ? (
+        <BackgroundRemover/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
