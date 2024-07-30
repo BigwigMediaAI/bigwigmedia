@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Loader2, Share2, Download, Copy } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from '@/utils/validateInput';
 
 export function RefrenceLetter() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +22,15 @@ export function RefrenceLetter() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(candidateName)||
+      !validateInput(relationship)||
+      !validateInput(skills)||
+      !validateInput(achievements)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setgeneratedRefrenceLetter([]);
 

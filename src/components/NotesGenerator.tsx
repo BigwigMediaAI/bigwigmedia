@@ -6,6 +6,7 @@ import { ClipboardCopyIcon, CopyIcon, Download, Loader2, Share2 } from 'lucide-r
 import { toast } from 'sonner';
 import { BASE_URL } from '@/utils/funcitons'; // Corrected import path
 import { useAuth } from '@clerk/clerk-react';
+import { validateInput } from '@/utils/validateInput';
 
 interface NotesSummary {
   [key: string]: string[] | string;
@@ -29,6 +30,12 @@ export function NotesGenerator() {
   };
 
   const handleSubmit = async () => {
+    if (
+      !validateInput(text)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setSummary(null);
     if (!text) {

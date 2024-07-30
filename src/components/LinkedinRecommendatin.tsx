@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { BASE_URL } from "@/utils/funcitons";
 import { Loader2, Share2, Download, Copy } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from '@/utils/validateInput';
 
 
 export function GenerateLinkedInRecommendations() {
@@ -21,6 +22,15 @@ export function GenerateLinkedInRecommendations() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(name)||
+      !validateInput(relationship)||
+      !validateInput(skills)||
+      !validateInput(accomplishments)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setGeneratedRecommendations([]);
     setTimeout(() => {

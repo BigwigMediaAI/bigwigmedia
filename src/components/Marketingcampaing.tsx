@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { FaDownload, FaShareAlt } from "react-icons/fa";
+import { validateInput } from "@/utils/validateInput";
 
 interface CampaignData {
   [key: string]: string | string[];
@@ -67,6 +68,12 @@ export function MarketingCampaign() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setCampaignData(null);
     e.preventDefault();
+    if (
+      !validateInput(text)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
 
     // Scroll to loader after a short delay to ensure it's rendered

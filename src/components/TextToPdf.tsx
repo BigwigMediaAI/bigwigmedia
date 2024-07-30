@@ -5,6 +5,7 @@ import { Loader2, Share2 } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { toast } from "sonner";
+import { validateInput } from "@/utils/validateInput";
 
 export function TextToPdfConverter() {
   const [text, setText] = useState("");
@@ -18,6 +19,12 @@ export function TextToPdfConverter() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleConvert = async () => {
+    if (
+      !validateInput(text)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setError(""); // Reset error state
     setShowConvertButton(false); // Hide convert button

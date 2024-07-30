@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { FaDownload, FaShareAlt } from "react-icons/fa";
+import { validateInput } from '@/utils/validateInput';
 
 export function YouTubeScriptGenerator() {
   const [topic, setTopic] = useState('');
@@ -23,6 +24,12 @@ export function YouTubeScriptGenerator() {
     if (!topic || !tone || !length || !language) {
       toast.error('Please fill out all fields');
       setIsLoading(false);
+      return;
+    }
+    if (
+      !validateInput(topic)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
     setScript("")

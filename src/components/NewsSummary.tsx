@@ -6,6 +6,7 @@
   import { toast } from "sonner";
   import { BASE_URL } from "@/utils/funcitons";
   import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from "@/utils/validateInput";
 
   export function NewsSummarize() {
     const [text, setText] = useState("");
@@ -23,6 +24,12 @@
     };
 
     const handleSubmit = async () => {
+      if (
+        !validateInput(text)
+      ) {
+        toast.error('Your input contains prohibited words. Please remove them and try again.');
+        return;
+      }
       setIsLoading(true);
       setSummaries([]); // Clear previous summaries
       if (!text) {

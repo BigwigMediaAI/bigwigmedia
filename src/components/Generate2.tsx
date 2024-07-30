@@ -10,7 +10,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
 import {
   Select,
   SelectContent,
@@ -186,6 +185,7 @@ import { ProjectTimeline } from "./ProjectTimeline";
 import { UniqueValue } from "./UniqueValueProposition";
 import { SubHeading } from "./SubHeadingGenerator";
 import { BackgroundRemover } from "./BgRemover";
+import { validateInput } from "@/utils/validateInput";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -338,6 +338,7 @@ const Generate = () => {
   getCredits();
 
   const handleSubmit = async (
+    
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     //@ts-ignore
@@ -370,6 +371,12 @@ const Generate = () => {
           toast.error(`${ele.placeholder} is required`);
           isRequiredFieldMissing = true; // Set flag to true if a required field is missing
         }
+        const value = val[ele.in];
+      if (typeof value === "string" && !validateInput(value)) {
+        toast.error(`Input contains prohibited words. Please remove them and try again.`);
+        setIsLoading(false);
+        return; // Exit the function if input validation fails
+      }
         if (ele.type === "switch") {
           dupVal[index].push(val[ele.in] ? ele.options[0] : ele.options[1]);
           return;
@@ -383,6 +390,8 @@ const Generate = () => {
       setIsLoading(false);
       return; // Exit the function if a required field is missing
     }
+
+    
 
     setTimeout(() => {
       scrollToBasicOutput();
@@ -903,6 +912,8 @@ document.addEventListener('copy', handleCopyEvent);
         <UniqueValue/>
       ):id === "66a720d15f1d43b937d6d8d6" ? (
         <SubHeading/>
+      ):id === "669a6197719c629535e83a8a" ? (
+        <SocialMediaPostGenerator/>
       ):id === "66a76db0d6ca77c31063b25d" ? (
         <BackgroundRemover/>
       ):(

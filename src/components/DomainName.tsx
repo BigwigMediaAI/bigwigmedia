@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from '@/utils/validateInput';
 
 export function GenerateDomainNames() {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +18,12 @@ export function GenerateDomainNames() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(companyName)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });

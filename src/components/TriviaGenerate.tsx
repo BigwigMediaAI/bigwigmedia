@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Loader2, Clipboard, Share2, Download } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from '@/utils/validateInput';
 
 interface TriviaQuestion {
   question: string;
@@ -37,6 +38,12 @@ export function TriviaGenerator() {
   }, [triviaQuestions]);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(topic)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setTriviaQuestions([]);
     setCurrentQuestionIndex(0);

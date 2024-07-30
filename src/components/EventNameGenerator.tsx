@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Loader2, Share2, Download, Copy } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from '@/utils/validateInput';
 
 export function EventNameGenerator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +18,12 @@ export function EventNameGenerator() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(topic)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setgeneratedEventName([]);
 

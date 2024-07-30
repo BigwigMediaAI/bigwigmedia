@@ -7,6 +7,7 @@ import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { validateInput } from "@/utils/validateInput";
 
 export function Rephrase() {
   const [text, setText] = useState("");
@@ -25,6 +26,12 @@ export function Rephrase() {
   };
 
   const handleSubmit = async () => {
+    if (
+      !validateInput(text)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setOutput([]); // Clear previous output
     if (!text) {

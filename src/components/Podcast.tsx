@@ -6,6 +6,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { Loader2, ClipboardCopy } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { FaDownload, FaShareAlt } from "react-icons/fa";
+import { validateInput } from "@/utils/validateInput";
 
 interface QAPair {
   question: string;
@@ -28,6 +29,15 @@ export function Seopodcast() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async () => {
+    if (
+      !validateInput(topic)||
+      !validateInput(guest)||
+      !validateInput(background)||
+      !validateInput(interests)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setQAPairs([]);
 

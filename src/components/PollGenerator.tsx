@@ -6,6 +6,7 @@ import { Loader2, Clipboard, Share, Download } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { saveAs } from 'file-saver';
+import { validateInput } from '@/utils/validateInput';
 
 export function PollGenerator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,13 @@ export function PollGenerator() {
   }, [generatedPoll]);
 
   const handleGeneratePoll = async () => {
+    if (
+      !validateInput(question)||
+      !validateInput(options)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setGeneratedPoll('');
 

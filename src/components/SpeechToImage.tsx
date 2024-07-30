@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { validateInput } from "@/utils/validateInput";
 
 const buttonLabels = [
   "Professional",
@@ -123,6 +124,12 @@ const GeneratorImage: React.FC<Props> = () => {
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (
+      !validateInput(text)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     e.preventDefault();
     if (!text) {

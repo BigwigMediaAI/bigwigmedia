@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 import { saveAs } from 'file-saver';
 import { BASE_URL } from "@/utils/funcitons";
+import { validateInput } from "@/utils/validateInput";
 
 export function Seotool() {
   const [text, setText] = useState("");
@@ -24,6 +25,12 @@ export function Seotool() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (
+      !validateInput(text)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     await submitWithRetry(3);
     setIsLoading(false);

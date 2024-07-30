@@ -5,6 +5,7 @@ import { Loader2,ClipboardCopy } from 'lucide-react';
 import { BASE_URL } from '@/utils/funcitons';
 import { useAuth } from '@clerk/clerk-react';
 import { FaDownload, FaShareAlt } from 'react-icons/fa';
+import { validateInput } from '@/utils/validateInput';
 
 const languageOptions = [
     { value: 'English', label: 'English' },
@@ -53,6 +54,12 @@ export function FinanceAdvisor() {
     const resultsRef = useRef<HTMLDivElement | null>(null);
 
     const handleGenerate = async () => {
+        if (
+            !validateInput(description)
+          ) {
+            toast.error('Your input contains prohibited words. Please remove them and try again.');
+            return;
+          }
         setIsLoading(true);
         setAdvices([]); // Clear previous advices
 

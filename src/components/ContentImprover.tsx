@@ -5,6 +5,7 @@ import { Loader2, Clipboard, Share2, Download } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { saveAs } from 'file-saver';
+import { validateInput } from '@/utils/validateInput';
 
 const tones = [
   { value: 'formal', label: 'Formal' },
@@ -65,6 +66,12 @@ export function ContentImprover() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleImprove = async () => {
+    if (
+      !validateInput(content)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setImprovedContents([]);
 

@@ -7,6 +7,7 @@ import { BASE_URL } from '@/utils/funcitons';
 import { CopyIcon, Download, Loader2, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { validateInput } from "@/utils/validateInput";
 
 export function Special() {
   const [text, setText] = useState("");
@@ -30,6 +31,12 @@ export function Special() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    if (
+      !validateInput(text)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });

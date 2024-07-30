@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Loader2, Clipboard } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
+import { validateInput } from '@/utils/validateInput';
 
 export function GeneratePrivacyPolicy() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +20,14 @@ export function GeneratePrivacyPolicy() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(companyName)||
+      !validateInput(address)||
+      !validateInput(websiteURL)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setPrivacyPolicy('');
 

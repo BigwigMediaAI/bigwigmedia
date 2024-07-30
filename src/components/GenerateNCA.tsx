@@ -6,6 +6,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { Loader2, RefreshCw, Download,ClipboardCopy } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { FaDownload, FaShareAlt } from "react-icons/fa";
+import { validateInput } from "@/utils/validateInput";
 
 export function NCAForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +23,15 @@ export function NCAForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (
+      !validateInput(employer)||
+      !validateInput(employee)||
+      !validateInput(ncaContent)||
+      !validateInput(restrictedActivities)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setNcaContent('')
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {

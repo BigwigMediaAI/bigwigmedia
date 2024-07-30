@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { FaDownload, FaShareAlt } from 'react-icons/fa'; // Import download and share icons from react-icons
+import { validateInput } from '@/utils/validateInput';
 
 export function BusinessSloganGenerator(){
   const [businessName, setBusinessName] = useState('');
@@ -24,6 +25,13 @@ export function BusinessSloganGenerator(){
     if (!businessName || !whatItDoes || !numberOfSlogans || !language) {
       toast.error('Please fill out all fields');
       setIsLoading(false);
+      return;
+    }
+    if (
+      !validateInput(businessName)||
+      !validateInput(whatItDoes)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
 

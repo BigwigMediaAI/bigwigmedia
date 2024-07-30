@@ -4,6 +4,8 @@ import { toast } from 'sonner';
 import { Loader2, Share2, Download, Copy } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { JobQualification } from './JobQualification';
+import { validateInput } from '@/utils/validateInput';
 
 export function JobDescription() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +23,15 @@ export function JobDescription() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(jobTitle)||
+      !validateInput(responsibilities)||
+      !validateInput(qualifications)||
+      !validateInput(companyInfo)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setgeneratedReviewResponse([]);
 

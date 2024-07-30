@@ -5,6 +5,7 @@ import { Loader2, ClipboardCopy } from 'lucide-react'; // Assuming 'Download' an
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { FaDownload, FaShareAlt } from 'react-icons/fa'; 
+import { validateInput } from '@/utils/validateInput';
 
 export function BusinessPlanGenerator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +29,14 @@ export function BusinessPlanGenerator() {
   }, [businessPlan]);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(businessType)||
+      !validateInput(industry)||
+      !validateInput(targetMarket)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setBusinessPlan('');
 

@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Loader2, Share2, Download, Copy } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from '@/utils/validateInput';
 
 export function PerformanceReview() {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,17 @@ export function PerformanceReview() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
+    if (
+      !validateInput(employeeName)||
+      !validateInput(position)||
+      !validateInput(reviewPeriod)||
+      !validateInput(keyAchievements)||
+      !validateInput(areasOfImprovement)||
+      !validateInput(futureGoals)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setgeneratedReviewResponse([]);
 

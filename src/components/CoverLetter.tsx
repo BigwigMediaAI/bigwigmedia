@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Loader2, CopyIcon, Share2, Download } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons"; // Ensure the BASE_URL is correct
 import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from '@/utils/validateInput';
 
 export function CoverLetterGenerator() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +21,16 @@ export function CoverLetterGenerator() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    const re = /^\+?[1-9]\d{1,14}$/; // International phone number validation
+    return re.test(phone);
+  };
+
   const handleGenerate = async () => {
     setIsLoading(true);
     setCoverLetters([]); // Clear previous cover letters
@@ -28,6 +39,25 @@ export function CoverLetterGenerator() {
       setIsLoading(false);
       return;
     }
+
+    if (!validateEmail(userEmail)) {
+      toast.error("Please enter a valid email address");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!validatePhone(userPhone)) {
+      toast.error("Please enter a valid phone number");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!validateInput(jobDescription) || !validateInput(userName) || !validateInput(highlights)) {
+      toast.error("Please remove any prohibited words from the input fields");
+      setIsLoading(false);
+      return;
+    }
+
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
         loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -79,15 +109,15 @@ export function CoverLetterGenerator() {
     const textToShare = coverLetters.join('\n');
     if (navigator.share) {
       navigator.share({
-        title: 'Generated Domain Names',
+        title: 'cover letter',
         text: textToShare,
       }).catch((error) => console.error('Error sharing:', error));
     } else {
       navigator.clipboard.writeText(textToShare).then(() => {
-        toast.success('Domain names copied to clipboard');
+        toast.success('cover letter copied to clipboard');
       }).catch((error) => {
         console.error('Error copying to clipboard:', error);
-        toast.error('Failed to copy domain names to clipboard');
+        toast.error('Failed to copy cover letter to clipboard');
       });
     }
   };

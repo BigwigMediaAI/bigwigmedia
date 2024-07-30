@@ -6,6 +6,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { BASE_URL } from "@/utils/funcitons";
+import { validateInput } from "@/utils/validateInput";
 
 interface SummaryResponse {
   summary: string | string[];
@@ -27,6 +28,12 @@ export function Summarize() {
   };
 
   const handleSubmit = async () => {
+    if (
+      !validateInput(text)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setIsLoading(true);
     setSummaries([]);
   

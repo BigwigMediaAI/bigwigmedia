@@ -7,6 +7,7 @@ import { Loader2,Share2 } from 'lucide-react';
 import { useAuth } from '@clerk/clerk-react';
 import { toast } from 'sonner';
 import { saveAs } from 'file-saver';
+import { validateInput } from '@/utils/validateInput';
 
 export function Decision() {
     const [text, setText] = useState('');
@@ -25,6 +26,12 @@ export function Decision() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (
+            !validateInput(text)
+          ) {
+            toast.error('Your input contains prohibited words. Please remove them and try again.');
+            return;
+          }
         setIsLoading(true);
         // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {

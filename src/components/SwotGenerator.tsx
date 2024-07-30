@@ -8,6 +8,7 @@ import { BASE_URL } from "@/utils/funcitons"; // Ensure BASE_URL is correctly im
 import { useAuth } from "@clerk/clerk-react";
 import { FaDownload, FaShareAlt } from 'react-icons/fa';
 import { saveAs } from 'file-saver';
+import { validateInput } from "@/utils/validateInput";
 
 const popularLanguages = ['English', 'Spanish', 'French', 'German', 'Chinese', 'Hindi', 'Arabic', 'Portuguese', 'Bengali', 'Russian', 'Japanese', 'Lahnda', 'Punjabi', 'Javanese', 'Korean', 'Telugu', 'Marathi', 'Tamil', 'Turkish', 'Vietnamese', 'Italian', 'Urdu', 'Persian', 'Malay', 'Thai', 'Gujarati', 'Kannada', 'Polish', 'Ukrainian', 'Romanian'];
 
@@ -22,6 +23,12 @@ export function SWOTGenerator() {
     const resultsRef = useRef<HTMLDivElement>(null);
 
     const handleSubmit = async () => {
+        if (
+            !validateInput(topic)
+          ) {
+            toast.error('Your input contains prohibited words. Please remove them and try again.');
+            return;
+          }
         setIsLoading(true);
         setSwotAnalyses([]);  // Clear previous SWOT analyses
         if (!topic) {

@@ -6,6 +6,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { Loader2, ClipboardCopy } from "lucide-react"; // Assuming you have icons for download, copy, and share
 import { BASE_URL } from "@/utils/funcitons";
 import { FaDownload, FaShareAlt } from "react-icons/fa";
+import { validateInput } from "@/utils/validateInput";
 
 export function NDAForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +22,14 @@ export function NDAForm() {
   const handleSubmit = async (event: React.FormEvent) => {
 
     event.preventDefault();
+    if (
+      !validateInput(ndaContent)||
+      !validateInput(disclosingParty)||
+      !validateInput(receivingParty)
+    ) {
+      toast.error('Your input contains prohibited words. Please remove them and try again.');
+      return;
+    }
     setNdaContent('')
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {

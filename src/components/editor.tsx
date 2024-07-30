@@ -3,6 +3,8 @@ import { Stage, Layer, Image, Text } from 'react-konva';
 import useImage from 'use-image';
 import { Button } from "@/components/ui/button";
 import { UploadIcon, DownloadIcon } from "lucide-react";
+import { validateInput } from '@/utils/validateInput';
+import { toast } from 'sonner';
 
 const WatermarkEditor: React.FC = () => {
   const [imageURL, setImageURL] = useState<string | null>(null);
@@ -14,6 +16,7 @@ const WatermarkEditor: React.FC = () => {
   const stageRef = useRef<any>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -33,6 +36,15 @@ const WatermarkEditor: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    }
+  };
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newText = e.target.value;
+    if (validateInput(newText)) {
+      setText(newText);
+    } else {
+      toast.error('Watermark text contains prohibited words. Please remove them and try again.');
     }
   };
 
@@ -63,7 +75,7 @@ const WatermarkEditor: React.FC = () => {
               <input
                 type="text"
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={handleTextChange}
                 className="border p-2 rounded"
               />
             </div>
