@@ -186,6 +186,9 @@ import { UniqueValue } from "./UniqueValueProposition";
 import { SubHeading } from "./SubHeadingGenerator";
 import { BackgroundRemover } from "./BgRemover";
 import { validateInput } from "@/utils/validateInput";
+import { StatisticsGenerator } from "./StatisticsGenerator";
+import { PRideaGenerator } from "./PRIdeasGenerator";
+import { AudioTranscriber } from "./AudioHighlightsGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -916,6 +919,12 @@ document.addEventListener('copy', handleCopyEvent);
         <SocialMediaPostGenerator/>
       ):id === "66a76db0d6ca77c31063b25d" ? (
         <BackgroundRemover/>
+      ):id === "66aa34c2ec9fc26d5f2213a4" ? (
+        <StatisticsGenerator/>
+      ):id === "66aa34cbec9fc26d5f2213a5" ? (
+        <PRideaGenerator/>
+      ):id === "66aa34d5ec9fc26d5f2213a6" ? (
+        <AudioTranscriber/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
