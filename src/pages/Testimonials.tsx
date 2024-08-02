@@ -1,5 +1,4 @@
 import React from 'react';
-import { Arrow } from 'react-konva';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 
@@ -27,9 +26,9 @@ const testimonialsData = [
     },
     {
         name: "Atul Chopra",
-        company: "Indus Hospitality",
+        company: " Indus Hospitality",
         avatar: "https://lh3.googleusercontent.com/a-/ALV-UjWRzI2Z1MO95VkHQowijTU1kEv8xcL2IXZ6yCkmA5dnjTDzWbMr=w54-h54-p-rp-mo-br100",
-        comment: "Brilliant service. Keep it up.",
+        comment: "Brilliant service.  Keep it up.",
         rating: 5
     },
     {
@@ -59,7 +58,7 @@ I'm confident that Bigwigmedia AI app can be a valuable tool for anyone looking 
 
 const Testimonials = () => {
     const settings = {
-        dots: false,
+        dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 3, // Show 3 testimonials at a time
@@ -87,100 +86,59 @@ const Testimonials = () => {
 
     return (
         <div className='mt-16 mb-14'>
-            <BlogTitle>What Our Clients Say</BlogTitle>
+            <BlogTitle>Testimonials</BlogTitle>
             <div className='mb-10'>
-                <h1 className='text-center text-gray-600'>#1 Most Recommended & Most Talked-about Generative AI Tools</h1>
+            <h1 className='text-center text-gray-200'>#1 Most Recommended & Most Talked-about Generative AI Tools</h1>
             </div>
-            <div className="max-w-screen-lg mx-auto">
+            <div className="max-w-screen-lg mx-auto ">
                 <StyledSlider {...settings}>
                     {testimonialsData.map((testimonial, index) => (
                         <div key={index} className="testimonial-item p-5">
-                            <TestimonialCard>
+                            <div className="p-6 rounded-lg  bg-zinc-800 shadow-md  shadow-violet-500 ">
                                 <div className="flex items-center mb-4">
-                                    <Avatar src={testimonial.avatar} alt={`${testimonial.name}'s avatar`} />
+                                    <img src={testimonial.avatar} alt={`${testimonial.name}'s avatar`} className="w-12 h-12 rounded-full mr-4" />
                                     <div>
-                                        <Name>{testimonial.name}</Name>
-                                        <Company>{testimonial.company}</Company>
+                                        <h3 className="text-lg text-gray-200 font-semibold">{testimonial.name}</h3>
+                                        <h4 className="text-sm text-gray-400">{testimonial.company}</h4>
                                     </div>
                                 </div>
-                                <Comment>{testimonial.comment}</Comment>
-                                <Rating>
+                                <p className="text-base text-gray-300 mb-4 h-20 overflow-hidden">{testimonial.comment}</p>
+                                <div className="flex justify-center">
                                     {[...Array(testimonial.rating)].map((_, i) => (
-                                        <Star key={i}>&#9733;</Star>
+                                        <span key={i} className="text-yellow-500 text-xl">&#9733;</span>
                                     ))}
-                                </Rating>
-                            </TestimonialCard>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </StyledSlider>
             </div>
+            
         </div>
     );
 };
 
 const BlogTitle = styled.h1`
-  font-size: 2.5rem;
-  color: #4A5568;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #777;
+    text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
+    @media (max-width: 768px) {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+    }
 `;
 
 const StyledSlider = styled(Slider)`
     .slick-slide {
         padding: 0 10px; /* Adjust the padding here to create space between slides */
     }
-    .slick-dots {
-        bottom: -30px; /* Adjust the position of dots */
-    }
 `;
-
-const TestimonialCard = styled.div`
-    background-color: #F3F4F6; /* Light background color */
-    border-radius: 0.5rem;
-    box-shadow: 0 8px 8px rgba(10, 150, 136, 0.6);
-    padding: 1.5rem;
-    height: 300px; /* Set a fixed height for uniformity */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden; /* Hide overflow if content exceeds */
-`;
-
-const Avatar = styled.img`
-    width: 64px; /* Consistent width */
-    height: 64px; /* Consistent height */
-    border-radius: 50%;
-    border: 2px solid #A78BFA; /* Purple border color */
-    object-fit: cover;
-    margin-right: 1rem;
-`;
-
-const Name = styled.h3`
-    font-size: 1.125rem;
-    color: #4A5568; /* Text color */
-`;
-
-const Company = styled.h4`
-    font-size: 0.875rem;
-    color: #6B7280; /* Text color */
-`;
-
-const Comment = styled.p`
-    font-size: 1rem;
-    color: #4B5563; /* Text color */
-    margin: 0;
-    overflow: auto; /* Show overflow content */
-`;
-
-const Rating = styled.div`
-    display: flex;
-    justify-content: center;
-`;
-
-const Star = styled.span`
-    color: #F59E0B; /* Star color */
-    font-size: 1.5rem;
+const Underline = styled.div`
+    width: 100%;
+    height: 1px;
+    background-color: white; /* Choose your underline color */
+    margin-top: 20px; /* Adjust margin as needed */
 `;
 
 export default Testimonials;
