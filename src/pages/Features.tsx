@@ -31,10 +31,10 @@ const Features = () => {
     <div className="max-w-unit-80 md:max-w-screen-lg mx-auto mt-6">
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-8 ">
         {features.map((feature, index) => (
-          <div key={index} className="rounded-lg p-6  text-center shadow-md shadow-violet-500 ">
+          <div key={index} className="rounded-lg p-6  text-center shadow-lg shadow-teal-500 ">
             <img src={feature.icon} alt={feature.title} className="w-24 h-24 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-200">{feature.title}</h3>
-            <p className="mt-2 text-xs text-gray-300">{feature.description}</p>
+            <h3 className="text-xl font-bold text-gray-900">{feature.title}</h3>
+            <p className="mt-2 text-xs text-gray-600">{feature.description}</p>
           </div>
         ))}
       </div>
@@ -48,12 +48,8 @@ export default Features;
 
 const BlogTitle = styled.h1`
   font-size: 2.5rem;
-  font-weight: bold;
+  color: #4A5568;
   text-align: center;
-  margin-bottom:2.5rem;
-  color: #777;
-  text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
-  @media (max-width: 768px) {
-    font-size: 2rem; /* Adjust font size for smaller screens */
-  }
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 `;

@@ -617,7 +617,7 @@ document.addEventListener('copy', handleCopyEvent);
   console.log("here",arr)
 
   return (
-    <div className="flex flex-col  gap-8 min-h-screen">
+    <div className="flex flex-col  gap-8 min-h-screen bg-[#F3F4F6]">
       <Nav />
       <div className="flex flex-col justify-center items-center gap-6">
         <h1 className="  dark:text-white text-black text-center font-outfit text-2xl md:text-3xl lg:text-4xl  font-medium">

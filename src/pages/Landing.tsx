@@ -29,6 +29,9 @@ import gradient from "../assets/gradient.png";
 import WhoCanUseIt from "./WhoCanUse";
 // import Profile from "@/components/Profile";
 import google from "../assets/google-rating.png"
+import MenuMobile from "@/components/MenuMobile";
+import Menu from "@/components/Menu";
+import '../App.css'
 
 // type Props = {};
 
@@ -212,6 +215,16 @@ const Landing = () => {
     "Everything",
   ];
 
+  const rotatingColors = [
+    "#2563EB", // Calm Blue
+    "#D97706", // Orange
+    "#DC2626", // Red
+    "#10B981", // Green
+    "#9333EA", // Purple
+    "#F59E0B", // Yellow
+    "#3B82F6", // Light Blue
+  ];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setWordIndex((prevIndex) => (prevIndex + 1) % rotatingWords.length);
@@ -231,6 +244,32 @@ const Landing = () => {
     }
   }, [search]);
 
+const handleSearch = async () => {
+  if (search.trim() === "") return;
+  setIsLoading(true);
+  const res = await axios.get(`${BASE_URL2}/objects/searchObjects/${search}`);
+  if (window.innerWidth < 768) {
+    if (!!isSearched) {
+      setButtons([search, ...buttons.slice(1)]);
+    } else setButtons([search, ...buttons]);
+    searchParams.set("selectedButton", search);
+    setSearchParams(searchParams);
+  }
+  setCards(res.data.message);
+  setIsSearched(search);
+  setIsLoading(false);
+};
+
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setSearch(e.target.value);
+};
+
+const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter") {
+    handleSearch();
+  }
+};
+
   const toolSetter = (tool:string)=>{
     searchParams.set("selectedButton", tool);
     setSearchParams(searchParams);
@@ -240,65 +279,83 @@ const Landing = () => {
 
 
   return (
-    <div className="bg-white dark:bg-[#1E1E1E]">
+    <div className="bg-[#F3F4F6]">
       <Nav />
       <div className="px-5 min-h-screen">
         <div className="flex w-full pt-4 justify-center items-center">
-          <div className="w-1/3 pl-8"><img src={google} alt="" className="w-12 md:w-24  bg-white rounded-lg"/></div>
-        
-        <div className=" text-xs md:text-[30px] w-2/3 md:w-1/3">All-In-One AI Tools Platform</div>
-        <div className="w-1/3"></div>
+          <div className="w-1/3 pl-8">
+            <img src={google} alt="" className="w-12 md:w-24 bg-white rounded-lg shadow-md" />
+          </div>
+          <div className="text-xs md:text-[30px] w-2/3 md:w-1/3 text-[#111827]">All-In-One AI Tools Platform</div>
+          <div className="w-1/3"></div>
         </div>
-      <div className="flex flex-col justify-center items-center  relative">
-       
-        
-      <div className=" text-black dark:text-white text-center font-outfit text-[20px] md:text-[30px] lg:text-[40px] font-normal w-full flex gap-2 justify-center flex-wrap">
-        <span>Tools to Make{" "}</span>
-        <span className="rotating-words fontW w-1/3 md:w-1/5 lg:w-1/6  bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text font-outfit font-semibold" style={{ animation: "rotate 2s infinite" }}>
-          {rotatingWords[wordIndex]}
-        </span>{" "}
-        <span>Simple</span>
-      </div>
-      <div className=" text-[10px] md:text-[17px] lg:text-[20px] py-4 text-center font-outfit text-black dark:text-gray-400 z-10 w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] mx-auto font-normal">
-       <em>#1 Most Used & Most Reliable AI Tools Platform in the World!</em>
-      </div>
-      <div className=" w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit">
-        <div className="z-10 w-full max-w-[637px] overflow-hidden mx-auto p-[6px] md:p-2 border-gradient bg-white dark:bg-[#1E1E1E]">
-          <div className="flex justify-between border-opacity-0 overflow-hidden rounded-[73px] items-center">
-            <input
-              placeholder="Find Your Tool.."
-              className="w-full border-none focus-visible:placeholder:text-transparent z-50 rounded-l-[73px] outline-none px-4 py-1 md:py-4 placeholder:text-black dark:placeholder:text-white dark:text-white bg-transparent"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button
-              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80"
-            >
-              Search
-            </button>
+        <div className="flex flex-col justify-center items-center relative">
+        <div className="text-[#111827] text-center font-outfit text-[20px] md:text-[30px] lg:text-[40px] font-normal w-full flex gap-2 justify-center flex-wrap">
+      <span>Tools to Make{" "}</span>
+      <span
+        className="rotating-words fontW w-1/3 md:w-1/5 lg:w-1/6 font-outfit font-semibold text-white"
+        style={{
+          backgroundColor: rotatingColors[wordIndex],
+          animation: `moveUp 2s ease-in-out infinite, rotate 2s infinite`,
+          borderRadius: "0.25rem" // Optional: Adjust border radius as needed
+        }}
+      >
+        {rotatingWords[wordIndex]}
+      </span>{" "}
+      <span>Simple</span>
+    </div>
+
+          <div className="text-[10px] md:text-[17px] lg:text-[20px] py-4 text-center font-outfit text-[#4B5563] z-10 w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] mx-auto font-normal">
+            <em>#1 Most Used & Most Reliable AI Tools Platform in the World!</em>
+          </div>
+          <div className="w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit">
+          <div className="z-10 w-full max-w-[637px] mx-auto p-[6px] md:p-2 bg-white shadow-md border border-[#9CA3AF] rounded-full">
+            <div className="flex justify-between items-center">
+              <input
+                placeholder="Find Your Tool.."
+                className="w-full border-none focus-visible:placeholder:text-transparent z-50 rounded-l-full outline-none px-4 py-1 md:py-4 placeholder:text-[#4B5563] text-[#111827] bg-transparent"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <button
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-teal-400 hover:bg-teal-600 transition-all duration-300 ease-in-out"
+                onClick={handleSearch}
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
-        
-        <img src={gradient} className="absolute -z-1" alt="gradient" />
-      </div>
-    </div>
-    <div className="mt-5 mb-5">
-  <h3 className="w-4/5 m-auto text-center text-white text-[10px] md:text-md lg:text-base text">
-    Choose Tool ➔ Share Brief ➜ Generate Desired Results 100X Faster.... Its That Easy.
-    </h3>
-  </div>
+
+        </div>
+        <div className="mt-5 mb-5">
+  <h3 className="w-4/5 m-auto text-center text-[#585858] text-[10px] md:text-md lg:text-base">
+    Choose Tool ➔ Share Brief ➜ Generate Desired Results 100X Faster.... It's That Easy.
+  </h3>
+</div>
 
         <div className="flex items-center justify-center mb-5">
           <Stats />
         </div>
+        {/* <div className="hidden md:block mt-10">
+          {buttons.length > 0 && (
+            <Menu
+              buttons={buttons}
+              selectedButton={selectedButton}
+              setSelectedButton={toolSetter}
+            />
+          )}
+          <Cards cards={cards} isLoading={isLoading} setChange={setChange} />
+        </div> */}
 
-        <div className="max-w-6xl m-auto px-4">
+        <div className="max-w-6xl m-auto px-4 hidden md:block ">
           <div className="mb-6">
             {filteredCategories.length === 0 ? (
               <p className="text-center text-2xl md:text-5xl mt-8 text-gray-500">No such category found</p>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                {filteredCategories.map((category) => (
+                {filteredCategories.map((category) =>
                   category.name === "My Tools" && !isSignedIn ? null : (
                     <CategoryBox
                       key={category.name}
@@ -309,36 +366,37 @@ const Landing = () => {
                       redirectTo={category.redirectTo}
                     />
                   )
-                ))}
+                )}
               </div>
             )}
           </div>
         </div>
-
-
-      </div>
-
-<WhoCanUseIt />
-
+        <div className="md:hidden">
+          <MenuMobile
+            buttons={buttons}
+            selectedButton={selectedButton}
+            setSelectedButton={toolSetter}
+            cards={cards}
+            isLoading={isLoading}
+            setChange={setChange}
+          />
+        </div>
+      </div>
+      <WhoCanUseIt />
       <PricingPlan />
       <FAQ />
-      
       <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto">
-      <Testimonials />
-    </div>
-
-      {/* Render the trial modal */}
-      <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
-      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto" >
-      <LandingBlog />
-    </div>
-      
+        <Testimonials />
+      </div>
+      <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
+      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto">
+        <LandingBlog />
+      </div>
       <Features />
-
-      
-      <Footer  />
+      <Footer />
     </div>
   );
+  
 };
 
 export default Landing;

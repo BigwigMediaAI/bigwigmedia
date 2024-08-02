@@ -13,9 +13,11 @@ import  LoginModal  from "../components/Model2";
 const Cards = ({
   cards,
   isLoading,
+  setChange,
 }: {
   cards: Card[];
   isLoading: Boolean;
+  setChange: Function;
 }) => {
   const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ const Cards = ({
     <div className="flex justify-center mx-auto flex-wrap md:mt-5 lg:mt-14 gap-3 xl:max-w-[90%]  md:gap-10">
       {!isLoading ? (
         cards.map((card, id) => {
-          return <CardComponent card={card} key={id}/>;
+          return <CardComponent card={card} key={id} setChange={setChange} />;
         })
       ) : (
         <div className="w-full h-full flex items-center justify-center">
@@ -38,8 +40,10 @@ export default Cards;
 
 const CardComponent = ({
   card,
+  setChange,
 }: {
   card: Card;
+  setChange: Function;
 }) => {
   
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -63,6 +67,7 @@ const CardComponent = ({
     );
     if (res.status === 200) {
       // setIsBookmarked(res.data.data.includes(card._id));
+      setChange((prev: number) => prev+1);
       toast.success("Bookmark " + (isBookmarked ? "removed!" : "added!"));
       setIsBookmarked(!isBookmarked);
     }
@@ -71,7 +76,7 @@ const CardComponent = ({
   const bool = card.labels?.includes("Upcoming Tools");
 
   return (
-    <div className="bt-gradient p-0.5 rounded-xl">
+    <div className="bg-teal-400 p-0.5 rounded-xl">
     <div className="flex flex-col justify-between gap-5 px-3 py-4 text-gray-700 shadow-accordian rounded-xl max-w-80 h-[234px]   bg-white dark:bg-[#262626] dark:border dark:border-gray-700 w-full">
       <div className="flex flex-row gap-8  justify-start items-center ">
         {!imageLoaded && (
@@ -110,7 +115,7 @@ const CardComponent = ({
       </div>
       <div className="flex items-start justify-center  pt-0 gap-5">
         <button
-          className="dark:bt-gradient dark:text-white flex w-full p-1 md:p-2 justify-center my-auto hover:opacity-80 gap-2.26 rounded-full bt-gradient text-white font-outfit text-base font-medium px-10 mx-auto"
+          className=" dark:text-white flex w-full p-1 md:p-2 justify-center my-auto hover:opacity-80 gap-2.26 rounded-full bg-teal-400 hover:bg-teal-600 text-white font-outfit text-base font-medium px-10 mx-auto"
           onClick={() => {
             if (bool) {
               toast("Coming Soon...");

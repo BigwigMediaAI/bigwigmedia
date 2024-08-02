@@ -9,7 +9,7 @@ interface FAQItem {
 const faqData: FAQItem[] = [
   {
     question: 'What are Credits?',
-    answer: 'Credits are what you use to download each content that you generate on BigwigMedia.ai. Depending on the package you select, you will have a set number of credits available to you each month. These credits renew every month and can be used to download your generated content.',
+    answer: 'Credits are what you use to download each content that you generate on BigwigMedia.ai. Depending on the package you select, you will have a set number of credits available to you each month. These credits renew every month and can be used to download your generated content.',
   },
   {
     question: 'What is the duration of the free trial?',
@@ -43,7 +43,6 @@ const faqData: FAQItem[] = [
     question: 'Is my payment information secure?',
     answer: 'Absolutely. Razorpay is a highly secure payment gateway, and we ensure that all your payment information is protected and encrypted.',
   }
-  
 ];
 
 const FAQ: React.FC = () => {
@@ -58,36 +57,38 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <div className='mt-14'><BlogTitle>Frequently Asked Questions</BlogTitle>
-    <div className="lg:max-w-screen-lg mx-auto p-8 rounded-lg shadow-xl shadow-purple-600">
-      
-      <div className="space-y-4">
-        {faqData.map((item, index) => (
-          <div key={index} className="bg-#1e1e1e rounded-lg p-4  border ">
-            <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleAnswer(index)}>
-              <h3 className="text-lg text-gray-300 font-semibold">{item.question}</h3>
-              <span className="text-gray-400">{activeIndex === index ? '-' : '+'}</span>
+    <div className='mt-14 px-5'>
+      <BlogTitle>Frequently Asked Questions</BlogTitle>
+      <div className="lg:max-w-screen-lg mx-auto p-8 bg-white rounded-lg shadow-lg">
+        <div className="space-y-4">
+          {faqData.map((item, index) => (
+            <div key={index} className="bg-gray-100 rounded-lg border border-gray-300">
+              <div
+                className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-200 transition duration-300"
+                onClick={() => toggleAnswer(index)}
+              >
+                <h3 className="text-lg font-semibold text-gray-800">{item.question}</h3>
+                <span className="text-gray-500 text-xl">{activeIndex === index ? '-' : '+'}</span>
+              </div>
+              {activeIndex === index && (
+                <div className="p-4">
+                  <p className="text-gray-700">{item.answer}</p>
+                </div>
+              )}
             </div>
-            {activeIndex === index && (
-              <p className="text-gray-400 mt-2">{item.answer}</p>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   );
 };
 
-export default FAQ;
-
 const BlogTitle = styled.h1`
   font-size: 2.5rem;
-  font-weight: bold;
+  color: #4A5568;
   text-align: center;
-  color: #777;
-  text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
-  @media (max-width: 768px) {
-    font-size: 2rem; /* Adjust font size for smaller screens */
-  }
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 `;
+
+export default FAQ;

@@ -137,27 +137,26 @@ useEffect(()=>{
   };
 
   return (
-    <nav className="sticky top-0 z-50 backnavdrop shadow-md dark:shadow-black">
-      <div className="h-10vh flex justify-between z-50 text-black dark:text-white lg:py-5 px-5 md:px-14  mx-auto py-4 border-b items-center">
+    <nav className="sticky top-0 z-50 bg-[#F3F4F6] shadow-md" style={{ boxShadow: `0 4px 6px -1px #9CA3AF` }}>
+      <div className="h-10vh flex justify-between z-50 text-[#111827] lg:py-5 px-5 md:px-14 mx-auto py-4 border-b items-center">
         {/* Hamburger menu for smaller screens */}
         <div className="md:hidden mr-3">
           <DropdownMenu>
             <DropdownMenuTrigger className="p-0 bg-transparent focus-visible:border-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M2.75 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75zm0 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75zm0 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75z"
-                clipRule="evenodd"
-              />
-            </svg>
-
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M2.75 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75zm0 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75zm0 5a.75.75 0 1 1 0-1.5h14.5a.75.75.75 0 1 1 0 1.5H2.75z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="dark:bg-zinc-900">
+            <DropdownMenuContent className="bg-[#F3F4F6] shadow-md">
               <DropdownMenuItem onClick={() => navigate("/")}>Home</DropdownMenuItem>
               <DropdownMenuItem onClick={handleBlogs}>Blogs</DropdownMenuItem>
               <DropdownMenuItem onClick={handleContacts}>
@@ -174,47 +173,44 @@ useEffect(()=>{
             alt="bigwig-logo"
             className="w-10 h-10 md:w-12 md:h-12 rounded-lg"
           />
-          <span className="text-gray-900 hidden md:block dark:text-white font-outfit text-2xl font-semibold">
+          <span className="text-[#111827] hidden md:block font-outfit text-2xl font-semibold">
             BigWigMedia.ai
-            {/* <sup className="text-xs px-4 ml-2 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] bg-green-400 border-black ">
-              beta
-            </sup> */}
           </span>
         </div>
 
         <div className="flex-grow flex justify-center">
           {/* Navigation links */}
           <div className="hidden md:flex items-center gap-8">
-          <button
-            onClick={() => navigate('/')}
-            className="text-gray-900 dark:text-white font-semibold"
-          >
-            Home
-          </button>
-          <button
-            onClick={() => navigate('/blog')}
-            className="text-gray-900 dark:text-white font-semibold"
-          >
-            Blogs
-          </button>
-          <button
-            onClick={() => navigate('/contact')}
-            className="text-gray-900 dark:text-white font-semibold"
-          >
-            Contact us
-          </button>
-        </div>
+            <button
+              onClick={() => navigate('/')}
+              className="text-[#111827] font-semibold hover:bg-[#E5E7EB] hover:text-teal-400 px-3 py-2 rounded-md text-xl"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => navigate('/blog')}
+              className="text-[#111827] font-semibold hover:bg-[#E5E7EB] hover:text-teal-400 px-3 py-2 rounded-md text-xl"
+            >
+              Blogs
+            </button>
+            <button
+              onClick={() => navigate('/contact')}
+              className="text-[#111827] font-semibold hover:bg-[#E5E7EB] hover:text-teal-400 px-3 py-2 rounded-md text-xl"
+            >
+              Contact us
+            </button>
+          </div>
         </div>
 
         {/* Language selector */}
         <div id="google_translate_element" className="mr-3"></div>
-
+        {/* <ModeToggle /> */}
         {/* User profile and login/logout */}
         <div className="flex gap-4 items-center justify-end">
           <div>
             {!isSignedIn ? (
               <button
-                className="flex px-1 md:px-4 py-0 justify-center items-center dark:text-white border-[1.4px] font-semibold rounded-3xl dark:border-white text-[14px] min-h-[25px] border-black"
+                className="flex px-1 md:px-4 py-0 justify-center items-center text-teal-400 border-teal-400 font-semibold rounded-3xl text-[14px] min-h-[25px] border"
                 onClick={() => {
                   navigate("/login");
                 }}
@@ -223,7 +219,7 @@ useEffect(()=>{
               </button>
             ) : (
               <button
-                className="hidden md:flex px-4 py-0 justify-center items-center dark:text-white font-semibold rounded-3xl dark:border-white border-[1.4px] text-[14px] min-h-[25px] border-black"
+                className="hidden md:flex px-4 py-0 justify-center items-center text-teal-400 border-teal-400 hover:bg-teal-400 hover:text-white font-semibold rounded-3xl text-[16px] min-h-[25px] border"
                 onClick={() => {
                   navigate("/profile");
                 }}
@@ -249,7 +245,6 @@ useEffect(()=>{
                     height="36"
                     viewBox="0 0 36 36"
                     fill="none"
-                    className="dark:invert"
                   >
                     <path
                       d="M7.79199 25.5416H28.2087M7.79199 18.25H28.2087M7.79199 10.9583H28.2087"
@@ -261,7 +256,7 @@ useEffect(()=>{
                   </svg>
                 )}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="dark:bg-zinc-900">
+              <DropdownMenuContent className="bg-[#F3F4F6] shadow-md">
                 {isSignedIn && (
                   <DropdownMenuItem
                     className="md:hidden"
@@ -273,7 +268,7 @@ useEffect(()=>{
                 <DropdownMenuItem>
                   {!isSignedIn ? (
                     <button
-                      className="flex dark:text-white font-outfit text-base font-semibold gap-2 w-full"
+                      className="flex text-[#111827] font-outfit text-base font-semibold gap-2 w-full"
                       onClick={() => {
                         navigate("/login");
                       }}

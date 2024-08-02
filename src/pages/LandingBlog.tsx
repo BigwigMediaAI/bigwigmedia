@@ -43,19 +43,19 @@ const Blog = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading>Loading...</Loading>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <Error>{error}</Error>;
   }
 
   return (
     <Container>
       <BlogTitle>Our Trending Blogs</BlogTitle>
-      <div className='mb-10'>
-            <h1 className='text-center text-gray-200'>For insights on how artificial intelligence can enhance your content creation, save time, and boost productivity exponentially, and to learn about the ways Bigwigmedia.AI can assist you, be sure to check out our blogs.</h1>
-        </div>
+      <Description>
+      Discover how AI can boost your content creation, save time, and enhance productivity. Learn more about Bigwigmedia.AI in our blogs.
+      </Description>
       <Grid>
         {blogPosts.slice(0, 4).map(post => (
           <BookContainer key={post._id} onClick={() => handlePostClick(post.slug)}>
@@ -82,7 +82,10 @@ export default Blog;
 const Container = styled.div`
   width: 90%;
   margin: auto;
-  margin-top:16px;
+  margin-top: 16px;
+  background-color: #F3F4F6; /* Background color matching your theme */
+  padding: 20px;
+  border-radius: 0.5rem;
   @media (prefers-color-scheme: dark) {
     background-color: #1e1e1e;
   }
@@ -92,30 +95,36 @@ const BlogTitle = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
-
-  color: #777;
-  text-shadow: 5px 7px 2px rgba(1.7, 2.3, 2.5, 2.6);
+  color: #4A5568; /* Title color matching the theme */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
   @media (max-width: 768px) {
-    font-size: 2rem; /* Adjust font size for smaller screens */
+    font-size: 2rem;
   }
+`;
+
+const Description = styled.h1`
+  text-align: center;
+  color: #4A5568; /* Description text color */
+  font-size: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const Grid = styled.div`
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(4, 1fr);
   @media (max-width: 968px) {
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
-    @media (max-width: 568px) {
-    grid-template-columns: repeat(1,1fr); 
+  @media (max-width: 568px) {
+    grid-template-columns: repeat(1, 1fr);
   }
 `;
 
 const BookContainer = styled.div`
   perspective: 1000px;
   width: 100%;
-  height: 100%;
   cursor: pointer;
 `;
 
@@ -125,6 +134,7 @@ const Book = styled.div`
   height: 300px;
   transition: transform 0.5s;
   transform-style: preserve-3d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow color matching your theme */
 
   &:hover {
     transform: rotateY(-30deg);
@@ -135,9 +145,9 @@ const BookCover = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: gray;
-  border: 1px solid #000;
-  border-radius: 4px 4px 0 0;
+  background-color: #FFFFFF; /* Light background color matching your theme */
+  border: 1px solid #D1D5DB; /* Border color matching your theme */
+  border-radius: 0.5rem;
   overflow: hidden;
   transform-origin: left center;
   z-index: 1;
@@ -155,9 +165,8 @@ const BookInfo = styled.div`
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.6);
-  color: white;
+  color: #FFFFFF;
   padding: 10px;
-  opacity: 1; /* Always visible */
 `;
 
 const Title = styled.h2`
@@ -173,8 +182,8 @@ const BookSpine = styled.div`
   position: absolute;
   width: 20px;
   height: 100%;
-  background-color: darkgray;
-  border: 1px solid #000;
+  background-color: #D1D5DB; /* Spine color matching your theme */
+  border: 1px solid #E5E7EB; /* Border color matching your theme */
   transform-origin: left center;
   z-index: 0;
 `;
@@ -183,9 +192,21 @@ const BookBackCover = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: lightgray;
-  border: 1px solid #000;
-  border-radius: 0 4px 4px 0;
+  background-color: #F3F4F6; /* Back cover color matching your theme */
+  border: 1px solid #D1D5DB; /* Border color matching your theme */
+  border-radius: 0 0.5rem 0.5rem 0;
   transform: rotateY(0deg);
-  z-index: -1;
+  z-index: -1;
+`;
+
+const Loading = styled.div`
+  text-align: center;
+  font-size: 1.25rem;
+  color: #4A5568;
+`;
+
+const Error = styled.div`
+  text-align: center;
+  font-size: 1.25rem;
+  color: #F56565; /* Error color */
 `;
