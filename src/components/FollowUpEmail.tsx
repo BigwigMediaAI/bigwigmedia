@@ -35,7 +35,7 @@ export function FollowupEmail() {
     }, 100);
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/generateFollowUpEmail`, {
+      const response = await axios.post(`${BASE_URL}/response/generateFollowUpEmail?clerkId=${userId}`, {
         mailReceived,
         purposeOfFollowUpEmail,
         tone,

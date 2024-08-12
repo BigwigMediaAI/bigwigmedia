@@ -208,7 +208,7 @@ useEffect(()=>{
 
         {/* Language selector */}
         <div id="google_translate_element" className="mr-3"></div>
-
+ <ModeToggle />
         {/* User profile and login/logout */}
         <div className="flex gap-4 items-center justify-end">
           <div>
