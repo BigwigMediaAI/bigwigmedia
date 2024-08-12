@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import { BASE_URL } from '@/utils/funcitons';
-import { Loader2,Share2 } from 'lucide-react';
+import { Clipboard, Download, Loader2,Share2, Share2Icon } from 'lucide-react';
 import { useAuth } from '@clerk/clerk-react';
 import { toast } from 'sonner';
 import { saveAs } from 'file-saver';
@@ -112,7 +112,7 @@ export function Decision() {
       }, [isLoading, pros]);
 
     return (
-        <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+        <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-col">
                     <div className="w-full pr-2">
@@ -165,7 +165,7 @@ export function Decision() {
                            
                         </div>
                         <Button
-                                className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                                className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                                 type="submit"
                             >
                                 {isLoading?"Generating...":(pros.length>0?"Regenerate":"Generate")}
@@ -174,52 +174,56 @@ export function Decision() {
                     <div className="w-full pl-2 flex flex-col gap-2 justify-between">
                         {isLoading ? (
                             <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center ">
-                                <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300 " />
-                                <p className="text-gray-300 text-justify">
+                                <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)] " />
+                                <p className="text-[var(--dark-gray-color)] text-justify">
                                     Data processing in progress. Please bear with us...
                                 </p>
                             </div>
                         ) : (
                             <div className="mt-5 w-full">
+                                {showActions && (
+                                            <div className="flex justify-between gap-4 mt-4">
+                                                <h1 className='text-2xl text-[var(--primary-text-color)] mb-4'>Generated Output</h1>
+                                                <div className='flex gap-4'>
+                                                <Button
+                                                    className="bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
+                                                    onClick={handleDownload}
+                                                title='Download'>
+                                                    <Download className="w-5 h-5" />
+                                                </Button>
+                                                <Button
+                                                    className="bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
+                                                    onClick={handleShare}
+                                                title='Share'>
+                                                   <Share2Icon className="w-5 h-5" />
+                                                </Button>
+                                                </div>
+                                                
+                                            </div>
+                                        )}
                                 {pros.length > 0 && cons.length > 0 && (
                                     <div ref={resultsRef} className="w-full">
-                                        <table className="w-full border-collapse border border-gray-200">
+                                        <table className="w-full border-collapse border border-[var(--primary-text-color)]">
                                             <thead>
                                                 <tr>
-                                                    <th className="border border-gray-200 text-black p-2">Pros</th>
-                                                    <th className="border border-gray-200 text-black p-2">Cons</th>
+                                                    <th className="border border-[var(--primary-text-color)] text-[var(--primary-text-color)] p-2">Pros</th>
+                                                    <th className="border border-[var(--primary-text-color)] text-[var(--primary-text-color)] p-2">Cons</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {pros.map((pro, index) => (
                                                     <tr key={index}>
-                                                        <td className="border border-gray-200 text-black p-2 text-center dark:text-white">
+                                                        <td className="border border-[var(--primary-text-color)] text-[var(--primary-text-color)] p-2 text-center dark:text-white">
                                                             {pro}
                                                         </td>
-                                                        <td className="border border-gray-200 text-black p-2 text-center dark:text-white">
+                                                        <td className="border border-[var(--primary-text-color)] text-[var(--primary-text-color)] p-2 text-center dark:text-white">
                                                             {cons[index]}
                                                         </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
-                                        {showActions && (
-                                            <div className="flex justify-center gap-4 mt-4">
-                                                <Button
-                                                    className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-                                                    onClick={handleDownload}
-                                                title='Download'>
-                                                    Download
-                                                </Button>
-                                                <Button
-                                                    className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
-                                                    onClick={handleShare}
-                                                title='Share'><Share2/>
-                                                    Share
-                                                </Button>
-                                                
-                                            </div>
-                                        )}
+                                        
                                     </div>
                                 )}
                             </div>

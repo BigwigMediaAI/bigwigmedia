@@ -120,21 +120,21 @@ const Profile = () => {
   return (
     <>
       <Nav />
-      <div className=" dark:!text-white flex flex-col min-w-screen min-h-[calc(100vh-90px)] w-full h-full justify-center items-center px-5">
+      <div className=" flex flex-col min-w-screen min-h-[calc(100vh-90px)] w-full h-full justify-center items-center px-5">
         <div className="relative w-full h-full flex flex-col justify-center items-center  max-w-[867px] ">
           <div className="w-full flex flex-col mt-10 lg:mt-0 lg:flex-row justify-center items-center gap-[14px] ">
-            <div className="flex flex-col gap-3 w-full sm:w-[325px] min-h-[506px]   py-5 justify-center items-center rounded-xl bg-white dark:bg-[#262626] shadow-accordian px-4 flex-grow flex-shrink">
-              <div className="text-center text-black w-full  dark:text-white  self-start font-Outfit text-3xl font-semibold leading-normal mb-2">
+            <div className="flex flex-col gap-3 w-full sm:w-[325px] min-h-[506px]   py-5 justify-center items-center rounded-xl bg-white shadow-md shadow-[var(--teal-color)] px-4 flex-grow flex-shrink">
+              <div className="text-center text-black w-full  self-start font-Outfit text-3xl font-semibold leading-normal mb-2">
                 Your Profile
               </div>
               <div className="w-[146px] h-[146px] rounded-full  bg-center bg-cover bg-lightgray">
                 <img src={user?.imageUrl} alt="" className="rounded-full" />
               </div>
-              <div className="text-black dark:text-white font-Outfit text-xl font-semibold leading-normal">
+              <div className="text-black  font-Outfit text-xl font-semibold leading-normal">
                 {user?.fullName}
               </div>
               <div className="flex felx-row justify-between gap-[12px]">
-                <div className="text-black dark:text-white font-Outfit text-base font-normal leading-normal w-full line-clamp-1">
+                <div className="text-black  font-Outfit text-base font-normal leading-normal w-full line-clamp-1">
                   {user?.primaryEmailAddress?.emailAddress}
                 </div>
               </div>
@@ -144,7 +144,7 @@ const Profile = () => {
                   <>You are currently on trial plan for 7 days</>
                 )}
                 <Link
-                  className="w-[154px] h-[40px] inline-flex p-[2px] items-center justify-center gap-[4px] rounded-[32px] bt-gradient mt-5"
+                  className="w-[154px] h-[40px] inline-flex p-[2px] items-center justify-center gap-[4px] rounded-[32px] bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] mt-5"
                   to="/plan"
                 >
                   <div className="text-white font-Outfit text-sm font-medium leading-normal">
@@ -152,16 +152,16 @@ const Profile = () => {
                   </div>
                 </Link>
                 <div className="absolute w-full h-full rounded-[13px]  background-gradient  -z-10 top-1 left-1"></div>
-                <div className="absolute w-full h-full rounded-[13px] dark:bg-[#262626] bg-white -z-[5] top-0 left-0"></div>
+                <div className="absolute w-full h-full rounded-[13px]  bg-white -z-[5] top-0 left-0"></div>
               </div>
             </div>
-            <div className="flex w-full flex-col justify-between  items-start gap-[14px] shadow-accordian rounded-xl  dark:bg-[#262626] bg-white  flex-grow flex-shrink">
+            <div className="flex w-full flex-col justify-between  items-start gap-[14px] shadow-md shadow-[var(--teal-color)] rounded-xl   bg-white  flex-grow flex-shrink">
               <div className="flex flex-row w-full justify-between rounded-md   p-5 pb-0">
-                <div className="text-black dark:text-white font-Outfit text-2xl font-semibold leading-normal">
+                <div className="text-black  font-Outfit text-2xl font-semibold leading-normal">
                   Your Bookmarks
                 </div>
                 <button
-                  className=" flex items-center text-black dark:text-white font-Outfit text-base  leading-normal cursor-pointer font-bold"
+                  className=" flex items-center text-black  font-Outfit text-base  leading-normal cursor-pointer font-bold"
                   onClick={() => {
                     navigate('/category/My Tools');
                   }}
@@ -188,12 +188,12 @@ const Profile = () => {
 
               <div className="w-full h-fit flex  gap-5 flex-row justify-start px-3 flex-wrap">
                 {bookmarks.slice(0, 4).map((p: any) => (
-                  <div className="flex w-[calc(47%)] min-w-[236px] flex-col  gap-3 px-3 py-4 text-gray-700 shadow-accordian rounded-xl   mx-auto max-w-[260px] dark:bg-[#262626] bg-white  dark:border dark:border-zinc-600 ">
+                  <div className="flex w-[calc(47%)] min-w-[236px] flex-col  gap-3 px-3 py-4 text-gray-700 shadow-accordian rounded-xl   mx-auto max-w-[260px]  bg-white  ">
                     <div className="flex flex-row gap-5 line-clamp-2 justify-between items-center ">
                       <img src={p.logo} alt="" className="" />
 
                       <div
-                        className=" flex items-center text-base text-black dark:text-white line-clamp-2 max-h-[56px]  font-outfit  font-semibold break-words"
+                        className=" flex items-center text-base text-black  line-clamp-2 max-h-[56px]  font-outfit  font-semibold break-words"
                         title={p.name}
                       >
                         {p.name.length > 28
@@ -241,17 +241,17 @@ const Profile = () => {
               <div className="flex flex-col gap-2 ">
                 {credits && (
                   <div className=" px-5 w-full  flex shrink-0 flex-col">
-                    <div className="flex shrink-0 text-black dark:text-white font-Outfit text-xl font-semibold leading-normal">
+                    <div className="flex shrink-0 text-black  font-Outfit text-xl font-semibold leading-normal">
                       Credits
                     </div>
                     <div> </div>
-                    <div className="flex shrink-0 text-black dark:text-white font-Outfit text-base font-medium leading-normal ">
+                    <div className="flex shrink-0 text-black  font-Outfit text-base font-medium leading-normal ">
                       {credits?.currentLimit} of {credits?.maxLimit} left
                     </div>
                   </div>
                 )}
 
-                <div className="  flex-row justify-start w-[calc(100%-16px)] px-5 m-4 py-2 rounded-lg flex shrink-0  bg-white dark:bg-[#262626] shadow-accordian">
+                <div className="  flex-row justify-start w-[calc(100%-16px)] px-5 m-4 py-2 rounded-lg flex shrink-0  bg-white  shadow-accordian">
                   <div className="flex flex-row gap-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -277,7 +277,7 @@ const Profile = () => {
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="mt-10" variant="outline">
+            <Button className="mt-10 border border-[var(--gray-color)] font-semibold" variant="outline">
               Transaction History
             </Button>
           </DialogTrigger>

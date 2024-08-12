@@ -19,9 +19,9 @@ const Privacy = (props: Props) => {
     
     <div>
       <Nav />
-      <div className="max-w-6xl mx-auto px-2 pt-6 flex mb-4">
+      <div className="max-w-7xl mx-auto px-2 pt-6 flex mb-4">
         <FiArrowLeft
-          className="text-white text-2xl cursor-pointer hover:text-blue-700"
+          className="text-[var(--primary-text-color)] text-2xl cursor-pointer hover:text-[var(--gray-color)]"
           onClick={handleBackClick}
         />
       </div>

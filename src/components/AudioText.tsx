@@ -91,13 +91,13 @@ const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true });
     }
   };
   return (
-    <div className=" flex flex-col gap-4 m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className=" flex flex-col gap-4 m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col   w-full max-w-[844px]  self-start gap-2">
-        <Label className="dark:text-white self-start text-black text-left font-outfit text-xl font-semibold">
+        <Label className=" self-start text-[var(--primary-text-color)] text-left font-outfit text-xl font-semibold">
           Text to Audio Conversion
         </Label>
         <Textarea
-          className="mb-4 h-24 w-full min-w-[300px] rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+          className="mb-4 h-24 w-full min-w-[300px] rounded-md border-2  border-gray-300 p-4"
           placeholder="Enter Prompt to generate audio"
           value={file}
           onChange={(e: any) => setfile(e.target.value)}
@@ -106,7 +106,7 @@ const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true });
 
       <Select onValueChange={(e) => setTone(e as WordOptions)}>
         <SelectTrigger
-          className="capitalize self-start min-w-[300px] max-w-[844px] "
+          className="capitalize self-start min-w-[300px] max-w-[844px] border border-[var(--gray-color)] "
           value={tone}
         // @ts-ignore
         >
@@ -122,7 +122,7 @@ const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true });
         </SelectContent>
       </Select>
       <Button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex  text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+        className="text-white text-center font-outfit md:text-lg font-semibold flex  text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
         onClick={(e) => void handleTranscribe(e)}
       >
         {isLoading&&<Loader2 className="animate-spin w-7 h-7 " />}
@@ -131,12 +131,12 @@ const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true });
 
       <audio controls key={audioBuffer} autoPlay className="mx-auto">
         <source src={audioBuffer} type="audio/mpeg" />
-        Your browser does not support the audio element.
+        Your browser does not support the audio element. 
       </audio>
       {audioBuffer && <a
         href={audioBuffer}
         download="audio_file.mp3"
-        className="bg-blue-500 rounded-full text-white p-3 hover:bg-blue-600 mx-auto  block mt-2"
+        className="bg-[var(--teal-color)] rounded-full text-white p-3 hover:bg-[var(--hover-teal-color)] mx-auto  block mt-2"
       title="Download">
         Download Audio
       </a>}

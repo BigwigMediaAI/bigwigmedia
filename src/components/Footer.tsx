@@ -178,28 +178,28 @@ const Footer = () => {
               alt=""
               className="w-10 h-10 md:w-12 md:h-12 rounded-lg"
             />
-            <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
+            <div className="bg-clip-text text-black font-semibold">
               BigWigMedia.ai
             </div>
           </div>
           <div className="flex flex-col items-start gap-2 md:gap-[21px]">
-            <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
+            <div className="text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
               BigWig Media AI Tools
             </div>
-            <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
+            <div className="text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
               Made with ❤ by{" "}
               <button onClick={() => window.open("https://bigwigmedia.in")}>BigWigMedia</button>
             </div>
           </div>
         </div>
         <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
+          <div className="text-black font-semibold">
             Top Tools
           </div>
           <div className="grid grid-cols-2 gap-2">
             {arr.map((button, id) => (
               <div
-                className="text-black dark:text-white font-Outfit text-base font-medium leading-normal cursor-pointer pr-[20px]"
+                className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)] font-Outfit text-base font-medium leading-normal cursor-pointer pr-[20px]"
                 key={id}
                 onClick={() => {
                   const encodedButton = encodeURIComponent(button);
@@ -216,12 +216,12 @@ const Footer = () => {
         </div>
         <div className="flex gap-16">
         <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
+          <div className=" text-black font-bold">
             Company
           </div>
           <div className="flex flex-col items-start gap-2">
             <div
-              className="text-black cursor-pointer dark:text-white font-Outfit text-base font-medium leading-normal"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer font-Outfit text-base font-medium leading-normal"
               onClick={() => {
                 navigate("/about");
               }}
@@ -229,7 +229,7 @@ const Footer = () => {
               About Us
             </div>
             <div
-              className="text-black cursor-pointer dark:text-white font-Outfit text-base font-medium leading-normal"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer  font-Outfit text-base font-medium leading-normal"
               onClick={() => {
                 navigate("/contact");
               }}
@@ -237,7 +237,7 @@ const Footer = () => {
               Contact
             </div>
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
               onClick={() => {
                 navigate("/blog");
               }}
@@ -245,7 +245,7 @@ const Footer = () => {
               Blogs
             </div>
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
               onClick={() => {
                 navigate("/profile");
               }}
@@ -253,7 +253,7 @@ const Footer = () => {
               My Profile
             </div>
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/Disclaimer");
               }}
@@ -261,7 +261,7 @@ const Footer = () => {
               Disclaimer
             </div>
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/feedback");
               }}
@@ -271,12 +271,12 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500 font-semibold">
+          <div className="text-black font-semibold">
           Policies
           </div>
           <div className="flex flex-col items-start gap-2">
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/terms");
               }}
@@ -284,7 +284,7 @@ const Footer = () => {
               Terms of Service
             </div>
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/privacy");
               }}
@@ -292,7 +292,7 @@ const Footer = () => {
               Privacy Policy
             </div>
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/legal");
               }}
@@ -300,7 +300,7 @@ const Footer = () => {
               Legal
             </div>
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/transaction");
               }}
@@ -308,7 +308,7 @@ const Footer = () => {
               Secure Transaction Policy
             </div>
             <div
-              className="text-black dark:text-white font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/Cancellation-policy");
               }}
@@ -323,7 +323,7 @@ const Footer = () => {
       </div>
       {/* <ModeToggle /> */}
 
-      <div className="text-black dark:text-white font-Outfit text-base font-medium leading-normal">
+      <div className="text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
         © 2024 Bigwigmedia.ai. All rights reserved.
       </div>
     </div>

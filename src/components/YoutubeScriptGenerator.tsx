@@ -103,19 +103,19 @@ export function YouTubeScriptGenerator() {
   }, [topic, tone, length, language]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col gap-4">
         <input
           type="text"
           placeholder="Enter topic (e.g., How to bake a cake)"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
-          className="border border-gray-300 rounded-md p-3 dark:text-gray-200"
+          className="border border-[var(--primary-text-color)] rounded-md p-3 "
         />
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
-          className="border border-gray-300 rounded-md p-3 dark:text-gray-200"
+          className="border border-[var(--primary-text-color)] rounded-md p-3 "
         >
           <option value="">Select tone</option>
           <option value="Informative and Friendly">Informative and Friendly</option>
@@ -127,7 +127,7 @@ export function YouTubeScriptGenerator() {
         <select
           value={length}
           onChange={(e) => setLength(e.target.value)}
-          className="border border-gray-300 rounded-md p-3 dark:text-gray-200"
+          className="border border-[var(--primary-text-color)] rounded-md p-3 "
         >
           <option value="">Select length</option>
           <option value="Short">Short</option>
@@ -137,7 +137,7 @@ export function YouTubeScriptGenerator() {
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="border border-gray-300 rounded-md p-3 dark:text-gray-200"
+          className="border border-[var(--primary-text-color)] rounded-md p-3 "
         >
           <option value="">Select language</option>
           <option value="English">English</option>
@@ -161,38 +161,38 @@ export function YouTubeScriptGenerator() {
         </p>
         <button
           onClick={handleGenerateScript}
-          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {isLoading ? "Generating..." :(script?"Regenerate":'Generate') }
         </button>
       </div>
       {isLoading && (
         <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-          <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       )}
       {script && (
-        <div ref={resultsRef} className="mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-gray-300">
+        <div ref={resultsRef} className="mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-[var(--primary-text-color)]">
           <h3 className="text-xl font-semibold mb-4">Generated Script</h3>
-          <div className="border border-gray-300 rounded-md p-4 dark:text-gray-200 relative overflow-x-auto max-w-full">
-            <pre className="whitespace-pre-wrap">{script}</pre>
+          <div className="border border-[var(--primary-text-color)] rounded-md p-4  relative overflow-x-auto max-w-full">
+            <pre className="whitespace-pre-wrap mt-5">{script}</pre>
             <div className="absolute top-2 right-2 flex gap-2">
               <button
                 onClick={handleCopyScript}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
               title='Copy'>
                 <ClipboardCopyIcon className="inline-block w-5 h-5" />
               </button>
               <button
                 onClick={handleDownloadScript}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
               title='Download' >
                 <FaDownload className="inline-block w-5 h-5" />
               </button>
               <button
                 onClick={handleShareScript}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
               title='Share'>
                 <FaShareAlt className="inline-block w-5 h-5" />
               </button>

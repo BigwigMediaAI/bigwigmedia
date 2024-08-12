@@ -174,30 +174,30 @@ export function AudioTranscriber() {
   
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
-        className="border-4 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center"
+        className="border-4 border-dashed border-[var(--gray-color)] rounded-lg p-6 flex flex-col items-center justify-center"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
         {selectedFile ? (
           <>
-            <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+            <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
             <div className="relative">
               <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="file-upload" onChange={handleFileChange} accept="audio/*" />
-              <label htmlFor="file-upload" className="cursor-pointer p-2 bg-white text-gray-700 rounded-md border border-gray-300">Browse</label>
+              <label htmlFor="file-upload" className="cursor-pointer p-2 bg-white text-gray-700 rounded-md border border-gray-400">Browse</label>
             </div>
-            <p className="text-gray-300 m-4">{selectedFile.name}</p>
-            <p className="text-gray-400 mb-4">Drag and drop an audio file here, or click to browse</p>
+            <p className="text-gray-400 m-4">{selectedFile.name}</p>
+            <p className="text-[var(--gray-color)] mb-4">Drag and drop an audio file here, or click to browse</p>
             <RefreshCwIcon
-              className="w-8 h-8 text-gray-400 mt-2 cursor-pointer"
+              className="w-8 h-8 text-[var(--gray-color)] mt-2 cursor-pointer"
               onClick={handleRefresh}
             />
           </>
         ) : (
           <>
             <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
-            <p className="text-gray-400 mb-4">Drag and drop an audio file here, or click to browse</p>
+            <p className="text-[var(--gray-color)] mb-4">Drag and drop an audio file here, or click to browse</p>
             <div className="relative">
               <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="file-upload" onChange={handleFileChange} accept="audio/*" />
               <label htmlFor="file-upload" className="cursor-pointer p-2 bg-white text-gray-700 rounded-md border border-gray-300">Browse</label>
@@ -206,11 +206,11 @@ export function AudioTranscriber() {
         )}
       </div>
       <div className="mt-5 mb-10">
-        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <label className="block text-gray-700">Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         >
           {languages.map((languageOption) => (
             <option key={languageOption.value} value={languageOption.value}>{languageOption.label}</option>
@@ -218,7 +218,7 @@ export function AudioTranscriber() {
         </select>
       </div>
       <Button
-        className=" text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-5"
+        className=" text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
         onClick={handleTranscribe}
         disabled={isLoading || !selectedFile}
       >
@@ -227,8 +227,8 @@ export function AudioTranscriber() {
 
       {isLoading ? (
         <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center ">
-          <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300 " />
-          <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)] " />
+          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       ) : (
         bulletPoints && (
@@ -238,21 +238,21 @@ export function AudioTranscriber() {
             <div className="flex justify-end gap-4 mb-4">
             <button
                   onClick={handleCopy}
-                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+                  className="text-gray-700  hover:text-[var(--teal-color)]  cursor-pointer"
                   title="Copy"
                 >
                   <Copy />
             </button>
             <button
                   onClick={handleDownload}
-                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+                  className="text-gray-700  hover:text-[var(--teal-color)]  cursor-pointer"
                   title="Download"
                 >
                   <Download />
             </button>
             <button
                   onClick={handleShare}
-                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+                  className="text-gray-700  hover:text-[var(--teal-color)]  cursor-pointer"
                   title="Share"
                 >
                   <Share2 />
@@ -260,7 +260,7 @@ export function AudioTranscriber() {
             </div>
             </div>
             <div className="border border-gray-300 p-4 rounded-lg">
-              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{bulletPoints}</p>
+              <p className="text-[var(--primary-text-color)]  whitespace-pre-wrap">{bulletPoints}</p>
             </div>
           </div>
         )

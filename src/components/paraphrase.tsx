@@ -130,17 +130,17 @@ export function Paraphrase() {
     document.addEventListener('copy', handleCopyEvent);
 
     return (
-        <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+        <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
             <div className="flex flex-col items-start">
                 <div className="w-full pr-2 flex-1">
                     <Textarea
-                        className="mb-4 h-40 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+                        className="mb-4 h-40 w-full rounded-md border-2  border-gray-300 p-4"
                         placeholder="Enter Text to Paraphrase."
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                     />
                     <Button
-                        className="rounded-md px-4 py-2 text-gray-600 dark:text-gray-200 hover:bg-gray-100 hover:dark:bg-gray-800"
+                        className="rounded-md px-4 py-2 text-gray-600 hover:bg-gray-100 "
                         variant="ghost"
                         onClick={handlePaste}
                     >
@@ -165,7 +165,7 @@ export function Paraphrase() {
                         </select>
                     </div>
                     <div className="flex-col w-1/3">
-                        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">
                             Select Language:
                         </label>
                         <select
@@ -209,8 +209,8 @@ export function Paraphrase() {
                         </select>
                     </div>
                     <div className="flex-col w-1/3">
-                        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
-                            Select Output Count:
+                        <label className="block text-gray-700 text-sm font-bold mb-2">
+                            Output Count:
                         </label>
                         <input
                             type="number"
@@ -224,7 +224,7 @@ export function Paraphrase() {
                 </div>
 
                 <Button
-                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-4"
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60  w-fit mx-auto mt-4"
                     onClick={handleSubmit}
                     disabled={isLoading}
                 >
@@ -241,14 +241,14 @@ export function Paraphrase() {
                         </div>
                         <div className="flex gap-2 items-center">
                             <Button
-                                className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
+                                className="rounded-md px-2 py-1 bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                                 onClick={handleDownload}
                                 title="Download"
                             >
                                 <FaDownload className="mr-1 h-4 w-4" />
                             </Button>
                             <Button
-                                className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
+                                className="rounded-md px-2 py-1 bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                                 onClick={handleShare}
                                 title="Share"
                             >
@@ -261,7 +261,7 @@ export function Paraphrase() {
                             <div key={index} className="border border-gray-300 rounded-md p-4 flex justify-between items-center">
                                 <p className="flex-1">{output}</p>
                                 <Button
-                                    className="rounded-md px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200"
+                                    className="rounded-md px-2 py-1 bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                                     onClick={() => handleCopy(output)}
                                     title="Copy"
                                 >
@@ -275,8 +275,8 @@ export function Paraphrase() {
 
             {isLoading && (
                 <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-                    <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-                    <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+                    <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-800" />
+                    <p className="text-gray-800 text-justify">Data processing in progress. Please bear with us...</p>
                 </div>
             )}
         </div>

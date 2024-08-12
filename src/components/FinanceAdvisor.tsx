@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2,ClipboardCopy } from 'lucide-react';
+import { Loader2,ClipboardCopy, Download, Share2 } from 'lucide-react';
 import { BASE_URL } from '@/utils/funcitons';
 import { useAuth } from '@clerk/clerk-react';
 import { FaDownload, FaShareAlt } from 'react-icons/fa';
@@ -137,35 +137,35 @@ export function FinanceAdvisor() {
     }, [isLoading, advices]);
 
     return (
-        <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#3f3e3e]">
+        <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
             <div className="mb-5">
-                <label className="block text-gray-700 dark:text-gray-300">Description</label>
+                <label className="block text-[var(--primary-text-color)]">Description</label>
                 <input
                     type="text"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Enter your financial situation description"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)]  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                 />
             </div>
 
             <div className="mb-5">
-                <label className="block text-gray-700 dark:text-gray-300">Amount</label>
+                <label className="block text-[var(--primary-text-color)]">Amount</label>
                 <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="Enter the amount"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)]  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                 />
             </div>
 
             <div className="mb-5">
-                <label className="block text-gray-700 dark:text-gray-300">Language</label>
+                <label className="block text-[var(--primary-text-color)]">Language</label>
                 <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)]  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                 >
                     {languageOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -176,18 +176,18 @@ export function FinanceAdvisor() {
             </div>
 
             <div className="mb-5">
-                <label className="block text-gray-700 dark:text-gray-300">Number of Advices</label>
+                <label className="block text-[var(--primary-text-color)]">Number of Advices</label>
                 <input
                     type="number"
                     value={outputCount}
                     onChange={(e) => setOutputCount(parseInt(e.target.value))}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 px-3 py-2"
+                    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)]  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                 />
             </div>
 
             <div className="mt-5 flex justify-center">
                 <button
-                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                     onClick={handleGenerate}
                     disabled={isLoading}
                 >
@@ -198,37 +198,37 @@ export function FinanceAdvisor() {
             <div className="mt-5">
                 {isLoading ? (
                     <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-                        <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-                        <p className="text-gray-300 text-justify">Generating financial advice. Please wait...</p>
+                        <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+                        <p className="text-[var(--dark-gray-color)] text-justify">Generating financial advice. Please wait...</p>
                     </div>
                 ) : (
                     <div>
                         {advices.map((advice, index) => (
-                            <div key={index} className="border border-gray-300 rounded-md p-4 mb-4 max-h-80 overflow-y-auto">
+                            <div key={index} className="border border-[var(--primary-text-color)]  rounded-md p-4 mb-4 max-h-80 overflow-y-auto">
                                 <div className="flex justify-between items-center mb-2">
-                                    <h3 className="text-gray-700 dark:text-gray-300">Generated Financial Advice {index + 1}</h3>
+                                    <h3 className="text-[var(--primary-text-color)]">Generated Financial Advice {index + 1}</h3>
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => handleCopy(advice)}
-                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                            className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
                                         title='Copy'>
                                             <ClipboardCopy className="inline-block w-5 h-5" />
                                         </button>
                                         <button
                                             onClick={() => handleDownload(advice)}
-                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                            className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
                                         title='Download'>
-                                            <FaDownload className="inline-block w-5 h-5" />
+                                            <Download className="inline-block w-5 h-5" />
                                         </button>
                                         <button
                                             onClick={() => handleShare(advice)}
-                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                            className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
                                         title='Share'>
-                                            <FaShareAlt className="inline-block w-5 h-5" />
+                                            <Share2 className="inline-block w-5 h-5" />
                                         </button>
                                     </div>
                                 </div>
-                                <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300">
+                                <div className="whitespace-pre-wrap text-[var(--primary-text-color)]">
                                     {advice}
                                 </div>
                             </div>

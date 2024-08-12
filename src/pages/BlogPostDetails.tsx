@@ -134,7 +134,7 @@ const BlogPostDetails = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-[#1E1E1E]">
+    <div className="bg-[var(--background-color)]">
       <Helmet>
         <title>{title}</title>
       </Helmet>
@@ -142,7 +142,7 @@ const BlogPostDetails = () => {
       <div className="p-4 sm:p-8 md:p-10 min-h-screen">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-6 text-center">{blogPost.title}</h1>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 text-center">{blogPost.excerpt}</p>
+          <p className="text-[var(--gray-color)] mb-6 text-center">{blogPost.excerpt}</p>
           <div className="w-full flex justify-center items-center mb-6">
             <div className="h-96 w-full overflow-hidden flex justify-center items-center">
               <img src={blogPost.image} alt={blogPost.title} className="object-cover h-full" />
@@ -156,15 +156,15 @@ const BlogPostDetails = () => {
                 onChange={setEditedContent}
                 modules={{ toolbar: toolbarOptions }}
               />
-              <button onClick={handleSave} className="mb-5 mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+              <button onClick={handleSave} className="mb-5 mt-4 px-4 py-2 bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] text-white rounded">
                 Save
               </button>
             </div>
           ) : (
             <div>
-              <p className="text-gray-700 dark:text-gray-300 mb-6" dangerouslySetInnerHTML={{ __html: blogPost.content }} />
+              <p className="text-gray-700  mb-6" dangerouslySetInnerHTML={{ __html: blogPost.content }} />
               {isAdmin && (
-                <button onClick={() => setIsEditing(true)} className=" px-4 py-2 bg-blue-500 text-white rounded mb-5">
+                <button onClick={() => setIsEditing(true)} className=" px-4 py-2 bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] text-white rounded mb-5">
                   Edit
                 </button>
               )}
@@ -173,7 +173,7 @@ const BlogPostDetails = () => {
           
           <div className="flex flex-wrap mb-6">
             {blogPost.tags.map(tag => (
-              <span key={tag} className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full text-sm mr-2 mb-2">
+              <span key={tag} className="bg-gray-200 dark:bg-gray-700 text-gray-700  px-2 py-1 rounded-full text-sm mr-2 mb-2">
                 {tag}
               </span>
             ))}
@@ -181,18 +181,18 @@ const BlogPostDetails = () => {
           
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600 ">
                 Published on: {new Date(blogPost.datePublished).toLocaleDateString()}
               </p>
-              <p className="text-gray-600 dark:text-gray-300">by {blogPost.author}</p>
-              <p className="text-gray-600 dark:text-gray-300">Last updated: {new Date(blogPost.lastUpdated).toLocaleDateString()}</p>
+              <p className="text-gray-600 ">by {blogPost.author}</p>
+              <p className="text-gray-600 ">Last updated: {new Date(blogPost.lastUpdated).toLocaleDateString()}</p>
             </div>
-            <button onClick={handleShare} className="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+            <button onClick={handleShare} className="flex items-center text-gray-600  hover:text-gray-900 dark:hover:text-white">
               <FaShareAlt className="mr-2" />
               Share
             </button>
           </div>
-          <p className="text-gray-600 dark:text-gray-300">Status: {blogPost.status}</p>
+          <p className="text-gray-600 ">Status: {blogPost.status}</p>
         </div>
       </div>
       
@@ -204,7 +204,7 @@ const BlogPostDetails = () => {
         <h2 className="text-2xl font-bold mb-6 sm:mb-10 md:mb-12 lg:mb-16">Related Posts</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
           {suggestedPosts.map(post => (
-            <div key={post._id} className="rounded-lg overflow-hidden shadow-lg bg-white dark:bg-gray-800">
+            <div key={post._id} className="rounded-lg overflow-hidden shadow-lg bg-white ">
               <img src={post.image} alt={post.title} className="object-cover h-56 w-full" />
               <div className="p-4">
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{post.title}</h3>

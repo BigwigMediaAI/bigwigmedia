@@ -57,7 +57,7 @@ const Audio = () => {
   };
 
   return (
-    <div className=" flex flex-col gap-4 m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className=" flex flex-col gap-4 m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md">
       <h1>Choose an audio file</h1>
       <Input
         type="file"
@@ -66,15 +66,16 @@ const Audio = () => {
         onChange={(e: any) => setfile(e.target.files[0])}
       />
       <button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
         onClick={(e) => void handleTranscribe(e)}
       >
         Generate
       </button>
 
       {(!!output || isLoading) &&isLoading ? (
-        <div className="w-full h-full flex items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-10" />
+        <div className="w-full flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       ) : (
        output && <div className="h-fit w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 ">

@@ -125,11 +125,11 @@ document.addEventListener('copy', handleCopyEvent);
   }, [isLoading, ncaContent]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className=" p-6 mb-5 rounded-md w-full flex flex-col items-center">
         <div className="flex justify-between w-full">
           <div className="flex flex-col w-full">
-          <label htmlFor="disclosingParty" className="block text-md font-medium text-gray-300">
+          <label htmlFor="disclosingParty" className="block text-md font-medium text-[var(--primary-text-color)]">
               Employer:
             </label>
             <input
@@ -137,10 +137,10 @@ document.addEventListener('copy', handleCopyEvent);
               value={employer}
               onChange={(e) => setEmployer(e.target.value)}
               placeholder="Employer"
-              className="border border-gray-300 p-2 mb-3 rounded-md w-full"
+              className="border border-gray-300 p-2 mb-3 rounded-md w-full bg-[var(--white-color)] text-[var(--primary-text-color)]"
               required
             />
-            <label htmlFor="disclosingParty" className="block text-md font-medium text-gray-300">
+            <label htmlFor="disclosingParty" className="block text-md font-medium text-[var(--primary-text-color)]">
               Employee:
             </label>
             <input
@@ -148,10 +148,10 @@ document.addEventListener('copy', handleCopyEvent);
               value={employee}
               onChange={(e) => setEmployee(e.target.value)}
               placeholder="Employee"
-              className="border border-gray-300 p-2 mb-3 rounded-md w-full"
+              className="border border-gray-300 p-2 mb-3 rounded-md w-full bg-[var(--white-color)] text-[var(--primary-text-color)]"
               required
             />
-            <label htmlFor="disclosingParty" className="block text-md font-medium text-gray-300">
+            <label htmlFor="disclosingParty" className="block text-md font-medium text-[var(--primary-text-color)]">
               Restricted Activities:
             </label>
             <input
@@ -159,10 +159,10 @@ document.addEventListener('copy', handleCopyEvent);
               value={restrictedActivities}
               onChange={(e) => setRestrictedActivities(e.target.value)}
               placeholder="Restricted Activities"
-              className="border border-gray-300 p-2 mb-3 rounded-md w-full"
+              className="border border-gray-300 p-2 mb-3 rounded-md w-full bg-[var(--white-color)] text-[var(--primary-text-color)]"
               required
             />
-            <label htmlFor="disclosingParty" className="block text-md font-medium text-gray-300">
+            <label htmlFor="disclosingParty" className="block text-md font-medium text-[var(--primary-text-color)]">
               Restricted Duration:
             </label>
             <input
@@ -170,10 +170,10 @@ document.addEventListener('copy', handleCopyEvent);
               value={restrictedDuration}
               onChange={(e) => setRestrictedDuration(e.target.value)}
               placeholder="Restricted Duration"
-              className="border border-gray-300 p-2 mb-3 rounded-md w-full"
+              className="border border-gray-300 p-2 mb-3 rounded-md w-full bg-[var(--white-color)] text-[var(--primary-text-color)]"
               required
             />
-            <label htmlFor="disclosingParty" className="block text-md font-medium text-gray-300">
+            <label htmlFor="disclosingParty" className="block text-md font-medium text-[var(--primary-text-color)]">
               Restricted Territory:
             </label>
             <input
@@ -181,16 +181,16 @@ document.addEventListener('copy', handleCopyEvent);
               value={restrictedTerritory}
               onChange={(e) => setRestrictedTerritory(e.target.value)}
               placeholder="Restricted Territory"
-              className="border border-gray-300 p-2 mb-3 rounded-md w-full"
+              className="border border-gray-300 p-2 mb-3 rounded-md w-full bg-[var(--white-color)] text-[var(--primary-text-color)]"
               required
             />
-            <label htmlFor="disclosingParty" className="block text-md font-medium text-gray-300">
+            <label htmlFor="disclosingParty" className="block text-md font-medium text-[var(--primary-text-color)]">
               Language:
             </label>
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="border border-gray-300 p-2 mb-3 rounded-md w-full"
+              className="border border-gray-300 p-2 mb-3 rounded-md w-full bg-[var(--white-color)] text-[var(--primary-text-color)]"
               required
             >
               <option value="English">English</option>
@@ -226,7 +226,7 @@ document.addEventListener('copy', handleCopyEvent);
 
             </select>
             <Button
-              className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-6 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+              className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-6 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
               onClick={handleSubmit}
             >
               {isLoading ? (
@@ -245,32 +245,32 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
       {isLoading && (
         <div ref={loaderRef} className="mt-5 w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
-          <p className="text-gray-300 text-center">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 text-[var(--primary-text-color)]" />
+          <p className="text-[var(--primary-text-color)] text-center">Data processing in progress. Please bear with us...</p>
         </div>
       )}
       {ncaContent && (
-        <div ref={resultsRef} className="relative mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-gray-300 dark:bg-[#3f3e3e] text-white">
-          <label className="block text-md font-medium text-white mb-2">
+        <div ref={resultsRef} className="relative mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-gray-300 text-white">
+          <label className="block text-md font-medium text-[var(--primary-text-color)] mb-2">
             Generated NCA Data:
           </label>
           <pre className="whitespace-pre-wrap break-words">{ncaContent}</pre>
           <div className="absolute top-2 right-2 flex gap-2">
             <button
               onClick={handleCopy}
-              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
             title="Download">
               <ClipboardCopy className="inline-block w-5 h-5" />
             </button>
             <button
               onClick={handleDownload}
-              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
             title="Download">
               <FaDownload className="inline-block w-5 h-5" />
             </button>
             <button
               onClick={handleShare}
-              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
             title="Share">
               <FaShareAlt className="inline-block w-5 h-5" />
             </button>

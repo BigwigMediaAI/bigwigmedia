@@ -119,14 +119,14 @@ export function ImageCompressor() {
   };
 
   return (
-    <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-2xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
-        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex items-center justify-between"
+        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex items-center justify-between"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
       >
         <div className="w-full flex flex-col items-center justify-center">
-          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
           <input
             type="file"
             accept="image/*"
@@ -149,15 +149,15 @@ export function ImageCompressor() {
       </div>
       {isLoading && (
         <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-        <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-        <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+        <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+        <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
       </div>
       )}
       {isImageGenerated && (
         <div className="flex flex-col items-center mt-5" ref={resultsRef}>
           <img src={imageUrl} alt="Compressed image" className="w-40 h-40 mb-4" />
           <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit"
             onClick={() => {
               const a = document.createElement("a");
               a.href = imageUrl;
@@ -168,18 +168,18 @@ export function ImageCompressor() {
             Download
           </Button>
           <Button
-                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleShare}
               title="Share">
-                Share Image
-                <Share2/>
+                Share
+                
               </Button>
         </div>
       )}
       {!isImageGenerated && (
         <div className="mt-5 flex justify-center">
           <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
             onClick={compressImage}
             disabled={!selectedFile || isLoading}
           >

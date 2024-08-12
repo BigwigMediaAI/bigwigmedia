@@ -1,1 +1,17 @@
 
+:root {
+  --primary-text-color: black;
+  --background-color: white;
+  --bg-color: #E5E7EB;
+  --tool-count: #e0f7d0;
+  --teal-color: #000000; 
+  --hover-teal-color: #2c3a41; 
+  --white-color: white;
+  --nav-shadow-color: rgba(156, 163, 175, 0.25); 
+  --gray-color: #585858;
+  --dark-gray-color: #212121;
+  --box-bg-color: #ffffff;
+  --Heading: #000000;
+  --green: #212121;
+  --note: red;
+}

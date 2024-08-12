@@ -116,17 +116,17 @@ document.addEventListener('copy', handleCopyEvent);
   }, [isLoading, output]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className="m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col">
         <Textarea
-          className="mb-4 h-40 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+          className="mb-4 h-40 w-full rounded-md border-2 border-gray-300 p-4"
           placeholder="Enter Text to Rephrase."
           value={text}
           onChange={handleTextChange}
         />
         <div className="flex items-center justify-between mb-4">
           <Button
-            className="rounded-md px-4 py-2 text-gray-600 dark:text-gray-200 hover:bg-gray-100 hover:dark:bg-gray-800"
+            className="rounded-md px-4 py-2 text-gray-600 hover:bg-gray-100 "
             variant="ghost"
             onClick={handlePaste}
           >
@@ -135,7 +135,7 @@ document.addEventListener('copy', handleCopyEvent);
           </Button>
           <div className="flex gap-4">
             <select
-              className="rounded-md px-2 py-1 text-gray-600 dark:text-gray-200 border-2 border-gray-300"
+              className="rounded-md px-2 py-1 text-gray-600  border-2 border-gray-300"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             >
@@ -171,7 +171,7 @@ document.addEventListener('copy', handleCopyEvent);
               <option value="Romanian">Romanian</option>
             </select>
             <select
-              className="rounded-md px-2 py-1 text-gray-600 dark:text-gray-200 border-2 border-gray-300"
+              className="rounded-md px-2 py-1 text-gray-600  border-2 border-gray-300"
               value={tone}
               onChange={(e) => setTone(e.target.value)}
             >
@@ -181,7 +181,7 @@ document.addEventListener('copy', handleCopyEvent);
             </select>
             <input
               type="number"
-              className="rounded-md px-2 py-1 text-gray-600 dark:text-gray-200 border-2 border-gray-300 w-20"
+              className="rounded-md px-2 py-1 text-gray-600  border-2 border-gray-300 w-20"
               value={outputCount}
               onChange={(e) => setOutputCount(parseInt(e.target.value))}
               min={1}
@@ -191,32 +191,32 @@ document.addEventListener('copy', handleCopyEvent);
         </div>
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-400" />
-            <p className="text-gray-400 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           output.length > 0 && (
             <>
               <div ref={resultsRef} className="flex flex-col gap-4 mt-4">
                 {output.map((item, index) => (
-                  <div key={index} className="relative h-40 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 overflow-y-scroll">
+                  <div key={index} className="relative h-40 w-full rounded-md border-2 border-gray-300  text-gray-800 p-5 overflow-y-scroll">
                     <p className="mt-6 text-justify">{item}</p>
                     <Button
-                      className="absolute top-2 right-2 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                      className="absolute top-2 right-2 rounded-md px-2 py-1 bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                       variant="ghost"
                       onClick={() => handleCopy(item)}
                     title="Share">
                       <CopyIcon className="h-5 w-5" />
                     </Button>
                     <Button
-                      className="absolute top-2 right-12 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                      className="absolute top-2 right-12 rounded-md px-2 py-1 bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                       variant="ghost"
                       onClick={() => handleShare(item)}
                     title="Share">
                       <Share2Icon className="h-5 w-5" />
                     </Button>
                     <Button
-                      className="absolute top-2 right-20 rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                      className="absolute top-2 right-20 rounded-md px-2 py-1 bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                       variant="ghost"
                       onClick={() => handleDownload(item)}
                     title="Download">
@@ -226,7 +226,7 @@ document.addEventListener('copy', handleCopyEvent);
                 ))}
               </div>
               <Button
-                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-4"
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60 w-fit mx-auto mt-4"
                 onClick={handleSubmit}
               >
                 Regenerate
@@ -236,7 +236,7 @@ document.addEventListener('copy', handleCopyEvent);
         )}
         {!isLoading && output.length === 0 && (
           <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60  w-fit mx-auto"
             onClick={handleSubmit}
           >
             {isLoading ? (

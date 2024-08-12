@@ -24,7 +24,7 @@ const CreditLimitModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className={`fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center modal-overlay backdrop-filter backdrop-blur-sm ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-      <div className={`modal-content bg-gray-200 p-0 rounded-lg shadow-lg transform transition-all ${isOpen ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`} style={{ maxWidth: '50%', maxHeight: '90vh', height: 'auto', width: '90vw' }}>
+      <div className={`modal-content bg-white p-0 rounded-lg shadow-lg transform transition-all ${isOpen ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`} style={{ maxWidth: '50%', maxHeight: '90vh', height: 'auto', width: '90vw' }}>
         <button className="absolute top-2 right-5 close-button text-black z-10" onClick={onClose}>
           ✖
         </button>
@@ -39,7 +39,7 @@ const CreditLimitModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <p className="text-black mb-4">To continue using our services, please purchase additional credit.</p>
             </div>
             <div className="w-full flex justify-center pb-4 pl-4 pr-4">
-              <Link to="/plan" className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-full">Buy</Link>
+              <Link to="/plan" className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-full">Buy</Link>
             </div>
           </div>
         </div>

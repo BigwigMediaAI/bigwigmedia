@@ -195,10 +195,10 @@ const GeneratorImage: React.FC<Props> = () => {
   }, [isLoading, output]);
 
   return (
-    <div className="m-auto w-full max-w-[1000px] rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className="m-auto w-full max-w-[1000px] rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       {/* text area */}
       <Textarea
-        className="mb-4 h-24 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+        className="mb-4 h-24 w-full rounded-md border border-[var(--primary-text-color)] p-4"
         placeholder="Please speak after a beep"
         value={text}
         readOnly
@@ -207,7 +207,7 @@ const GeneratorImage: React.FC<Props> = () => {
       {/* Record Button */}
       <div className="flex items-center justify-center mb-4">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={isRecording ? handleStopRecording : handleStartRecording}
         >
           {isRecording ? <MicOff /> : <Mic />}
@@ -224,7 +224,7 @@ const GeneratorImage: React.FC<Props> = () => {
 {/* selects */}
 <div className="flex flex-col md:flex-row w-full gap-5">
   <Select onValueChange={setNumber}>
-    <SelectTrigger className="w-full" value={number}>
+    <SelectTrigger className="w-full border border-[var(--primary-text-color)]" value={number}>
       <SelectValue placeholder="Select a Number of Images" />
     </SelectTrigger>
     <SelectContent>
@@ -237,7 +237,7 @@ const GeneratorImage: React.FC<Props> = () => {
     </SelectContent>
   </Select>
   <Select onValueChange={setQuality}>
-    <SelectTrigger className="w-full" defaultValue={quality}>
+    <SelectTrigger className="w-full border border-[var(--primary-text-color)]" defaultValue={quality}>
       <SelectValue placeholder="Select a Quality" />
     </SelectTrigger>
     <SelectContent>
@@ -254,7 +254,7 @@ const GeneratorImage: React.FC<Props> = () => {
     <button
       key={index}
       className={`border rounded-full px-7 py-2 ${
-        selectedButton === label ? "border-gradient-1" : ""
+        selectedButton === label ? "border-2 border-[var(--teal-color)]" : ""
       }`}
       onClick={() => handleButtonClick(label)}
     >
@@ -263,7 +263,7 @@ const GeneratorImage: React.FC<Props> = () => {
   ))}
 </div>
 <button
-  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
   onClick={(e) => {
     handleSubmit(e);
     handleRegenerate(); // Adding handleRegenerate here to clear output when generating new images
@@ -274,12 +274,12 @@ const GeneratorImage: React.FC<Props> = () => {
 
 {isLoading ? (
   <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-    <Loader2 className="animate-spin w-20 h-20 mt-20" />
-    <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+    <Loader2 className="animate-spin w-20 h-20 mt-10" />
+    <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
   </div>
 ) : (
   !!output.length && (
-    <div ref={resultsRef} className="h-fit w-full mt-20 justify-center rounded-md border-2 border-gray-300  dark:text-gray-200 py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5 ">
+    <div ref={resultsRef} className="h-fit w-full mt-20 justify-center rounded-md border-2 border-gray-300  py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5 ">
       {output.map((img: string, index: number) => (
         <div
           key={index}

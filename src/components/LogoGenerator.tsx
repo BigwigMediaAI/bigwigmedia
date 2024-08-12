@@ -134,15 +134,15 @@ const LogoGenerator = (props: Props) => {
   }, [isLoading, output]);
 
   return (
-    <div className="m-auto w-full max-w-[1000px] rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className="m-auto w-full max-w-[1000px] rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       {/* Company Name */}
       <div className="mb-4">
-        <label className="block text-gray-700 dark:text-gray-200 mb-2" htmlFor="company-name">
+        <label className="block text-[var(--primary-text-color)] mb-2" htmlFor="company-name">
           Company Name
         </label>
         <Input
           id="company-name"
-          className="h-12 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+          className="h-12 w-full rounded-md border border-[var(--primary-text-color)] p-4"
           placeholder="Enter Company Name (e.g., FoodVilla, Tech Innovators)"
           value={companyName}
           onChange={(e) => setCompanyName(e.target.value)}
@@ -151,12 +151,12 @@ const LogoGenerator = (props: Props) => {
 
       {/* Company Type */}
       <div className="mb-4">
-        <label className="block text-gray-700 dark:text-gray-200 mb-2" htmlFor="company-type">
+        <label className="block text-[var(--primary-text-color)] mb-2" htmlFor="company-type">
           Company Type
         </label>
         <Input
           id="company-type"
-          className="h-12 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+          className="h-12 w-full rounded-md border dark:bg-[#262626] border-[var(--primary-text-color)] p-4"
           placeholder="Enter Company Type (e.g., Restaurant, Technology)"
           value={companyType}
           onChange={(e) => setCompanyType(e.target.value)}
@@ -165,12 +165,12 @@ const LogoGenerator = (props: Props) => {
 
       {/* Design Instructions */}
       <div className="mb-4">
-        <label className="block text-gray-700 dark:text-gray-200 mb-2" htmlFor="design">
+        <label className="block text-[var(--primary-text-color)] mb-2" htmlFor="design">
           Design Instructions (Optional)
         </label>
         <Input
           id="design"
-          className="h-12 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+          className="h-12 w-full rounded-md border dark:bg-[#262626] border-[var(--primary-text-color)] p-4"
           placeholder="Enter Optional Design Instructions (e.g., Minimalist with blue and white colors)"
           value={design}
           onChange={(e) => setDesign(e.target.value)}
@@ -179,12 +179,12 @@ const LogoGenerator = (props: Props) => {
 
       {/* Quality Select */}
       <div className="mb-4">
-        <label className="block text-gray-700 dark:text-gray-200 mb-2">
+        <label className="block text-[var(--primary-text-color)] mb-2">
           Quality
         </label>
         <Select onValueChange={setQuality}>
           <SelectTrigger
-            className="w-full"
+            className="w-full border border-[var(--primary-text-color)] "
             defaultValue={quality}
             // @ts-ignore
           >
@@ -200,7 +200,7 @@ const LogoGenerator = (props: Props) => {
       </div>
 
       <button
-        className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto ${isLoading ? "cursor-wait" : ""}`}
+        className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isLoading ? "cursor-wait" : ""}`}
         onClick={(e) => void handleSubmit(e)}
         disabled={isLoading || !companyName || !companyType}
       >
@@ -209,12 +209,12 @@ const LogoGenerator = (props: Props) => {
 
       {isLoading ? (
         <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-          <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)]  text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       ) : (
         !!output && (
-          <div ref={resultsRef} className="h-fit w-full mt-20 justify-center rounded-md border-2 border-gray-300 dark:text-gray-200 py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5">
+          <div ref={resultsRef} className="h-fit w-full mt-20 justify-center rounded-md border-2 border-[var(--primary-text-color)] dark:text-gray-200 py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5">
             <div className="relative shadow-2xl w-full h-full min-w-[300px] min-h-[300px] max-w-[400px] max-h-[400px]">
               <img
                 src={output}
@@ -231,7 +231,7 @@ const LogoGenerator = (props: Props) => {
               </button>
 
               <button
-                className="absolute shadow-sm shadow-gray-500 top-4 left-4 opacity-40 hover:opacity-70 text-white bg-gray-800 transition-all duration-300 p-2 rounded-md"
+                className="absolute shadow-sm shadow-gray-500 top-4 left-4 opacity-40 hover:opacity-70 text-white bg-gray-800  transition-all duration-300 p-2 rounded-md"
                 onClick={() => handleShare()}
               title="Share">
                <Share2/>

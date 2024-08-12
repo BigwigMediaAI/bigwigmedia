@@ -92,14 +92,14 @@ export function ExtractImage() {
   }, [isLoading, zipUrl]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#3f3e3e]">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
-        className="dark:bg-[#262626] border-2 border-dashed border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        className=" border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
         <div className="flex flex-col items-center w-full relative">
-          <Upload className="w-12 h-12 text-gray-400" />
+          <Upload className="w-12 h-12 text-[var(--gray-color)]" />
           <input
             type="file"
             accept="application/pdf"
@@ -122,7 +122,7 @@ export function ExtractImage() {
         <div className="mt-4 w-full text-center">
           {selectedFiles.length > 0 && (
             <ul className="list-none">
-              <li key={selectedFiles[0].name} className="text-gray-300">
+              <li key={selectedFiles[0].name} className="text-[var(--gray-color)]">
                 <span className="mr-5">{selectedFiles[0].name}</span>
               </li>
             </ul>
@@ -132,7 +132,7 @@ export function ExtractImage() {
       {!zipUrl && (
         <div className="mt-5 flex justify-center">
           <button
-            className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+            className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
             onClick={convertToZip}
             disabled={selectedFiles.length === 0 || isLoading}
           >
@@ -143,15 +143,15 @@ export function ExtractImage() {
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Extracting images. Timing depends on file size. Thank you for waiting.</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Extracting images. Timing depends on file size. Thank you for waiting.</p>
           </div>
         ) : (
           zipUrl && (
             <div ref={resultsRef} className="mt-5 text-center">
               <img src={zipIcon} alt="Zip file ready" className="mx-auto mb-5 w-48" />
               <button
-                className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleDownload}
               title='Download'>
                 Download Zip

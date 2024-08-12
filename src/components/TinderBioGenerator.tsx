@@ -139,33 +139,33 @@ export function TinerBioGenerator() {
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#262626]">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Personality Traits</label>
+        <label className="block text-[var(--primary-text-color)]">Personality Traits</label>
         <input
           type="text"
           value={personalityTraits}
           onChange={(e) => setpersonalityTraits(e.target.value)}
           placeholder="E.g, adventurous, witty, kind"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Interests</label>
+        <label className="block text-[var(--primary-text-color)]">Interests</label>
         <input
           type="text"
           value={interests}
           onChange={(e) => setInterests(e.target.value)}
           placeholder="E.g, traveling, cooking, hiking"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         >
           {tones.map((toneOption) => (
             <option key={toneOption.value} value={toneOption.value}>{toneOption.label}</option>
@@ -173,11 +173,11 @@ export function TinerBioGenerator() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         >
           {languages.map((languageOption) => (
             <option key={languageOption.value} value={languageOption.value}>{languageOption.label}</option>
@@ -185,11 +185,11 @@ export function TinerBioGenerator() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         >
           {outputCounts.map((outputCountOption) => (
             <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
@@ -198,7 +198,7 @@ export function TinerBioGenerator() {
       </div>
       <div className="mt-5 flex justify-center">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleGenerate}
           disabled={isLoading}
         >
@@ -208,25 +208,25 @@ export function TinerBioGenerator() {
       <div className="mt-5">
         {isLoading ? (
             <div ref={loaderRef} className="w-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-5 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-5 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
             </div>
         ) : (
             generatedTinerBio.length > 0 && (
-            <div ref={resultsRef} className="border border-gray-300 rounded-md mt-6 p-5 relative">
+            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
                 <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-gray-700 dark:text-gray-300 ">Generated Tinder Bio</h1>
+                <h1 className="text-2xl text-[var(--primary-text-color)] ">Generated Tinder Bio</h1>
                 <div className="flex gap-2">
                     <button
                     onClick={handleShare}
-                    className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
                     title="Share"
                     >
                     <Share2 />
                     </button>
                     <button
                     onClick={handleDownload}
-                    className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
                     title="Download"
                     >
                     <Download />
@@ -235,19 +235,19 @@ export function TinerBioGenerator() {
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
               {generatedTinerBio.map((post, index) => (
-          <div key={index} className="border border-gray-300 p-4 rounded-lg mb-4 relative ">
+          <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
             <div className="flex justify-between items-center mb-2">
               <div className="absolute top-2 right-2 space-x-2">
                 <button
                   onClick={() => handleCopy(post)}
-                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+                  className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
                   title="Copy"
                 >
                   <Copy />
                 </button>
               </div>
             </div>
-            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{post}</p>
+            <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
           </div>
         ))}
         </div>

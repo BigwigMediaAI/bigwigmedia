@@ -110,15 +110,15 @@ export function BackgroundRemover() {
   }, [isLoading, processedImageUrl]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
-        className="border-4 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center"
+        className="border-4 border-dashed border-[var(--gray-color)] rounded-lg p-6 flex flex-col items-center justify-center"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
         {selectedFile ? (
           <>
-            <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+            <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
             <div className="relative mb-4">
               <input
                 type="file"
@@ -129,7 +129,7 @@ export function BackgroundRemover() {
               />
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer p-2 bg-white text-gray-700 rounded-md border border-gray-300"
+                className="cursor-pointer p-2 bg-[var(--white-color)] text-gray-700 rounded-md border border-gray-300 hover:bg-gray-100"
               >
                 Browse
               </label>
@@ -144,7 +144,7 @@ export function BackgroundRemover() {
           </>
         ) : (
           <>
-            <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+            <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
             <p className="text-gray-400 mb-4">Drag and drop an image here, or click to browse</p>
             <div className="relative">
               <input
@@ -156,7 +156,7 @@ export function BackgroundRemover() {
               />
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer p-2 bg-white text-gray-700 rounded-md border border-gray-300"
+                className="cursor-pointer p-2 bg-[var(--white-color)] text-gray-700 rounded-md border border-gray-300 hover:bg-gray-100 "
               >
                 Browse
               </label>
@@ -165,7 +165,7 @@ export function BackgroundRemover() {
         )}
       </div>
       <Button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-5"
+        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
         onClick={handleRemoveBackground}
         disabled={isLoading || !selectedFile || !!processedImageUrl}
       >
@@ -174,8 +174,8 @@ export function BackgroundRemover() {
 
       {isLoading && (
         <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-400" />
-          <p className="text-gray-400 text-justify">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       )}
 
@@ -183,7 +183,7 @@ export function BackgroundRemover() {
         <div ref={resultsRef} className="mt-6 flex flex-col items-center">
           <img src={processedImageUrl} alt="Processed" className="w-full max-w-xs mb-4" />
           <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 mt-2"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] mt-2"
             onClick={handleDownload}
           >
             <DownloadIcon className="w-4 h-4 mr-2" />

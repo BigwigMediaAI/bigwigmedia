@@ -132,7 +132,7 @@ document.addEventListener('copy', handleCopyEvent);
   const renderSection = (section: string) => {
     const className = section.replace(/\s+/g, '-').toLowerCase();
     return (
-      <div key={section} className={`mt-8 text-white ${className}`}>
+      <div key={section} className={`mt-8 text-[var(--primary-text-color)] ${className}`}>
         <h2 className="text-2xl font-semibold mb-4">{section}:</h2>
         {campaignData && Array.isArray(campaignData[section]) && (
           <ul className="list-disc pl-6">
@@ -155,21 +155,21 @@ document.addEventListener('copy', handleCopyEvent);
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="product-description" className="block text-md font-medium text-gray-300 mb-2">
+        <label htmlFor="product-description" className="block text-md font-medium text-[var(--primary-text-color)] mb-2">
           Enter Product Description:
         </label>
         <textarea
           id="product-description"
-          className="mb-4 h-32 w-full rounded-md border-2 border-gray-300 p-4"
+          className="mb-4 h-32 w-full rounded-md border border-[var(--primary-text-color)] p-4"
           placeholder="Enter your product description here, e.g., A revolutionary new smartphone with cutting-edge features..."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
 
         <div className="mb-4">
-          <label htmlFor="language" className="block text-md font-medium text-gray-300">
+          <label htmlFor="language" className="block text-md font-medium text-[var(--primary-text-color)]">
             Language:
           </label>
           <select
@@ -212,7 +212,7 @@ document.addEventListener('copy', handleCopyEvent);
 
             {/* Add more options as needed */}
           </select>
-          <p className="text-base text-gray-400 mt-2">
+          <p className="text-base text-black mt-2">
         👉 Try a few combinations to generate the best result for your needs.
         </p>
         </div>
@@ -220,7 +220,7 @@ document.addEventListener('copy', handleCopyEvent);
         <div className="flex w-full my-4 items-center justify-end">
           <button
             type="submit"
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
             disabled={isLoading}
           >
            {isLoading ? "Generating..." : campaignData ? "Regenerate" : "Generate"}
@@ -231,33 +231,33 @@ document.addEventListener('copy', handleCopyEvent);
 
       {isLoading && (
         <div ref={loaderRef} className="mt-5 w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
-          <p className="text-gray-300 text-center">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-center">Data processing in progress. Please bear with us...</p>
         </div>
       )}
 
       {campaignData && (
-        <div ref={resultsRef} className="relative mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-gray-300 dark:bg-[#3f3e3e] text-white">
-          <label className="block text-md font-medium text-white mb-2">
+        <div ref={resultsRef} className="relative mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-[var(--primary-text-color)]  text-[var(--primary-text-color)]">
+          <label className="block text-lg font-semibold text-[var(--primary-text-color)] mb-2">
             Generated Campaign Data:
           </label>
           {Object.keys(campaignData).map((section) => renderSection(section))}
           <div className="absolute top-2 right-2 flex gap-2">
             <button
               onClick={handleCopy}
-              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]  rounded-md px-3 py-1 "
             title="Copy">
               <ClipboardCopy className="inline-block w-5 h-5" />
             </button>
             <button
               onClick={handleDownload}
-              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]  rounded-md px-3 py-1 "
             title="Download">
               <FaDownload className="inline-block w-5 h-5" />
             </button>
             <button
               onClick={handleShare}
-              className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+              className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]  rounded-md px-3 py-1 "
            title="Share" >
               <FaShareAlt className="inline-block w-5 h-5" />
             </button>

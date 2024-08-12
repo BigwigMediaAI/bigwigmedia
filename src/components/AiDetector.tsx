@@ -67,17 +67,17 @@ export function AIDetector() {
   }, [isLoading, aiLikelihood]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className="m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md">
       <div className="flex flex-col">
         <Textarea
-          className="mb-4 h-40 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+          className="mb-4 h-40 w-full rounded-md border-2  border-gray-300 p-4"
           placeholder="Enter Text to Detect AI Content"
           value={text}
           onChange={handleTextChange}
         />
         <div className="flex items-center justify-between ">
           <Button
-            className="rounded-md px-4 py-2 text-gray-600 dark:text-gray-200 hover:bg-gray-100 hover:dark:bg-gray-800"
+            className="rounded-md px-4 py-2 text-gray-600  hover:bg-gray-100 "
             variant="ghost"
             onClick={handlePaste}
           >
@@ -88,7 +88,7 @@ export function AIDetector() {
 
         <div className="flex flex-col gap-2 mt-4">
         <Button
-            className="mb-8 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+            className="mb-8 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
             onClick={handleSubmit}
           >
             {isLoading ? (
@@ -99,8 +99,8 @@ export function AIDetector() {
           </Button>
           {isLoading ? (
             <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-              <Loader2 className="animate-spin w-20 h-20 text-gray-400" />
-              <p className="text-gray-400 text-justify">Detecting AI content. Please wait...</p>
+              <Loader2 className="animate-spin w-20 h-20 text-[var(--gray-color)]" />
+              <p className="text-[var(--gray-color)] text-justify">Detecting AI content. Please wait...</p>
             </div>
           ) : (
             aiLikelihood !== "" && (
@@ -109,7 +109,7 @@ export function AIDetector() {
                   {`AI Likelihood: ${aiLikelihood}`}
                 </div>
                 <Button
-                  className="rounded-md px-2 py-1 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                  className="rounded-md px-2 py-1 text-gray-600  hover:bg-gray-100"
                   variant="ghost"
                   onClick={() => handleCopy(`${aiLikelihood}`)}
                 >

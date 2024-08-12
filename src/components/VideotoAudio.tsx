@@ -122,17 +122,17 @@ export function AudioConverter() {
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
         ref={dropZoneRef}
-        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
         {/* File selection area */}
         <div className="flex flex-col items-center w-full relative">
           {/* Browse button */}
-          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
           <input
             type="file"
             id="fileInput"
@@ -156,9 +156,9 @@ export function AudioConverter() {
         {/* Display selected file */}
         <div className="mt-4 w-full text-center">
           {videoFile && (
-            <div className="text-gray-300">
+            <div className="text-[var(--primary-text-color)]">
               <span>{videoFile.name}</span>
-              <button onClick={removeFile} className="text-gray-300 hover:text-gray-500">
+              <button onClick={removeFile} className="text-[var(--primary-text-color)] ml-5 hover:text-gray-500">
                 &#x2715;
               </button>
             </div>
@@ -177,7 +177,7 @@ export function AudioConverter() {
       {/* Convert to MP3 button */}
       <div className="mt-5 flex justify-center">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleDownload}
           disabled={!videoFile || isLoading}
         >
@@ -187,8 +187,8 @@ export function AudioConverter() {
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           audioUrl && (
@@ -198,18 +198,17 @@ export function AudioConverter() {
                 Your browser does not support the audio element.
               </audio>
               <button
-                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleDownloadClick}
               title="Download">
                 Download MP3
               </button>
               <button
-                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleShare}
              title="Share" >
-             <Share2 className="w-6 h-6 text-white" />
-
                 Share
+                <Share2 className="w-6 h-6 text-white" />
               </button>
             </div>
           )

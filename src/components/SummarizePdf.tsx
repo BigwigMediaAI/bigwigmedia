@@ -116,15 +116,15 @@ export function PdfSummarizer() {
   }, [isLoading, summary]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div 
-        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
       >
         <div className="flex justify-between w-full">
           <div className="flex flex-col items-center w-full">
-            <Upload className="w-12 h-12 text-gray-400" />
+            <Upload className="w-12 h-12 text-[var(--gray-color)]" />
             <input
               type="file"
               accept="application/pdf"
@@ -133,7 +133,7 @@ export function PdfSummarizer() {
               id="fileInput"
             />
             <Button
-              className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+              className="border border-[var(--gray-color)] text-gray-600 bg-[var(--white-color)] px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
               onClick={() => document.getElementById('fileInput')?.click()}
             >
               Browse Files
@@ -147,13 +147,13 @@ export function PdfSummarizer() {
         </div>
         {selectedFile && (
           <div className="mt-4 w-full text-center">
-            <p className="text-gray-300">{selectedFile.name}</p>
+            <p className="text-[var(--primary-text-color)]">{selectedFile.name}</p>
           </div>
         )}
       </div>
       <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
           onClick={summarizePdf}
           disabled={!selectedFile || isLoading}
         >
@@ -162,8 +162,8 @@ export function PdfSummarizer() {
       </div>
       {isLoading && (
         <div ref={loaderRef} className="mt-5 w-full flex flex-col items-center justify-center dark:bg-[#3f3e3e] m-auto  max-w-4xl rounded-b-md">
-          <Loader2 className="animate-spin w-20 h-20 text-gray-300" />
-          <p className="text-gray-300 text-center mt-4">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-center mt-4">Data processing in progress. Please bear with us...</p>
         </div>
       )}
       {summary && (
@@ -173,19 +173,19 @@ export function PdfSummarizer() {
             <div className="flex gap-2">
               <button
                 onClick={copyToClipboard}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1 "
               title='Copy'>
                 <Copy className="inline-block w-5 h-5" />
               </button>
               <button
                 onClick={downloadText}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1 "
               title='Download'>
                 <FaDownload className="inline-block w-5 h-5" />
               </button>
               <button
                 onClick={handleShare}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1 "
               title='Share'>
                 <FaShareAlt className="inline-block w-5 h-5" />
               </button>

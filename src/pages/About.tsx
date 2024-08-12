@@ -3,17 +3,29 @@
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import React, { useEffect } from "react";
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const AboutUs: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const navigate = useNavigate();
+  const handleBackClick = () => {
+    navigate(-1);
+  };
   return (
-    <div className="bg-white dark:bg-[#1E1E1E]">
+    <div className="bg-white ">
       <Nav />
+      <div className="max-w-7xl mx-auto px-2 pt-6 flex mb-4">
+        <FiArrowLeft
+          className="text-[var(--primary-text-color)] text-2xl cursor-pointer hover:text-[var(--gray-color)]"
+          onClick={handleBackClick}
+        />
+      </div>
       <div className="p-10 text-center min-h-screen">
         <h1 className=" text-3xl font-bold mb-4">About Us</h1>
-        <p className="text-2xl my-4  lg:mx-[20vh] text-justify ">
+        <p className="text-xl my-4  lg:mx-[20vh] text-justify ">
         Are you tired of doing all the work yourself? Introducing BigWig Media AI Tools -
          your new robotic assistant that's so smart, it can even make a cup of coffee 
          (just kidding, it can't do that... yet)! Get ready to sit back, relax, and let 

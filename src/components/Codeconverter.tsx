@@ -112,11 +112,11 @@ document.addEventListener('copy', handleCopyEvent);
   }, [isLoading, convertedCode]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col md:flex-col">
         <div className="w-full pr-2">
           <Textarea
-            className="mb-5 h-40"
+            className="mb-5 h-40 border border-[var(--primary-text-color)]"
             placeholder="Example:
 function add(a, b) {
   return a + b;
@@ -128,7 +128,7 @@ console.log(data);
             onChange={handleCodeChange}
           />
           <select
-            className="mb-4 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+            className="mb-4 w-full rounded-md border border-[var(--primary-text-color)] p-4"
             value={selectedLanguage}
             onChange={handleLanguageChange}
           >
@@ -141,7 +141,7 @@ console.log(data);
           </select>
           <div className="flex w-full my-4 items-center justify-center">
             <Button
-              className={`text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-80'}`}
+              className={`text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)]  ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[var(--hover-teal-color)]'}`}
               onClick={handleSubmit}
             >
               {isLoading ? "Generating..." : convertedCode ? "Regenerate" : "Generate"}
@@ -150,22 +150,25 @@ console.log(data);
         </div>
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Converting code. Please wait...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Converting code. Please wait...</p>
           </div>
         ) : convertedCode ? (
           <div ref={resultsRef} className="w-full">
-            <div className="flex justify-evenly items-center mb-4">
-              <h3 className="text-lg font-semibold">Converted Code</h3>
-              <Copy className="cursor-pointer hover:text-blue-800" onClick={handleCopyCode} />
+            <div className="flex justify-between items-center mb-4">
+              
+              <h1 className="text-lg font-semibold">Converted Code</h1>
+              <div className="flex gap-4">
+              <Copy className="cursor-pointer text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]" onClick={handleCopyCode} />
               <Download
-                className="w-6 h-6  cursor-pointer hover:text-blue-800"
+                className="w-6 h-6  cursor-pointer text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                 onClick={downloadAsText}
               />
               <Share2
-                className="w-6 h-6  cursor-pointer hover:text-blue-800"
+                className="w-6 h-6  cursor-pointer text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                 onClick={handleShare}
               />
+              </div>
             </div>
             <Textarea
               className="w-full mb-4 h-40"

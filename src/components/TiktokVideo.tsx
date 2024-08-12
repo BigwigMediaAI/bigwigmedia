@@ -60,7 +60,7 @@ export function TikTokDownloader() {
   };
 
   return (
-    <div className="m-auto w-full max-w-xl mx-auto mt-8 dark:bg-[#5f5f5f] bg-white p-6 shadow-xl rounded-lg">
+    <div className="m-auto w-full max-w-xl mx-auto mt-8  bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)] rounded-lg">
       <div className="flex items-center mb-4">
         <input
           type="text"

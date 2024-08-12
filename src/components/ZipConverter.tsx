@@ -117,15 +117,15 @@ export function FileToZipConverter() {
   }, [isLoading, zipFile]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
-        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
         {/* File selection area */}
         <div className="flex flex-col items-center w-full relative">
-          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
           {/* Browse button */}
           <input
             type="file"
@@ -135,7 +135,7 @@ export function FileToZipConverter() {
             style={{ display: "none" }}
           />
           <Button
-            className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+            className="border bg-white border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
             onClick={() => document.getElementById("fileInput")?.click()}
           >
             Browse Files
@@ -152,11 +152,11 @@ export function FileToZipConverter() {
           {selectedFiles.length > 0 && (
             <ul className="list-none">
               {selectedFiles.map((file, index) => (
-                <li key={index} className="text-gray-300">
+                <li key={index} className="text-[var(--primary-text-color)]">
                   <span className="inline-block w-full truncate mr-5" style={{ maxWidth: '90%' }}>
                     {file.name}
                   </span>
-                  <button onClick={() => removeFile(index)} className="text-gray-300 hover:text-gray-500">
+                  <button onClick={() => removeFile(index)} className="text-[var(--primary-text-color)] hover:text-gray-500">
                     &#x2715;
                   </button>
                 </li>
@@ -168,7 +168,7 @@ export function FileToZipConverter() {
       {/* Convert to zip button */}
       <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={convertToZip}
           disabled={selectedFiles.length === 0 || isLoading}
         >
@@ -179,8 +179,8 @@ export function FileToZipConverter() {
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           zipFile && (
@@ -188,14 +188,14 @@ export function FileToZipConverter() {
               <img src={zip} alt="Zip file ready" className="mx-auto mb-5 w-48" />
               <div className="flex justify-center">
                 <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleDownload}
                   title="Download"
                 >
                   Download Zip
                 </Button>
                 <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleShare}
                   title="Share"
                 >

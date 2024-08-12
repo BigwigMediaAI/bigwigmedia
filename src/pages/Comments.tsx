@@ -76,9 +76,9 @@ const Comments: React.FC<CommentsProps> = ({ slug }) => {
               {comment.userImage && (
                 <img src={comment.userImage} alt={comment.username} className="w-8 h-8 rounded-full mr-2" />
               )}
-              <p className="text-gray-700 dark:text-gray-300"><strong>{comment.username}</strong> on {new Date(comment.date).toLocaleDateString()}</p>
+              <p className="text-gray-700 "><strong>{comment.username}</strong> on {new Date(comment.date).toLocaleDateString()}</p>
             </div>
-            <p className="text-gray-700 dark:text-gray-300">{comment.text}</p>
+            <p className="text-gray-700 ">{comment.text}</p>
           </div>
         ))}
       </div>
@@ -87,11 +87,11 @@ const Comments: React.FC<CommentsProps> = ({ slug }) => {
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Add a comment..."
-          className="w-full p-2 border rounded dark:bg-gray-800 dark:text-white"
+          className="w-full p-2 border border-[var(--primary-text-color)] rounded "
         />
         <button
           onClick={handleAddComment}
-          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
+          className="mt-2 px-4 py-2 bg-[var(--teal-color)] text-white rounded"
         >
           Add Comment
         </button>

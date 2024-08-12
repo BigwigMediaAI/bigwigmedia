@@ -111,20 +111,20 @@ export function ImageCropper() {
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
-        className="border-4 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center"
+        className="border-4 border-dashed border-[var(--gray-color)] rounded-lg p-6 flex flex-col items-center justify-center"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
         {selectedFile ? (
           <>
-            <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+            <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
             <div className="relative">
               <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="file-upload" onChange={handleFileChange} accept="image/*" />
               <label htmlFor="file-upload" className="cursor-pointer p-2 bg-white text-gray-700 rounded-md border border-gray-300">Browse</label>
             </div>
-            <p className="text-gray-300 m-4">{selectedFile.name}</p>
+            <p className="text-[var(--primary-text-color)] m-4">{selectedFile.name}</p>
             <p className="text-gray-400 mb-4">Drag and drop an image here, or click to browse</p>
             <RefreshCwIcon
               className="w-8 h-8 text-gray-400 mt-2 cursor-pointer"
@@ -158,7 +158,7 @@ export function ImageCropper() {
       )}
 
       <Button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto mt-5"
+        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
         onClick={getCroppedImage}
         disabled={!selectedFile}
       >

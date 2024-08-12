@@ -112,26 +112,26 @@ document.addEventListener('copy', handleCopyEvent);
     }, [isLoading, swotAnalyses]);
 
     return (
-        <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+        <div className="m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
             <div className="flex flex-col">
-                <label htmlFor="topic" className="block text-md font-medium text-gray-300">
+                <label htmlFor="topic" className="block text-md font-medium text-[var(--primary-text-color)]">
                     Describe Your Business:
                 </label>
                 <Textarea
                     id="topic"
-                    className="mb-4 h-40 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+                    className="mb-4 h-40 w-full rounded-md border border-[var(--primary-text-color)] p-4"
                     placeholder="Enter the topic for SWOT analysis (e.g., Starting a grocery business)"
                     value={topic}
                     onChange={handleTextChange}
                 />
                 <div className="flex mb-4 gap-4">
                     <div className="w-1/2">
-                        <label htmlFor="language" className="block text-md font-medium text-gray-300">
+                        <label htmlFor="language" className="block text-md font-medium text-[var(--primary-text-color)]">
                             Language
                         </label>
                         <select
                             id="language"
-                            className="w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-2"
+                            className="w-full rounded-md border border-[var(--primary-text-color)] p-2"
                             value={language}
                             onChange={(e) => setLanguage(e.target.value)}
                         >
@@ -143,13 +143,13 @@ document.addEventListener('copy', handleCopyEvent);
                         </select>
                     </div>
                     <div className="w-1/2">
-                        <label htmlFor="outputCount" className="block text-md font-medium text-gray-300">
+                        <label htmlFor="outputCount" className="block text-md font-medium text-[var(--primary-text-color)]">
                             Output Count
                         </label>
                         <input
                             id="outputCount"
                             type="number"
-                            className="w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-2"
+                            className="w-full rounded-md border border-[var(--primary-text-color)] p-2"
                             placeholder="Enter the number of outputs"
                             value={outputCount}
                             onChange={(e) => setOutputCount(parseInt(e.target.value))}
@@ -157,7 +157,7 @@ document.addEventListener('copy', handleCopyEvent);
                     </div>
                 </div>
                 <Button
-                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                     onClick={handleSubmit}
                     disabled={isLoading}
                 >
@@ -169,35 +169,35 @@ document.addEventListener('copy', handleCopyEvent);
                 </Button>
                 {isLoading && (
                     <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center mt-4">
-                        <Loader2 className="animate-spin w-20 h-20 text-gray-400" />
-                        <p className="text-gray-400 text-justify mt-2">Data processing in progress. Please bear with us...</p>
+                        <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)]" />
+                        <p className="text-[var(--dark-gray-color)] text-justify mt-2">Data processing in progress. Please bear with us...</p>
                     </div>
                 )}
                 {swotAnalyses.length > 0 && (
                     <div className="mt-4">
                         {swotAnalyses.map((analysis, index) => (
                             <div key={index} className="flex flex-col gap-2 m-3">
-                                <div className="h-96 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-5 overflow-y-scroll relative">
+                                <div className="h-96 w-full rounded-md border-2 border-gray-300  text-gray-800 p-5 overflow-y-scroll relative">
                                     {analysis.split("\n").map((line, idx) => (
                                         <p key={idx}>{line}</p>
                                     ))}
                                     <div className="absolute top-2 right-2 flex gap-2">
                                         <Button
-                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                            className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
                                             variant="ghost"
                                             onClick={() => handleCopy(analysis)}
                                         title="Copy">
                                             <ClipboardCopy className="h-5 w-5" />
                                         </Button>
                                         <Button
-                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                            className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
                                             variant="ghost"
                                             onClick={() => handleShare(analysis)}
                                         title="Share">
                                             <FaShareAlt className="h-5 w-5" />
                                         </Button>
                                         <Button
-                                            className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                                            className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
                                             variant="ghost"
                                             onClick={() => handleDownload(analysis)}
                                         title="Download">

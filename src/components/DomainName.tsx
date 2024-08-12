@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Download, Loader2, Share2 } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { validateInput } from '@/utils/validateInput';
@@ -98,55 +98,55 @@ export function GenerateDomainNames() {
 document.addEventListener('copy', handleCopyEvent);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Company Name</label>
+        <label className="block text-[var(--primary-text-color)]">Company Name</label>
         <input
           type="text"
           value={companyName}
           onChange={(e) => setCompanyName(e.target.value)}
           placeholder="Enter your company name"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Company Type</label>
+        <label className="block text-[var(--primary-text-color)]">Company Type</label>
         <input
           type="text"
           value={companyType}
           onChange={(e) => setCompanyType(e.target.value)}
           placeholder="Enter company type (e.g., tech, innovation)"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mb-5 flex space-x-4">
         <div className="w-1/2">
-          <label className="block text-gray-700 dark:text-gray-300">Length</label>
+          <label className="block text-[var(--primary-text-color)]">Length</label>
           <input
             type="number"
             value={length}
             onChange={(e) => setLength(e.target.value)}
             placeholder="Max length of domain name (default: 0)"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+            className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
           />
         </div>
         <div className="w-1/2">
-          <label className="block text-gray-700 dark:text-gray-300">Count</label>
+          <label className="block text-[var(--primary-text-color)]">Count</label>
           <input
             type="number"
             value={count}
             onChange={(e) => setCount(e.target.value)}
             placeholder="Number of domain names (default: 0)"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+            className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
           />
         </div>
       </div>
 
       <div className="mt-5 flex justify-center">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleGenerate}
           disabled={isLoading}
         >
@@ -157,33 +157,37 @@ document.addEventListener('copy', handleCopyEvent);
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Generating domain names. Please wait...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Generating domain names. Please wait...</p>
           </div>
         ) : (
           <div>
             {domainNames.length > 0 && (
-              <div ref={resultsRef} className='border border-gray-300 rounded-md p-5'>
-                <h3 className="text-gray-700 dark:text-gray-300">Generated Domain Names:</h3>
-                <ul className="list-disc pl-5 mt-2">
-                  {domainNames.map((name, index) => (
-                    <li key={index} className="text-gray-700 dark:text-gray-300">{name}</li>
-                  ))}
-                </ul>
-                <div className="mt-5 flex space-x-4">
+              
+              <div ref={resultsRef} className='border border-[var(--primary-text-color)] rounded-md p-5'>
+                <div className='flex justify-between'>
+                <h3 className="text-[var(--primary-text-color)]">Generated Domain Names:</h3>
+                <div className=" flex space-x-4">
                   <button
-                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleShare}
                   title='Share'>
-                    Share
+                    <Share2 className="w-5 h-5" />
                   </button>
                   <button
-                    className="text-white font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-2 rounded-full bt-gradient hover:opacity-80"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleDownload}
                   title='Download'>
-                    Download
+                    <Download className="w-5 h-5" />
                   </button>
                 </div>
+                </div>
+                <ul className="list-disc pl-5 mt-2">
+                  {domainNames.map((name, index) => (
+                    <li key={index} className="text-[var(--primary-text-color)]">{name}</li>
+                  ))}
+                </ul>
+                
               </div>
             )}
           </div>

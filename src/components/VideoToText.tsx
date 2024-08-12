@@ -122,16 +122,16 @@ document.addEventListener('copy', handleCopyEvent);
 
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div 
-        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
       >
         <div className="flex justify-between w-full">
         
           <div className="flex flex-col items-center w-full">
-          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
             <input
               type="file"
               accept="video/*"
@@ -140,7 +140,7 @@ document.addEventListener('copy', handleCopyEvent);
               id="fileInput"
             />
             <Button
-              className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+              className="border bg-white border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
               onClick={() => document.getElementById('fileInput')?.click()}
             >
               Browse Files
@@ -154,13 +154,13 @@ document.addEventListener('copy', handleCopyEvent);
         </div>
         {selectedFile && (
           <div className="mt-4 w-full text-center">
-            <p className="text-gray-300">{selectedFile.name}</p>
+            <p className="text-[var(--primary-text-color)]">{selectedFile.name}</p>
           </div>
         )}
       </div>
       <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
           onClick={extractText}
           disabled={!selectedFile || isLoading}
         >
@@ -171,8 +171,8 @@ document.addEventListener('copy', handleCopyEvent);
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           isTextExtracted && (
@@ -182,19 +182,19 @@ document.addEventListener('copy', handleCopyEvent);
                 <div className="flex gap-2 items-center">
                 <button
                 onClick={copyToClipboard}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className=" text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
               title='Copy'>
                 <ClipboardList className="inline-block w-5 h-5" />
               </button>
               <button
                 onClick={downloadText}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
               title='Download'>
                 <FaDownload className="inline-block w-5 h-5" />
               </button>
               <button
                 onClick={shareText}
-                className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                className=" text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
              title='Share' >
                 <FaShareAlt className="inline-block w-5 h-5" />
               </button>

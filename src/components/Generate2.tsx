@@ -617,13 +617,13 @@ document.addEventListener('copy', handleCopyEvent);
   console.log("here",arr)
 
   return (
-    <div className="flex flex-col  gap-8 min-h-screen">
+    <div className="flex flex-col  gap-8 min-h-screen bg-[var(--background-color)]">
       <Nav />
-      <div className="flex flex-col justify-center items-center gap-6">
-        <h1 className="  dark:text-white text-black text-center font-outfit text-2xl md:text-3xl lg:text-4xl  font-medium">
+      <div className="flex flex-col justify-center items-center gap-6 ">
+        <h1 className="   text-[var(--primary-text-color)] text-center font-outfit text-2xl md:text-3xl lg:text-4xl  font-medium">
           {description?.name}
         </h1>
-        <p className="  dark:text-white text-black text-center font-outfit max-w-[844px] text-base px-6 lg:text-lg font-base">
+        <p className="  text-[var(--primary-text-color)] text-center font-outfit max-w-[844px] text-base px-6 lg:text-lg font-base">
           {description?.description}
         </p>
       </div>
@@ -939,7 +939,7 @@ document.addEventListener('copy', handleCopyEvent);
               </div>
             ))}
             <div className=" flex justify-start">
-          <p className=" text-base text-gray-400 mt-2">
+          <p className=" text-base text-[var(--gray-color)] mt-2">
         👉 Try a few combinations to generate the best result for your needs.
         </p>
           </div>
@@ -947,7 +947,7 @@ document.addEventListener('copy', handleCopyEvent);
           
           <div className="mt-5 flex justify-center">
           <button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
+            className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full  bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit"
             onClick={(e) => void handleSubmit(e)}
             disabled={isLoading}
           >
@@ -971,13 +971,13 @@ document.addEventListener('copy', handleCopyEvent);
               {output && (
                 <>
                   <button onClick={handleCopy} title="Copy">
-                    <ClipboardList className="w-5 h-5" />
+                    <ClipboardList className="w-5 h-5 text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]" />
                   </button>
                   <button onClick={handleDownload} title="Download">
-                    <FaDownload className="w-5 h-5" />
+                    <FaDownload className="w-5 h-5 text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]" />
                   </button>
                   <button onClick={handleShare} title="Share">
-                    <FaShareAlt className="w-5 h-5" />
+                    <FaShareAlt className="w-5 h-5 text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]" />
                   </button>
                 </>
               )}
@@ -992,13 +992,13 @@ document.addEventListener('copy', handleCopyEvent);
           ) : (
             <div className="w-full h-full flex flex-col items-center text-justify justify-center">
               <Loader2 className="animate-spin w-20 h-20 mt-20" />
-              <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+              <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           )}
         </div>
       )}
 
-      <h1 className="  dark:text-white text-black text-center font-outfit text-md md:text-lg lg:text-xl  font-medium">
+      <h1 className="  text-[var(--primary-text-color)] text-center font-outfit text-md md:text-lg lg:text-xl  font-medium">
         Related Tools
       </h1>
       <div className="flex mx-auto flex-row justify-center gap-4  md:gap-8 md:w-full max-w-[473px] rounded-full px-3  w-4/5 py-2 border border-gray-500">
@@ -1034,7 +1034,7 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="flex  flex-col px-5 gap-6 max-w-[1084px] w-full mx-auto">
-        <h1 className="text-3xl text-center font-semibold my-6">
+        <h1 className="text-xl md:text-3xl text-center font-semibold my-6">
           Everything you need to know about {description?.name}
         </h1>
         <Accordion
@@ -1045,7 +1045,7 @@ document.addEventListener('copy', handleCopyEvent);
           {description?.faq?.map((ac, id) => (
             <AccordionItem value={ac.question} key={id}>
               <AccordionTrigger
-                className="dark:text-white dark:border dark:border-white  py-4 z-40 items-center rounded-md shadow-md px-5 font-outfit"
+                className="   py-4 z-40 items-center rounded-md shadow-md px-5 font-outfit"
                 key={ac.question}
               >
                 {ac.question}
@@ -1080,7 +1080,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
       <div className=" flex flex-row gap-2">
         <Switch
           id={element.text}
-          className="data-[state=checked]:bg-green-500  data-[state=unchecked]:bg-gray-400"
+          className="data-[state=checked]:bg-[var(--green)]  data-[state=unchecked]:bg-gray-400"
           checked={val[element.in]}
           onCheckedChange={(e) => setVal({ ...val, [element.in]: e })}
         />
@@ -1093,7 +1093,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
     return (
       <div className="flex flex-wrap flex-col  sm:flex-row self-start gap-4">
         <Label
-          className="dark:text-white self-start my-auto text-black text-left font-outfit text-xl font-semibold"
+          className=" self-start my-auto text-[var(--primary-text-color)] text-left font-outfit text-xl font-semibold"
           htmlFor={element.text}
         >
           {element.text}
@@ -1103,7 +1103,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
             <button
               key={index}
               className={`border rounded-full text-sm md:text-base p-2 md:px-7 py-2 ${
-                val[element.in] === label ? "border-gradient-1" : ""
+                val[element.in] === label ? " border-2 border-[var(--teal-color)]" : ""
               }`}
               onClick={() => setVal({ ...val, [element.in]: label })}
             >
@@ -1118,7 +1118,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
     return (
       <div className="flex w-full flex-wrap md:flex-row flex-col  sm:flex-row self-start gap-4">
         <Label
-          className="dark:text-white self-start my-auto text-black text-left font-outfit text-xl font-semibold"
+          className=" self-start my-auto text-black text-left font-outfit text-xl font-semibold"
           htmlFor={element.text}
         >
           {element.text}
@@ -1147,18 +1147,18 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
     return (
       <div className="flex flex-col   w-full max-w-[844px]  self-start gap-2">
         <Label
-          className="dark:text-white self-start text-black text-left font-outfit text-xl font-semibold"
+          className=" self-start text-black text-left font-outfit text-xl font-semibold"
           htmlFor={element.placeholder}
         >
           {element.text}
         </Label>
         <Textarea
-          className="mb-4 h-24 w-full   md:min-w-[300px] rounded-md border-2 dark:bg-zinc-800 border-gray-300 p-4"
+          className="mb-4 h-24 w-full   md:min-w-[300px] rounded-md border-2 border-gray-300 p-4"
           placeholder={element.placeholder}
           value={val[element.in]}
           onChange={(e) => setVal({ ...val, [element.in]: e.target.value })}
         />
-      </div>
+      </div>  
     );
   }
   if (element.type === "paraphrase") {
@@ -1167,7 +1167,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
   return (
     <div className="flex flex-col w-full max-w-[844px] self-start gap-2">
       <Label
-        className="dark:text-white self-start text-black text-left font-outfit text-xl font-semibold"
+        className=" self-start text-black text-left font-outfit text-xl font-semibold"
         htmlFor={element.text}
       >
         {element.text}

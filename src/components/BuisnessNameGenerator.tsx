@@ -109,46 +109,46 @@ export function GenerateBusinessNames() {
 document.addEventListener('copy', handleCopyEvent);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Company Type</label>
+        <label className="block text-[var(--primary-text-color)] ">Company Type</label>
         <input
           type="text"
           value={companyType}
           onChange={(e) => setCompanyType(e.target.value)}
           placeholder="E.g., Tech Startup, Fashion Brand"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Company Mission</label>
+        <label className="block text-[var(--primary-text-color)]">Company Mission</label>
         <input
           type="text"
           value={companyMission}
           onChange={(e) => setCompanyMission(e.target.value)}
           placeholder="E.g., Innovate and inspire through technology"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Target Audience</label>
+        <label className="block text-[var(--primary-text-color)]">Target Audience</label>
         <input
           type="text"
           value={targetAudience}
           onChange={(e) => setTargetAudience(e.target.value)}
           placeholder="E.g., Young professionals, Fitness enthusiasts"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Naming Style</label>
+        <label className="block text-[var(--primary-text-color)]">Naming Style</label>
         <select
           value={namingStyle}
           onChange={(e) => setNamingStyle(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         >
           {namingStyles.map((style) => (
             <option key={style.value} value={style.value}>{style.label}</option>
@@ -157,30 +157,30 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Competitor</label>
+        <label className="block text-[var(--primary-text-color)]">Competitor</label>
         <input
           type="text"
           value={competitor}
           onChange={(e) => setCompetitor(e.target.value)}
           placeholder="E.g., Apple, Nike, Google"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Language Preference</label>
+        <label className="block text-[var(--primary-text-color)]">Language Preference</label>
         <input
           type="text"
           value={languagePreference}
           onChange={(e) => setLanguagePreference(e.target.value)}
           placeholder="E.g., English, Spanish, Mandarin"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         />
       </div>
 
       <div className="mt-5 flex justify-center">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleGenerate}
           disabled={isLoading}
         >
@@ -190,16 +190,16 @@ document.addEventListener('copy', handleCopyEvent);
 
       <div className="mt-5">
         {isLoading ? (
-          <div ref={loaderRef} className="w-full h-screen flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Generating business names. Please wait...</p>
+          <div ref={loaderRef} className="w-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Generating business names. Please wait...</p>
           </div>
         ) : (
           businessNames.length > 0 && (
-            <div ref={resultsRef} className="border border-gray-300 rounded-md mt-6">
+            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6">
               <div className="border p-4 rounded-lg">
-                <h2 className="text-2xl text-gray-700 dark:text-gray-300 mb-4 underline">Generated Business Names:</h2>
-                <ul className="text-gray-700 dark:text-gray-300 list-disc list-inside">
+                <h2 className="text-2xl text-[var(--dark-gray-color)]  mb-4 underline">Generated Business Names:</h2>
+                <ul className="text-[var(--dark-gray-color)]  list-disc list-inside">
                   {businessNames.map((name, index) => (
                     <li key={index} className="mb-2 list-none">{name}</li>
                   ))}
@@ -207,13 +207,13 @@ document.addEventListener('copy', handleCopyEvent);
                 <div className="mt-4 flex space-x-4">
                   <button
                     onClick={handleShare}
-                    className="text-white bg-blue-500 hover:bg-blue-700 text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
+                    className="border border-[var(--primary-text-color)] text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
                   title='Share'>
                     <Share2/>
                   </button>
                   <button
                     onClick={handleDownload}
-                    className="text-white bg-green-500 hover:bg-green-700 text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
+                    className="border border-[var(--primary-text-color)] text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-6 justify-center items-center gap-2 flex-shrink-0 rounded-full"
                   title='Download'>
                     <Download/>
                   </button>

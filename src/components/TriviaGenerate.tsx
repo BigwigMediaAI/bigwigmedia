@@ -156,46 +156,46 @@ export function TriviaGenerator() {
   const currentQuestion = triviaQuestions[currentQuestionIndex];
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Topic</label>
+        <label className="block text-[var(--primary-text-color)]">Topic</label>
         <input
           type="text"
           value={topic}
           onChange={(e) => { setTopic(e.target.value); handleInputChange(); }}
           placeholder="Enter the topic of trivia"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Number of Questions</label>
+        <label className="block text-[var(--primary-text-color)]">Number of Questions</label>
         <input
           type="number"
           value={numberOfQuestions}
           onChange={(e) => { setNumberOfQuestions(e.target.value); handleInputChange(); }}
           placeholder="Enter the number of questions"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Number of Answers</label>
+        <label className="block text-[var(--primary-text-color)]">Number of Answers</label>
         <input
           type="number"
           value={numberOfAnswers}
           onChange={(e) => { setNumberOfAnswers(e.target.value); handleInputChange(); }}
           placeholder="Enter the number of answer choices per question"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Difficulty Level</label>
+        <label className="block text-[var(--primary-text-color)]">Difficulty Level</label>
         <select
           value={difficultyLevel}
           onChange={(e) => { setDifficultyLevel(e.target.value); handleInputChange(); }}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         >
           {difficultyLevels.map(level => (
             <option key={level} value={level}>{level}</option>
@@ -204,11 +204,11 @@ export function TriviaGenerator() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Language</label>
         <select
           value={language}
           onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
         >
           {languages.map(lang => (
             <option key={lang} value={lang}>{lang}</option>
@@ -218,7 +218,7 @@ export function TriviaGenerator() {
 
       <div className="mt-5 flex justify-center">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={buttonText === 'Generate' ? handleGenerate : handleGenerate}
           disabled={isLoading}
         >
@@ -229,37 +229,37 @@ export function TriviaGenerator() {
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           triviaQuestions.length > 0 && (
-            <div className="border border-gray-300 rounded-md mt-6">
+            <div className="border border-[var(--primary-text-color)] rounded-md mt-6">
               <div className="border p-4 rounded-lg relative">
-                <h2 className="text-2xl text-gray-700 dark:text-gray-300 mb-4 underline">Generated Trivia Questions:</h2>
+                <h2 className="text-2xl text-[var(--primary-text-color)] mb-4 underline">Generated Trivia Questions:</h2>
                 {currentQuestion && (
                   <>
-                    <p className="text-lg text-gray-700 dark:text-gray-300">{currentQuestion.question}</p>
+                    <p className="text-lg text-[var(--primary-text-color)]">{currentQuestion.question}</p>
                     <ul className="mt-4">
                       {currentQuestion.answers.map((answer, index) => (
-                        <li key={index} className="text-gray-700 dark:text-gray-300">
+                        <li key={index} className="text-[var(--primary-text-color)]">
                           {String.fromCharCode(97 + index)}. {answer}
                         </li>
                       ))}
                     </ul>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Correct Answer: {currentQuestion.correctAnswer}</p>
+                    <p className="text-sm text-gray-500 mt-2">Correct Answer: {currentQuestion.correctAnswer}</p>
                   </>
                 )}
                 <div className="flex justify-between mt-4">
                   <button
-                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80"
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
                     onClick={handlePrevious}
                     disabled={currentQuestionIndex === 0}
                   >
                     Previous
                   </button>
                   <button
-                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80"
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-2 px-4 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
                     onClick={handleNext}
                     disabled={currentQuestionIndex === triviaQuestions.length - 1}
                   >
@@ -268,19 +268,19 @@ export function TriviaGenerator() {
                 </div>
                 <div className="absolute top-2 right-2 flex gap-2">
                   <button
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleCopy}
                  title='Copy' >
                     <Clipboard className="w-5 h-5" />
                   </button>
                   <button
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleShare}
                   title='Share'>
                     <Share2 className="w-5 h-5" />
                   </button>
                   <button
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleDownload}
                   title='Download'>
                     <Download className="w-5 h-5" />

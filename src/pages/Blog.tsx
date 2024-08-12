@@ -156,12 +156,12 @@ const Blog = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#1E1E1E]">
+    <div className="bg-[var(--background-color)]">
       <Nav />
       
       <div className="p-10 w-5/6 m-auto">
         <div className="text-center mb-10">
-        <h1 className=" bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-transparent bg-clip-text text-2xl sm:text-4xl md:text-4xl lg:text-5xl font-bold mb-4">
+        <h1 className=" text-[var(--primary-text-color)] bg-clip-text text-2xl sm:text-4xl md:text-4xl lg:text-5xl font-bold mb-4">
           BigWigMedia Blogs
         </h1>
 
@@ -178,7 +178,7 @@ const Blog = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearchKeyPress}
-              className="border border-gray-300 rounded-full pl-4 pr-10 py-2 w-full mb-10 md:mb-0"
+              className="border border-[var(--gray-color)] rounded-full pl-4 pr-10 py-2 w-full mb-10 md:mb-0"
             />
             <FaSearch className="absolute top-3 right-3 text-gray-600 cursor-pointer" size={20} onClick={handleSearch} />
           </div>
@@ -186,14 +186,14 @@ const Blog = () => {
 
         <div className='flex justify-end mb-4 mt-5'>
           {isAdmin && (
-            <button onClick={() => setShowAddModal(true)} className="text-white font-outfit md:text-lg font-semibold  text-base py-3 px-3  rounded-full bt-gradient disabled:opacity-60 hover:opacity-80"><FaPlus /></button>
+            <button onClick={() => setShowAddModal(true)} className="text-white font-outfit md:text-lg font-semibold  text-base py-3 px-3  rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"><FaPlus /></button>
           )}
         </div>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map(post => (
-            <div className='bt-gradient p-0.5 rounded-lg h-fit'>
-              <div key={post._id} className="h-fit relative bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105" onClick={() => handlePostClick(post.slug)}>
+            <div className=' shadow-lg shadow-[var(--teal-color)] rounded-lg h-fit'>
+              <div key={post._id} className="h-fit relative bg-gray-100 rounded-lg shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105" onClick={() => handlePostClick(post.slug)}>
                 <div className="w-full h-72 object-cover relative">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover absolute top-0 left-0" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 bg-black bg-opacity-50 text-white">
@@ -213,11 +213,10 @@ const Blog = () => {
           ))}
         </div>
 
-        {/* Add Blog Modal */}
          {/* Add Blog Modal */}
          {showAddModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-filter backdrop-blur-sm overflow-y-auto">
-              <div className="bg-white dark:bg-[#1E1E1E] rounded-lg p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+              <div className="bg-white rounded-lg p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
                 <h2 className="text-2xl text-center font-bold mb-4">Create New Blog Post</h2><hr/><br />
                 <label className="block mb-2">
                   Title
@@ -310,7 +309,7 @@ const Blog = () => {
                   <button onClick={() => setShowAddModal(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2 hover:opacity-60">
                     Cancel
                   </button>
-                  <button onClick={handleCreate} className="text-white bt-gradient hover:opacity-60 px-4 py-2 rounded">
+                  <button onClick={handleCreate} className="text-white bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] px-4 py-2 rounded">
                     Add
                   </button>
                 </div>
@@ -321,7 +320,7 @@ const Blog = () => {
         {/* Edit Blog Modal */}
         {showEditModal && currentPost && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-filter backdrop-blur-sm overflow-y-auto">
-              <div className="bg-white dark:bg-[#1E1E1E] rounded-lg p-8 max-w-md w-full max-h-[90vh] overflow-y-auto border border-gray-300">
+              <div className="bg-white rounded-lg p-8 max-w-md w-full max-h-[90vh] overflow-y-auto border border-gray-300">
                 <h2 className="text-2xl font-bold mb-4 text-center">Edit Blog Post</h2><hr /><br />
                 <label className="block mb-2">
                   Title
@@ -414,7 +413,7 @@ const Blog = () => {
                   <button onClick={() => setShowEditModal(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">
                     Cancel
                   </button>
-                  <button onClick={handleUpdateSubmit} className="bt-gradient text-white px-4 py-2 rounded">
+                  <button onClick={handleUpdateSubmit} className="bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] text-white px-4 py-2 rounded">
                     Update
                   </button>
                 </div>

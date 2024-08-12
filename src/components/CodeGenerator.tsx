@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Download, Loader2 } from "lucide-react";
+import { Copy, Download, Loader2 } from "lucide-react";
 import { BASE_URL } from "../utils/funcitons";
 
 
@@ -139,11 +139,11 @@ export function CodeGenerator() {
 //   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col md:flex-col">
         <div className="w-full pr-2">
           <Textarea
-            className="mb-5 h-28"
+            className="mb-5 h-28 border border-[var(--primary-text-color)]"
             placeholder="Enter Text here...
 For Example:
 Create a navbar...
@@ -155,7 +155,7 @@ Create a Login page...
           />
           <div className="flex w-full my-4 items-center justify-between">
             <select
-              className="mr-2 rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+              className="w-1/2 mr-2 rounded-md border border-[var(--primary-text-color)] p-4"
               value={selectedStructure}
               onChange={handleStructureChange}
             >
@@ -167,7 +167,7 @@ Create a Login page...
               ))}
             </select>
             <select
-              className="mr-2 rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+              className=" w-1/2 mr-2 rounded-md border border-[var(--primary-text-color)] p-4"
               value={selectedDesign}
               onChange={handleDesignChange}
             >
@@ -178,31 +178,39 @@ Create a Login page...
                 </option>
               ))}
             </select>
+            </div>
             <Button
-              className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 mt-3 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+              className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 mt-3 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
               onClick={handleSubmit}
             >
               Generate
             </Button>
-            {convertedCode && (
+            {/* {convertedCode && (
               <Button
-                className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleCopy}
               >
                 Copy
               </Button>
-            )}
-          </div>
+            )} */}
+          
         </div>
         {isLoading ? (
           <div className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-black" />
-            <p className="text-black text-justify">Converting code. Please wait...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Converting code. Please wait...</p>
           </div>
         ) : convertedCode ? (
-          <div className="w-full">
+          <div className="w-full border border-[var(--primary-text-color)] rounded-lg p-4 mt-10">
+            <div className="flex justify-between items-center mb-4 ">
+              
+              <h1 className="text-lg font-semibold">Converted Code</h1>
+              <div className="flex gap-4">
+              <Copy className="cursor-pointer text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]" onClick={handleCopy} />
+              </div>
+            </div>
             <Textarea
-              className="w-full mb-4 h-40"
+              className="w-full mb-4 h-80 border border-[var(--primary-text-color)]"
               placeholder="Converted code will be displayed here..."
               value={convertedCode}
               readOnly

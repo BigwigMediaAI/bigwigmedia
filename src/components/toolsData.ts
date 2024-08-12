@@ -10,7 +10,7 @@ export interface Category {
     {
       logo: "https://www.svgrepo.com/show/219380/tools-screwdriver.svg",
       name: "All Tools",
-      toolCount: 130,
+      toolCount: 200,
       tagLine: "Empower Your Productivity with Versatile Tools for Every Task",
       redirectTo: "/category/All Tools"
     },
@@ -23,7 +23,7 @@ export interface Category {
     {
       logo: "https://www.svgrepo.com/show/343856/marketing-flow-business.svg",
       name: "Social Media Tools",
-      toolCount: 36,
+      toolCount: 40,
       tagLine: "Enhance Your Social Presence with Seamless Content Creation",
       redirectTo: "/category/Social Media Tools"
     },

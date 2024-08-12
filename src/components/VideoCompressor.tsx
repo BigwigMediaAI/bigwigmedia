@@ -113,14 +113,14 @@ export function VideoCompressor() {
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col items-center">
         <div
-          className="w-full relative mb-4 p-4 border-2 border-dashed border-gray-300 rounded-md dark:bg-[#262626] hover:border-gray-500 flex flex-col items-center"
+          className="w-full relative mb-4 p-4 border-4 border-dashed border-[var(--gray-color)] flex flex-col items-center"
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
-          <Upload className="w-12 h-12 text-gray-400" />
+          <Upload className="w-12 h-12 text-[var(--gray-color)]" />
           <input
             type="file"
             accept="video/*"
@@ -132,11 +132,19 @@ export function VideoCompressor() {
             {file ? file.name : "Select a video file"}
           </label>
           <div className="mt-2 text-xs text-gray-500">Drag and drop a video file here</div>
-          <RefreshCw className="absolute top-4 right-4 w-6 h-6 text-gray-400 cursor-pointer" onClick={handleReset} />
+          <RefreshCw className="absolute top-4 right-4 w-6 h-6 text-blue-500 hover:text-blue-800 cursor-pointer" onClick={handleReset} />
         </div>
+        {videoPreviewUrl && !isLoading && (
+          <div className="mt-4 w-full">
+            <video className="w-full rounded" controls>
+              <source src={videoPreviewUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        )}
 
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="mt-10 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleSubmit}
           disabled={isLoading}
         >
@@ -154,32 +162,25 @@ export function VideoCompressor() {
         {isLoading && (
           <div ref={loaderRef} className="w-full mt-4">
             <div className="w-full h-full flex flex-col items-center justify-center ">
-              <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300 " />
-              <p className="text-gray-300 text-justify">Video processing in progress. Timing depends on file size. Thank you for waiting.</p>
+              <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)] " />
+              <p className="text-[var(--dark-gray-color)] text-justify">Video processing in progress. Timing depends on file size. Thank you for waiting.</p>
             </div>
           </div>
         )}
 
-        {videoPreviewUrl && !isLoading && (
-          <div className="mt-4 w-full">
-            <video className="w-full rounded" controls>
-              <source src={videoPreviewUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        )}
+        
 
         {downloadUrl && !isLoading && (
           <div ref={resultsRef} className="w-full mt-4 flex flex-col items-center">
             <a
-              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]  w-fit mx-auto"
               href={downloadUrl}
               download="compressed_video.mp4"
             title="Download">
               Download
             </a>
             <Button
-              className="mt-4 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+              className="mt-4 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]  w-fit mx-auto"
               onClick={handleShare}
             title="Share">
               Share Video

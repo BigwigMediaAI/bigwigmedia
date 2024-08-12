@@ -23,7 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <NextUIProvider>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <Toaster position="top-center" />
           <App />
         </ThemeProvider>

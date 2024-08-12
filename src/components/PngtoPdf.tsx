@@ -119,14 +119,14 @@ export function PNGtoPDFConverter() {
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-xl shadow-[var(--teal-color)]">
       <div
-        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
         <div className="flex flex-col items-center w-full relative">
-          <UploadIcon className="w-12 h-12 text-gray-300 mb-4" />
+          <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
           <input
             type="file"
             id="fileInput"
@@ -136,7 +136,7 @@ export function PNGtoPDFConverter() {
             style={{ display: "none" }}
           />
           <Button
-            className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+            className="border border-[var(--gray-color)] text-gray-600 bg-[var(--white-color)] px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
             onClick={() => document.getElementById("fileInput")?.click()}
           >
             Browse Files
@@ -147,7 +147,7 @@ export function PNGtoPDFConverter() {
           {selectedFiles.length > 0 && (
             <ul className="list-none">
               {selectedFiles.map((file, index) => (
-                <li key={index} className="text-gray-300">
+                <li key={index} className="text-[var(--primary-text-color)]">
                   <span className="mr-5">{file.name}</span>
                   <button onClick={() => removeFile(index)} className="text-gray-300 hover:text-gray-500">
                     &#x2715;
@@ -160,7 +160,7 @@ export function PNGtoPDFConverter() {
       </div>
       <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={generatePDF}
           disabled={selectedFiles.length === 0 || isLoading}
         >
@@ -170,15 +170,15 @@ export function PNGtoPDFConverter() {
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           pdfUrl && (
             <div ref={resultsRef} className="mt-5 text-center">
               <iframe src={pdfUrl} width="100%" height="500px"></iframe>
               <Button
-                className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={() => {
                   const a = document.createElement("a");
                   a.href = pdfUrl;
@@ -189,7 +189,7 @@ export function PNGtoPDFConverter() {
                 Download PDF
               </Button>
               <Button
-                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={sharePDF}
                   disabled={!navigator.share}
                 title="Share">

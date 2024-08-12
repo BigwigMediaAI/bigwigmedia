@@ -103,14 +103,14 @@ export function TextToPdfConverter() {
   };
 
   return (
-    <div className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#5f5f5f] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-2xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex items-center mb-4">
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Enter text to convert to PDF"
           rows={6}
-          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
+          className="w-full px-4 py-2 rounded-md border border-[var(--primary-text-color)] focus:outline-none focus:border-blue-500"
         />
         <button onClick={handleRefresh} className="ml-2 text-blue-500 hover:text-blue-700">
           <FaSyncAlt />
@@ -127,7 +127,7 @@ export function TextToPdfConverter() {
             onClick={handleConvert}
             disabled={!text}
             className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
-              !text ? 'bg-gray-400 cursor-not-allowed' : 'text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit'
+              !text ? 'bg-gray-400 cursor-not-allowed' : 'text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit'
             }`}
           >
             Convert to PDF
@@ -136,7 +136,7 @@ export function TextToPdfConverter() {
         {isLoading && (
           <button
             disabled
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit  cursor-not-allowed"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit  cursor-not-allowed"
           >
             
             Converting...
@@ -147,17 +147,16 @@ export function TextToPdfConverter() {
           <div>
           <button
             onClick={handleDownloadClick}
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit"
          title="Download" >
-            Download PDF
+            Download
           </button>
           <button
-                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={sharePDF}
                   disabled={!navigator.share}
                 title="Share">
                   Share
-                  <Share2 className="ml-2 w-5 h-5" />
                 </button>
           </div>
         )}
@@ -165,8 +164,8 @@ export function TextToPdfConverter() {
       {error && <div className="mt-4 text-red-500">{error}</div>}
       {isLoading && (
         <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-          <p className="text-gray-300 text-justify">Processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-justify">Processing in progress. Please bear with us...</p>
         </div>
       )}
     </div>

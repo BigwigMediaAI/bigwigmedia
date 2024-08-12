@@ -131,13 +131,13 @@ document.addEventListener('copy', handleCopyEvent);
   }, [isLoading, output]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col">
         <div className="mb-4">
-          <label className="block text-gray-700 dark:text-gray-300 mb-2">Enter Text:</label>
+          <label className="block text-[var(--primary-text-color)] mb-2">Enter Text:</label>
           <div className="relative">
             <Textarea
-              className="h-40 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4 pr-12"
+              className="h-40 w-full rounded-md border border-[var(--primary-text-color)] p-4 pr-12"
               placeholder="Enter text to generate notes..."
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -152,9 +152,9 @@ document.addEventListener('copy', handleCopyEvent);
         </div>
         <div className="flex mb-4 justify-between">
           <div className="w-1/2 mr-4">
-            <label className="block text-gray-700 dark:text-gray-300 mb-2">Language:</label>
+            <label className="block text-[var(--primary-text-color)] mb-2">Language:</label>
             <select
-              className="rounded-md border-2 dark:bg-[#262626] border-gray-300 p-2 w-full"
+              className="rounded-md border border-[var(--primary-text-color)] p-2 w-full"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             >
@@ -192,10 +192,10 @@ document.addEventListener('copy', handleCopyEvent);
             </select>
           </div>
           <div className="w-1/2">
-            <label className="block text-gray-700 dark:text-gray-300 mb-2">Output Count:</label>
+            <label className="block text-[var(--primary-text-color)] mb-2">Output Count:</label>
             <input
               type="number"
-              className="rounded-md border-2 dark:bg-[#262626] border-gray-300 p-2 w-full text-center"
+              className="rounded-md border border-[var(--primary-text-color)] p-2 w-full text-center"
               placeholder="Output Count"
               value={outputCount}
               onChange={(e) => setOutputCount(parseInt(e.target.value))}
@@ -204,7 +204,7 @@ document.addEventListener('copy', handleCopyEvent);
         </div>
         <div className="flex justify-center">
           <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
             onClick={handleSubmit}
             disabled={isLoading}
           >
@@ -214,41 +214,42 @@ document.addEventListener('copy', handleCopyEvent);
         <div className="w-full mt-4 flex flex-col gap-2 justify-between">
           {isLoading ? (
             <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-              <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-400" />
-              <p className="text-gray-400 text-justify">Data processing in progress. Please bear with us...</p>
+              <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+              <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           ) : (
             output && (
               <div
                 ref={resultsRef}
-                className="h-60 md:h-96 w-full rounded-md border-2 border-gray-300 dark:text-gray-200 text-gray-800 p-4 overflow-y-auto"
+                className="h-60 md:h-96 w-full rounded-md border border-gray-300 text-gray-800 p-4 overflow-y-auto"
               >
-                {output.split("\n").map((line, idx) => (
-                  <p key={idx} className="mb-5">{line}</p>
-                ))}
                 <div className="flex justify-end mt-4 gap-2">
                   <button
-                    className="rounded-md px-4 py-2 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                    className="rounded-md px-4 py-2 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleCopy}
                     title="Copy"
                   >
                     <CopyIcon />
                   </button>
                   <button
-                    className="rounded-md px-4 py-2 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                    className="rounded-md px-4 py-2 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleShare}
                     title="Share"
                   >
                     <Share2 />
                   </button>
                   <button
-                    className="rounded-md px-4 py-2 text-gray-600 hover:dark:bg-gray-800 dark:text-gray-200 hover:bg-gray-100"
+                    className="rounded-md px-4 py-2 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleDownload}
                     title="Download"
                   >
                     <Download />
                   </button>
                 </div>
+                {output.split("\n").map((line, idx) => (
+                  <p key={idx} className="mb-5">{line}</p>
+                ))}
+                
               </div>
             )
           )}

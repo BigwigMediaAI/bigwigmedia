@@ -18,7 +18,7 @@ const Transaction = (props: Props) => {
     <div className='flex flex-col gap-2'><Nav />
     <div className="max-w-4xl px-3  md:px-12 pt-6 flex mb-4">
         <FiArrowLeft
-          className="text-white text-2xl cursor-pointer hover:text-blue-700"
+          className="text-[var(--primary-text-color)] text-2xl cursor-pointer hover:text-[var(--gray-color)]"
           onClick={handleBackClick}
         />
       </div>

@@ -139,7 +139,7 @@ document.addEventListener('copy', handleCopyEvent);
   }, [isLoading, qaPairs]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-[#3f3e3e]">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
         <textarea
           disabled
@@ -149,55 +149,55 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Topic</label>
+        <label className="block text-[var(--primary-text-color)]">Topic</label>
         <input
           type="text"
           value={topic}
           onChange={(e) => { setTopic(e.target.value); handleInputChange(); }}
           placeholder="Example: The Future of Artificial Intelligence"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Guest</label>
+        <label className="block text-[var(--primary-text-color)]">Guest</label>
         <input
           type="text"
           value={guest}
           onChange={(e) => { setGuest(e.target.value); handleInputChange(); }}
           placeholder="Example: Dr. Jane Smith"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500  dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Background Information</label>
+        <label className="block text-[var(--primary-text-color)]">Background Information</label>
         <input
           type="text"
           value={background}
           onChange={(e) => { setBackground(e.target.value); handleInputChange(); }}
           placeholder="Example: Expert in machine learning with 10 years of experience"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Guest's Interests</label>
+        <label className="block text-[var(--primary-text-color)]">Guest's Interests</label>
         <input
           type="text"
           value={interests}
           onChange={(e) => { setInterests(e.target.value); handleInputChange(); }}
           placeholder="Example: AI ethics, robotics, deep learning"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Select the tone for the podcast:</label>
+        <label className="block text-[var(--primary-text-color)]">Select the tone for the podcast:</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         >
           <option value="Formal">Formal</option>
           <option value="Informative">Informative</option>
@@ -211,11 +211,11 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Select the language for the podcast:</label>
+        <label className="block text-[var(--primary-text-color)]">Select the language for the podcast:</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
         >
           <option value="English">English</option>
           <option value="Spanish">Spanish</option>
@@ -254,7 +254,7 @@ document.addEventListener('copy', handleCopyEvent);
         <button
           onClick={handleSubmit}
           disabled={isLoading}
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
         >
           {isLoading ? "Generating..." : qaPairs.length > 0 ? "Regenerate" : "Generate"}
         </button>
@@ -263,15 +263,15 @@ document.addEventListener('copy', handleCopyEvent);
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           qaPairs.length > 0 && (
-            <div ref={resultsRef} className="border border-gray-300 rounded-md mt-6">
+            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6">
               <div className="border p-4 rounded-lg relative">
-                <h2 className="text-2xl text-gray-700 dark:text-gray-300 mb-4 underline">Generated Q&A Pairs:</h2>
-                <ul className="text-gray-700 dark:text-gray-300 list-disc list-inside">
+                <h2 className="text-2xl text-[var(--primary-text-color)] mb-4 underline">Generated Q&A Pairs:</h2>
+                <ul className="text-[var(--primary-text-color)] list-disc list-inside">
                   {qaPairs.map((pair, index) => (
                     <li key={index} className="mb-2 list-none">
                       <p className="font-semibold">{pair.question}</p>
@@ -282,19 +282,19 @@ document.addEventListener('copy', handleCopyEvent);
                 <div className="absolute top-2 right-2 flex gap-2">
                   <button
                     onClick={handleCopy}
-                    className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                   title="Copy">
                     <ClipboardCopy className="inline-block w-5 h-5" />
                   </button>
                   <button
                     onClick={handleDownload}
-                    className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                   title="Download">
                     <FaDownload className="inline-block w-5 h-5" />
                   </button>
                   <button
                     onClick={handleShare}
-                    className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
                   title="Share">
                     <FaShareAlt className="inline-block w-5 h-5" />
                   </button>

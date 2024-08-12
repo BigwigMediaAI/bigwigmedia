@@ -115,11 +115,11 @@ export function Seotool() {
 document.addEventListener('copy', handleCopyEvent);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col md:flex-col">
         <div className="w-full  pr-2">
           <Textarea
-            className="mb-4 h-20 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+            className="mb-4 h-20 w-full rounded-md border-2  border-[var(--primary-text-color)] p-4"
             placeholder="For example...
 Mobile phones
 Share marketing
@@ -129,7 +129,7 @@ Digital media"
           />
           <div className="flex w-full my-4 items-center justify-center">
             <Button
-              className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit "
+              className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit "
               onClick={handleSubmit}
             >
               Generate
@@ -139,26 +139,26 @@ Digital media"
         <div className="w-full  pl-2 flex flex-col gap-2 justify-between">
           {isLoading ? (
             <div className="w-full h-full flex flex-col items-center justify-center ">
-              <Loader2 className="animate-spin w-20 h-20 mt-20 text-black " />
-              <p className="text-black text-justify">Data processing in progress. Please bear with us...</p>
+              <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)] " />
+              <p className="text-[var(--dark-gray-color)]text-justify">Data processing in progress. Please bear with us...</p>
             </div>
           ) : data.length > 0 ? (
             <div className="w-full">
               <div className="flex justify-end mb-4">
                 <Button
-                  className="bg-gray-200 mr-4 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                  className="bg-gray-200 mr-4 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 "
                   onClick={handleShare}
                 title="Share">
                   <Share2 />
                 </Button>
                 <Button
-                  className="bg-gray-200 mr-4 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                  className="bg-gray-200 mr-4 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 "
                   onClick={handleDownload}
                 title="Download">
                   <Download />
                 </Button>
                 <Button
-                  className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 dark:bg-gray-600 dark:text-gray-200"
+                  className="bg-gray-200 text-gray-600 hover:bg-gray-300 rounded-md px-3 py-1 "
                   onClick={handleCopy}
                 title="Copy">
                   <Copy />
@@ -167,9 +167,9 @@ Digital media"
               <table className="w-full border-collapse border border-gray-200">
                 <thead>
                   <tr>
-                    <th className="border border-gray-200 text-black p-2" style={{ width: '30%' }}>Title</th>
-                    <th className="border border-gray-200 text-black p-2">Keywords</th>
-                    <th className="border border-gray-200 text-black p-2" style={{ width: '30%' }}>Search Volume</th>
+                    <th className="border border-[var(--gray-color)] text-black p-2" style={{ width: '30%' }}>Title</th>
+                    <th className="border border-[var(--gray-color)] text-black p-2">Keywords</th>
+                    <th className="border border-[var(--gray-color)] text-black p-2" style={{ width: '30%' }}>Search Volume</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -179,9 +179,9 @@ Digital media"
                       const { keyword: keywordText, searchVolume } = keyword;
                       return (
                         <tr key={`${index}-${keywordIndex}`}>
-                          <td className="border border-gray-200 text-white p-2 text-center text-small">{title}</td>
-                          <td className="border border-gray-200 text-white p-2 text-center">{keywordText}</td>
-                          <td className="border border-gray-200 text-white p-2 text-center">{searchVolume}</td>
+                          <td className="border border-[var(--gray-color)] text-[var(--primary-text-color)] p-2 text-center text-small">{title}</td>
+                          <td className="border border-[var(--gray-color)] text-[var(--primary-text-color)] p-2 text-center">{keywordText}</td>
+                          <td className="border border-[var(--gray-color)] text-[var(--primary-text-color)] p-2 text-center">{searchVolume}</td>
                         </tr>
                       );
                     })

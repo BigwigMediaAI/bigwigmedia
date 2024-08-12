@@ -145,77 +145,77 @@ export function CoverLetterGenerator() {
 document.addEventListener('copy', handleCopyEvent);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Job Description</label>
+        <label className="block text-[var(--primary-text-color)]">Job Description</label>
         <textarea
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
           placeholder="Enter job description (e.g., We are looking for a skilled software developer with experience in Node.js and React)"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Your Name</label>
+        <label className="block text-[var(--primary-text-color)]">Your Name</label>
         <input
           type="text"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
           placeholder="Enter your name"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Your Email</label>
+        <label className="block text-[var(--primary-text-color)]">Your Email</label>
         <input
           type="email"
           value={userEmail}
           onChange={(e) => setUserEmail(e.target.value)}
           placeholder="Enter your email"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Your Phone</label>
+        <label className="block text-[var(--primary-text-color)]">Your Phone</label>
         <input
           type="text"
           value={userPhone}
           onChange={(e) => setUserPhone(e.target.value)}
           placeholder="Enter your phone number"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Your Address (optional)</label>
+        <label className="block text-[var(--primary-text-color)]">Your Address (optional)</label>
         <input
           type="text"
           value={userAddress}
           onChange={(e) => setUserAddress(e.target.value)}
           placeholder="Enter your address"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Highlights</label>
+        <label className="block text-[var(--primary-text-color)]">Highlights</label>
         <textarea
           value={highlights}
           onChange={(e) => setHighlights(e.target.value)}
           placeholder="Enter highlights (e.g., Experience with large-scale applications, strong problem-solving skills, and a passion for technology)"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         >
           <option value="English">English</option>
           <option value="Spanish">Spanish</option>
@@ -252,19 +252,19 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="mb-5">
-        <label className="block text-gray-700 dark:text-gray-300">Number of Outputs</label>
+        <label className="block text-[var(--primary-text-color)]">Number of Outputs</label>
         <input
           type="number"
           value={outputCount}
           onChange={(e) => setOutputCount(parseInt(e.target.value))}
           placeholder="Enter number of outputs (e.g., 1)"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-300 px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
         />
       </div>
 
       <div className="mt-5 flex justify-center">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleGenerate}
           disabled={isLoading}
         >
@@ -275,34 +275,34 @@ document.addEventListener('copy', handleCopyEvent);
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Generating cover letter. Please wait...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Generating cover letter. Please wait...</p>
           </div>
         ) : (
           <div>
             {coverLetters.length > 0 && coverLetters.map((letter, index) => (
-              <div key={index} ref={resultsRef} className='border border-gray-300 rounded-md p-5 relative mb-5'>
-                <h3 className="text-gray-700 dark:text-gray-300">Generated Cover Letter {index + 1}:</h3>
-                <div className="mt-2 dark:bg-gray-700 p-4 rounded-md">
+              <div key={index} ref={resultsRef} className='border  border-[var(--primary-text-color)] rounded-md p-5 relative mb-5'>
+                <h3 className="text-[var(--primary-text-color)]">Generated Cover Letter {index + 1}:</h3>
+                <div className="mt-2 p-4 rounded-md">
                   {letter.split('\n').map((line, lineIndex) => (
-                    <p key={lineIndex} className="text-gray-700 dark:text-gray-300">{line}</p>
+                    <p key={lineIndex} className="text-[var(--primary-text-color)]">{line}</p>
                   ))}
                 </div>
                 <div className='flex justify-center items-center mt-4'>
                 <button
-                  className="absolute top-2 right-2 rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:dark:bg-gray-800 dark:text-gray-200"
+                  className="absolute top-2 right-2 rounded-md p-2 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                   onClick={() => handleCopy(letter)}
                 title='Copy'>
                   <CopyIcon className="h-5 w-5" />
                 </button>
                 <button
-                    className="absolute top-2 right-10 rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:dark:bg-gray-800 dark:text-gray-200"
+                    className="absolute top-2 right-10 rounded-md p-2 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleShare}
                   title='Share'>
                    <Share2/>
                   </button>
                   <button
-                    className="absolute top-2 right-20 rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:dark:bg-gray-800 dark:text-gray-200"
+                    className="absolute top-2 right-20 rounded-md p-2 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
                     onClick={handleDownload}
                   title='Download'>
                     <Download/>

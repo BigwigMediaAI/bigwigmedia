@@ -107,10 +107,10 @@ const ImageGenerator = (props: Props) => {
     setSelectedButton(selected);
   };
   return (
-    <div className="m-auto w-full max-w-[1000px] rounded-lg dark:bg-[#262626] bg-white p-6 shadow-lg">
+    <div className="m-auto w-full max-w-[1000px] rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       {/* text area */}
       <Textarea
-        className="mb-4 h-24 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
+        className="mb-4 h-24 w-full rounded-md border-2 border-gray-300 p-4"
         placeholder="Enter Prompt to generate image"
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -158,8 +158,8 @@ const ImageGenerator = (props: Props) => {
             {buttonLabels.map((label, index) => (
               <button
                 key={index}
-                className={`border rounded-full px-7 py-2 ${
-                  selectedButton === label ? "border-gradient-1" : ""
+                className={`border-2 rounded-full px-7 py-2 ${
+                  selectedButton === label ? "border-[var(--teal-color)]" : ""
                 }`}
                 onClick={() => handleButtonClick(label)}
               >
@@ -168,15 +168,16 @@ const ImageGenerator = (props: Props) => {
             ))}
           </div>
       <button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
         onClick={(e) => void handleSubmit(e)}
       >
         Generate
       </button>
 
       {isLoading ? (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex flex-col items-center justify-center">
           <Loader2 className="animate-spin w-20 h-20 mt-20" />
+          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       ) : (
         !!output && (

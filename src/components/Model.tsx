@@ -23,9 +23,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className={`fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center modal-overlay backdrop-filter backdrop-blur-sm ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-      <div className={`modal-content bg-gray-200 p-0 rounded-lg shadow-lg transform transition-all ${isOpen ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`} style={{ maxWidth: '60%', maxHeight: '70vh', width: '70vw', height: 'auto' }}>
+      <div className={`modal-content bg-white p-0 rounded-lg shadow-lg transform transition-all ${isOpen ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`} style={{ maxWidth: '60%', maxHeight: '70vh', width: '70vw', height: 'auto' }}>
         <button className="absolute top-2 right-5 close-button text-black z-10" onClick={onClose}>
-          ❌
+        ✖
         </button>
         <div className="flex flex-col md:flex-row h-full">
           <div className="w-full md:w-1/2">

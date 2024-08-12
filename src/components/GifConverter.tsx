@@ -144,15 +144,15 @@ export function GifConverter() {
 
   return (
     <div>
-      <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+      <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
         <div
-          className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+          className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
           <div className="flex justify-between w-full">
             <div className="flex flex-col items-center w-full">
-              <Upload className="w-12 h-12 text-gray-400" />
+              <Upload className="w-12 h-12 text-[var(--gray-color)]" />
               <input
                 type="file"
                 ref={fileInputRef}
@@ -167,7 +167,7 @@ export function GifConverter() {
                 Select Video File
               </Button>
               {selectedFileName && (
-                <p className="text-gray-300 mt-2">{selectedFileName}</p>
+                <p className="text-[var(--primary-text-color)] mt-2">{selectedFileName}</p>
               )}
               <p className="text-gray-400">or drag and drop a video file</p>
             </div>
@@ -185,10 +185,10 @@ export function GifConverter() {
               width="100%"
               onDuration={handleVideoDuration}
             />
-            <div className="w-11/12 mt-4">
+            <div className="w-11/12 mt-4 text-[var(--primary-text-color)]">
               <div className="flex justify-between">
                 <div className="w-1/2 mr-2">
-                  <label className="mb-2 text-gray-400">Start time</label>
+                  <label className="mb-2 text-[var(--primary-text-color)]">Start time</label>
                   <Slider
                     min={0}
                     max={videoDuration}
@@ -205,7 +205,7 @@ export function GifConverter() {
                   <span>{formatTime(startTime)}</span>
                 </div>
                 <div className="w-1/2 ml-2">
-                  <label className="mb-2 text-gray-400"> End time</label>
+                  <label className="mb-2 text-[var(--primary-text-color)]"> End time</label>
                   <Slider
                     min={0}
                     max={videoDuration}
@@ -227,44 +227,45 @@ export function GifConverter() {
         )}
         <div className="flex justify-center mb-5">
           <Button
-            className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}
+            className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}
             onClick={handleConvertClick}
             disabled={!isFileSelected || isLoading}
           >
             {isLoading ? "Generating GIF..." : 'Generate GIF'}
           </Button>
         </div>
-      </div>
+      
 
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           gifUrl && (
-            <div ref={resultsRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
+            <div ref={resultsRef} className="m-auto w-full max-w-2xl rounded-lg bg-white p-6  mt-5 flex flex-col items-center">
               <div className="mt-4 w-full text-center">
                 <img src={gifUrl} alt="Generated GIF" className="w-1/2 mb-4 mx-auto" />
                 <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleDownloadClick}
                 title="Download">
-                  Download GIF
+                  Download
                   <Download className="w-6 h-6 text-white" />
                 </Button>
                 <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-4"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
                   onClick={handleShareClick}
                 title="Share">
-                  Share GIF
+                  Share
                   <Share2 className="w-6 h-6 text-white" />
                 </Button>
               </div>
             </div>
           )
         )}
+      </div>
       </div>
     </div>
   );

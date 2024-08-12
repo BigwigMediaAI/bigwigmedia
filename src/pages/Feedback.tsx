@@ -63,11 +63,11 @@ const Feedback: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100">
+    <div className="bg-white  text-gray-900">
       <Nav />
-      <div className="max-w-6xl mx-auto px-2 pt-6 flex mb-4">
+      <div className="max-w-7xl mx-auto px-2 pt-6 flex mb-4">
         <FiArrowLeft
-          className="text-white text-2xl cursor-pointer hover:text-blue-700"
+          className="text-[var(--primary-text-color)] text-2xl cursor-pointer hover:text-[var(--gray-color)]"
           onClick={handleBackClick}
         />
       </div>
@@ -76,41 +76,41 @@ const Feedback: React.FC = () => {
 
         <form
           onSubmit={handleFormSubmit}
-          className="w-full max-w-lg bg-white dark:bg-[#222222] shadow-lg rounded-lg p-8"
+          className="w-full max-w-lg bg-white shadow-md shadow-[var(--teal-color)] rounded-lg p-8"
         >
           <div className="mb-6">
-            <label htmlFor="name" className="block mb-2 font-semibold">
+            <label htmlFor="name" className="block mb-2 font-semibold text-start">
               Name
             </label>
             <input
               type="text"
               id="name"
-              className="form-input px-4 py-2 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
+              className="form-input px-4 py-2 w-full rounded-md border border-gray-300 bg-gray-50"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="email" className="block mb-2 font-semibold">
+            <label htmlFor="email" className="block mb-2 font-semibold text-start">
               Email
             </label>
             <input
               type="email"
               id="email"
-              className="form-input px-4 py-2 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
+              className="form-input px-4 py-2 w-full rounded-md border border-gray-300 bg-gray-50 "
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="tool" className="block mb-2 font-semibold">
+            <label htmlFor="tool" className="block mb-2 font-semibold text-start">
               Select Tool
             </label>
             <select
               id="tool"
-              className="form-select px-4 py-2 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
+              className="form-select px-4 py-2 w-full rounded-md border border-gray-300 bg-gray-50"
               value={selectedTool}
               onChange={(e) => setSelectedTool(e.target.value)}
               required
@@ -124,12 +124,12 @@ const Feedback: React.FC = () => {
             </select>
           </div>
           <div className="mb-6">
-            <label htmlFor="message" className="block mb-2 font-semibold">
+            <label htmlFor="message" className="block mb-2 font-semibold text-start">
               Review
             </label>
             <textarea
               id="message"
-              className="form-textarea px-4 py-2 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
+              className="form-textarea px-4 py-2 w-full rounded-md border border-gray-300 bg-gray-50 "
               rows={4}
               value={review}
               onChange={(e) => setReview(e.target.value)}
@@ -139,7 +139,7 @@ const Feedback: React.FC = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out"
+              className="bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out"
             >
               Submit
             </button>

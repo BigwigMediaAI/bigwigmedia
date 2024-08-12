@@ -96,7 +96,7 @@ export function AvatarTool() {
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-md ">
       <div className="flex flex-col items-center mb-5">
         <h1 className="text-2xl font-bold mb-4">Avatar Generator</h1>
         <div className="relative rounded-full border border-gray-300 h-40 w-40 flex justify-center items-center mb-4">

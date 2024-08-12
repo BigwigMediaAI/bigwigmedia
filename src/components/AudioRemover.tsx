@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, RefreshCw, Download } from 'lucide-react';
+import { Loader2, RefreshCw, Download, UploadIcon } from 'lucide-react';
 import ReactPlayer from 'react-player';
 import { useAuth } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,7 @@ export function AudioRemover() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const trimmedVideoRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null); 
   const { userId } = useAuth();
   const [showLoader, setShowLoader] = useState(false); 
 
@@ -57,6 +58,11 @@ export function AudioRemover() {
   const handleConvertClick = async () => {
     try {
       setIsLoading(true);
+
+      // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 
       const formData = new FormData();
       const inputRef = fileInputRef.current;
@@ -99,22 +105,22 @@ export function AudioRemover() {
     }
   }, [showLoader]);
 
-  // Effect to scroll to the trimmed video section when trimmedVideoUrl changes
   useEffect(() => {
-    if (trimmedVideoUrl && trimmedVideoRef.current) {
-      trimmedVideoRef.current.scrollIntoView({ behavior: 'smooth' ,block:'center'});
+    if (!isLoading && trimmedVideoUrl) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [trimmedVideoUrl]);
+  }, [isLoading, trimmedVideoUrl]);
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl">
+    <div className="m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
-        className="border border-gray-300 p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
       >
         <div className="flex justify-between w-full">
           <div className="flex flex-col items-center w-full">
+          <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
             <input
               type="file"
               ref={fileInputRef}
@@ -123,13 +129,13 @@ export function AudioRemover() {
               onChange={handleFileChange}
             />
             <Button
-              className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+              className="border border-gray-300 text-gray-600 bg-[var(--white-color)] px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
               onClick={() => fileInputRef.current?.click()}
             >
               Select Video File
             </Button>
             {selectedFileName && (
-              <p className="text-gray-300 mt-2">{selectedFileName}</p>
+              <p className="text-[var(--dark-gray-color)] mt-2">{selectedFileName}</p>
             )}
             <p className="text-gray-400">or drag and drop a video file</p>
           </div>
@@ -152,7 +158,7 @@ export function AudioRemover() {
 
       <div className="flex justify-center mb-5">
         <Button
-          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient disabled:opacity-60 hover:opacity-80 w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}
+          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}
           onClick={handleConvertClick}
           disabled={!isFileSelected || isLoading}
         >
@@ -162,13 +168,13 @@ export function AudioRemover() {
 
       {isLoading && (
         <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-          <p className="text-gray-300 text-justify">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       )}
 
       {trimmedVideoUrl && (
-        <div ref={trimmedVideoRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
+        <div ref={resultsRef} className="m-auto w-full max-w-2xl rounded-lg bg-[var(--white-color)] p-6 mt-5 flex flex-col items-center">
           <div className="mt-4 w-full text-center">
             <ReactPlayer
               url={trimmedVideoUrl}
@@ -176,7 +182,7 @@ export function AudioRemover() {
               width="100%"
             />
             <Button
-              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-gradient hover:opacity-80 w-fit mx-auto mt-5"
+              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
               onClick={handleDownloadClick}
             title='Download'>
               Download
