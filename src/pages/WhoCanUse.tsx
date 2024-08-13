@@ -4,16 +4,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const usersData = [
-  { text: "Freelancers", color: "bg-yellow-400" },
-  { text: "Product Managers", color: "bg-red-500" },
-  { text: "Designers", color: "bg-pink-500" },
-  { text: "Engineers", color: "bg-blue-500" },
-  { text: "Marketers", color: "bg-green-500" },
-  { text: "Digital Marketers", color: "bg-purple-500" },
-  { text: "Agencies", color: "bg-orange-500" },
-  { text: "Startups", color: "bg-teal-500" },
-  { text: "Solo Entrepreneurs", color: "bg-indigo-500" },
-  { text: "Business Enterprises", color: "bg-gray-500" }
+  { text: "Freelancers", color: "bg-black" },
+  { text: "Product Managers", color: "bg-black" },
+  { text: "Designers", color: "bg-black" },
+  { text: "Engineers", color: "bg-black" },
+  { text: "Marketers", color: "bg-black" },
+  { text: "Digital Marketers", color: "bg-black" },
+  { text: "Agencies", color: "bg-black" },
+  { text: "Startups", color: "bg-black" },
+  { text: "Solo Entrepreneurs", color: "bg-black" },
+  { text: "Business Enterprises", color: "bg-black" }
 ];
 
 const WhoCanUseIt = () => {
