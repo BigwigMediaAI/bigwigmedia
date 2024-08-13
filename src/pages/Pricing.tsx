@@ -24,7 +24,7 @@ const PricingPlan = () => {
       <div className="flex flex-col items-center py-6">
         <div className="flex flex-col md:flex-row gap-10">
           {/* Free Plan */}
-          <div className="max-w-sm rounded-lg shadow-md p-6 bg-[var(--white-color)] shadow-[var(--teal-color)] border border-teal-200">
+          <div className="max-w-sm rounded-lg shadow-md p-6 bg-[var(--white-color)] shadow-[var(--teal-color)] ">
             <h3 className="text-xl font-semibold text-[var(--primary-text-color)] mb-4">Free Plan</h3>
             <div className="text-4xl font-bold text-[var(--teal-color)] mb-4">₹0</div>
             <div className="text-[var(--gray-color)] mb-4">30 credits or 7 days</div>
