@@ -24,19 +24,23 @@ export function NCAForm() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (
-      !validateInput(employer)||
-      !validateInput(employee)||
-      !validateInput(ncaContent)||
-      !validateInput(restrictedActivities)
+      !validateInput(employer) ||
+      !validateInput(employee) ||
+      !validateInput(restrictedActivities) ||
+      !validateInput(restrictedDuration) ||
+      !validateInput(restrictedTerritory)
     ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
-    setNcaContent('')
+  
+    setNcaContent(''); // Clear previous content
+  
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
+  
     try {
       setIsLoading(true);
       const response = await axios.post(`${BASE_URL}/response/nca?clerkId=${userId}`, {
@@ -47,7 +51,7 @@ export function NCAForm() {
         restrictedTerritory,
         language,
       });
-      console.log(response)
+  
       if (response.status === 200) {
         const cleanContent = response.data.nda.replace(/\*\*/g, ''); // Remove asterisks
         setNcaContent(cleanContent);
@@ -62,6 +66,7 @@ export function NCAForm() {
       setIsLoading(false);
     }
   };
+  
 
   const handleCopy = () => {
     if (ncaContent) {
@@ -245,12 +250,12 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
       {isLoading && (
         <div ref={loaderRef} className="mt-5 w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 text-[var(--primary-text-color)]" />
-          <p className="text-[var(--primary-text-color)] text-center">Data processing in progress. Please bear with us...</p>
+          <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-center">Data processing in progress. Please bear with us...</p>
         </div>
       )}
       {ncaContent && (
-        <div ref={resultsRef} className="relative mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-gray-300 text-white">
+        <div ref={resultsRef} className="relative mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-gray-300 text-[var(--primary-text-color)]">
           <label className="block text-md font-medium text-[var(--primary-text-color)] mb-2">
             Generated NCA Data:
           </label>

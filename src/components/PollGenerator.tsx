@@ -28,26 +28,31 @@ export function PollGenerator() {
   }, [generatedPoll]);
 
   const handleGeneratePoll = async () => {
-    if (
-      !validateInput(question)||
-      !validateInput(options)
-    ) {
+    if (!validateInput(question)) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
+  
+    for (const option of options) {
+      if (!validateInput(option)) {
+        toast.error('One or more of your options contain prohibited words. Please remove them and try again.');
+        return;
+      }
+    }
+  
     setIsLoading(true);
     setGeneratedPoll('');
-
+  
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
-
+  
     try {
       const response = await axios.post(`${BASE_URL}/response/generatePoll?clerkId=${userId}`, {
         question,
-        options
+        options,
       });
-      console.log(response.data.data)
+  
       if (response.status === 200) {
         setGeneratedPoll(response.data.data.poll);
       } else {
@@ -60,7 +65,7 @@ export function PollGenerator() {
       setIsLoading(false);
     }
   };
-
+  
   const handleCopy = () => {
     navigator.clipboard.writeText(generatedPoll);
     toast.success('Generated poll copied to clipboard!');
