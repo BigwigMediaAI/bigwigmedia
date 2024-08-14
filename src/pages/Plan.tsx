@@ -222,43 +222,39 @@ const Plan = (props: Props) => {
       />
       <div className="z-50 absolute top-0 w-full">
         <Nav />
-        <div className=" dark:!text-white flex flex-col  min-h-[calc(100vh-90px)] w-full h-full justify-center items-center px-5">
-          {/*  @ts-ignore */}
+        <div className="flex flex-col min-h-[calc(100vh-90px)] w-full h-full justify-center items-center px-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-7xl mx-auto">
             {isLoaded &&
               plans.map((ite, index) => (
-                <div  key={index}
-                  className="flex border-gradient-2 dark:bg-[#262626
-] z-10 w-[200px] h-[320px] flex-col justify-between p-[23px] gap-[10px] shrink-0 border-2 "
-                >
-                  <div className="text-black dark:text-white font-Outfit text-lg font-semibold leading-normal text-center">
-                    <span className="capitalize">{ite.expairy} days</span>
-                  </div>
-                  <div className="text-black dark:text-white font-Outfit text-sm font-medium leading-normal">
-                    <div className="w-full flex flex-col gap-3">
-                      <div className="text-black dark:text-white font-Outfit text-3xl font-medium leading-normal text-center">
-                      &#x20B9;{ite.Displayamount}
-                      </div>
-                      <div className="text-black dark:text-white font-Outfit text-base font-outfit leading-normal text-center">
-                        {ite.limit} Credits
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    className=" z-50 w-full h-[40px] inline-flex p-[2px] items-center justify-center gap-[4px] rounded-[32px] bt-gradient text-white font-Outfit text-sm font-medium leading-normal cursor-pointer"
-                    onClick={() => CheckoutHandler(ite)}
-                  >
-                    Buy
-                  </button>
-                  <div className="absolute w-full h-full rounded-[13px]  background-gradient  -z-10 top-1 left-1"></div>
-                  <div className="absolute w-full h-full rounded-[13px] dark:bg-[#262626] bg-white -z-[5] top-0 left-0"></div>
-                </div>
+                <div
+  key={index}
+  className="flex flex-col justify-between p-8 border rounded-lg shadow-md bg-[#ECEFF1] text-[var(--primary-text-color)] hover:shadow-lg transition-all"
+  style={{ minWidth: '300px', minHeight: '400px' }}
+>
+  <div className="text-xl font-semibold text-center">
+    <span className="capitalize">{ite.expairy} days</span>
+  </div>
+  <div className="flex flex-col gap-4 text-center">
+    <div className="text-4xl font-medium">
+      &#x20B9;{ite.Displayamount}
+    </div>
+    <div className="text-lg">
+      {ite.limit} Credits
+    </div>
+  </div>
+  <button
+    className="w-full h-12 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--teal-color)] text-white font-medium hover:bg-[var(--hover-teal-color)] transition-all"
+    onClick={() => CheckoutHandler(ite)}
+  >
+    Buy
+  </button>
+</div>
+
               ))}
-            -
           </div>
           <button
             onClick={() => navigate("/profile")}
-            className="mt-[5vh] border-gradient-2 px-5 py-2 rounded-[32px] text-white font-Outfit text-sm font-medium leading-normal cursor-pointer"
+            className="mt-10 px-5 py-2 rounded-full bg-[var(--teal-color)] text-white font-medium hover:bg-[var(--hover-teal-color)] transition-all"
           >
             Back to Profile
           </button>
