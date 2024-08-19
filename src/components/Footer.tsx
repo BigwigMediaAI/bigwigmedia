@@ -183,10 +183,10 @@ const Footer = () => {
             </div>
           </div>
           <div className="flex flex-col items-start gap-2 md:gap-[21px]">
-            <div className="text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
+            <div className="  text-[12px] md:text-[15px] text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
               BigWig Media AI Tools
             </div>
-            <div className="text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
+            <div className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
               Made with ❤ by{" "}
               <button onClick={() => window.open("https://bigwigmedia.in")}>BigWigMedia</button>
             </div>
@@ -199,7 +199,7 @@ const Footer = () => {
           <div className="grid grid-cols-2 gap-2">
             {arr.map((button, id) => (
               <div
-                className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)] font-Outfit text-base font-medium leading-normal cursor-pointer pr-[20px]"
+                className=" text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)] font-Outfit text-base font-medium leading-normal cursor-pointer pr-[20px]"
                 key={id}
                 onClick={() => {
                   const encodedButton = encodeURIComponent(button);
@@ -221,7 +221,7 @@ const Footer = () => {
           </div>
           <div className="flex flex-col items-start gap-2">
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer font-Outfit text-base font-medium leading-normal"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer font-Outfit text-base font-medium leading-normal"
               onClick={() => {
                 navigate("/about");
               }}
@@ -229,7 +229,7 @@ const Footer = () => {
               About Us
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer  font-Outfit text-base font-medium leading-normal"
+              className=" text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer  font-Outfit text-base font-medium leading-normal"
               onClick={() => {
                 navigate("/contact");
               }}
@@ -237,7 +237,7 @@ const Footer = () => {
               Contact
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
               onClick={() => {
                 navigate("/blog");
               }}
@@ -245,7 +245,7 @@ const Footer = () => {
               Blogs
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
               onClick={() => {
                 navigate("/profile");
               }}
@@ -253,7 +253,7 @@ const Footer = () => {
               My Profile
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/Disclaimer");
               }}
@@ -261,7 +261,7 @@ const Footer = () => {
               Disclaimer
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/feedback");
               }}
@@ -276,7 +276,7 @@ const Footer = () => {
           </div>
           <div className="flex flex-col items-start gap-2">
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/terms");
               }}
@@ -284,7 +284,7 @@ const Footer = () => {
               Terms of Service
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/privacy");
               }}
@@ -292,7 +292,7 @@ const Footer = () => {
               Privacy Policy
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/legal");
               }}
@@ -300,7 +300,7 @@ const Footer = () => {
               Legal
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/transaction");
               }}
@@ -308,7 +308,7 @@ const Footer = () => {
               Secure Transaction Policy
             </div>
             <div
-              className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
               onClick={() => {
                 navigate("/Cancellation-policy");
               }}
