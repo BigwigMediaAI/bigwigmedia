@@ -47,7 +47,7 @@ const MenuMobile = ({
       >
         {buttons.map((ac, id) => (
           <AccordionItem value={ac as string} key={id}>
-            <AccordionTrigger className="py-4 z-40 items-center rounded-md shadow-accordion px-5 font-outfit">
+            <AccordionTrigger className=" border border-[var(--gray-color)] py-4 z-40 items-center rounded-md shadow-accordion px-5 font-outfit">
               {ac}
             </AccordionTrigger>
             <AccordionContent>
