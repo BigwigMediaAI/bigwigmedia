@@ -178,7 +178,7 @@ const Footer = () => {
               alt=""
               className="w-10 h-10 md:w-12 md:h-12 rounded-lg"
             />
-            <div className="bg-clip-text text-black font-semibold">
+            <div className="bg-clip-text text-black font-bold text-[18px]">
               BigWigMedia.ai
             </div>
           </div>
@@ -193,7 +193,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className="text-black font-semibold">
+          <div className="text-black font-bold text-[18px]">
             Top Tools
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -216,7 +216,7 @@ const Footer = () => {
         </div>
         <div className="flex gap-16">
         <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className=" text-black font-bold">
+          <div className=" text-black font-bold text-[18px]">
             Company
           </div>
           <div className="flex flex-col items-start gap-2">
@@ -271,7 +271,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className="text-black font-semibold">
+          <div className="text-black font-bold text-[18px]">
           Policies
           </div>
           <div className="flex flex-col items-start gap-2">
