@@ -286,7 +286,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
           <div className="w-1/3 pl-8">
             <img src={google} alt="" className="w-12 md:w-24 bg-[var(--button-hover-text-color)] rounded-lg shadow-md" />
           </div>
-          <div className="text-xs md:text-[30px] w-2/3 md:w-1/3 text-[var(--primary-text-color)]">All-In-One AI Tools Platform</div>
+          <div className="text-sm md:text-[30px] w-2/3 md:w-1/3 text-[var(--primary-text-color)]">All-In-One AI Tools Platform</div>
           <div className="w-1/3"></div>
         </div>
         <div className="flex flex-col justify-center items-center relative">
@@ -305,7 +305,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
             <span>Simple</span>
           </div>
   
-          <div className="text-[10px] md:text-[17px] lg:text-[20px] py-4 text-center font-outfit text-[var(--gray-color)] z-10 w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] mx-auto font-normal">
+          <div className="text-[11px] md:text-[17px] lg:text-[20px] py-4 text-center font-outfit text-[var(--gray-color)] z-10 w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] mx-auto font-normal">
             <em>#1 Most Used & Most Reliable AI Tools Platform in the World!</em>
           </div>
           <div className="w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit">
@@ -329,7 +329,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
           </div>
         </div>
         <div className="mt-5 mb-5">
-          <h3 className="w-4/5 m-auto text-center text-[var(--gray-color)] text-[10px] md:text-md lg:text-base">
+          <h3 className="w-4/5 m-auto text-center text-[var(--gray-color)] text-[11px] md:text-md lg:text-base">
             Choose Tool ➔ Share Brief ➜ Generate Desired Result.
           </h3>
         </div>

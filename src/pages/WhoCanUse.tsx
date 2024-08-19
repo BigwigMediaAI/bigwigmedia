@@ -27,7 +27,7 @@ const WhoCanUseIt = () => {
   }, []);
 
   return (
-    <div className="mt-6 md:mt-14 text-[var(--primary-text-color)] text-center font-outfit text-[18px] md:text-[20px] lg:text-[30px] font-normal md:max-w-5xl max-w-7xl mx-auto flex flex-col items-center">
+    <div className="mt-6 md:mt-14 text-[var(--primary-text-color)] text-center font-outfit text-[22px] lg:text-[30px] font-normal md:max-w-5xl max-w-7xl mx-auto flex flex-col items-center">
       <h1 className="w-full text-center">Tools Meticulously Designed for{" "}</h1>
       <h1
         className={`w-fit fontW text-white border-2 ${usersData[wordIndex].color} border-white rounded-md px-2 py-1 bg-clip-padding`}

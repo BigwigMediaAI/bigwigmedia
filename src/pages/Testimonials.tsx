@@ -122,8 +122,8 @@ const BlogTitle = styled.h1`
   font-size: 2.5rem;
   color: var(--Heading);
   text-align: center;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 `;
 
 const StyledSlider = styled(Slider)`

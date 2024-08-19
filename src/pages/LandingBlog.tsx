@@ -92,14 +92,10 @@ const Container = styled.div`
 
 const BlogTitle = styled.h1`
   font-size: 2.5rem;
-  font-weight: bold;
+  color: var(--Heading);
   text-align: center;
-  color: var(--Heading); /* Title color matching the theme */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 `;
 
 const Description = styled.h1`
