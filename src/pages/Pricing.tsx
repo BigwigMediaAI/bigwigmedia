@@ -125,7 +125,7 @@ const PricingPlan = () => {
 };
 
 const BlogTitle = styled.h1`
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: var(--Heading);
   text-align: center;
   margin-bottom: 1.5rem;
