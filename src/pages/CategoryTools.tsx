@@ -148,7 +148,7 @@ const CategoryTools: React.FC = () => {
     <div className='bg-[var(--background-color)]'>
       <Nav />
       
-      <div className="max-w-6xl mx-auto px-6 md:px-2 pt-6 flex mb-4">
+      <div className="max-w-7xl mx-auto px-6 md:px-2 pt-6 flex mb-4">
         <FiArrowLeft
           className="text-[var(--teal-color)] text-2xl cursor-pointer hover:[var(--hover-teal-color)]"
           onClick={handleBackClick}
