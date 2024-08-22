@@ -174,8 +174,8 @@ useEffect(()=>{
           </div>
         </div>
   
-        <div id="google_translate_element" className="mr-3"></div>
-        <div className="ml-3 flex gap-4 items-center justify-end">
+        <div id="google_translate_element" className="ml-3"></div>
+        <div className=" md:ml-3 flex gap-4 items-center justify-end">
           <div>
             {!isSignedIn ? (
               <button className="flex px-1 md:px-4 py-0 justify-center items-center text-[var(--teal-color)] border-[var(--teal-color)] font-semibold rounded-3xl text-[14px] min-h-[25px] border" onClick={() => navigate("/login")}>

@@ -296,7 +296,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
             </span>{" "}
             <span>Simple</span>
           </div>
-          <div className="text-sm md:text-[30px] text-center text-[var(--primary-text-color)] mt-5 mb-5">All-In-One AI Tools Platform</div>
+          <div className="text-medium md:text-[30px] text-center text-[var(--primary-text-color)] mt-3 md:mt-5 mb-5">All-In-One AI Tools Platform</div>
 
           <div className="w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit mb-10">
             <div className="z-10 w-full max-w-[637px] mx-auto p-[4px] md:p-2 bg-[var(--background-color)] shadow-md border border-[var(--teal-color)] rounded-full">
