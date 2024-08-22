@@ -82,7 +82,7 @@ export default Blog;
 const Container = styled.div`
   width: 90%;
   margin: auto;
-  margin-top: 16px;
+  margin-top: 10px;
   padding: 20px;
   border-radius: 0.5rem;
   @media (prefers-color-scheme: dark) {
@@ -95,7 +95,6 @@ const BlogTitle = styled.h1`
   color: var(--Heading);
   text-align: center;
   margin-bottom: 1.5rem;
-  font-weight: 700;
 `;
 
 const Description = styled.h1`

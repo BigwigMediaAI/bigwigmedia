@@ -86,9 +86,9 @@ const Testimonials = () => {
     };
 
     return (
-        <div className='mt-16 mb-14'>
+        <div className='mt-16'>
             <BlogTitle>What Our Clients Say</BlogTitle>
-            <div className='mb-10'>
+            <div className='mb-6'>
                 <h1 className='text-center text-gray-600'>#1 Most Recommended & Most Talked-about Generative AI Tools</h1>
             </div>
             <div className="max-w-screen-lg mx-auto">
@@ -123,7 +123,6 @@ const BlogTitle = styled.h1`
   color: var(--Heading);
   text-align: center;
   margin-bottom: 1.5rem;
-  font-weight: 700;
 `;
 
 const StyledSlider = styled(Slider)`
