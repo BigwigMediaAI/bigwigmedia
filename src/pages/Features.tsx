@@ -51,5 +51,4 @@ const BlogTitle = styled.h1`
   color: var(--Heading);
   text-align: center;
   margin-bottom: 1.5rem;
-  font-weight: 700;
 `;
