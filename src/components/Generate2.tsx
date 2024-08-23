@@ -189,6 +189,8 @@ import { validateInput } from "@/utils/validateInput";
 import { StatisticsGenerator } from "./StatisticsGenerator";
 import { PRideaGenerator } from "./PRIdeasGenerator";
 import { AudioTranscriber } from "./AudioHighlightsGenerator";
+import { PdfToAudioConverter } from "./PdfToAudio";
+import { PdfSignTool } from "./PdfSign";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -923,6 +925,10 @@ document.addEventListener('copy', handleCopyEvent);
         <StatisticsGenerator/>
       ):id === "66aa34cbec9fc26d5f2213a5" ? (
         <PRideaGenerator/>
+      ):id === "66c87e58450a336facd4da1d" ? (
+        <PdfToAudioConverter/>
+      ):id === "66c87e62450a336facd4da1e" ? (
+        <PdfSignTool/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
