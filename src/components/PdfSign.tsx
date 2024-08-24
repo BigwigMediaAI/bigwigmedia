@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { Loader2, Upload, RefreshCw } from 'lucide-react';
 import { FaDownload } from "react-icons/fa";
 import { BASE_URL } from '@/utils/funcitons';
+import { useAuth } from "@clerk/clerk-react";
 
 export function PdfSignTool() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,6 +13,7 @@ export function PdfSignTool() {
   const [signedPdfUrl, setSignedPdfUrl] = useState('');
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -48,7 +50,7 @@ export function PdfSignTool() {
       const formData = new FormData();
       formData.append('pdf', selectedFile);
 
-      const response = await axios.post(`${BASE_URL}/response/sign`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/sign?clerkId=${userId}`, formData, {
         responseType: 'blob',  // Set the response type to blob to handle binary data
         headers: {
           'Content-Type': 'multipart/form-data',

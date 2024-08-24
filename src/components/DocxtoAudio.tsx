@@ -7,13 +7,12 @@ import { FaDownload } from "react-icons/fa";
 import { BASE_URL } from '@/utils/funcitons';
 import { useAuth } from "@clerk/clerk-react";
 
-export function PdfToAudioConverter() {
+export function DocsToAudioConverter() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [audioBlobUrl, setAudioBlobUrl] = useState('');
   const [language, setLanguage] = useState('en'); // Default to English
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +38,7 @@ export function PdfToAudioConverter() {
     setLanguage(e.target.value);
   };
 
-  const convertPdfToAudio = async () => {
+  const convertDocsToAudio = async () => {
     setIsLoading(true);
     setAudioBlobUrl(''); // Clear previous audio Blob URL
 
@@ -49,15 +48,15 @@ export function PdfToAudioConverter() {
 
     try {
       if (!selectedFile) {
-        toast.error('Please select a PDF file.');
+        toast.error('Please select a DOCS file.');
         return;
       }
 
       const formData = new FormData();
-      formData.append('pdf', selectedFile);
+      formData.append('docs', selectedFile);
       formData.append('language', language); // Add the selected language to the form data
 
-      const response = await axios.post(`${BASE_URL}/response/pdftoaudio?clerkId=${userId}`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/docstoaudio?clerkId=${userId}`, formData, {
         responseType: 'blob',  // Set the response type to blob to handle binary data
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -69,11 +68,11 @@ export function PdfToAudioConverter() {
         setAudioBlobUrl(blobUrl);
         toast.success('Audio file generated successfully.');
       } else {
-        toast.error('Error converting PDF to audio. Please try again later.');
+        toast.error('Error converting DOCS to audio. Please try again later.');
       }
     } catch (error) {
-      console.error('Error converting PDF to audio:', error);
-      toast.error('Error converting PDF to audio. Please try again later.');
+      console.error('Error converting DOCS to audio:', error);
+      toast.error('Error converting DOCS to audio. Please try again later.');
     } finally {
       setIsLoading(false);
     }
@@ -104,7 +103,7 @@ export function PdfToAudioConverter() {
         if (navigator.share) {
           navigator.share({
             title: 'Converted Audio',
-            text: 'Check out this audio file generated from a PDF!',
+            text: 'Check out this audio file generated from a DOCS file!',
             files: [file],
           })
           .then(() => {
@@ -143,7 +142,7 @@ export function PdfToAudioConverter() {
             <Upload className="w-12 h-12 text-[var(--gray-color)]" />
             <input
               type="file"
-              accept="application/pdf"
+              accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               onChange={handleFileChange}
               style={{ display: 'none' }}
               id="fileInput"
@@ -154,7 +153,7 @@ export function PdfToAudioConverter() {
             >
               Browse Files
             </Button>
-            <p className="text-gray-400">or drag and drop PDF file</p>
+            <p className="text-gray-400">or drag and drop DOCS file</p>
           </div>
           <RefreshCw
             className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
@@ -194,7 +193,7 @@ export function PdfToAudioConverter() {
       <div className="mt-5 flex justify-center">
         <Button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
-          onClick={convertPdfToAudio}
+          onClick={convertDocsToAudio}
           disabled={!selectedFile || isLoading}
         >
           {isLoading ? "Converting..." : 'Convert to Audio'}
@@ -229,3 +228,5 @@ export function PdfToAudioConverter() {
     </div>
   );
 }
+
+export default DocsToAudioConverter;

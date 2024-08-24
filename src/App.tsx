@@ -66,6 +66,7 @@ import { SubHeading } from "./components/SubHeadingGenerator";
 import { UniqueValue } from "./components/UniqueValueProposition";
 import { OkrGenerator } from "./components/OkrGenerator";
 import { ProjectTimeline } from "./components/ProjectTimeline";
+import DocsToAudioConverter from "./components/DocxtoAudio";
 
 
 const App = () => {
@@ -137,6 +138,7 @@ const App = () => {
         <Route path="/outline" element={<YoutubeScriptOutline />} />
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
+        <Route path="/docstoaudio" element={<DocsToAudioConverter />} />
 
 </Routes>
     </div>
