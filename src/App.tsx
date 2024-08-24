@@ -59,15 +59,6 @@ import { YoutubeVideoIdeas } from "./components/YoutubeVideoIdeas";
 import { YoutubeScriptOutline } from "./components/YoutubeScriptOutline";
 import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
-import { JobResponsibility } from "./components/JobResponsibilityGenerator";
-import { JobQualification } from "./components/JobQualification";
-import { JobSummary } from "./components/JobSummary";
-import { SubHeading } from "./components/SubHeadingGenerator";
-import { UniqueValue } from "./components/UniqueValueProposition";
-import { OkrGenerator } from "./components/OkrGenerator";
-import { ProjectTimeline } from "./components/ProjectTimeline";
-import DocsToAudioConverter from "./components/DocxtoAudio";
-
 
 const App = () => {
  
@@ -138,7 +129,6 @@ const App = () => {
         <Route path="/outline" element={<YoutubeScriptOutline />} />
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
-        <Route path="/docstoaudio" element={<DocsToAudioConverter />} />
 
 </Routes>
     </div>
