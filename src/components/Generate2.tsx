@@ -192,6 +192,8 @@ import { AudioTranscriber } from "./AudioHighlightsGenerator";
 import { PdfToAudioConverter } from "./PdfToAudio";
 import { PdfSignTool } from "./PdfSign";
 import DocsToAudioConverter from "./DocxtoAudio";
+import { DocxToTextExtractor } from "./DocxTextExtractor";
+import { ImagePromptGenerator } from "./ImagePromptGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -932,6 +934,10 @@ document.addEventListener('copy', handleCopyEvent);
         <PdfSignTool/>
       ):id === "66c9a3c584b80bcd28f62669" ? (
         <DocsToAudioConverter/>
+      ):id === "66cf0c545f77a21fa1ac2396" ? (
+        <DocxToTextExtractor/>
+      ):id === "66cf0c5e5f77a21fa1ac2397" ? (
+        <ImagePromptGenerator/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(

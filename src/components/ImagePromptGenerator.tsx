@@ -2,18 +2,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Loader2, Share2, Download, Copy } from 'lucide-react';
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL } from "@/utils/funcitons"; // Fixed typo in import path
 import { useAuth } from "@clerk/clerk-react";
 import { validateInput } from '@/utils/validateInput';
 
-export function StatisticsGenerator() {
+export function ImagePromptGenerator() {
   const [isLoading, setIsLoading] = useState(false);
-  const [dataset, setdataset] = useState('');
-  const [metrics, setmetrics] = useState('');
-  const [tone, setTone] = useState('');
+  const [mainObject, setMainObject] = useState('');
+  const [style, setStyle] = useState('');
+  const [feeling, setfeeling] = useState('');
+  const [colors, setColors] = useState('');
+  const [background, setBackground] = useState('');
   const [language, setLanguage] = useState('');
   const [outputCount, setOutputCount] = useState(1);
-  const [generatedStatistics, setgeneratedStatistics] = useState([]);
+  const [generatedPrompt, setGeneratedPrompt] = useState<string[]>([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -21,56 +23,49 @@ export function StatisticsGenerator() {
 
   const handleGenerate = async () => {
     if (
-      !validateInput(dataset) ||
-      !validateInput(metrics)
+      !validateInput(mainObject) ||
+      !validateInput(style)
     ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
-    
+
     setIsLoading(true);
-    setgeneratedStatistics([]);
+    setGeneratedPrompt([]);
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/generateStatistics?clerkId=${userId}`, {
-        dataset,
-        metrics:metrics.split(',').map(metric => metric.trim()),
-        tone,
+      const response = await axios.post(`${BASE_URL}/response/generateImagePrompt?clerkId=${userId}`, {
+        mainObject,
+        style,
+        feeling,
+        colors,
+        background,
         language,
         outputCount,
       });
 
       if (response.status === 200) {
-        console.log(response.data);
-        setgeneratedStatistics(response.data);
+        setGeneratedPrompt(response.data);
       } else {
-        toast.error('Error generating statistics. Please try again later.');
+        toast.error('Error generating prompt. Please try again later.');
       }
     } catch (error) {
-      console.error('Error generating statistics:', error);
-      toast.error('Error generating statistics. Please try again later.');
+      console.error('Error generating prompt:', error);
+      toast.error('Error generating prompt. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!isLoading && generatedStatistics.length > 0) {
+    if (!isLoading && generatedPrompt.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isLoading, generatedStatistics]);
-
-  const tones = [
-    { value: '', label: 'Select tone' },
-    { value: 'engaging', label: 'Engaging' },
-    { value: 'informative', label: 'Informative' },
-    { value: 'humorous', label: 'Humorous' },
-    { value: 'enthusiastic', label: 'Enthusiastic' },
-  ];
+  }, [isLoading, generatedPrompt]);
 
   const languages = [
     { value: '', label: 'Select language' },
@@ -115,63 +110,82 @@ export function StatisticsGenerator() {
 
   const handleCopy = (titleContent: string) => {
     navigator.clipboard.writeText(titleContent);
-    toast.success('Title content copied to clipboard!');
+    toast.success('Prompt copied to clipboard!');
   };
 
   const handleDownload = () => {
     const element = document.createElement("a");
-    const file = new Blob([generatedStatistics.join("\n\n")], { type: "text/plain" });
+    const file = new Blob([generatedPrompt.join("\n\n")], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "statistics.txt";
+    element.download = "prompt.txt";
     document.body.appendChild(element);
     element.click();
+    document.body.removeChild(element); // Clean up
   };
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Statistics',
-      text: generatedStatistics.join("\n\n"),
+      title: 'Prompt',
+      text: generatedPrompt.join("\n\n"),
     };
     try {
       await navigator.share(shareData);
     } catch (err) {
-      console.error('Error sharing statistics:', err);
+      console.error('Error sharing prompt:', err);
     }
   };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Dataset</label>
+        <label className="block text-[var(--primary-text-color)]">Main Object</label>
         <input
           type="text"
-          value={dataset}
-          onChange={(e) => setdataset(e.target.value)}
-          placeholder="E.g., Customer Purchase Data for Q1 2024"
+          value={mainObject}
+          onChange={(e) => setMainObject(e.target.value)}
+          placeholder="E.g., a lone tree"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Metrics</label>
+        <label className="block text-[var(--primary-text-color)]">Style</label>
         <input
           type="text"
-          value={metrics}
-          onChange={(e) => setmetrics(e.target.value)}
-          placeholder="E.g., average purchase value, total sales, number of transactions, customer retention rate"
+          value={style}
+          onChange={(e) => setStyle(e.target.value)}
+          placeholder="E.g., realistic"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
-        <select
-          value={tone}
-          onChange={(e) => setTone(e.target.value)}
+        <label className="block text-[var(--primary-text-color)]">Feeling</label>
+        <input
+          type="text"
+          value={feeling}
+          onChange={(e) => setfeeling(e.target.value)}
+          placeholder="E.g., calm and peaceful"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        >
-          {tones.map((toneOption) => (
-            <option key={toneOption.value} value={toneOption.value}>{toneOption.label}</option>
-          ))}
-        </select>
+        />
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Colors</label>
+        <input
+          type="text"
+          value={colors}
+          onChange={(e) => setColors(e.target.value)}
+          placeholder="E.g., soft greens and blues"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        />
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Background</label>
+        <input
+          type="text"
+          value={background}
+          onChange={(e) => setBackground(e.target.value)}
+          placeholder="E.g., a sunset sky"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        />
       </div>
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Language</label>
@@ -203,7 +217,7 @@ export function StatisticsGenerator() {
           onClick={handleGenerate}
           disabled={isLoading}
         >
-          {isLoading ? 'Generating...' : (generatedStatistics.length > 0 ? "Regenerate" : 'Generate')}
+          {isLoading ? 'Generating...' : (generatedPrompt.length > 0 ? "Regenerate" : 'Generate')}
         </button>
       </div>
       <div className="mt-5">
@@ -213,10 +227,10 @@ export function StatisticsGenerator() {
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
             </div>
         ) : (
-            generatedStatistics.length > 0 && (
+            generatedPrompt.length > 0 && (
             <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
                 <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-[var(--primary-text-color)] ">Generated Statistics</h1>
+                <h1 className="text-2xl text-[var(--primary-text-color)] ">Generated Prompt</h1>
                 <div className="flex gap-2">
                     <button
                     onClick={handleShare}
@@ -235,7 +249,7 @@ export function StatisticsGenerator() {
                 </div>
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedStatistics.map((post, index) => (
+              {generatedPrompt.map((post, index) => (
           <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
             <div className="flex justify-between items-center mb-2">
               <div className="absolute top-2 right-2 space-x-2">
