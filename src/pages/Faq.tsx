@@ -57,9 +57,9 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <div className='mt-14 px-5'>
+    <div className='mt-8 px-5'>
       <BlogTitle>Frequently Asked Questions</BlogTitle>
-      <div className="lg:max-w-screen-lg mx-auto p-8 bg-[var(--white-color)] rounded-lg shadow-lg">
+      <div className="lg:max-w-screen-lg mx-auto p-8 bg-[var(--white-color)] rounded-lg shadow-md shadow-[var(--teal-color)]">
         <div className="space-y-4">
           {faqData.map((item, index) => (
             <div key={index} className="bg-gray-100 rounded-lg border border-gray-300">
@@ -67,7 +67,7 @@ const FAQ: React.FC = () => {
                 className="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-200 transition duration-300"
                 onClick={() => toggleAnswer(index)}
               >
-                <h3 className="text-lg font-semibold text-[var(--primary-text-color)]">{item.question}</h3>
+                <h3 className="text-md  text-[var(--primary-text-color)]">{item.question}</h3>
                 <span className="text-[var(--gray-color)] text-xl">{activeIndex === index ? '-' : '+'}</span>
               </div>
               {activeIndex === index && (
@@ -84,11 +84,10 @@ const FAQ: React.FC = () => {
 };
 
 const BlogTitle = styled.h1`
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: var(--Heading);
   text-align: center;
   margin-bottom: 1.5rem;
-  font-weight: 700;
 `;
 
 export default FAQ;

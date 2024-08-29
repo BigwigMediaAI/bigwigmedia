@@ -4,16 +4,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const usersData = [
-  { text: "Freelancers", color: "bg-black" },
-  { text: "Product Managers", color: "bg-black" },
-  { text: "Designers", color: "bg-black" },
-  { text: "Engineers", color: "bg-black" },
-  { text: "Marketers", color: "bg-black" },
-  { text: "Digital Marketers", color: "bg-black" },
-  { text: "Agencies", color: "bg-black" },
-  { text: "Startups", color: "bg-black" },
-  { text: "Solo Entrepreneurs", color: "bg-black" },
-  { text: "Business Enterprises", color: "bg-black" }
+  { text: "Freelancers", color: "bg-[#25258e]" },
+  { text: "Product Managers", color: "bg-[#ee3d49]" },
+  { text: "Designers", color: "bg-[#25258e]" },
+  { text: "Engineers", color: "bg-[#ee3d49]" },
+  { text: "Marketers", color: "bg-[#25258e]" },
+  { text: "Digital Marketers", color: "bg-[#ee3d49]" },
+  { text: "Agencies", color: "bg-[#25258e]" },
+  { text: "Startups", color: "bg-[#ee3d49]" },
+  { text: "Solo Entrepreneurs", color: "bg-[#25258e]" },
+  { text: "Business Enterprises", color: "bg-[#ee3d49]" }
 ];
 
 const WhoCanUseIt = () => {
@@ -27,7 +27,7 @@ const WhoCanUseIt = () => {
   }, []);
 
   return (
-    <div className="mt-6 md:mt-14 text-[var(--primary-text-color)] text-center font-outfit text-[18px] md:text-[20px] lg:text-[30px] font-normal md:max-w-5xl max-w-7xl mx-auto flex flex-col items-center">
+    <div className="mt-6 md:mt-14 text-[var(--primary-text-color)] text-center font-outfit text-[22px] lg:text-[30px] font-normal md:max-w-5xl max-w-7xl mx-auto flex flex-col items-center">
       <h1 className="w-full text-center">Tools Meticulously Designed for{" "}</h1>
       <h1
         className={`w-fit fontW text-white border-2 ${usersData[wordIndex].color} border-white rounded-md px-2 py-1 bg-clip-padding`}

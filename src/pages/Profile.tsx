@@ -52,14 +52,22 @@ const Profile = () => {
       toast.error("Please sign in to view your bookmarks");
       return;
     }
-    const res = await axios.get(`${BASE_URL}/bookmarks?clerkId=${user.id}`);
-    const cards = res.data.data.map((card: Card) => ({
-      ...card,
-      isBookmarked: true,
-    }));
-
-    setbookmarks(cards);
+    try {
+      const res = await axios.get(`${BASE_URL}/bookmarks?clerkId=${user.id}`);
+      const cards = res.data.data
+        .map((card: Card) => ({
+          ...card,
+          isBookmarked: true,
+        }))
+        .slice(0, 4); // Limit to the first 4 bookmarks
+  
+      setbookmarks(cards);
+    } catch (error) {
+      console.error("Error fetching bookmarks:", error);
+      toast.error("Failed to load bookmarks.");
+    }
   };
+  
 
   const getCredits = async () => {
     try {
@@ -124,8 +132,8 @@ const Profile = () => {
         <div className="relative w-full h-full flex flex-col justify-center items-center  max-w-[867px] ">
           <div className="w-full flex flex-col mt-10 lg:mt-0 lg:flex-row justify-center items-center gap-[14px] ">
             <div className="flex flex-col gap-3 w-full sm:w-[325px] min-h-[506px]   py-5 justify-center items-center rounded-xl bg-white shadow-md shadow-[var(--teal-color)] px-4 flex-grow flex-shrink">
-              <div className="text-center text-black w-full  self-start font-Outfit text-3xl font-semibold leading-normal mb-2">
-                Your Profile
+              <div className="text-center text-black w-full  self-start font-Outfit text-2xl font-semibold leading-normal mb-2">
+                My Profile
               </div>
               <div className="w-[146px] h-[146px] rounded-full  bg-center bg-cover bg-lightgray">
                 <img src={user?.imageUrl} alt="" className="rounded-full" />
@@ -158,7 +166,7 @@ const Profile = () => {
             <div className="flex w-full flex-col justify-between  items-start gap-[14px] shadow-md shadow-[var(--teal-color)] rounded-xl   bg-white  flex-grow flex-shrink">
               <div className="flex flex-row w-full justify-between rounded-md   p-5 pb-0">
                 <div className="text-black  font-Outfit text-2xl font-semibold leading-normal">
-                  Your Bookmarks
+                  My Favourite Tools
                 </div>
                 <button
                   className=" flex items-center text-black  font-Outfit text-base  leading-normal cursor-pointer font-bold"
@@ -204,7 +212,7 @@ const Profile = () => {
 
                     <div className="flex items-start justify-center  pt-0 gap-5">
                       <button
-                        className="flex w-full p-1 md:p-2 justify-center my-auto gap-2.26 rounded-full bg-gray-900  text-white font-outfit text-base font-medium px-10 mx-auto bt-gradient"
+                        className="flex w-full p-1 md:p-2 justify-center my-auto gap-2.26 rounded-full  font-outfit text-base px-10 mx-auto text-[var(--teal-color)] font-bold bg-[var(--white-color)] border border-[var(--teal-color)]    "
                         onClick={() => {
                           // Using window.open to navigate to a new page in a new tab
                           const newPath = `/generate?id=${p._id}`;
@@ -214,26 +222,26 @@ const Profile = () => {
                         Generate
                       </button>
                       <div
-                        className={cn(
-                          "flex w-fit p-1 my-auto hover:invert h-fit bg-white justify-center items-center cursor-pointer  rounded-full border border-gray-900 invert"
-                          // isBookmarked && "invert hover:invert-0"
-                        )}
-                        onClick={() => handleBookmarkToggle(p._id)}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="self-center w-4 h-4"
-                          viewBox="0 0 17 16"
-                          fill="none"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M2.83362 3.48541C2.83362 2.961 3.04194 2.45807 3.41275 2.08725C3.78357 1.71644 4.2865 1.50812 4.81091 1.50812H11.4019C11.9263 1.50812 12.4292 1.71644 12.8 2.08725C13.1708 2.45807 13.3792 2.961 13.3792 3.48541V14.0494C13.3792 14.8535 12.4696 15.3215 11.8158 14.8542L8.10639 12.2046L4.39699 14.8542C3.74251 15.3221 2.83362 14.8541 2.83362 14.0501V3.48541Z"
-                            fill="#1E1E1E"
-                          />
-                        </svg>
-                      </div>
+  className={cn(
+    "flex w-fit p-1 my-auto h-fit bg-white justify-center items-center cursor-pointer rounded-full border border-gray-900"
+  )}
+  onClick={() => handleBookmarkToggle(p._id)}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="self-center w-4 h-4"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+      fill="#ee3d49"  // Red heart color
+    />
+  </svg>
+</div>
+
                     </div>
                   </div>
                 ))}

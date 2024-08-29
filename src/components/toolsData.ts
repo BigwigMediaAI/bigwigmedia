@@ -16,7 +16,7 @@ export interface Category {
     },
     {
       logo: "https://www.svgrepo.com/show/407090/person-pouting-light-skin-tone.svg",
-      name: "My Tools",
+      name: "My Favourite Tools",
       tagLine: "View and manage your bookmarked tools",
       redirectTo: "/category/My Tools"
     },

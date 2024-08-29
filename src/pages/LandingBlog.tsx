@@ -82,24 +82,15 @@ export default Blog;
 const Container = styled.div`
   width: 90%;
   margin: auto;
-  margin-top: 16px;
   padding: 20px;
   border-radius: 0.5rem;
-  @media (prefers-color-scheme: dark) {
-    background-color: #1e1e1e;
-  }
 `;
 
 const BlogTitle = styled.h1`
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: 2rem;
+  color: var(--Heading);
   text-align: center;
-  color: var(--Heading); /* Title color matching the theme */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
 `;
 
 const Description = styled.h1`

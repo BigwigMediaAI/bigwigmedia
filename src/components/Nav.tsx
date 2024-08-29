@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/bigwig-img.jpg";
 import { ModeToggle } from "./ui/mode-toggle";
-
+import google from "../assets/google-rating.png"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -154,35 +154,35 @@ useEffect(()=>{
           </DropdownMenu>
         </div>
   
-        <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate("/")}>
+        <div className="flex items-center gap-2 md:gap-4 cursor-pointer" onClick={() => navigate("/")}>
           <img src={logo} alt="bigwig-logo" className="w-10 h-10 md:w-12 md:h-12 rounded-lg" />
           <span className="text-[var(--primary-text-color)] hidden md:block font-outfit text-2xl font-semibold">BigWigMedia.ai</span>
+          <img src={google} alt="secondary-logo" className="w-10 h-8 md:w-28 md:h-14" /> {/* Add the new image here */}
         </div>
   
         <div className="flex-grow flex justify-center">
           <div className="hidden md:flex items-center gap-8">
-            <button onClick={() => navigate('/')} className="text-[var(--primary-text-color)] font-semibold hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
+            <button onClick={() => navigate('/')} className="text-[var(--primary-text-color)]  hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
               Home
             </button>
-            <button onClick={() => navigate('/blog')} className="text-[var(--primary-text-color)] font-semibold hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
+            <button onClick={() => navigate('/blog')} className="text-[var(--primary-text-color)]  hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
               Blogs
             </button>
-            <button onClick={() => navigate('/contact')} className="text-[var(--primary-text-color)] font-semibold hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
+            <button onClick={() => navigate('/contact')} className="text-[var(--primary-text-color)] hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
               Contact us
             </button>
           </div>
         </div>
   
-        <div id="google_translate_element" className="mr-3"></div>
-        {/* <ModeToggle /> */}
-        <div className="ml-3 flex gap-4 items-center justify-end">
+        <div id="google_translate_element" className="mr-2"></div>
+        <div className=" md:ml-3 flex gap-4 items-center justify-end">
           <div>
             {!isSignedIn ? (
               <button className="flex px-1 md:px-4 py-0 justify-center items-center text-[var(--teal-color)] border-[var(--teal-color)] font-semibold rounded-3xl text-[14px] min-h-[25px] border" onClick={() => navigate("/login")}>
                 Login
               </button>
             ) : (
-              <button className="hidden md:flex px-4 py-0 justify-center items-center text-[var(--teal-color)] border-[var(--teal-color)] hover:bg-[var(--teal-color)] hover:text-[var(--white-color)] font-semibold rounded-3xl text-[16px] min-h-[25px] border" onClick={() => navigate("/profile")}>
+              <button className="hidden md:flex px-4 py-0 justify-center items-center text-[var(--teal-color)] border-[var(--teal-color)] hover:bg-[var(--teal-color)] hover:text-[var(--white-color)]  rounded-3xl text-[16px] min-h-[25px] border" onClick={() => navigate("/profile")}>
                 Profile
               </button>
             )}

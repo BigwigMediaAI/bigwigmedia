@@ -189,6 +189,11 @@ import { validateInput } from "@/utils/validateInput";
 import { StatisticsGenerator } from "./StatisticsGenerator";
 import { PRideaGenerator } from "./PRIdeasGenerator";
 import { AudioTranscriber } from "./AudioHighlightsGenerator";
+import { PdfToAudioConverter } from "./PdfToAudio";
+import { PdfSignTool } from "./PdfSign";
+import DocsToAudioConverter from "./DocxtoAudio";
+import { DocxToTextExtractor } from "./DocxTextExtractor";
+import { ImagePromptGenerator } from "./ImagePromptGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -923,6 +928,16 @@ document.addEventListener('copy', handleCopyEvent);
         <StatisticsGenerator/>
       ):id === "66aa34cbec9fc26d5f2213a5" ? (
         <PRideaGenerator/>
+      ):id === "66c87e58450a336facd4da1d" ? (
+        <PdfToAudioConverter/>
+      ):id === "66c87e62450a336facd4da1e" ? (
+        <PdfSignTool/>
+      ):id === "66c9a3c584b80bcd28f62669" ? (
+        <DocsToAudioConverter/>
+      ):id === "66cf0c545f77a21fa1ac2396" ? (
+        <DocxToTextExtractor/>
+      ):id === "66cf0c5e5f77a21fa1ac2397" ? (
+        <ImagePromptGenerator/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
@@ -1080,7 +1095,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
       <div className=" flex flex-row gap-2">
         <Switch
           id={element.text}
-          className="data-[state=checked]:bg-[var(--green)]  data-[state=unchecked]:bg-gray-400"
+          className="data-[state=checked]:bg-[var(--emoji)]  data-[state=unchecked]:bg-gray-400"
           checked={val[element.in]}
           onCheckedChange={(e) => setVal({ ...val, [element.in]: e })}
         />

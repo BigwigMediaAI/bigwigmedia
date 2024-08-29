@@ -15,18 +15,18 @@ const PricingPlan = () => {
   };
 
   return (
-    <div className='mt-20'>
+    <div className='mt-10'>
       <BlogTitle>Pricing Plans</BlogTitle>
-      <div className='px-5 mb-10'>
+      <div className='px-5 mb-4'>
         <h1 className='text-center text-[var(--primary-text-color)]'>Why pay separately for each AI tool when you can access them all on a single platform?</h1>
         <h1 className='text-center text-[var(--primary-text-color)]'>Experience immediate results with our all-inclusive pricing. Try it for <span className='text-lg sm:text-md lg:text-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-transparent bg-clip-text font-bold'>FREE NOW</span>!</h1>
       </div>
       <div className="flex flex-col items-center py-6">
         <div className="flex flex-col md:flex-row gap-10">
           {/* Free Plan */}
-          <div className="max-w-sm rounded-lg shadow-md p-6 bg-[var(--white-color)] shadow-[var(--teal-color)] ">
+          <div className="max-w-sm rounded-lg  p-6 bg-[var(--white-color)] shadow-md shadow-[var(--teal-color)] ">
             <h3 className="text-xl font-semibold text-[var(--primary-text-color)] mb-4">Free Plan</h3>
-            <div className="text-4xl font-bold text-[var(--teal-color)] mb-4">₹0</div>
+            <div className="text-2xl font-bold text-[var(--teal-color)] mb-4">₹0</div>
             <div className="text-[var(--gray-color)] mb-4">30 credits or 7 days</div>
             <div className="text-[var(--gray-color)] mb-4">Whichever is exhausted earlier</div>
             <div className="flex items-center mb-4">
@@ -43,9 +43,9 @@ const PricingPlan = () => {
             </button>
           </div>
           {/* Monthly Plan */}
-          <div className="max-w-sm rounded-lg shadow-lg p-6 bg-[var(--white-color)] shadow-[var(--teal-color)]">
+          <div className="max-w-sm rounded-lg shadow-md p-6 bg-[var(--white-color)] shadow-[var(--teal-color)]">
             <h3 className="text-xl font-semibold text-[var(--primary-text-color)] mb-4">Monthly Plan</h3>
-            <div className="text-4xl font-bold text-[var(--teal-color)] mb-4">₹499</div>
+            <div className="text-2xl font-bold text-[var(--teal-color)] mb-4">₹499</div>
             <div className="text-[var(--gray-color)] mb-4">1000 credits or 30 days</div>
             <div className="text-[var(--gray-color)] mb-4">Whichever is exhausted earlier</div>
             <div className="flex items-center mb-4">
@@ -63,9 +63,9 @@ const PricingPlan = () => {
           </div>
 
           {/* Yearly Plan */}
-          <div className="max-w-sm rounded-lg shadow-lg p-6 bg-[var(--white-color)] shadow-[var(--teal-color)]">
+          <div className="max-w-sm rounded-lg shadow-md p-6 bg-[var(--white-color)] shadow-[var(--teal-color)]">
             <h3 className="text-xl font-semibold text-P[var(--primary-text-color)] mb-4">Yearly Plan</h3>
-            <div className="text-4xl font-bold text-[var(--teal-color)] mb-4">₹5999</div>
+            <div className="text-2xl font-bold text-[var(--teal-color)] mb-4">₹5999</div>
             <div className="text-[var(--gray-color)] mb-4">14000 credits or 365 days</div>
             <div className="text-[var(--gray-color)] mb-4">Whichever is exhausted earlier</div>
             <div className="flex items-center mb-4">
@@ -84,7 +84,7 @@ const PricingPlan = () => {
 
            {/* Custom plan */}
 
-           <div className="max-w-sm rounded-lg shadow-lg p-6 bg-[var(--white-color)] shadow-[var(--teal-color)] ">
+           <div className="max-w-sm rounded-lg shadow-md p-6 bg-[var(--white-color)] shadow-[var(--teal-color)] ">
         <h3 className="text-xl font-semibold text-[var(--primary-text-color)] mb-4">Enterprise Plan</h3>
         <div className="text-2xl font-bold text-[var(--teal-color)] mb-4">Custom AI Credit</div><br />
         
@@ -114,7 +114,7 @@ const PricingPlan = () => {
         </div>
          {/* Safe Payment Section */}
       <div className="mt-8 text-center">
-        <p className="text-[var(--gray-color)] mb-2  ">🔒 Payments are securely processed by RAZORPAY.
+        <p className="  text-[var(--gray-color)] mb-2  ">🔒 Payments are securely processed by RAZORPAY.
         </p>
         <p className="text-[var(--gray-color)] mb-4">🌏 Bigwigmedia.AI contributes 1% from your purchases to remove CO₂ by planting trees.
         </p>
@@ -125,11 +125,10 @@ const PricingPlan = () => {
 };
 
 const BlogTitle = styled.h1`
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: var(--Heading);
   text-align: center;
   margin-bottom: 1.5rem;
-  font-weight: 700;
 `;
 
 export default PricingPlan;

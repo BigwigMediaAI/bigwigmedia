@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -42,6 +42,8 @@ const ImageGenerator = (props: Props) => {
   const [number, setNumber] = useState<string>("1");
   const [quality, setQuality] = useState<string>("hd");
   const [selectedButton, setSelectedButton] = useState("Professional");
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
 
   const navigate = useNavigate();
@@ -68,6 +70,9 @@ const ImageGenerator = (props: Props) => {
       setIsLoading(false);
       return;
     }
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
     try {
       const res = await axios.post(
         `${BASE_URL}/response/image?clerkId=${userId}`,
@@ -106,6 +111,12 @@ const ImageGenerator = (props: Props) => {
   const handleButtonClick = (selected: string) => {
     setSelectedButton(selected);
   };
+
+  useEffect(() => {
+    if (!isLoading && output) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isLoading, output]);
   return (
     <div className="m-auto w-full max-w-[1000px] rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       {/* text area */}
@@ -175,13 +186,13 @@ const ImageGenerator = (props: Props) => {
       </button>
 
       {isLoading ? (
-        <div className="w-full h-full flex flex-col items-center justify-center">
+        <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
           <Loader2 className="animate-spin w-20 h-20 mt-20" />
           <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
         </div>
-      ) : (
+      ) : ( 
         !!output && (
-          <div className="h-fit w-full mt-20 justify-center rounded-md border-2 border-gray-300  dark:text-gray-200 py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5 ">
+          <div ref={resultsRef} className="h-fit w-full mt-20 justify-center rounded-md border-2 border-gray-300  dark:text-gray-200 py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5 ">
             {/* @ts-ignore */}
             {output.map((img: string) => (
               <div className=" relative shadow-2xl w-full h-full min-w-[300px] min-h-[300px] max-w-[400px] max-h-[400px]">
