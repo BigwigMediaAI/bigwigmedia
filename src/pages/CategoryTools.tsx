@@ -80,13 +80,25 @@ const CategoryTools: React.FC = () => {
       setShowLoginModal(true);
       return;
     }
-
+  
     try {
       const response = await axios.post(`${BASE_URL}/bookmarks/add-remove/${toolId}?clerkId=${user.id}`); 
       if (response.status === 200) {
         toast.success('Bookmark status updated successfully!');
-        // Refetch tools after bookmark update
-        fetchTools();
+        
+        // Update the bookmark status in the local state
+        setTools(prevTools =>
+          prevTools.map(tool =>
+            tool._id === toolId ? { ...tool, isBookmarked: !tool.isBookmarked } : tool
+          )
+        );
+        
+        // Optionally update the filtered tools as well
+        setFilteredTools(prevFilteredTools =>
+          prevFilteredTools.map(tool =>
+            tool._id === toolId ? { ...tool, isBookmarked: !tool.isBookmarked } : tool
+          )
+        );
       } else {
         throw new Error('Failed to update bookmark status');
       }
@@ -96,40 +108,37 @@ const CategoryTools: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (isSignedIn && user) {
+      getCredits();
+    }
+  }, [isSignedIn, user]);
+
   const getCredits = async () => {
     try {
-      const res = await axios.get(
-        `${BASE_URL2}/plans/current?clerkId=${user!.id}`
-      );
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${user!.id}`);
       if (res.status === 200) {
         setCredits(res.data.data.currentLimit);
+        console.log('Credits fetched:', res.data.data.currentLimit);
       } else {
-        toast.error("Error Occured activating account");
+        toast.error("Error Occurred fetching credits");
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Error Occurred fetching credits");
+    }
   };
-  getCredits();
 
   const handleGenerateClick = (toolId: string) => {
     if (!isSignedIn) {
-      setTimeout(() => {
-        setShowLoginModal(true);
-      }, 0);
+      setShowLoginModal(true);
       return;
-    } else {
-      if(credits===0){
-
-        setTimeout(() => {
-          setShowModal3(true);
-        }, 0);
-      }
-      else{
-        const newPath = `/generate?id=${toolId}`;
+    }
+ else {
+      const newPath = `/generate?id=${toolId}`;
       window.open(newPath, "_blank");
-      }
-      
     }
   };
+  
 
 
   const handleBackClick = () => {
@@ -147,7 +156,7 @@ const CategoryTools: React.FC = () => {
   return (
     <div className='bg-[var(--background-color)]'>
       <Nav />
-      <div className=' p-14 flex justify-evenly'>
+      <div className=' px-14 py-5 flex justify-evenly'>
       <div className="mx-auto md:px-2 flex mb-4 md:hidden">
         <FiArrowLeft
           className="text-[var(--teal-color)] text-2xl cursor-pointer hover:[var(--hover-teal-color)]"
@@ -160,7 +169,7 @@ const CategoryTools: React.FC = () => {
     >
       Back
     </span>
-      <h1 className=" text-2xl font-bold text-center flex-grow">{decodeURIComponent(categoryName || '')}</h1>
+      <h1 className=" text-2xl font-bold text-center flex-grow pr-10">{decodeURIComponent(categoryName || '')}</h1>
       <div ></div>
       </div>
       
@@ -177,7 +186,7 @@ const CategoryTools: React.FC = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] transition-all duration-300 ease-in-out">
+                <button className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--green)] hover:bg-[#141481] transition-all duration-300 ease-in-out">
                   Search
                 </button>
               </div>
@@ -210,21 +219,47 @@ const CategoryTools: React.FC = () => {
                   <p className="line-clamp-3 text-center text-sm  font-normal">{tool.tagLine}</p>
                   <div className="flex gap-5 items-center justify-between">
                     {/* Generate Button */}
-                    <button className=" text-[var(--teal-color)] bg-[var(--white-color)] border-1 border-[var(--teal-color)]  flex w-full p-2 justify-center my-auto hover:bg-[var(--hover-teal-color)] rounded-full hover:text-[var(--white-color)] font-outfit text-base font-medium" onClick={() => handleGenerateClick(tool._id)}>
+                    <button className=" text-[var(--teal-color)] font-bold bg-[var(--white-color)] border-1 border-[var(--teal-color)]  flex w-full p-2 justify-center my-auto hover:bg-[var(--green)] rounded-full hover:text-[var(--white-color)] font-outfit text-base" onClick={() => handleGenerateClick(tool._id)}>
                       Generate
                     </button>
                     {/* Bookmark Icon */}
-                    <div className="flex w-fit p-2 my-auto hover:invert h-fit bg-[var(--white-color)] justify-center items-center cursor-pointer rounded-full border border-[var(--primary-text-color)]" onClick={() => handleBookmarkClick(tool._id)}>
+                    <div 
+                      className={`flex w-fit p-2 my-auto h-fit justify-center items-center cursor-pointer rounded-full border border-[var(--primary-text-color)] 
+                        ${tool.isBookmarked ? 'bg-white' : 'bg-[var(--white-color)] hover:bg-[var(--search)]'}`}
+                      title='Favourite' 
+                      onClick={() => handleBookmarkClick(tool._id)}
+                    >
                       {tool.isBookmarked ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-[var(--gray-color)] [var(--primary-text-color)]" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 3a2 2 0 00-2 2v14a2 2 0 002 2l7-3 7 3a2 2 0 002-2V5a2 2 0 00-2-2H5z"></path>
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          className="w-6 h-6 text-[var(--search)]" 
+                          viewBox="0 0 24 24" 
+                          fill="currentColor" 
+                          stroke="currentColor" 
+                          strokeWidth="2" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                        >
+                          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                         </svg>
                       ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-[var(--gray-color)] [var(--primary-text-color)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 3a2 2 0 00-2 2v14a2 2 0 002 2l7-3 7 3a2 2 0 002-2V5a2 2 0 00-2-2H5z"></path>
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          className="w-6 h-6 text-[var(--gray-color)] hover:text-[var(--white-color)]" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth="2" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                        >
+                          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                         </svg>
                       )}
                     </div>
+
+
+
                   </div>
                 </div>
               </div>

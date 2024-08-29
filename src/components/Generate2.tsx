@@ -1095,7 +1095,7 @@ export const Element = ({ val, setVal, element }: ElementComponent) => {
       <div className=" flex flex-row gap-2">
         <Switch
           id={element.text}
-          className="data-[state=checked]:bg-[var(--green)]  data-[state=unchecked]:bg-gray-400"
+          className="data-[state=checked]:bg-[var(--emoji)]  data-[state=unchecked]:bg-gray-400"
           checked={val[element.in]}
           onCheckedChange={(e) => setVal({ ...val, [element.in]: e })}
         />

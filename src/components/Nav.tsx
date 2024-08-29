@@ -157,7 +157,7 @@ useEffect(()=>{
         <div className="flex items-center gap-2 md:gap-4 cursor-pointer" onClick={() => navigate("/")}>
           <img src={logo} alt="bigwig-logo" className="w-10 h-10 md:w-12 md:h-12 rounded-lg" />
           <span className="text-[var(--primary-text-color)] hidden md:block font-outfit text-2xl font-semibold">BigWigMedia.ai</span>
-          <img src={google} alt="secondary-logo" className="w-10 h-8 md:w-28 md:h-10" /> {/* Add the new image here */}
+          <img src={google} alt="secondary-logo" className="w-10 h-8 md:w-28 md:h-14" /> {/* Add the new image here */}
         </div>
   
         <div className="flex-grow flex justify-center">

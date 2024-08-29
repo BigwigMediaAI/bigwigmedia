@@ -215,13 +215,13 @@ const Landing = () => {
   ];
 
   const rotatingColors = [
-    "black", // Calm Blue
-    "black", // Orange
-    "black", // Red
-    "black", // Green
-    "black", // Purple
-    "black", // Yellow
-    "black", // Light Blue
+    "#25258e", // Calm Blue
+    "#ee3d49", // Orange
+    "#25258e", // Red
+    "#ee3d49", // Green
+    "#25258e", // Purple
+    "#ee3d49", // Yellow
+    "#25258e", // Light Blue
   ];
 
   useEffect(() => {
@@ -309,7 +309,7 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
                   onKeyDown={handleKeyDown}
                 />
                 <button
-                  className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] transition-all duration-300 ease-in-out"
+                  className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--green)] hover:bg-[#141481] transition-all duration-300 ease-in-out"
                   onClick={handleSearch}
                 >
                   Search
