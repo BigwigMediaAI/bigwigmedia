@@ -77,7 +77,7 @@ const CardComponent = ({
 
   return (
     <div className="shadow-md shadow-[var(--teal-color)] p-0.5 rounded-xl">
-    <div className="flex flex-col justify-between gap-5 px-3 py-4 text-gray-700 shadow-accordian rounded-xl max-w-80 h-[234px]   bg-[var(--white-color)] w-full">
+    <div className="flex flex-col justify-between gap-5 px-3 py-4 text-gray-700 shadow-accordian rounded-xl w-[300px] h-[234px]   bg-[var(--white-color)] ">
       <div className="flex flex-row gap-8  justify-start items-center ">
         {!imageLoaded && (
           <svg

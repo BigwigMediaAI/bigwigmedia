@@ -147,15 +147,26 @@ const CategoryTools: React.FC = () => {
   return (
     <div className='bg-[var(--background-color)]'>
       <Nav />
-      
-      <div className="max-w-7xl mx-auto px-6 md:px-2 pt-6 flex mb-4">
+      <div className=' p-14 flex justify-evenly'>
+      <div className="mx-auto md:px-2 flex mb-4 md:hidden">
         <FiArrowLeft
           className="text-[var(--teal-color)] text-2xl cursor-pointer hover:[var(--hover-teal-color)]"
           onClick={handleBackClick}
         />
       </div>
+      <span
+      className="  hidden md:inline-block text-[var(--teal-color)] text-xl cursor-pointer hover:[var(--hover-teal-color)] border border-[var(--primary-text-color)]  px-3 py-1 rounded-lg"
+      onClick={handleBackClick}
+    >
+      Back
+    </span>
+      <h1 className=" text-2xl font-bold text-center flex-grow">{decodeURIComponent(categoryName || '')}</h1>
+      <div ></div>
+      </div>
+      
       <div className="container mx-auto px-4 py-4 w-5/6">
-        <h1 className="text-2xl font-bold text-center flex-grow">{decodeURIComponent(categoryName || '')}</h1>
+      
+        
         <div className="flex justify-center my-8">
           <div className="w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit">
             <div className="z-10 w-full max-w-[637px] mx-auto p-[4px] md:p-2 bg-white-color shadow-md border border-[var(--teal-color)] rounded-full">
