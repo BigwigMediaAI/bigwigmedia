@@ -91,12 +91,13 @@ export function InstagramImageDownloader() {
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)] rounded-lg">
+        <h3 className="text-base mb-2  text-[var(--primary-text-color)]">Copy any image link from Instagram and paste it in the box below :</h3>
       <div className="flex items-center mb-4">
         <input
           type="text"
           value={postLink}
           onChange={handleInputChange}
-          placeholder="Paste Instagram Image Link"
+          placeholder="Paste Copied Instagram Image Link"
           className="w-full px-4 py-2 rounded-md border border-[var(--primary-text-color)] focus:outline-none focus:border-blue-500"
         />
         <button onClick={handleRefresh} className="ml-2 text-blue-500 hover:text-blue-700">
@@ -156,6 +157,8 @@ export function InstagramImageDownloader() {
           </>
         )}
       </div>
+
+      <h3 className="text-sm mt-4 italic text-gray-700">Hint - To copy image link from Instagram, click on share button then click on copy link option.</h3>
     </div>
   );
 }

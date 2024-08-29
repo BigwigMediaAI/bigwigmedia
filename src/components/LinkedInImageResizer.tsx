@@ -19,9 +19,9 @@ export function LinkedinImageTool() {
 
   // Define resize options for LinkedIn image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
-    profilePicture: { width: 400, height: 400 },
-    coverPhoto: { width: 1584, height: 396 },
-    sharedImage: { width: 1200, height: 627 },
+    "Linkedin Profile Picture": { width: 400, height: 400 },
+    "Linkedin Cover Photo": { width: 1584, height: 396 },
+    "Linkedin Shared Image": { width: 1200, height: 627 },
   };
 
   const imageTypes = Object.keys(resizeOptions); // Get image type options

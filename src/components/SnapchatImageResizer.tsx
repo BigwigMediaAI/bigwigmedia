@@ -19,8 +19,8 @@ export function SnapchatImageTool() {
 
   // Define resize options for Snapchat image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
-    geofilter: { width: 1080, height: 2340 },
-    snapAd: { width: 1080, height: 1920 },
+    "Snapchat Geo Filter": { width: 1080, height: 2340 },
+    "Snapchat SnapAd": { width: 1080, height: 1920 },
   };
 
   const imageTypes = Object.keys(resizeOptions); // Get image type options

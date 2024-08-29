@@ -18,10 +18,10 @@ export function InstagramImageTool() {
 
   // Define resize options for Instagram image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
-    profilePicture: { width: 110, height: 110 },
-    squareImage: { width: 1080, height: 1080 },
-    landscapeImage: { width: 1080, height: 566 },
-    portraitImage: { width: 1080, height: 1350 },
+    "Instagram Profile Picture": { width: 110, height: 110 },
+    "Instagram Square Image": { width: 1080, height: 1080 },
+    "Landscape Image": { width: 1080, height: 566 },
+    "Instagram Portrait Image": { width: 1080, height: 1350 },
   };
 
   const imageTypes = Object.keys(resizeOptions); // Get image type options

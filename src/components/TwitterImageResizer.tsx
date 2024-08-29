@@ -19,9 +19,9 @@ export function TwitterImageTool() {
 
   // Define resize options for Twitter image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
-    profilePicture: { width: 400, height: 400 },
-    headerPhoto: { width: 1500, height: 500 },
-    sharedImage: { width: 1200, height: 675 },
+    "Twitter Profile Image": { width: 400, height: 400 },
+    "Twitter Header Image": { width: 1500, height: 500 },
+    "Twitter Shared Image": { width: 1200, height: 675 },
   };
 
   const imageTypes = Object.keys(resizeOptions); // Get image type options

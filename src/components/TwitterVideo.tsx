@@ -5,6 +5,8 @@ import { FaSyncAlt } from "react-icons/fa";
 import thumbnail from '../assets/vid.svg'; // Import the fixed thumbnail
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import { FaShareNodes } from "react-icons/fa6";
+
 
 type VideoFormat = {
   url: string;
@@ -146,6 +148,7 @@ export function TwitterDownloader() {
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)] rounded-lg">
+    <h3 className="text-base mb-2  text-[var(--primary-text-color)]">Copy any video link from Twitter and paste it in the box below :</h3>
       <div className="flex items-center mb-4">
         <input
           type="text"
@@ -227,6 +230,8 @@ export function TwitterDownloader() {
           </>
         )}
       </div>
+      <h3 className="text-sm mt-4 italic text-gray-700">Hint - To copy any video link from Twitter, click on <span className="inline-flex items-center"><FaShareNodes /></span> then click on copy link option.</h3>
+
     </div>
   );
 }

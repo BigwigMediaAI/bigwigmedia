@@ -91,6 +91,7 @@ export function InstagramDownloader() {
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
+      <h3 className="text-base mb-2  text-[var(--primary-text-color)]">Copy any video link from Instagram and paste it in the box below :</h3>
       <div className="flex items-center mb-4">
         <input
           type="text"
@@ -156,6 +157,7 @@ export function InstagramDownloader() {
           </>
         )}
       </div>
+      <h3 className="text-sm mt-4 italic text-gray-700">Hint - To copy video link from Instagram, click on share button then click on copy link option.</h3>
     </div>
   );
 }

@@ -19,8 +19,8 @@ export function PinterestImageTool() {
 
   // Define resize options for Pinterest image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
-    profilePicture: { width: 165, height: 165 },
-    pinImage: { width: 1000, height: 1500 },
+    "Pinterest Profile Picture": { width: 165, height: 165 },
+    "Pinterest Pin Image": { width: 1000, height: 1500 },
   };
 
   const imageTypes = Object.keys(resizeOptions); // Get image type options

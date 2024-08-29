@@ -18,9 +18,9 @@ export function FacebookImageTool() {
 
   // Define resize options for Facebook image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
-    profilePicture: { width: 180, height: 180 },
-    coverPhoto: { width: 820, height: 312 },
-    sharedImage: { width: 1200, height: 630 },
+    "Facebook Profile Picture": { width: 180, height: 180 },
+    "Facebook Cover Photo": { width: 820, height: 312 },
+    "Facebook Shared Image": { width: 1200, height: 630 },
   };
 
   const imageTypes = Object.keys(resizeOptions); // Get image type options

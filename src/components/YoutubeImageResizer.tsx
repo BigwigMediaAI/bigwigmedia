@@ -19,9 +19,9 @@ export function YoutubeImageTool() {
 
   // Define resize options for YouTube image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
-    channelProfilePicture: { width: 800, height: 800 },
-    channelCoverPhoto: { width: 2560, height: 1440 },
-    videoThumbnail: { width: 1280, height: 720 },
+    "Channel Profile Image": { width: 800, height: 800 },
+    "Channel Cover Image": { width: 2560, height: 1440 },
+    "Video Thumbnail": { width: 1280, height: 720 },
   };
 
   const imageTypes = Object.keys(resizeOptions); // Get image type options

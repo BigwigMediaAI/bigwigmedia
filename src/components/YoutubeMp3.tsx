@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Download, Loader2, Share2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
+
 
 export function Mp3Downloader() {
   const [videoLink, setVideoLink] = useState("");
@@ -106,6 +108,7 @@ export function Mp3Downloader() {
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)] rounded-lg">
+          <h3 className="text-base mb-2  text-[var(--primary-text-color)]">Copy any video link from Youtube and paste it in the box below :</h3>
       <div className="flex items-center mb-4">
         <input
           type="text"
@@ -178,6 +181,7 @@ export function Mp3Downloader() {
           </>
         )}
       </div>
+      <h3 className="text-sm mt-4 italic text-gray-700">Hint - To copy any video link from Youtube, click on <span className="inline-flex items-center"><BsThreeDotsVertical /></span> then click on share then after click copy link option.</h3>
     </div>
   );
 }
