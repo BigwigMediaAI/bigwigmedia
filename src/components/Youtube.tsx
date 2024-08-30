@@ -2,11 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { FaSyncAlt } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
-import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-
-
- // Make sure to match your backend URL
+import { PiDotsThreeOutlineVerticalBold } from "react-icons/pi";
+import { BASE_URL } from "@/utils/funcitons";
 
 export function VideoDownloader() {
   const [videoLink, setVideoLink] = useState("");
@@ -14,8 +12,7 @@ export function VideoDownloader() {
   const [downloadUrl, setDownloadUrl] = useState<{ audio: string | null, video: string | null }>({ audio: null, video: null });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
-  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
+  const { userId } = useAuth();
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -33,11 +30,11 @@ export function VideoDownloader() {
       const response = await axios.get(`${BASE_URL}/response/ytdl?clerkId=${userId}`, {
         params: { url: videoLink },
       });
-      console.log(response.data.data)
+
       if (response.data.status) {
         setDownloadUrl({
           audio: response.data.data.data.audio,
-          video: response.data.data.data.video_hd,
+          video: response.data.data.data.video,
         });
         setThumbnailUrl(response.data.data.data.thumbnail);
       } else {
@@ -79,6 +76,7 @@ export function VideoDownloader() {
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)] rounded-lg">
+          <h3 className="text-base mb-2  text-[var(--primary-text-color)]">Copy any video link from Youtube and paste it in the box below :</h3>
       <div className="flex items-center mb-4">
         <input
           type="text"
@@ -105,7 +103,7 @@ export function VideoDownloader() {
               Getting Video...
             </>
           ) : (
-            "Get Videos"
+            "Get Video"
           )}
         </button>
       </div>
@@ -119,17 +117,16 @@ export function VideoDownloader() {
           <>
             {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
             {thumbnailUrl && <img src={thumbnailUrl} alt="Video Thumbnail" className="mt-4 w-full" />}
-            {downloadUrl.audio && downloadUrl.video && (
-              <div className="flex justfy-between mt-4">
-              
-                <button onClick={() => handleDownloadClick(downloadUrl.video)} className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto">
-                  Download Video
-                </button>
+            {downloadUrl.video && (
+              <div className="flex flex-col items-center mt-4">
+                <video controls className="w-full max-w-xl rounded-lg" src={downloadUrl.video} />
               </div>
             )}
           </>
         )}
       </div>
-    </div>
-  );
+      <h3 className="text-sm mt-4 italic text-gray-700">Hint - To Download video click on <span className="inline-flex items-center"><PiDotsThreeOutlineVerticalBold /></span> button then click on Download option.</h3>
+
+    </div>
+  );
 }
