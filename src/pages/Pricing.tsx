@@ -19,7 +19,7 @@ const PricingPlan = () => {
       <BlogTitle>Pricing Plans</BlogTitle>
       <div className='px-5 mb-4'>
         <h1 className='text-center text-[var(--primary-text-color)]'>Why pay separately for each AI tool when you can access them all on a single platform?</h1>
-        <h1 className='text-center text-[var(--primary-text-color)]'>Experience immediate results with our all-inclusive pricing. Try it for <span className='text-lg sm:text-md lg:text-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-transparent bg-clip-text font-bold'>FREE NOW</span>!</h1>
+        <h1 className='text-center text-[var(--primary-text-color)]'>Experience immediate results with our all-inclusive pricing. Try it for <span className='text-lg sm:text-md lg:text-xl text-[var(--green)]  bg-clip-text font-bold'>FREE NOW</span>!</h1>
       </div>
       <div className="flex flex-col items-center py-6">
         <div className="flex flex-col md:flex-row gap-10">

@@ -182,7 +182,7 @@ useEffect(()=>{
                 Login
               </button>
             ) : (
-              <button className="hidden md:flex px-4 py-0 justify-center items-center text-[var(--teal-color)] border-[var(--teal-color)] hover:bg-[var(--teal-color)] hover:text-[var(--white-color)]  rounded-3xl text-[16px] min-h-[25px] border" onClick={() => navigate("/profile")}>
+              <button className="hidden md:flex px-4 py-0 justify-center items-center text-[var(--green)] border-[var(--green)] hover:bg-[var(--green)] hover:text-[var(--white-color)]  rounded-3xl text-[16px] min-h-[25px] border" onClick={() => navigate("/profile")}>
                 Profile
               </button>
             )}

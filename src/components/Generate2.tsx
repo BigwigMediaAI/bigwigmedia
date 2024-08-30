@@ -65,7 +65,7 @@ import { JPEGtoPDFConverter } from "./ImagetoPdf";
 import { PDFMerger } from "./PdfMerge";
 import { VideoDownloader } from "./Youtube";
 import { Mp3Downloader } from "./YoutubeMp3";
-import { InstagramDownloader } from "./InstagramVideo";
+// import { InstagramDownloader } from "./InstagramVideo";
 import { PNGtoPDFConverter } from "./PngtoPdf";
 import { AudioConverter } from "./VideotoAudio";
 import { InstagramImageDownloader } from "./InstagramImage";
@@ -194,6 +194,7 @@ import { PdfSignTool } from "./PdfSign";
 import DocsToAudioConverter from "./DocxtoAudio";
 import { DocxToTextExtractor } from "./DocxTextExtractor";
 import { ImagePromptGenerator } from "./ImagePromptGenerator";
+import { InstagramImgVidDownloader } from "./InstagramImageVideoDownloader";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -681,7 +682,7 @@ document.addEventListener('copy', handleCopyEvent);
       ) : id === "66448f523748e094e4b1e788" ? (
         <Mp3Downloader/>
       ) : id === "664497a53748e094e4b1e789" ? (
-        <InstagramDownloader/>
+        <InstagramImgVidDownloader/>
       ) : id === "6643400f3748e094e4b1e786" ? (
         <PNGtoPDFConverter/>
       ) : id === "66473fd1e3099a6561101561" ? (

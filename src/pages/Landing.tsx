@@ -215,13 +215,13 @@ const Landing = () => {
   ];
 
   const rotatingColors = [
-    "#25258e", // Calm Blue
+    "#343474", // Calm Blue
     "#ee3d49", // Orange
-    "#25258e", // Red
+    "#343474", // Red
     "#ee3d49", // Green
-    "#25258e", // Purple
+    "#343474", // Purple
     "#ee3d49", // Yellow
-    "#25258e", // Light Blue
+    "#343474", // Light Blue
   ];
 
   useEffect(() => {

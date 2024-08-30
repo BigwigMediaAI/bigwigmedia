@@ -14,7 +14,7 @@ export function InstagramImageDownloader() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
-  const handleDownload = async () => {
+  const handleDownload = async (retryCount = 0) => {
     setIsLoading(true);
     setErrorMessage(null); // Reset the error message
 
@@ -34,22 +34,31 @@ export function InstagramImageDownloader() {
 
       if (response.data.status) {
         const images = response.data.result.filter((item: any) => item.type === 'image/jpeg' || item.type === 'image/jpg');
-        const imageLinks = images.map((image: any) => image.url);
-        setDownloadLinks(imageLinks);
+        if (images.length > 0) {
+          const imageLinks = images.map((image: any) => image.url);
+          setDownloadLinks(imageLinks);
 
-        // Extract thumbnails from the response
-        const imageThumbnails = images.map((image: any) => image.thumb || thumbnail); // Use image thumbnail if available, otherwise use default thumbnail
-        setThumbnails(imageThumbnails);
+          // Extract thumbnails from the response
+          const imageThumbnails = images.map((image: any) => image.thumb || thumbnail); // Use image thumbnail if available, otherwise use default thumbnail
+          setThumbnails(imageThumbnails);
 
-        setHasFetched(true); // Indicate that fetching is done
+          setHasFetched(true); // Indicate that fetching is done
+        } else {
+          throw new Error("No images found in the response.");
+        }
       } else {
-        setErrorMessage("API returned no image data: " + JSON.stringify(response.data));
+        throw new Error("API returned no image data: " + JSON.stringify(response.data));
       }
     } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage("Error: " + error.message);
+      if (retryCount < 2) {
+        // Retry up to 3 times
+        handleDownload(retryCount + 1);
       } else {
-        setErrorMessage("An unknown error occurred.");
+        if (error instanceof Error) {
+          setErrorMessage("Error: " + error.message);
+        } else {
+          setErrorMessage("An unknown error occurred.");
+        }
       }
     } finally {
       setIsLoading(false);
@@ -106,7 +115,7 @@ export function InstagramImageDownloader() {
       </div>
       <div className="flex justify-center">
         <button
-          onClick={handleDownload}
+          onClick={() => handleDownload()}
           disabled={isLoading || !postLink || hasFetched}
           className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
             isLoading || !postLink || hasFetched ? 'bg-gray-400 cursor-not-allowed' : 'text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit'

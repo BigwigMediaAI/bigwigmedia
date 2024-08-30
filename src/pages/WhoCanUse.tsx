@@ -4,15 +4,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const usersData = [
-  { text: "Freelancers", color: "bg-[#25258e]" },
+  { text: "Freelancers", color: "bg-[#343474]" },
   { text: "Product Managers", color: "bg-[#ee3d49]" },
-  { text: "Designers", color: "bg-[#25258e]" },
+  { text: "Designers", color: "bg-[#343474]" },
   { text: "Engineers", color: "bg-[#ee3d49]" },
-  { text: "Marketers", color: "bg-[#25258e]" },
+  { text: "Marketers", color: "bg-[#343474]" },
   { text: "Digital Marketers", color: "bg-[#ee3d49]" },
-  { text: "Agencies", color: "bg-[#25258e]" },
+  { text: "Agencies", color: "bg-[#343474]" },
   { text: "Startups", color: "bg-[#ee3d49]" },
-  { text: "Solo Entrepreneurs", color: "bg-[#25258e]" },
+  { text: "Solo Entrepreneurs", color: "bg-[#343474]" },
   { text: "Business Enterprises", color: "bg-[#ee3d49]" }
 ];
 

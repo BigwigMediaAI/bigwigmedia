@@ -59,7 +59,7 @@ const Profile = () => {
           ...card,
           isBookmarked: true,
         }))
-        .slice(0, 4); // Limit to the first 4 bookmarks
+        .slice(0, 2); // Limit to the first 4 bookmarks
   
       setbookmarks(cards);
     } catch (error) {
@@ -128,9 +128,9 @@ const Profile = () => {
   return (
     <>
       <Nav />
-      <div className=" flex flex-col min-w-screen min-h-[calc(100vh-90px)] w-full h-full justify-center items-center px-5">
+      <div className=" flex flex-col min-w-screen min-h-[calc(100vh-90px)] w-full h-full justify-center items-center px-5 mt-5">
         <div className="relative w-full h-full flex flex-col justify-center items-center  max-w-[867px] ">
-          <div className="w-full flex flex-col mt-10 lg:mt-0 lg:flex-row justify-center items-center gap-[14px] ">
+          <div className="w-full flex flex-col mt-10 lg:mt-0 lg:flex-row justify-center items-center gap-10 ">
             <div className="flex flex-col gap-3 w-full sm:w-[325px] min-h-[506px]   py-5 justify-center items-center rounded-xl bg-white shadow-md shadow-[var(--teal-color)] px-4 flex-grow flex-shrink">
               <div className="text-center text-black w-full  self-start font-Outfit text-2xl font-semibold leading-normal mb-2">
                 My Profile
