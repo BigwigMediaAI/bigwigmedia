@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect, useRef  } from "react";
 import axios from "axios";
 import { Download, Loader2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
@@ -10,10 +10,17 @@ export function InstagramImgVidDownloader() {
   const [videoUrls, setVideoUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
     setIsLoading(true);
     setErrorMessage(null);
+
+    // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 
     try {
       const response = await axios.post(`${BASE_URL}/response/instadownloader`, {
@@ -48,6 +55,12 @@ export function InstagramImgVidDownloader() {
     window.location.reload();
   };
 
+
+  useEffect(() => {
+        if (!isLoading && videoUrls.length > 0) {
+          resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, [isLoading, videoUrls]);
 
 
   return (
@@ -85,15 +98,15 @@ export function InstagramImgVidDownloader() {
       </div>
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
             <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-600" />
-            <p className="text-gray-600">Processing... Please wait.</p>
+            <p className="text-gray-600">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           <>
             {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
             {videoUrls.length > 0 && (
-              <div>
+              <div ref={resultsRef}>
                 {videoUrls.map((url, index) => (
                   <div key={index} className="mb-4 ">
                     <video
