@@ -1,301 +1,353 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { ClipboardCopyIcon, DownloadIcon, ShareIcon, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { Loader2, Share2, Download, Copy } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
-import { FaDownload, FaShareAlt } from "react-icons/fa";
 import { validateInput } from '@/utils/validateInput';
 
 export function YouTubeScriptGenerator() {
-  const [topic, setTopic] = useState('');
-  const [tone, setTone] = useState('');
-  const [length, setLength] = useState('');
-  const [language, setLanguage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [script, setScript] = useState('');
+  const [topic, setTopic] = useState('');
+  const [length, setlength] = useState('');
+  const [tone, setTone] = useState('');
+  const [language, setLanguage] = useState('English');
+  const [outputCount, setOutputCount] = useState(1);
+  const [generatedScript, setgeneratedScript] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
-  const handleGenerateScript = async () => {
-    setIsLoading(true);
-    if (!topic || !tone || !length || !language) {
-      toast.error('Please fill out all fields');
-      setIsLoading(false);
-      return;
-    }
+  const handleGenerate = async () => {
     if (
-      !validateInput(topic)
+      !validateInput(topic) ||
+      !validateInput(length)
     ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
-    setScript("")
+    
+    setIsLoading(true);
+    setgeneratedScript([]);
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
     try {
-      const res = await axios.post(`${BASE_URL}/response/youtubescript?clerkId=${userId}`, {
+      const response = await axios.post(`${BASE_URL}/response/youtubeScript?clerkId=${userId}`, {
         topic,
-        tone,
         length,
-        language
+        tone,
+        language,
+        outputCount,
       });
-      if (res.status === 200) {
-        setScript(res.data.script);
+
+      if (response.status === 200) {
+        console.log(response.data);
+        setgeneratedScript(response.data.script);
       } else {
-        toast.error(res.data.error);
+        toast.error('Error generating scripts. Please try again later.');
       }
     } catch (error) {
-      toast.error('An error occurred');
+      console.error('Error generating scripts:', error);
+      toast.error('Error generating scripts. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleCopyScript = () => {
-    try {
-      navigator.clipboard.writeText(script);
-      toast.success('Script copied to clipboard');
-    } catch (error) {
-      toast.error('Failed to copy script');
-    }
-  };
-
-  const handleShareScript = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'YouTube Script',
-        text: script
-      }).then(() => {
-        toast.success('Script shared successfully');
-      }).catch((error) => {
-        toast.error('Failed to share script');
-      });
-    } else {
-      toast.error('Share feature is not supported in this browser');
-    }
-  };
-
-  const handleDownloadScript = () => {
-    const element = document.createElement("a");
-    const file = new Blob([script], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = "YouTubeScript.txt";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-    toast.success('Script downloaded');
-  };
-
   useEffect(() => {
-    if (!isLoading && script.length > 0) {
+    if (!isLoading && generatedScript.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isLoading, script]);
+  }, [isLoading, generatedScript]);
 
-  useEffect(() => {
-    setScript('');
-  }, [topic, tone, length, language]);
+  const lengths=[
+    { value: '', label: 'Select length' },
+    { value: 'Short', label: 'Short' },
+    { value: 'Medium', label: 'Medium' },
+    { value: 'Long', label: 'Long' },
+  ]
+
+  const tones = [
+    { value: '', label: 'Select tone' },
+    { value: 'Informative and Friendly', label: 'Informative and Friendly' },
+    { value: 'Professional and Authoritative', label: 'Professional and Authoritative' },
+    { value: 'Casual and Conversational', label: 'Casual and Conversational' },
+    { value: 'Energetic and Exciting', label: 'Energetic and Exciting' },
+    { value: 'Serious and Formal', label: 'Serious and Formal' },
+  ];
+
+  const languages = [
+    { value: 'Afrikaans', label: 'Afrikaans' },
+{ value: 'Albanian', label: 'Albanian' },
+{ value: 'Amharic', label: 'Amharic' },
+{ value: 'Arabic', label: 'Arabic' },
+{ value: 'Armenian', label: 'Armenian' },
+{ value: 'Azerbaijani', label: 'Azerbaijani' },
+{ value: 'Basque', label: 'Basque' },
+{ value: 'Belarusian', label: 'Belarusian' },
+{ value: 'Bengali', label: 'Bengali' },
+{ value: 'Bosnian', label: 'Bosnian' },
+{ value: 'Bulgarian', label: 'Bulgarian' },
+{ value: 'Catalan', label: 'Catalan' },
+{ value: 'Cebuano', label: 'Cebuano' },
+{ value: 'Chichewa', label: 'Chichewa' },
+{ value: 'Chinese (Simplified)', label: 'Chinese (Simplified)' },
+{ value: 'Chinese (Traditional)', label: 'Chinese (Traditional)' },
+{ value: 'Corsican', label: 'Corsican' },
+{ value: 'Croatian', label: 'Croatian' },
+{ value: 'Czech', label: 'Czech' },
+{ value: 'Danish', label: 'Danish' },
+{ value: 'Dutch', label: 'Dutch' },
+{ value: 'English', label: 'English' },
+{ value: 'Esperanto', label: 'Esperanto' },
+{ value: 'Estonian', label: 'Estonian' },
+{ value: 'Filipino', label: 'Filipino' },
+{ value: 'Finnish', label: 'Finnish' },
+{ value: 'French', label: 'French' },
+{ value: 'Frisian', label: 'Frisian' },
+{ value: 'Galician', label: 'Galician' },
+{ value: 'Georgian', label: 'Georgian' },
+{ value: 'German', label: 'German' },
+{ value: 'Greek', label: 'Greek' },
+{ value: 'Gujarati', label: 'Gujarati' },
+{ value: 'Haitian Creole', label: 'Haitian Creole' },
+{ value: 'Hausa', label: 'Hausa' },
+{ value: 'Hawaiian', label: 'Hawaiian' },
+{ value: 'Hebrew', label: 'Hebrew' },
+{ value: 'Hindi', label: 'Hindi' },
+{ value: 'Hmong', label: 'Hmong' },
+{ value: 'Hungarian', label: 'Hungarian' },
+{ value: 'Icelandic', label: 'Icelandic' },
+{ value: 'Igbo', label: 'Igbo' },
+{ value: 'Indonesian', label: 'Indonesian' },
+{ value: 'Irish', label: 'Irish' },
+{ value: 'Italian', label: 'Italian' },
+{ value: 'Japanese', label: 'Japanese' },
+{ value: 'Javanese', label: 'Javanese' },
+{ value: 'Kannada', label: 'Kannada' },
+{ value: 'Kazakh', label: 'Kazakh' },
+{ value: 'Khmer', label: 'Khmer' },
+{ value: 'Kinyarwanda', label: 'Kinyarwanda' },
+{ value: 'Korean', label: 'Korean' },
+{ value: 'Kurdish (Kurmanji)', label: 'Kurdish (Kurmanji)' },
+{ value: 'Kyrgyz', label: 'Kyrgyz' },
+{ value: 'Lao', label: 'Lao' },
+{ value: 'Latin', label: 'Latin' },
+{ value: 'Latvian', label: 'Latvian' },
+{ value: 'Lithuanian', label: 'Lithuanian' },
+{ value: 'Luxembourgish', label: 'Luxembourgish' },
+{ value: 'Macedonian', label: 'Macedonian' },
+{ value: 'Malagasy', label: 'Malagasy' },
+{ value: 'Malay', label: 'Malay' },
+{ value: 'Malayalam', label: 'Malayalam' },
+{ value: 'Maltese', label: 'Maltese' },
+{ value: 'Maori', label: 'Maori' },
+{ value: 'Marathi', label: 'Marathi' },
+{ value: 'Mongolian', label: 'Mongolian' },
+{ value: 'Myanmar (Burmese)', label: 'Myanmar (Burmese)' },
+{ value: 'Nepali', label: 'Nepali' },
+{ value: 'Norwegian', label: 'Norwegian' },
+{ value: 'Odia (Oriya)', label: 'Odia (Oriya)' },
+{ value: 'Pashto', label: 'Pashto' },
+{ value: 'Persian', label: 'Persian' },
+{ value: 'Polish', label: 'Polish' },
+{ value: 'Portuguese', label: 'Portuguese' },
+{ value: 'Punjabi', label: 'Punjabi' },
+{ value: 'Romanian', label: 'Romanian' },
+{ value: 'Russian', label: 'Russian' },
+{ value: 'Samoan', label: 'Samoan' },
+{ value: 'Scots Gaelic', label: 'Scots Gaelic' },
+{ value: 'Serbian', label: 'Serbian' },
+{ value: 'Sesotho', label: 'Sesotho' },
+{ value: 'Shona', label: 'Shona' },
+{ value: 'Sindhi', label: 'Sindhi' },
+{ value: 'Sinhala', label: 'Sinhala' },
+{ value: 'Slovak', label: 'Slovak' },
+{ value: 'Slovenian', label: 'Slovenian' },
+{ value: 'Somali', label: 'Somali' },
+{ value: 'Spanish', label: 'Spanish' },
+{ value: 'Sundanese', label: 'Sundanese' },
+{ value: 'Swahili', label: 'Swahili' },
+{ value: 'Swedish', label: 'Swedish' },
+{ value: 'Tajik', label: 'Tajik' },
+{ value: 'Tamil', label: 'Tamil' },
+{ value: 'Tatar', label: 'Tatar' },
+{ value: 'Telugu', label: 'Telugu' },
+{ value: 'Thai', label: 'Thai' },
+{ value: 'Turkish', label: 'Turkish' },
+{ value: 'Turkmen', label: 'Turkmen' },
+{ value: 'Ukrainian', label: 'Ukrainian' },
+{ value: 'Urdu', label: 'Urdu' },
+{ value: 'Uyghur', label: 'Uyghur' },
+{ value: 'Uzbek', label: 'Uzbek' },
+{ value: 'Vietnamese', label: 'Vietnamese' },
+{ value: 'Welsh', label: 'Welsh' },
+{ value: 'Xhosa', label: 'Xhosa' },
+{ value: 'Yiddish', label: 'Yiddish' },
+{ value: 'Yoruba', label: 'Yoruba' },
+{ value: 'Zulu', label: 'Zulu' }
+
+  ];
+
+  const outputCounts = [
+    { value: 1, label: '1' },
+    { value: 2, label: '2' },
+    { value: 3, label: '3' },
+    { value: 4, label: '4' },
+    { value: 5, label: '5' },
+  ];
+
+  const handleCopy = (titleContent: string) => {
+    navigator.clipboard.writeText(titleContent);
+    toast.success('Script content copied to clipboard!');
+  };
+
+  const handleDownload = () => {
+    const element = document.createElement("a");
+    const file = new Blob([generatedScript.join("\n\n")], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "youtube_script.txt";
+    document.body.appendChild(element);
+    element.click();
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Youtube Script',
+      text: generatedScript.join("\n\n"),
+    };
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      console.error('Error sharing youtube script:', err);
+    }
+  };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
-      <div className="flex flex-col gap-4">
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Topic</label>
         <input
           type="text"
-          placeholder="Enter topic (e.g., How to bake a cake)"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
-          className="border border-[var(--primary-text-color)] rounded-md p-3 "
+          placeholder="E.g., Enter topic (e.g., How to bake a cake)"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">length</label>
+        <select
+          value={length}
+          onChange={(e) => setlength(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
+        >
+          {lengths.map((lengthOption) => (
+            <option key={lengthOption.value} value={lengthOption.value}>{lengthOption.label}</option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
-          className="border border-[var(--primary-text-color)] rounded-md p-3 "
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         >
-          <option value="">Select tone</option>
-          <option value="Informative and Friendly">Informative and Friendly</option>
-          <option value="Professional and Authoritative">Professional and Authoritative</option>
-          <option value="Casual and Conversational">Casual and Conversational</option>
-          <option value="Energetic and Exciting">Energetic and Exciting</option>
-          <option value="Serious and Formal">Serious and Formal</option>
+          {tones.map((toneOption) => (
+            <option key={toneOption.value} value={toneOption.value}>{toneOption.label}</option>
+          ))}
         </select>
-        <select
-          value={length}
-          onChange={(e) => setLength(e.target.value)}
-          className="border border-[var(--primary-text-color)] rounded-md p-3 "
-        >
-          <option value="">Select length</option>
-          <option value="Short">Short</option>
-          <option value="Medium">Medium</option>
-          <option value="Long">Long</option>
-        </select>
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="border border-[var(--primary-text-color)] rounded-md p-3 "
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         >
-          <option value="">Select language</option>
-<option value="Afrikaans">Afrikaans</option>
-<option value="Albanian">Albanian</option>
-<option value="Amharic">Amharic</option>
-<option value="Arabic">Arabic</option>
-<option value="Armenian">Armenian</option>
-<option value="Azerbaijani">Azerbaijani</option>
-<option value="Basque">Basque</option>
-<option value="Belarusian">Belarusian</option>
-<option value="Bengali">Bengali</option>
-<option value="Bosnian">Bosnian</option>
-<option value="Bulgarian">Bulgarian</option>
-<option value="Catalan">Catalan</option>
-<option value="Cebuano">Cebuano</option>
-<option value="Chichewa">Chichewa</option>
-<option value="Chinese (Simplified)">Chinese (Simplified)</option>
-<option value="Chinese (Traditional)">Chinese (Traditional)</option>
-<option value="Corsican">Corsican</option>
-<option value="Croatian">Croatian</option>
-<option value="Czech">Czech</option>
-<option value="Danish">Danish</option>
-<option value="Dutch">Dutch</option>
-<option value="English">English</option>
-<option value="Esperanto">Esperanto</option>
-<option value="Estonian">Estonian</option>
-<option value="Filipino">Filipino</option>
-<option value="Finnish">Finnish</option>
-<option value="French">French</option>
-<option value="Frisian">Frisian</option>
-<option value="Galician">Galician</option>
-<option value="Georgian">Georgian</option>
-<option value="German">German</option>
-<option value="Greek">Greek</option>
-<option value="Gujarati">Gujarati</option>
-<option value="Haitian Creole">Haitian Creole</option>
-<option value="Hausa">Hausa</option>
-<option value="Hawaiian">Hawaiian</option>
-<option value="Hebrew">Hebrew</option>
-<option value="Hindi">Hindi</option>
-<option value="Hmong">Hmong</option>
-<option value="Hungarian">Hungarian</option>
-<option value="Icelandic">Icelandic</option>
-<option value="Igbo">Igbo</option>
-<option value="Indonesian">Indonesian</option>
-<option value="Irish">Irish</option>
-<option value="Italian">Italian</option>
-<option value="Japanese">Japanese</option>
-<option value="Javanese">Javanese</option>
-<option value="Kannada">Kannada</option>
-<option value="Kazakh">Kazakh</option>
-<option value="Khmer">Khmer</option>
-<option value="Kinyarwanda">Kinyarwanda</option>
-<option value="Korean">Korean</option>
-<option value="Kurdish (Kurmanji)">Kurdish (Kurmanji)</option>
-<option value="Kyrgyz">Kyrgyz</option>
-<option value="Lao">Lao</option>
-<option value="Latin">Latin</option>
-<option value="Latvian">Latvian</option>
-<option value="Lithuanian">Lithuanian</option>
-<option value="Luxembourgish">Luxembourgish</option>
-<option value="Macedonian">Macedonian</option>
-<option value="Malagasy">Malagasy</option>
-<option value="Malay">Malay</option>
-<option value="Malayalam">Malayalam</option>
-<option value="Maltese">Maltese</option>
-<option value="Maori">Maori</option>
-<option value="Marathi">Marathi</option>
-<option value="Mongolian">Mongolian</option>
-<option value="Myanmar (Burmese)">Myanmar (Burmese)</option>
-<option value="Nepali">Nepali</option>
-<option value="Norwegian">Norwegian</option>
-<option value="Odia (Oriya)">Odia (Oriya)</option>
-<option value="Pashto">Pashto</option>
-<option value="Persian">Persian</option>
-<option value="Polish">Polish</option>
-<option value="Portuguese">Portuguese</option>
-<option value="Punjabi">Punjabi</option>
-<option value="Romanian">Romanian</option>
-<option value="Russian">Russian</option>
-<option value="Samoan">Samoan</option>
-<option value="Scots Gaelic">Scots Gaelic</option>
-<option value="Serbian">Serbian</option>
-<option value="Sesotho">Sesotho</option>
-<option value="Shona">Shona</option>
-<option value="Sindhi">Sindhi</option>
-<option value="Sinhala">Sinhala</option>
-<option value="Slovak">Slovak</option>
-<option value="Slovenian">Slovenian</option>
-<option value="Somali">Somali</option>
-<option value="Spanish">Spanish</option>
-<option value="Sundanese">Sundanese</option>
-<option value="Swahili">Swahili</option>
-<option value="Swedish">Swedish</option>
-<option value="Tajik">Tajik</option>
-<option value="Tamil">Tamil</option>
-<option value="Tatar">Tatar</option>
-<option value="Telugu">Telugu</option>
-<option value="Thai">Thai</option>
-<option value="Turkish">Turkish</option>
-<option value="Turkmen">Turkmen</option>
-<option value="Ukrainian">Ukrainian</option>
-<option value="Urdu">Urdu</option>
-<option value="Uyghur">Uyghur</option>
-<option value="Uzbek">Uzbek</option>
-<option value="Vietnamese">Vietnamese</option>
-<option value="Welsh">Welsh</option>
-<option value="Xhosa">Xhosa</option>
-<option value="Yiddish">Yiddish</option>
-<option value="Yoruba">Yoruba</option>
-<option value="Zulu">Zulu</option>
-
+          {languages.map((languageOption) => (
+            <option key={languageOption.value} value={languageOption.value}>{languageOption.label}</option>
+          ))}
         </select>
-        <p className="text-base text-gray-400 mt-2">
-        👉 Try a few combinations to generate the best script for your needs.
-        </p>
-        <button
-          onClick={handleGenerateScript}
-          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <select
+          value={outputCount}
+          onChange={(e) => setOutputCount(Number(e.target.value))}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         >
-          {isLoading ? "Generating..." :(script?"Regenerate":'Generate') }
+          {outputCounts.map((outputCountOption) => (
+            <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
+          ))}
+        </select>
+      </div>
+      <div className="mt-5 flex justify-center">
+        <button
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          onClick={handleGenerate}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Generating...' : (generatedScript.length > 0 ? "Regenerate" : 'Generate')}
         </button>
       </div>
-      {isLoading && (
-        <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
-          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-        </div>
-      )}
-      {script && (
-        <div ref={resultsRef} className="mt-6 max-h-[500px] rounded-md p-5 overflow-y-auto border border-[var(--primary-text-color)]">
-          <h3 className="text-xl font-semibold mb-4">Generated Script</h3>
-          <div className="border border-[var(--primary-text-color)] rounded-md p-4  relative overflow-x-auto max-w-full">
-            <pre className="whitespace-pre-wrap mt-5">{script}</pre>
-            <div className="absolute top-2 right-2 flex gap-2">
-              <button
-                onClick={handleCopyScript}
-                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
-              title='Copy'>
-                <ClipboardCopyIcon className="inline-block w-5 h-5" />
-              </button>
-              <button
-                onClick={handleDownloadScript}
-                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
-              title='Download' >
-                <FaDownload className="inline-block w-5 h-5" />
-              </button>
-              <button
-                onClick={handleShareScript}
-                className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1  "
-              title='Share'>
-                <FaShareAlt className="inline-block w-5 h-5" />
-              </button>
-              
+      <div className="mt-5">
+        {isLoading ? (
+            <div ref={loaderRef} className="w-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-5 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
             </div>
+        ) : (
+            generatedScript.length > 0 && (
+            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
+                <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl text-[var(--primary-text-color)] ">Generated Youtube Script</h1>
+                <div className="flex gap-2">
+                    <button
+                    onClick={handleShare}
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    title="Share"
+                    >
+                    <Share2 />
+                    </button>
+                    <button
+                    onClick={handleDownload}
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    title="Download"
+                    >
+                    <Download />
+                    </button>
+                </div>
+                </div>
+                <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
+              {generatedScript.map((post, index) => (
+          <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
+            <div className="flex justify-between items-center mb-2">
+              <div className="absolute top-2 right-2 space-x-2">
+                <button
+                  onClick={() => handleCopy(post)}
+                  className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                  title="Copy"
+                >
+                  <Copy />
+                </button>
+              </div>
+            </div>
+            <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
           </div>
+        ))}
         </div>
-      )}
+                
+            </div>
+            )
+        )}
+      </div>
+
     </div>
   );
-};
+}

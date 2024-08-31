@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, ClipboardCopy } from 'lucide-react'; // Assuming 'Download' and 'Share' icons are available
+import { Loader2, ClipboardCopy, Share2, Download, Copy } from 'lucide-react'; // Assuming 'Download' and 'Share' icons are available
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { FaDownload, FaShareAlt } from 'react-icons/fa'; 
@@ -13,7 +13,8 @@ export function BusinessPlanGenerator() {
   const [industry, setIndustry] = useState('');
   const [targetMarket, setTargetMarket] = useState('');
   const [language, setLanguage] = useState('English'); // Default language
-  const [businessPlan, setBusinessPlan] = useState('');
+  const [outputCount, setOutputCount] = useState(1);
+  const [businessPlan, setBusinessPlan] = useState([]);
   const [buttonText, setButtonText] = useState('Generate');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
@@ -30,29 +31,29 @@ export function BusinessPlanGenerator() {
 
   const handleGenerate = async () => {
     if (
-      !validateInput(businessType)||
-      !validateInput(industry)||
+      !validateInput(businessType) ||
+      !validateInput(industry) ||
       !validateInput(targetMarket)
     ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
     setIsLoading(true);
-    setBusinessPlan('');
-
-    // Scroll to loader after a short delay to ensure it's rendered
+    setBusinessPlan([]);
+  
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: "center" });
     }, 100);
-
+  
     try {
       const response = await axios.post(`${BASE_URL}/response/businessPlan?clerkId=${userId}`, {
         businessType,
         industry,
         targetMarket,
-        language // Include language in request
+        language,
+        outputCount, // Include outputCount in the request
       });
-
+  
       if (response.status === 200) {
         setBusinessPlan(response.data.businessPlan);
       } else {
@@ -65,38 +66,31 @@ export function BusinessPlanGenerator() {
       setIsLoading(false);
     }
   };
+  
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(businessPlan);
-    toast.success('Business plan copied to clipboard!');
+  const handleCopy = (titleContent: string) => {
+    navigator.clipboard.writeText(titleContent);
+    toast.success(' content copied to clipboard!');
   };
 
   const handleDownload = () => {
-    const blob = new Blob([businessPlan], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'generated_business_plan.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const element = document.createElement("a");
+    const file = new Blob([businessPlan.join("\n\n")], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "business_plan.txt";
+    document.body.appendChild(element);
+    element.click();
   };
 
   const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Shared Generated Business Plan',
-          text: businessPlan
-        });
-        console.log('Shared successfully.');
-      } catch (error) {
-        console.error('Error sharing:', error);
-        toast.error('Failed to share generated business plan.');
-      }
-    } else {
-      toast.error('Sharing is not supported on this browser.');
+    const shareData = {
+      title: ' Business Plan',
+      text: businessPlan.join("\n\n"),
+    };
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      console.error('Error sharing business plan:', err);
     }
   };
 
@@ -111,7 +105,7 @@ export function BusinessPlanGenerator() {
 document.addEventListener('copy', handleCopyEvent);
 
   const handleInputChange = () => {
-    setBusinessPlan('');
+    setBusinessPlan([]);
     setButtonText('Generate');
   };
 
@@ -274,6 +268,21 @@ document.addEventListener('copy', handleCopyEvent);
           <option value="Zulu">Zulu</option>
         </select>
       </div>
+      <div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Number of Outputs</label>
+  <select
+    value={outputCount}
+    onChange={(e) => setOutputCount(parseInt(e.target.value))}
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:text-gray-300 p-3 mb-4"
+  >
+    {[...Array(5).keys()].map((_, index) => (
+      <option key={index} value={index + 1}>
+        {index + 1}
+      </option>
+    ))}
+  </select>
+</div>
+
 
       <div className="mt-5 flex justify-center">
         <button
@@ -281,47 +290,62 @@ document.addEventListener('copy', handleCopyEvent);
           onClick={buttonText === 'Generate' ? handleGenerate : handleGenerate}
           disabled={isLoading}
         >
-          {isLoading ? 'Generating...' : buttonText}
+          {isLoading ? 'Generating...' : (businessPlan.length>0?"Regenerate":"Generate")}
         </button>
       </div>
 
       <div className="mt-5">
         {isLoading ? (
-          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+            <div ref={loaderRef} className="w-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-5 text-[var(--dark-gray-color)]" />
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-          </div>
+            </div>
         ) : (
-          businessPlan && (
-            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 max-h-96 overflow-y-auto relative">
-              <div className="border p-4 rounded-lg">
-                <h2 className="text-2xl text-[var(--primary-text-color)] mb-4 underline">Generated Business Plan:</h2>
-                <pre className="text-[var(--primary-text-color)] whitespace-pre-line">{businessPlan}</pre>
-                <div className="absolute top-2 right-2 flex gap-2">
-                  <button
-                    onClick={handleCopy}
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1 "
-                  title='Copy'>
-                    <ClipboardCopy className="inline-block w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={handleDownload}
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1 "
-                  title='Download'>
-                    <FaDownload className="inline-block w-5 h-5" />
-                  </button>
-                  <button
+            businessPlan.length > 0 && (
+            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
+                <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl text-[var(--primary-text-color)] ">Generated Business Plan</h1>
+                <div className="flex gap-2">
+                    <button
                     onClick={handleShare}
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] rounded-md px-3 py-1 "
-                  title='Share'>
-                    <FaShareAlt className="inline-block w-5 h-5" />
-                  </button>
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    title="Share"
+                    >
+                    <Share2 />
+                    </button>
+                    <button
+                    onClick={handleDownload}
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    title="Download"
+                    >
+                    <Download />
+                    </button>
                 </div>
+                </div>
+                <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
+              {businessPlan.map((post, index) => (
+          <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
+            <div className="flex justify-between items-center mb-2">
+              <div className="absolute top-2 right-2 space-x-2">
+                <button
+                  onClick={() => handleCopy(post)}
+                  className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                  title="Copy"
+                >
+                  <Copy />
+                </button>
               </div>
             </div>
-          )
+            <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
+          </div>
+        ))}
+        </div>
+                
+            </div>
+            )
         )}
       </div>
+
     </div>
   );
 }
