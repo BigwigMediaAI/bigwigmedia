@@ -311,7 +311,7 @@ export function VideoAudioTrimmer() {
             {isLoading ? "Merging..." : 'Merge'}
           </Button>
         </div>
-      </div>
+      
 
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {showLoader && (
@@ -321,27 +321,30 @@ export function VideoAudioTrimmer() {
           </div>
         )}
         {outputVideoUrl && (
-          <div ref={resultsRef} className="m-auto w-full max-w-2xl rounded-lg  bg-white p-6 shadow-xl mt-5 flex flex-col items-center">
+          <div ref={resultsRef} className="m-auto w-full max-w-2xl rounded-lg  bg-white p-6 mt-5 flex flex-col items-center">
             
             <div className="mt-4 w-full text-center">
               <ReactPlayer url={outputVideoUrl} controls className="w-full mb-4" />
+              <div className="flex gap-5">
               <Button
                 className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleDownloadClick}
               title="Download">
                 Download
-                <Download className="w-6 h-6 text-white" />
               </Button>
               <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleShareClick}
                 title="Share">
                   Share
-                  <Share2 className="w-6 h-6 text-white" />
+
                 </Button>
+              </div>
+              
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

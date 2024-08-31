@@ -143,21 +143,22 @@ export function VideoCompressor() {
           </div>
         )}
 
-        <Button
-          className="mt-10 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
-          onClick={handleSubmit}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              
-              Compressing...
-              <Loader2 className="animate-spin w-5 h-5" />
-            </>
-          ) : (
-            "Compress Video"
-          )}
-        </Button>
+        {!downloadUrl && (
+          <Button
+            className="mt-10 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                Compressing...
+                <Loader2 className="animate-spin w-5 h-5" />
+              </>
+            ) : (
+              "Compress Video"
+            )}
+          </Button>
+        )}
 
         {isLoading && (
           <div ref={loaderRef} className="w-full mt-4">
@@ -168,23 +169,24 @@ export function VideoCompressor() {
           </div>
         )}
 
-        
-
         {downloadUrl && !isLoading && (
           <div ref={resultsRef} className="w-full mt-4 flex flex-col items-center">
+            <div className="flex gap-5">
             <a
-              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]  w-fit mx-auto"
               href={downloadUrl}
               download="compressed_video.mp4"
-            title="Download">
+              className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-1 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+              title="Download">
               Download
             </a>
             <Button
-              className="mt-4 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]  w-fit mx-auto"
+              className=" text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-4 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
               onClick={handleShare}
-            title="Share">
+              title="Share">
               Share Video
             </Button>
+            </div>
+            
           </div>
         )}
       </div>

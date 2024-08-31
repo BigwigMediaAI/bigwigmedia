@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Download, Loader2, Share2 } from 'lucide-react';
+import { Download, Loader2, Share2, Copy } from 'lucide-react';
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { validateInput } from '@/utils/validateInput';
@@ -12,15 +12,13 @@ export function GenerateDomainNames() {
   const [companyType, setCompanyType] = useState('');
   const [length, setLength] = useState('');
   const [count, setCount] = useState('');
-  const [domainNames, setDomainNames] = useState([]);
+  const [domainNames, setDomainNames] = useState<string[]>([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
-    if (
-      !validateInput(companyName)
-    ) {
+    if (!validateInput(companyName)) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
@@ -33,11 +31,8 @@ export function GenerateDomainNames() {
         companyName,
         companyType,
         length: parseInt(length) || 0,
-        count: parseInt(count) || 0
+        count: parseInt(count) || 0,
       });
-
-      // Scroll to loader after a short delay to ensure it's rendered
-      
 
       if (response.status === 200) {
         setDomainNames(response.data.data);
@@ -66,12 +61,12 @@ export function GenerateDomainNames() {
         text: textToShare,
       }).catch((error) => console.error('Error sharing:', error));
     } else {
-      navigator.clipboard.writeText(textToShare).then(() => {
-        toast.success('Domain names copied to clipboard');
-      }).catch((error) => {
-        console.error('Error copying to clipboard:', error);
-        toast.error('Failed to copy domain names to clipboard');
-      });
+      navigator.clipboard.writeText(textToShare)
+        .then(() => toast.success('Domain names copied to clipboard'))
+        .catch((error) => {
+          console.error('Error copying to clipboard:', error);
+          toast.error('Failed to copy domain names to clipboard');
+        });
     }
   };
 
@@ -87,15 +82,15 @@ export function GenerateDomainNames() {
     document.body.removeChild(a);
   };
 
-  const handleCopyEvent = (e: ClipboardEvent) => {
-    const selectedText = window.getSelection()?.toString() || '';
-    if (selectedText) {
-        e.clipboardData?.setData('text/plain', selectedText);
-        e.preventDefault();
-    }
-};
-
-document.addEventListener('copy', handleCopyEvent);
+  const handleCopyAll = () => {
+    const textToCopy = domainNames.join('\n');
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => toast.success('All domain names copied to clipboard'))
+      .catch((error) => {
+        console.error('Error copying domain names to clipboard:', error);
+        toast.error('Failed to copy domain names to clipboard');
+      });
+  };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
@@ -106,7 +101,7 @@ document.addEventListener('copy', handleCopyEvent);
           value={companyName}
           onChange={(e) => setCompanyName(e.target.value)}
           placeholder="Enter your company name"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
         />
       </div>
 
@@ -117,7 +112,7 @@ document.addEventListener('copy', handleCopyEvent);
           value={companyType}
           onChange={(e) => setCompanyType(e.target.value)}
           placeholder="Enter company type (e.g., tech, innovation)"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
         />
       </div>
 
@@ -129,7 +124,7 @@ document.addEventListener('copy', handleCopyEvent);
             value={length}
             onChange={(e) => setLength(e.target.value)}
             placeholder="Max length of domain name (default: 0)"
-            className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
+            className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
           />
         </div>
         <div className="w-1/2">
@@ -139,7 +134,7 @@ document.addEventListener('copy', handleCopyEvent);
             value={count}
             onChange={(e) => setCount(e.target.value)}
             placeholder="Number of domain names (default: 0)"
-            className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
+            className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
           />
         </div>
       </div>
@@ -163,31 +158,41 @@ document.addEventListener('copy', handleCopyEvent);
         ) : (
           <div>
             {domainNames.length > 0 && (
-              
-              <div ref={resultsRef} className='border border-[var(--primary-text-color)] rounded-md p-5'>
-                <div className='flex justify-between'>
-                <h3 className="text-[var(--primary-text-color)]">Generated Domain Names:</h3>
-                <div className=" flex space-x-4">
+              <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md p-5">
+                <div className="flex justify-between">
+                  <h3 className="text-[var(--primary-text-color)]">Generated Domain Names:</h3>
+                  <div className="flex space-x-4">
                   <button
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
-                    onClick={handleShare}
-                  title='Share'>
-                    <Share2 className="w-5 h-5" />
-                  </button>
-                  <button
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
-                    onClick={handleDownload}
-                  title='Download'>
-                    <Download className="w-5 h-5" />
-                  </button>
-                </div>
+                        className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
+                        onClick={() => handleCopyAll()}
+                        title="Copy"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                    <button
+                      className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
+                      onClick={handleShare}
+                      title="Share"
+                    >
+                      <Share2 className="w-5 h-5" />
+                    </button>
+                    <button
+                      className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
+                      onClick={handleDownload}
+                      title="Download"
+                    >
+                      <Download className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
                 <ul className="list-disc pl-5 mt-2">
                   {domainNames.map((name, index) => (
-                    <li key={index} className="text-[var(--primary-text-color)]">{name}</li>
+                    <li key={index} className="text-[var(--primary-text-color)] flex justify-between items-center">
+                      {name}
+                      
+                    </li>
                   ))}
                 </ul>
-                
               </div>
             )}
           </div>

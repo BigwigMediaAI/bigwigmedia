@@ -263,20 +263,21 @@ export function VideoTrimmer() {
               controls
               width="100%"
             />
+            <div className="flex gap-5">
             <Button
               className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
               onClick={handleDownloadClick}
             title="Download">
               Download
-              <Download className="w-6 h-6 text-white" />
             </Button>
             <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
                   onClick={handleShareClick}
                 title="Share">
                   Share
-                  <Share2 className="w-6 h-6 text-white" />
-                </Button>
+            </Button>
+            </div>
+            
           </div>
         </div>
       )}

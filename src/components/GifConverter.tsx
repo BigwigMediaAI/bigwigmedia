@@ -161,7 +161,7 @@ export function GifConverter() {
                 onChange={handleFileChange}
               />
               <Button
-                className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+                className="border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md bg-white hover:bg-gray-100"
                 onClick={() => fileInputRef.current?.click()}
               >
                 Select Video File
@@ -239,7 +239,7 @@ export function GifConverter() {
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
@@ -247,20 +247,23 @@ export function GifConverter() {
             <div ref={resultsRef} className="m-auto w-full max-w-2xl rounded-lg bg-white p-6  mt-5 flex flex-col items-center">
               <div className="mt-4 w-full text-center">
                 <img src={gifUrl} alt="Generated GIF" className="w-1/2 mb-4 mx-auto" />
+                <div className="flex gap-5">
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleDownloadClick}
                 title="Download">
                   Download
-                  <Download className="w-6 h-6 text-white" />
+
                 </Button>
                 <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleShareClick}
                 title="Share">
                   Share
-                  <Share2 className="w-6 h-6 text-white" />
+
                 </Button>
+                </div>
+                
               </div>
             </div>
           )

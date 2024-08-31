@@ -294,7 +294,7 @@ export function VideoTranslator() {
         </div>
         <div className="flex justify-center mb-5">
           <Button
-            className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}
+            className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-5 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}
             onClick={handleConvertClick}
             disabled={!isFileSelected || isLoading}
           >
@@ -314,20 +314,21 @@ export function VideoTranslator() {
             <div ref={resultRef} className="m-auto w-full max-w-2xl rounded-lg bg-white p-6  flex flex-col items-center">
               <div className=" w-full text-center">
                 <ReactPlayer url={translatedVideoUrl} controls width="100%" />
+                <div className="flex gap-5">
                 <Button
                   className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleDownloadClick}
                 title="Download">
                   Download
-                  <Download className=" w-6 h-6 text-white" />
                 </Button>
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
                   onClick={handleShareClick}
                 title="Share">
                   Share
-                  <Share2 className="w-6 h-6 text-white" />
                 </Button>
+                </div>
+                
               </div>
             </div>
           )
