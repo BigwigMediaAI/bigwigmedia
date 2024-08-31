@@ -207,14 +207,15 @@ export function InstagramImageTool() {
         </div>
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
             <p className="text-[var(--dark-gray-color)] text-justify">Resizing image. Please wait...</p>
           </div>
         ) : resizedImage ? (
           <div ref={resultsRef} className="w-full">
             <div className="w-full flex justify-center items-center">
-            <img src={resizedImage} alt="Resized" className="w-auto" />
+            <img src={resizedImage} alt="Resized" className="w-48 m-auto" />
             </div>
+            <div className="flex gap-5">
             <Button
               className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
               onClick={handleDownload}
@@ -228,6 +229,8 @@ export function InstagramImageTool() {
               
               Share
             </Button>
+            </div>
+            
           </div>
         ) : null}
       </div>

@@ -80,6 +80,29 @@ export function PinterestImageTool() {
     }
   };
 
+  const handleShare = async () => {
+    if (resizedImage) {
+      try {
+        const response = await fetch(resizedImage);
+        const blob = await response.blob();
+        const file = new File([blob], "resized_image.jpg", { type: blob.type });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: "Resized Image",
+            text: "Check out this resized image!",
+            files: [file],
+          });
+        } else {
+          toast.error("Sharing not supported on this device.");
+        }
+      } catch (error) {
+        console.error("Error sharing image:", error);
+        toast.error("Failed to share image.");
+      }
+    }
+  };
+  
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
@@ -182,13 +205,22 @@ export function PinterestImageTool() {
           </div>
         ) : resizedImage ? (
           <div ref={resultsRef} className="w-full">
-            <img src={resizedImage} alt="Resized" className="w-full" />
+            <img src={resizedImage} alt="Resized" className="w-48 m-auto" />
+            <div className="flex gap-5">
             <Button
               className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
               onClick={handleDownload}
             title="Download">
               Download
             </Button>
+            <Button
+              className="mt-5 text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+              onClick={handleShare}
+            title="Share">
+              
+              Share
+            </Button>
+            </div>
           </div>
         ) : null}
       </div>
