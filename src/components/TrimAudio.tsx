@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Download, Upload } from "lucide-react";
+import { Loader2, RefreshCw, Download, Upload, Share2 } from "lucide-react";
 import ReactAudioPlayer from "react-audio-player";
 import Slider from "rc-slider";
 import 'rc-slider/assets/index.css';
@@ -105,6 +105,26 @@ export function AudioTrimmer() {
     document.body.removeChild(link);
   };
 
+  const handleShareClick = async () => {
+    if (!trimmedAudioUrl) return;
+    try {
+      const blob = await fetch(trimmedAudioUrl).then(res => res.blob());
+      const file = new File([blob], 'trimmed-audio.mp3', { type: blob.type });
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Trimmed Audio',
+          files: [file],
+        });
+        toast.success("Audio shared successfully.");
+      } else {
+        toast.error("Sharing is not supported in this browser.");
+      }
+    } catch (error) {
+      console.error("Error sharing audio:", error);
+      toast.error("Error sharing audio. Please try again later.");
+    }
+  };
+
   const handleAudioDuration = (duration: number) => {
     setAudioDuration(duration);
     setEndTime(duration);
@@ -122,13 +142,13 @@ export function AudioTrimmer() {
 
   useEffect(() => {
     if (trimmedAudioUrl && audioRef.current) {
-      audioRef.current.scrollIntoView({ behavior: 'smooth',block:'center' });
+      audioRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [trimmedAudioUrl]);
 
   useEffect(() => {
     if (showLoader && loaderRef.current) {
-      loaderRef.current.scrollIntoView({ behavior: 'smooth',block:'center' });
+      loaderRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [showLoader]);
 
@@ -142,7 +162,7 @@ export function AudioTrimmer() {
         >
           <div className="flex justify-between w-full">
             <div className="flex flex-col items-center w-full">
-            <Upload className="w-12 h-12 text-[var(--gray-color)]" />
+              <Upload className="w-12 h-12 text-[var(--gray-color)]" />
               <input
                 type="file"
                 ref={fileInputRef}
@@ -225,29 +245,40 @@ export function AudioTrimmer() {
         </div>
       
 
-      <div className="w-full pl-2 flex flex-col gap-2 justify-between">
-        {isLoading ? (
-          <div ref={loaderRef} className="w-full mt-10 flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)]" />
-            <p className="text-[var(--dark-gray-color)] text-center mt-4">Data processing in progress. Please bear with us...</p>
-          </div>
-        ) : (
-          trimmedAudioUrl && (
-            <div ref={audioRef} className="m-auto w-full max-w-2xl rounded-lg bg-white p-6  mt-5 flex flex-col items-center">
-              <div className="mt-4 w-full text-center">
-                <ReactAudioPlayer src={trimmedAudioUrl} controls className="w-full mb-4" />
-                <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
-                  onClick={handleDownloadClick}
-                title="Download">
-                  Download
-                  <Download className="w-6 h-6 text-white" />
-                </Button>
-              </div>
+        <div className="w-full pl-2 flex flex-col gap-2 justify-between">
+          {isLoading ? (
+            <div ref={loaderRef} className="w-full mt-10 flex flex-col items-center justify-center">
+              <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)]" />
+              <p className="text-[var(--dark-gray-color)] text-center mt-4">Data processing in progress. Please bear with us...</p>
             </div>
-          )
-        )}
-      </div>
+          ) : (
+            trimmedAudioUrl && (
+              <div ref={audioRef} className="m-auto w-full max-w-2xl rounded-lg bg-white p-6  mt-5 flex flex-col items-center">
+                <div className="mt-4 w-full text-center">
+                  <ReactAudioPlayer src={trimmedAudioUrl} controls className="w-full mb-4" />
+                  <div className="flex justify-center gap-4">
+                    <Button
+                      className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                      onClick={handleDownloadClick}
+                      title="Download"
+                    >
+                      Download
+                      <Download className="w-6 h-6 text-white" />
+                    </Button>
+                    <Button
+                      className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                      onClick={handleShareClick}
+                      title="Share"
+                    >
+                      Share
+                      <Share2 className="w-6 h-6 text-white" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

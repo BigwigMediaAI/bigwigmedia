@@ -2,7 +2,7 @@ import React, { useState, useRef,useEffect } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCw, Download, UploadIcon } from "lucide-react";
+import { Loader2, RefreshCw, Download, UploadIcon, Share2 } from "lucide-react";
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -83,6 +83,26 @@ export function AudioTranslation() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleShareClick = async () => {
+    if (!translatedAudioUrl) return;
+    try {
+      const blob = await fetch(translatedAudioUrl).then(res => res.blob());
+      const file = new File([blob], 'translated-audio.mp3', { type: blob.type });
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Translated Audio',
+          files: [file],
+        });
+        toast.success("Audio shared successfully.");
+      } else {
+        toast.error("Sharing is not supported in this browser.");
+      }
+    } catch (error) {
+      console.error("Error sharing audio:", error);
+      toast.error("Error sharing audio. Please try again later.");
+    }
   };
 
   useEffect(() => {
@@ -193,13 +213,22 @@ export function AudioTranslation() {
             <div ref={resultRef} className="m-auto w-full max-w-2xl rounded-lg  bg-[var(--white-color)] p-6  mt-5 flex flex-col items-center">
               <div className="mt-4 w-full text-center">
                 <audio controls src={translatedAudioUrl} className="w-full mb-4" />
+                <div className="flex gap-5">
                 <Button
                   className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleDownloadClick}
                 title="Download">
                   Download
-                  <Download className="w-6 h-6 text-white" />
                 </Button>
+                <Button
+                      className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                      onClick={handleShareClick}
+                      title="Share"
+                    >
+                      Share
+                    </Button>
+                </div>
+                
               </div>
             </div>
           )
