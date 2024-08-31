@@ -129,7 +129,7 @@ const ImageGenerator = (props: Props) => {
 
       {/* selects */}
       <div className="flex flex-col md:flex-row w-full gap-5">
-        <Select onValueChange={setNumber}>
+        {/* <Select onValueChange={setNumber}>
           <SelectTrigger
             className="w-full"
             value={number}
@@ -140,12 +140,12 @@ const ImageGenerator = (props: Props) => {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Number of Images</SelectLabel>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((val) => (
+              {[1].map((val) => (
                 <SelectItem value={`${val}`}>{`${val}`}</SelectItem>
               ))}
             </SelectGroup>
           </SelectContent>
-        </Select>
+        </Select> */}
         <Select onValueChange={setQuality}>
           <SelectTrigger
             className="w-full"
