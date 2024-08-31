@@ -34,7 +34,7 @@ export function VideoDownloader() {
       if (response.data.status) {
         setDownloadUrl({
           audio: response.data.data.data.audio,
-          video: response.data.data.data.video,
+          video: response.data.data.data.video_hd,
         });
         setThumbnailUrl(response.data.data.data.thumbnail);
       } else {
