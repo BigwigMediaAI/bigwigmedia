@@ -17,3 +17,48 @@
   --note: red;
   --search: #ee3d49 ;
 }
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;  /* Reduced width */
+  height: 24px;  /* Reduced height */
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 28px;  /* Adjusted border-radius for smaller switch */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;  /* Reduced height */
+  width: 18px;   /* Reduced width */
+  left: 3px;  /* Adjusted to center the knob within the switch */
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--emoji);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);  /* Adjusted translation to match new size */
+}

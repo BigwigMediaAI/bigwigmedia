@@ -4,6 +4,7 @@ import { Download, Loader2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
 import { BASE_URL } from "@/utils/funcitons";
 import { PiDotsThreeOutlineVerticalBold } from "react-icons/pi";
+import { useAuth } from "@clerk/clerk-react";
 
 export function InstagramImgVidDownloader() {
   const [postLink, setPostLink] = useState<string>("");
@@ -12,6 +13,7 @@ export function InstagramImgVidDownloader() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   const handleDownload = async () => {
     setIsLoading(true);
@@ -23,7 +25,7 @@ export function InstagramImgVidDownloader() {
     }, 100);
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/instadownloader`, {
+      const response = await axios.post(`${BASE_URL}/response/instadownloader?clerkId=${userId}`, {
         url: postLink,
       });
 
