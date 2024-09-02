@@ -6,15 +6,17 @@ import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { validateInput } from '@/utils/validateInput';
 import CreditLimitModal from './Model3';
+import '../App.css'
 
-export function YouTubeScriptGenerator() {
+export function GenerateInstagramReelPost() {
   const [isLoading, setIsLoading] = useState(false);
-  const [topic, setTopic] = useState('');
-  const [length, setlength] = useState('');
-  const [tone, setTone] = useState('');
+  const [theme, settheme] = useState('');
+  const [tone, setTone] = useState('Professionl');
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
-  const [generatedScript, setgeneratedScript] = useState([]);
+  const [useEmoji, setUseEmoji] = useState(true);
+  const [useHashtags, setUseHashtags] = useState(true);
+  const [generatedtheme, setgeneratedtheme] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -27,7 +29,7 @@ export function YouTubeScriptGenerator() {
       const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
       if (res.status === 200) {
         setCredits(res.data.data.currentLimit);
-        return res.data.data.currentLimit; // Return credits for immediate use
+        return res.data.data.currentLimit;
       } else {
         toast.error("Error occurred while fetching account credits");
         return 0;
@@ -40,77 +42,65 @@ export function YouTubeScriptGenerator() {
   };
 
   const handleGenerate = async () => {
-    if (
-      !validateInput(topic) ||
-      !validateInput(length)
-    ) {
+    if (!validateInput(theme)) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
-    
     setIsLoading(true);
-    setgeneratedScript([]);
+    setgeneratedtheme([]);
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 
-
     const currentCredits = await getCredits();
     console.log('Current Credits:', currentCredits);
 
     if (currentCredits <= 0) {
-      setIsLoading(false)
       setTimeout(() => {
         setShowModal3(true);
       }, 0);
-      
+      setIsLoading(false);
       return;
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/youtubeScript?clerkId=${userId}`, {
-        topic,
-        length,
+      const response = await axios.post(`${BASE_URL}/response/generateReelPost?clerkId=${userId}`, {
+        theme,
         tone,
         language,
         outputCount,
+        useEmoji,
+        useHashtags,
       });
 
       if (response.status === 200) {
         console.log(response.data);
-        setgeneratedScript(response.data.script);
+        setgeneratedtheme(response.data);
       } else {
-        toast.error('Error generating scripts. Please try again later.');
+        toast.error('Error generating captions. Please try again later.');
       }
     } catch (error) {
-      console.error('Error generating scripts:', error);
-      toast.error('Error generating scripts. Please try again later.');
+      console.error('Error generating captions:', error);
+      toast.error('Error generating captions. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!isLoading && generatedScript.length > 0) {
+    if (!isLoading && generatedtheme.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isLoading, generatedScript]);
-
-  const lengths=[
-    { value: '', label: 'Select length' },
-    { value: 'Short', label: 'Short' },
-    { value: 'Medium', label: 'Medium' },
-    { value: 'Long', label: 'Long' },
-  ]
+  }, [isLoading, generatedtheme]);
 
   const tones = [
-    { value: '', label: 'Select tone' },
-    { value: 'Informative and Friendly', label: 'Informative and Friendly' },
-    { value: 'Professional and Authoritative', label: 'Professional and Authoritative' },
-    { value: 'Casual and Conversational', label: 'Casual and Conversational' },
-    { value: 'Energetic and Exciting', label: 'Energetic and Exciting' },
-    { value: 'Serious and Formal', label: 'Serious and Formal' },
+    { value: 'Professional', label: 'Professional' },
+    { value: 'Creative', label: 'Creative' },
+    { value: 'Humurous', label: 'Humurous' },
+    { value: 'Minimal', label: 'Minimal' },
+    { value: 'Creative', label: 'Creative' }
+    // Add more tones as needed
   ];
 
   const languages = [
@@ -222,8 +212,7 @@ export function YouTubeScriptGenerator() {
 { value: 'Xhosa', label: 'Xhosa' },
 { value: 'Yiddish', label: 'Yiddish' },
 { value: 'Yoruba', label: 'Yoruba' },
-{ value: 'Zulu', label: 'Zulu' }
-
+{ value: 'Zulu', label: 'Zulu' }
   ];
 
   const outputCounts = [
@@ -234,101 +223,134 @@ export function YouTubeScriptGenerator() {
     { value: 5, label: '5' },
   ];
 
-  const handleCopy = (titleContent: string) => {
-    navigator.clipboard.writeText(titleContent);
-    toast.success('Script content copied to clipboard!');
+  const handleCopy = (caption:any) => {
+    navigator.clipboard.writeText(caption);
+    toast.success('Caption copied to clipboard!');
   };
 
   const handleDownload = () => {
     const element = document.createElement("a");
-    const file = new Blob([generatedScript.join("\n\n")], { type: "text/plain" });
+    const file = new Blob([generatedtheme.join("\n\n")], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "youtube_script.txt";
+    element.download = "captions.txt";
     document.body.appendChild(element);
     element.click();
   };
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Youtube Script',
-      text: generatedScript.join("\n\n"),
+      title: 'Instagram Captions',
+      text: generatedtheme.join("\n\n"),
     };
     try {
       await navigator.share(shareData);
     } catch (err) {
-      console.error('Error sharing youtube script:', err);
+      console.error('Error sharing captions:', err);
     }
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Topic</label>
-        <input
-          type="text"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          placeholder="E.g., Enter topic (e.g., How to bake a cake)"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
+        <label className="block text-[var(--primary-text-color)]">Describe your Reel content</label>
+        <textarea
+          value={theme}
+          onChange={(e) => settheme(e.target.value)}
+          placeholder="E.g: Sharing my coffee recipe! ☕ #CoffeeLover"
+          className="mt-1 block w-full rounded-md border-1 border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+          rows={4}
         />
       </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">length</label>
-        <select
-          value={length}
-          onChange={(e) => setlength(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        >
-          {lengths.map((lengthOption) => (
-            <option key={lengthOption.value} value={lengthOption.value}>{lengthOption.label}</option>
-          ))}
-        </select>
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
-        <select
-          value={tone}
-          onChange={(e) => setTone(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        >
-          {tones.map((toneOption) => (
-            <option key={toneOption.value} value={toneOption.value}>{toneOption.label}</option>
-          ))}
-        </select>
-      </div>
+      
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         >
           {languages.map((languageOption) => (
-            <option key={languageOption.value} value={languageOption.value}>{languageOption.label}</option>
+            <option key={languageOption.value} value={languageOption.value}>
+              {languageOption.label}
+            </option>
           ))}
         </select>
       </div>
+      
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         >
           {outputCounts.map((outputCountOption) => (
-            <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
+            <option key={outputCountOption.value} value={outputCountOption.value}>
+              {outputCountOption.label}
+            </option>
           ))}
         </select>
       </div>
+      
+      <div className="mb-5">
+        <label className="text-[var(--primary-text-color)]">Choose a Tone:</label>
+        <div className="tone-selector flex gap-4 justify-center">
+          {tones.map((toneOption) => (
+            <button
+              key={toneOption.value}
+              className={`px-4 py-2 rounded-full border ${
+                tone === toneOption.value ? "border border-[var(--teal-color)] text-[var(--teal-color)]" : "bg-white text-[var(--primary-text-color)]"
+              }`}
+              onClick={() => setTone(toneOption.value)}
+            >
+              <span className="flex items-center">
+                <img src={`/icons/${toneOption.value}.png`} alt="" className="mr-2" />
+                {toneOption.label}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className='flex justify-center gap-5'>
+      <div className="mb-5 flex items-center gap-4">
+        <label className="text-[var(--primary-text-color)]">Use Emoji</label>
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={useEmoji}
+            onChange={() => setUseEmoji(!useEmoji)}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+      
+      <div className="mb-5 flex items-center gap-4">
+        <label className="text-[var(--primary-text-color)]">Use Hashtag</label>
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={useHashtags}
+            onChange={() => setUseHashtags(!useHashtags)}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+      </div>
+      <p className=" text-center text-[var(--gray-color)] mt-2">
+        👉 Try a few combinations to generate the best result for your needs.
+        </p>
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleGenerate}
           disabled={isLoading}
         >
-          {isLoading ? 'Generating...' : (generatedScript.length > 0 ? "Regenerate" : 'Generate')}
+          {isLoading ? 'Generating...' : (generatedtheme.length > 0 ? "Regenerate" : 'Generate')}
         </button>
+        
       </div>
+      
+      
       <div className="mt-5">
         {isLoading ? (
             <div ref={loaderRef} className="w-full flex flex-col items-center justify-center">
@@ -336,21 +358,21 @@ export function YouTubeScriptGenerator() {
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
             </div>
         ) : (
-            generatedScript.length > 0 && (
+            generatedtheme.length > 0 && (
             <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
                 <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-[var(--primary-text-color)] ">Generated Youtube Script</h1>
+                <h1 className="text-2xl text-[var(--primary-text-color)]  ">Generated Reel Post</h1>
                 <div className="flex gap-2">
                     <button
                     onClick={handleShare}
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
                     title="Share"
                     >
                     <Share2 />
                     </button>
                     <button
                     onClick={handleDownload}
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
                     title="Download"
                     >
                     <Download />
@@ -358,20 +380,20 @@ export function YouTubeScriptGenerator() {
                 </div>
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedScript.map((post, index) => (
+              {generatedtheme.map((post, index) => (
           <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
             <div className="flex justify-between items-center mb-2">
               <div className="absolute top-2 right-2 space-x-2">
                 <button
                   onClick={() => handleCopy(post)}
-                  className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                  className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
                   title="Copy"
                 >
                   <Copy />
                 </button>
               </div>
             </div>
-            <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
+            <p className="text-[var(--primary-text-color)]  whitespace-pre-wrap">{post}</p>
           </div>
         ))}
         </div>
@@ -380,7 +402,10 @@ export function YouTubeScriptGenerator() {
             )
         )}
       </div>
+      
       {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
+  
+  
 }

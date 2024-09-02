@@ -195,6 +195,10 @@ import DocsToAudioConverter from "./DocxtoAudio";
 import { DocxToTextExtractor } from "./DocxTextExtractor";
 import { ImagePromptGenerator } from "./ImagePromptGenerator";
 import { InstagramImgVidDownloader } from "./InstagramImageVideoDownloader";
+import { GenerateInstagramCaption } from "./InstagramPostCaptionGenerator";
+import { GenerateInstagramBio } from "./InstagramBioGenerator";
+import { GenerateInstagramStoryPost } from "./InstagramStoryPostGenerator";
+import { GenerateInstagramReelPost } from "./InstagramReelPostGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -939,6 +943,14 @@ document.addEventListener('copy', handleCopyEvent);
         <DocxToTextExtractor/>
       ):id === "66cf0c5e5f77a21fa1ac2397" ? (
         <ImagePromptGenerator/>
+      ):id === "65cb1c6c4378133a722cbb2f" ? (
+        <GenerateInstagramCaption/>
+      ):id === "65c7b79166f83315da0d622a" ? (
+        <GenerateInstagramBio/>
+      ):id === "65c85fb7ca51dfa84930e502" ? (
+        <GenerateInstagramStoryPost/>
+      ):id === "65c86045ca51dfa84930e695" ? (
+        <GenerateInstagramReelPost/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
