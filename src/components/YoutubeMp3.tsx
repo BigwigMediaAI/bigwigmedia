@@ -3,6 +3,11 @@ import axios from "axios";
 import { Download, Loader2, Share2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
+import { toast } from "sonner";
+import { useAuth } from "@clerk/clerk-react";
+
 
 
 export function Mp3Downloader() {
@@ -15,6 +20,27 @@ export function Mp3Downloader() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+  const { userId } = useAuth();
+
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const extractVideoId = (url: string): string | null => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -33,6 +59,17 @@ export function Mp3Downloader() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       const videoId = extractVideoId(videoLink);
@@ -182,6 +219,7 @@ export function Mp3Downloader() {
         )}
       </div>
       <h3 className="text-sm mt-4 italic text-gray-700">Hint - To copy any video link from Youtube, click on <span className="inline-flex items-center"><BsThreeDotsVertical /></span> then click on share then after click copy link option.</h3>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

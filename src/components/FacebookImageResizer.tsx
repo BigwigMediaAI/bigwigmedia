@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { BASE_URL } from "../utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 import { Loader2, RefreshCw, Download, UploadIcon, Share2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
@@ -15,6 +16,25 @@ export function FacebookImageTool() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   // Define resize options for Facebook image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
@@ -47,6 +67,17 @@ export function FacebookImageTool() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block:'center' });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       const formData = new FormData();
@@ -209,6 +240,7 @@ export function FacebookImageTool() {
           </div>
         ) : null}
       </div>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

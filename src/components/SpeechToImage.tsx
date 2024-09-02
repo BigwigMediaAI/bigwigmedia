@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import { Download, Loader2, Mic, MicOff } from "lucide-react";
@@ -10,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import FileSaver from "file-saver";
 import beep from "../assets/beep.mp3";
+
 
 import {
   Select,
@@ -73,6 +75,25 @@ const GeneratorImage: React.FC<Props> = () => {
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const navigate = useNavigate();
   const beepRef = useRef<HTMLAudioElement | null>(null);
@@ -142,6 +163,17 @@ const GeneratorImage: React.FC<Props> = () => {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       const res = await axios.post(`${BASE_URL}/response/image?clerkId=${userId}`, {
@@ -303,6 +335,7 @@ const GeneratorImage: React.FC<Props> = () => {
     </div>
   )
 )}
+{showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
 </div>
 );
 };

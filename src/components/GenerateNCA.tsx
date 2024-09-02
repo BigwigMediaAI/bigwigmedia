@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 import { Loader2, RefreshCw, Download,ClipboardCopy } from "lucide-react";
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 import { FaDownload, FaShareAlt } from "react-icons/fa";
 import { validateInput } from "@/utils/validateInput";
 
@@ -20,9 +21,30 @@ export function NCAForm() {
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setIsLoading(true);
+
     if (
       !validateInput(employer) ||
       !validateInput(employee) ||
@@ -40,9 +62,18 @@ export function NCAForm() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
-  
+      
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
     try {
-      setIsLoading(true);
       const response = await axios.post(`${BASE_URL}/response/nca?clerkId=${userId}`, {
         employer,
         employee,
@@ -361,6 +392,7 @@ document.addEventListener('copy', handleCopyEvent);
           </div>
         </div>
       )}
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }
