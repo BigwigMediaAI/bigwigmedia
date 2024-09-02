@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Loader2, Clipboard, Share2, Download } from 'lucide-react';
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { validateInput } from '@/utils/validateInput';
+import CreditLimitModal from './Model3';
 
 interface TriviaQuestion {
   question: string;
@@ -137,8 +138,27 @@ export function TriviaGenerator() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [buttonText, setButtonText] = useState('Generate');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
 
   const loaderRef = useRef<HTMLDivElement>(null);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   useEffect(() => {
     if (!triviaQuestions.length) {
@@ -162,6 +182,18 @@ export function TriviaGenerator() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setIsLoading(false)
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      
+      return;
+    }
 
     try {
       const response = await axios.post(`${BASE_URL}/response/trivia?clerkId=${userId}`, {
@@ -402,6 +434,7 @@ export function TriviaGenerator() {
           )
         )}
       </div>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

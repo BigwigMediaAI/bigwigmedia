@@ -2,7 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FaSyncAlt } from "react-icons/fa";
 import { Loader2, Download } from "lucide-react";
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
+import { toast } from "sonner";
+import { useAuth } from "@clerk/clerk-react";
 
 export function InstagramImageDownloader() {
   const [postLink, setPostLink] = useState<string>("");
@@ -11,6 +14,27 @@ export function InstagramImageDownloader() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const handleDownload = async () => {
     setIsLoading(true);
@@ -21,8 +45,20 @@ export function InstagramImageDownloader() {
       loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 100);
 
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setIsLoading(false)
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      
+      return;
+    }
+
     try {
-      const response = await axios.post(`${BASE_URL}/response/instadownloader`, {
+      const response = await axios.post(`${BASE_URL}/response/instadownloader?clerkId=${userId}`, {
         url: postLink,
       });
 
@@ -124,7 +160,9 @@ export function InstagramImageDownloader() {
           </>
         )}
       </div>
+      
       <h3 className="text-sm text-center mt-4 italic text-gray-700">Click on the image name or the download icon to download the image.</h3>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

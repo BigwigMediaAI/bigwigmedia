@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Loader2, Share2, Download, Copy } from 'lucide-react';
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
 import { validateInput } from '@/utils/validateInput';
+import CreditLimitModal from './Model3';
 
 export function GeneratePrivacyPolicy() {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,11 +16,34 @@ export function GeneratePrivacyPolicy() {
   const [outputCount, setOutputCount] = useState(1);
   const [generatedPrivacyPolicy, setgeneratedPrivacyPolicy] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
+   
+
   const handleGenerate = async () => {
+    
+
     if (
       !validateInput(companyName)
     ) {
@@ -32,6 +56,17 @@ export function GeneratePrivacyPolicy() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       const response = await axios.post(`${BASE_URL}/response/generatePolicy?clerkId=${userId}`, {
@@ -69,13 +104,7 @@ export function GeneratePrivacyPolicy() {
     { value: 'large', label: 'Large' }
   ];
 
-  const websiteURLs = [
-    { value: '', label: 'Select websiteURL' },
-    { value: 'engaging', label: 'Engaging' },
-    { value: 'informative', label: 'Informative' },
-    { value: 'humorous', label: 'Humorous' },
-    { value: 'enthusiastic', label: 'Enthusiastic' },
-  ];
+
 
   const languages = [
     { value: 'Afrikaans', label: 'Afrikaans' },
@@ -339,7 +368,7 @@ export function GeneratePrivacyPolicy() {
             )
         )}
       </div>
-
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

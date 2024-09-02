@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { BASE_URL } from "../utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "../utils/funcitons";
 import { Loader2, RefreshCw, Download, UploadIcon, Share2 } from "lucide-react";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
+import CreditLimitModal from "./Model3";
 
 export function TwitterImageTool() {
   const [image, setImage] = useState<File | null>(null);
@@ -16,6 +17,9 @@ export function TwitterImageTool() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
 
   // Define resize options for Twitter image types
   const resizeOptions: Record<string, { width: number; height: number }> = {
@@ -36,6 +40,23 @@ export function TwitterImageTool() {
     setImageType(e.target.value);
   };
 
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
+
   const handleSubmit = async () => {
     if (!image || !imageType) {
       toast.error("Please select an image and image type.");
@@ -48,6 +69,18 @@ export function TwitterImageTool() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setIsLoading(false)
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      
+      return;
+    }
 
     try {
       const formData = new FormData();
@@ -225,6 +258,7 @@ export function TwitterImageTool() {
           </div>
         ) : null}
       </div>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }
