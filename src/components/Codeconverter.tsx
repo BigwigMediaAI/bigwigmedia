@@ -5,8 +5,8 @@ import { useState,useEffect,useRef } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 import { Download, Loader2, Copy, Share2 } from "lucide-react"; // Assuming Copy icon from lucide-react
-
-import { BASE_URL } from "../utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 
 export function CodeConverter() {
   const [code, setCode] = useState("");
@@ -16,6 +16,26 @@ export function CodeConverter() {
   const { userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const languages = ["C", "C++", "Java", "JavaScript", "Python"];
 
@@ -40,6 +60,17 @@ export function CodeConverter() {
     }, 100);
 
     setIsLoading(true);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -179,6 +210,7 @@ console.log(data);
           </div>
         ) : null}
       </div>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

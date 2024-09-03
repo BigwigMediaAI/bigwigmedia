@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { Loader2, RefreshCw, Share2, UploadIcon } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 
 export function ImageCompressor() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,9 +13,27 @@ export function ImageCompressor() {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isImageGenerated, setIsImageGenerated] = useState(false);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   useEffect(() => {
     return () => {
@@ -71,6 +90,17 @@ export function ImageCompressor() {
       setTimeout(() => {
         loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
+
+      const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
       const formData = new FormData();
       formData.append("image", selectedFile);
@@ -187,6 +217,7 @@ export function ImageCompressor() {
           </Button>
         </div>
       )}
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

@@ -5,7 +5,8 @@ import { useAuth } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, Loader2 } from "lucide-react";
-import { BASE_URL } from "../utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 
 
 export function CodeGenerator() {
@@ -15,6 +16,25 @@ export function CodeGenerator() {
   const [convertedCode, setConvertedCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { userId } = useAuth();
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const structures = ["HTML", "React", "Angular"];
   const designs = ["CSS", "Tailwind", "Bootstrap"];
@@ -38,6 +58,17 @@ export function CodeGenerator() {
     }
 
     setIsLoading(true);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -218,6 +249,7 @@ Create a Login page...
           </div>
         ) : null}
       </div>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

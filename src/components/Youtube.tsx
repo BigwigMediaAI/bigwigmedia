@@ -4,7 +4,9 @@ import { FaSyncAlt } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
 import { PiDotsThreeOutlineVerticalBold } from "react-icons/pi";
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
+import { toast } from "sonner";
 
 export function VideoDownloader() {
   const [videoLink, setVideoLink] = useState("");
@@ -16,6 +18,25 @@ export function VideoDownloader() {
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const handleDownload = async () => {
     setIsLoading(true);
@@ -25,6 +46,17 @@ export function VideoDownloader() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       const response = await axios.get(`${BASE_URL}/response/ytdl?clerkId=${userId}`, {
@@ -126,7 +158,7 @@ export function VideoDownloader() {
         )}
       </div>
       <h3 className="text-sm mt-4 italic text-gray-700">Hint - To Download video click on <span className="inline-flex items-center"><PiDotsThreeOutlineVerticalBold /></span> button then click on Download option.</h3>
-
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }
