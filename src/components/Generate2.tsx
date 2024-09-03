@@ -204,6 +204,8 @@ import { GenerateFacebookPost } from "./FacebookPostGenerator";
 import { EventInvitation } from "./InvitationEmail";
 import { GenerateFbAdHeadline } from "./FacebookAdHeadlineGenerator";
 import { GenerateFacebookBio } from "./FacebookBioGenerator";
+import { GenerateFacebookGroupPost } from "./FacebookGroupPost";
+import { GenerateFacebookGroupDescription } from "./FacebookGroupDescription";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -964,6 +966,10 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateFbAdHeadline/>
       ):id === "65c7b0b866f83315da0d5dc0" ? (
         <GenerateFacebookBio/>
+      ):id === "65c85f28ca51dfa84930e376" ? (
+        <GenerateFacebookGroupPost/>
+      ):id === "65cb1cbf4378133a722cbb35" ? (
+        <GenerateFacebookGroupDescription/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
