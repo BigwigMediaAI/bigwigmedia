@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ClipboardCopyIcon, CopyIcon, Download, Loader2, Share2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { BASE_URL } from '@/utils/funcitons'; // Corrected import path
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";// Corrected import path
 import { useAuth } from '@clerk/clerk-react';
 import { validateInput } from '@/utils/validateInput';
 
@@ -23,6 +24,26 @@ export function NotesGenerator() {
   const [language, setLanguage] = useState('English'); // Default language
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const handlePaste = async () => {
     const pastedText = await navigator.clipboard.readText();
@@ -37,6 +58,18 @@ export function NotesGenerator() {
       return;
     }
     setIsLoading(true);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
+
     setSummary(null);
     if (!text) {
       toast.error('Please enter the text to generate quick notes');
@@ -344,6 +377,7 @@ export function NotesGenerator() {
           </Button>
         )}
       </div>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

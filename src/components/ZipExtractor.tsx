@@ -3,7 +3,8 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { UploadIcon, RefreshCwIcon, DownloadIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 
 // Define the type for the extracted files
@@ -20,6 +21,25 @@ export function ZipExtractor() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [hoveredFile, setHoveredFile] = useState<string | null>(null); // State to track hovered file
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -53,6 +73,18 @@ export function ZipExtractor() {
     formData.append("zipfile", selectedFile);
 
     setIsLoading(true);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
+
     try {
       const res = await axios.post<{ files: ExtractedFile[] }>(
         `${BASE_URL}/response/files?clerkId=${userId}`,
@@ -199,6 +231,7 @@ export function ZipExtractor() {
           </div>
         )
       )}
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

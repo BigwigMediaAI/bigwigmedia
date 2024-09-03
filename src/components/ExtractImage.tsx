@@ -3,7 +3,8 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Loader2, RefreshCw, Upload } from 'lucide-react';
 import zipIcon from '../assets/zip.svg'; // Ensure you have this image in the correct path
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 
 export function ExtractImage() {
@@ -13,6 +14,25 @@ export function ExtractImage() {
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const handleFileChange = (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -27,6 +47,18 @@ export function ExtractImage() {
 
   const convertToZip = async () => {
     setIsLoading(true);
+   
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
+    
     try {
       if (selectedFiles.length === 0) {
         toast.error('Please select a file.');
@@ -160,6 +192,7 @@ export function ExtractImage() {
           )
         )}
       </div>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

@@ -3,6 +3,10 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { UploadIcon, RefreshCwIcon, DownloadIcon, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
+import { useAuth } from "@clerk/clerk-react";
+
 
 // Define the expected structure of the API response
 interface BackgroundRemovalResponse {
@@ -21,6 +25,27 @@ export function BackgroundRemover() {
   const [isLoading, setIsLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -46,18 +71,28 @@ export function BackgroundRemover() {
       toast.error("Please select an image file to process");
       return;
     }
+    setIsLoading(true);
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
         loaderRef.current?.scrollIntoView({ behavior: 'smooth', block:'center' });
       }, 100);
 
-    setIsLoading(true);
+      const currentCredits = await getCredits();
+      console.log('Current Credits:', currentCredits);
+  
+      if (currentCredits <= 0) {
+        setTimeout(() => {
+          setShowModal3(true);
+        }, 0);
+        setIsLoading(false)
+        return;
+      }
     const formData = new FormData();
     formData.append("image", selectedFile);
 
     try {
       const res = await axios.post<BackgroundRemovalResponse>(
-        "https://bigwigmedia-backend.onrender.com/api/v1/response/removebackground",
+        `${BASE_URL}/response/removebackground?clerkId=${userId}`,
         formData,
         {
           headers: {
@@ -191,6 +226,7 @@ export function BackgroundRemover() {
           </Button>
         </div>
       )}
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }

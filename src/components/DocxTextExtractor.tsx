@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Upload, RefreshCw, Share2 } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
-import { BASE_URL } from '@/utils/funcitons';
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 import docfile from "../assets/docfile.svg";
 
@@ -17,6 +18,25 @@ export function DocxToTextExtractor() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const [showModal3, setShowModal3] = useState(false);
+  const [credits, setCredits] = useState(0);
+
+  const getCredits = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+      if (res.status === 200) {
+        setCredits(res.data.data.currentLimit);
+        return res.data.data.currentLimit; // Return credits for immediate use
+      } else {
+        toast.error("Error occurred while fetching account credits");
+        return 0;
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+      toast.error("Error occurred while fetching account credits");
+      return 0;
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -45,6 +65,17 @@ export function DocxToTextExtractor() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       if (!selectedFile) {
@@ -317,7 +348,7 @@ export function DocxToTextExtractor() {
           </div>
         </div>
       )}
-
+       {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />} 
     </div>
   );
 }
