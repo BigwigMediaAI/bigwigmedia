@@ -203,6 +203,7 @@ import { GenerateInstagramThreadsPost } from "./InstagramThreadsPost";
 import { GenerateFacebookPost } from "./FacebookPostGenerator";
 import { EventInvitation } from "./InvitationEmail";
 import { GenerateFbAdHeadline } from "./FacebookAdHeadlineGenerator";
+import { GenerateFacebookBio } from "./FacebookBioGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -961,6 +962,8 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateFacebookPost/>
       ):id === "65c927ca8f7cafdd6d4f15b9" ? (
         <GenerateFbAdHeadline/>
+      ):id === "65c7b0b866f83315da0d5dc0" ? (
+        <GenerateFacebookBio/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
