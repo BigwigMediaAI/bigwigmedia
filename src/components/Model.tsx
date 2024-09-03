@@ -36,7 +36,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <p className="subtitle text-lg font-semibold mb-2 md:mb-6 text-black">Experience the Power of Our Tools</p>
               <ul className="mb-2 md:mb-6 text-black">
                 <li className="text-sm md:text-base mb-1 md:mb-4">✨ 7 Days Free Trial</li>
-                <li className="text-sm md:text-base mb-1 md:mb-4">✨ 100 Credits Free</li>
+                <li className="text-sm md:text-base mb-1 md:mb-4">✨ 30 Credits Free</li>
                 <li className="text-sm md:text-base mb-1 md:mb-4">✨ No Credit Card Required</li>
                 <li className="text-sm md:text-base mb-1 md:mb-4">✨ Access to Advanced Analytics</li>
                 <li className="text-sm md:text-base mb-1 md:mb-4">✨ Dedicated Customer Support</li>

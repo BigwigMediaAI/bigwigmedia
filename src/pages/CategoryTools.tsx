@@ -130,7 +130,10 @@ const CategoryTools: React.FC = () => {
 
   const handleGenerateClick = (toolId: string) => {
     if (!isSignedIn) {
-      setShowLoginModal(true);
+      setTimeout(() => {
+        setShowLoginModal(true);
+      }, 0);
+      
       return;
     }
  else {

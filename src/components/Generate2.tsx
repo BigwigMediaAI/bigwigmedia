@@ -199,6 +199,10 @@ import { GenerateInstagramCaption } from "./InstagramPostCaptionGenerator";
 import { GenerateInstagramBio } from "./InstagramBioGenerator";
 import { GenerateInstagramStoryPost } from "./InstagramStoryPostGenerator";
 import { GenerateInstagramReelPost } from "./InstagramReelPostGenerator";
+import { GenerateInstagramThreadsPost } from "./InstagramThreadsPost";
+import { GenerateFacebookPost } from "./FacebookPostGenerator";
+import { EventInvitation } from "./InvitationEmail";
+import { GenerateFbAdHeadline } from "./FacebookAdHeadlineGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -844,7 +848,7 @@ document.addEventListener('copy', handleCopyEvent);
       ):id === "669baae5b372a9153918cd8c" ? (
         <CompanyProfileGenerator/>
       ):id === "669baaedb372a9153918cd8d" ? (
-        <EventNameGenerator/>
+        <EventInvitation/>
       ):id === "669baaf5b372a9153918cd8e" ? (
         <EventReminderEmail/>
       ):id === "669baafeb372a9153918cd8f" ? (
@@ -951,6 +955,12 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateInstagramStoryPost/>
       ):id === "65c86045ca51dfa84930e695" ? (
         <GenerateInstagramReelPost/>
+      ):id === "65cb1c1c4378133a722cb750" ? (
+        <GenerateInstagramThreadsPost/>
+      ):id === "65c85edaca51dfa84930e1f0" ? (
+        <GenerateFacebookPost/>
+      ):id === "65c927ca8f7cafdd6d4f15b9" ? (
+        <GenerateFbAdHeadline/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(

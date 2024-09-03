@@ -37,6 +37,7 @@ const LoginModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <p className="subtitle text-lg font-semibold mb-4 text-black">Unlock Your Creativity with AI Tools</p>
               <p className="text-black mb-4 hidden md:block">Experience the next generation of AI-powered tools designed to fuel your creativity and productivity.</p>
               <p className="text-black mb-4">To use our powerful tools, please login or create an account.</p>
+              <p className="text-[var(--teal-color)] mb-4">👉 7 days Free trial for new users.</p>
             </div>
             <div className="w-full flex justify-center pb-4 pl-4 pr-4">
               <Link to="/login" className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-full">Login </Link>

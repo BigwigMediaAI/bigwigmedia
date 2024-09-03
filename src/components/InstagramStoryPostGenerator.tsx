@@ -99,7 +99,7 @@ export function GenerateInstagramStoryPost() {
     { value: 'Creative', label: 'Creative' },
     { value: 'Humurous', label: 'Humurous' },
     { value: 'Minimal', label: 'Minimal' },
-    { value: 'Creative', label: 'Creative' }
+    { value: 'Informal', label: 'Informal' }
     // Add more tones as needed
   ];
 

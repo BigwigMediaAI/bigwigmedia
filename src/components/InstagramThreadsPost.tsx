@@ -8,15 +8,15 @@ import { validateInput } from '@/utils/validateInput';
 import CreditLimitModal from './Model3';
 import '../App.css'
 
-export function GenerateInstagramCaption() {
+export function GenerateInstagramThreadsPost() {
   const [isLoading, setIsLoading] = useState(false);
-  const [postDetails, setPostDetails] = useState('');
+  const [theme, settheme] = useState('');
   const [tone, setTone] = useState('Professionl');
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
   const [useEmoji, setUseEmoji] = useState(true);
   const [useHashtags, setUseHashtags] = useState(true);
-  const [generatedCaptions, setGeneratedCaptions] = useState([]);
+  const [generatedThreads, setgeneratedThreads] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -42,12 +42,12 @@ export function GenerateInstagramCaption() {
   };
 
   const handleGenerate = async () => {
-    if (!validateInput(postDetails)) {
+    if (!validateInput(theme)) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
     setIsLoading(true);
-    setGeneratedCaptions([]);
+    setgeneratedThreads([]);
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -65,8 +65,8 @@ export function GenerateInstagramCaption() {
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/generateCaption?clerkId=${userId}`, {
-        postDetails,
+      const response = await axios.post(`${BASE_URL}/response/generateThreadsPost?clerkId=${userId}`, {
+        theme,
         tone,
         language,
         outputCount,
@@ -76,23 +76,23 @@ export function GenerateInstagramCaption() {
 
       if (response.status === 200) {
         console.log(response.data);
-        setGeneratedCaptions(response.data);
+        setgeneratedThreads(response.data);
       } else {
-        toast.error('Error generating captions. Please try again later.');
+        toast.error('Error generating threads. Please try again later.');
       }
     } catch (error) {
-      console.error('Error generating captions:', error);
-      toast.error('Error generating captions. Please try again later.');
+      console.error('Error generating threads:', error);
+      toast.error('Error generating threads. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!isLoading && generatedCaptions.length > 0) {
+    if (!isLoading && generatedThreads.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isLoading, generatedCaptions]);
+  }, [isLoading, generatedThreads]);
 
   const tones = [
     { value: 'Professional', label: 'Professional' },
@@ -225,38 +225,38 @@ export function GenerateInstagramCaption() {
 
   const handleCopy = (caption:any) => {
     navigator.clipboard.writeText(caption);
-    toast.success('Caption copied to clipboard!');
+    toast.success('Thread copied to clipboard!');
   };
 
   const handleDownload = () => {
     const element = document.createElement("a");
-    const file = new Blob([generatedCaptions.join("\n\n")], { type: "text/plain" });
+    const file = new Blob([generatedThreads.join("\n\n")], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "captions.txt";
+    element.download = "threads.txt";
     document.body.appendChild(element);
     element.click();
   };
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Instagram Captions',
-      text: generatedCaptions.join("\n\n"),
+      title: 'Instagram threads',
+      text: generatedThreads.join("\n\n"),
     };
     try {
       await navigator.share(shareData);
     } catch (err) {
-      console.error('Error sharing captions:', err);
+      console.error('Error sharing threads:', err);
     }
   };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Post Details</label>
+        <label className="block text-[var(--primary-text-color)]">Describe Your Thread</label>
         <textarea
-          value={postDetails}
-          onChange={(e) => setPostDetails(e.target.value)}
-          placeholder="Describe your post..."
+          value={theme}
+          onChange={(e) => settheme(e.target.value)}
+          placeholder="e.g. Mindfulness and Mental Health"
           className="mt-1 block w-full rounded-md border-1 border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
           rows={4}
         />
@@ -345,7 +345,7 @@ export function GenerateInstagramCaption() {
           onClick={handleGenerate}
           disabled={isLoading}
         >
-          {isLoading ? 'Generating...' : (generatedCaptions.length > 0 ? "Regenerate" : 'Generate')}
+          {isLoading ? 'Generating...' : (generatedThreads.length > 0 ? "Regenerate" : 'Generate')}
         </button>
         
       </div>
@@ -358,10 +358,10 @@ export function GenerateInstagramCaption() {
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
             </div>
         ) : (
-            generatedCaptions.length > 0 && (
+            generatedThreads.length > 0 && (
             <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
                 <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-[var(--primary-text-color)]  ">Generated Caption</h1>
+                <h1 className="text-2xl text-[var(--primary-text-color)]  ">Generated Thread Post</h1>
                 <div className="flex gap-2">
                     <button
                     onClick={handleShare}
@@ -380,7 +380,7 @@ export function GenerateInstagramCaption() {
                 </div>
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedCaptions.map((post, index) => (
+              {generatedThreads.map((post, index) => (
           <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
             <div className="flex justify-between items-center mb-2">
               <div className="absolute top-2 right-2 space-x-2">
