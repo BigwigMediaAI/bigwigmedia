@@ -206,6 +206,17 @@ import { GenerateFbAdHeadline } from "./FacebookAdHeadlineGenerator";
 import { GenerateFacebookBio } from "./FacebookBioGenerator";
 import { GenerateFacebookGroupPost } from "./FacebookGroupPost";
 import { GenerateFacebookGroupDescription } from "./FacebookGroupDescription";
+import { GenerateFacebookPageDescription } from "./FacebookPageDescription";
+import { GenerateYoutubePostTitle } from "./YoutubePostTitle";
+import { GenerateYoutubePostDescription } from "./YoutubePostDescription";
+import { GenerateTwitterBio } from "./TwitterBioGenerator";
+import { GenerateTwitterPost } from "./TwitterPostGenerator";
+import { GenerateTwitterThreadPost } from "./TwitterThreadsPost";
+import { GenerateTwitterThreadBio } from "./TwitterThreadBioGenerator";
+import { GenerateLinkedinPageHeadline } from "./LinkedinPageHeadlineGenerator";
+import { GenerateLinkedinCompanyPageHeadline } from "./LinkedinCompanyPageHeadline";
+import { GenerateLinkedinPageSummary } from "./LinkedinPageSummaryGenerator";
+import { GenerateLinkedinCompanySummary } from "./LinkedinCompanySummary";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -970,6 +981,28 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateFacebookGroupPost/>
       ):id === "65cb1cbf4378133a722cbb35" ? (
         <GenerateFacebookGroupDescription/>
+      ):id === "65c7b74966f83315da0d6207" ? (
+        <GenerateFacebookPageDescription/>
+      ):id === "65c7b65c66f83315da0d60ed" ? (
+        <GenerateYoutubePostTitle/>
+      ):id === "65c7b69566f83315da0d61fd" ? (
+        <GenerateYoutubePostDescription/>
+      ):id === "65c74eac295cbf4469c85bc3" ? (
+        <GenerateTwitterBio/>
+      ):id === "65c7b8b566f83315da0d64a4" ? (
+        <GenerateTwitterPost/>
+      ):id === "65c7b9c866f83315da0d6618" ? (
+        <GenerateTwitterThreadPost/>
+      ):id === "65c7b43366f83315da0d5fcd" ? (
+        <GenerateTwitterThreadBio/>
+      ):id === "65c7b17566f83315da0d5e55" ? (
+        <GenerateLinkedinPageHeadline/>
+      ):id === "65c7b32466f83315da0d5faf" ? (
+        <GenerateLinkedinCompanyPageHeadline/>
+      ):id === "65c7b45166f83315da0d60a0" ? (
+        <GenerateLinkedinPageSummary/>
+      ):id === "65c7b5db66f83315da0d60ce" ? (
+        <GenerateLinkedinCompanySummary/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
