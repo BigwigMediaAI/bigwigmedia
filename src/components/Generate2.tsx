@@ -217,6 +217,15 @@ import { GenerateLinkedinPageHeadline } from "./LinkedinPageHeadlineGenerator";
 import { GenerateLinkedinCompanyPageHeadline } from "./LinkedinCompanyPageHeadline";
 import { GenerateLinkedinPageSummary } from "./LinkedinPageSummaryGenerator";
 import { GenerateLinkedinCompanySummary } from "./LinkedinCompanySummary";
+import { GeneratePostHashtag } from "./PostHashtagGenerator";
+import { GenerateBlogPost } from "./BlogPostGenerator";
+import { GenerateArticle } from "./ArticleGenerator";
+import { GeneratePressRelease } from "./PressRelease";
+import { GenerateNewsLetter } from "./NewsLetterGenerator";
+import { GenerateGoogleAdHeadline } from "./GoogleAdHeadline";
+import { GenerateMarketingPlan } from "./MarketingPlanGenerator";
+import { GenerateGoogleAdDescription } from "./GoogleAdDescription";
+import { GenerateMarketingFunnel } from "./MarketingFunnel";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1003,6 +1012,24 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateLinkedinPageSummary/>
       ):id === "65c7b5db66f83315da0d60ce" ? (
         <GenerateLinkedinCompanySummary/>
+      ):id === "65cb1ab54378133a722cb37c" ? (
+        <GeneratePostHashtag/>
+      ):id === "65c8ce784c88ac77e6565e58" ? (
+        <GenerateBlogPost/>
+      ):id === "65c92d368f7cafdd6d4f3d16" ? (
+        <GenerateArticle/>
+      ):id === "65c92c058f7cafdd6d4f37b4" ? (
+        <GeneratePressRelease/>
+      ):id === "65c92aa78f7cafdd6d4f2cda" ? (
+        <GenerateNewsLetter/>
+      ):id === "65c929288f7cafdd6d4f259a" ? (
+        <GenerateGoogleAdHeadline/>
+      ):id === "65c929ac8f7cafdd6d4f291e" ? (
+        <GenerateGoogleAdDescription/>
+      ):id === "6609a1476231c9382088ec28" ? (
+        <GenerateMarketingPlan/>
+      ):id === "6609a27c6231c9382088ec2e" ? (
+        <GenerateMarketingFunnel/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
