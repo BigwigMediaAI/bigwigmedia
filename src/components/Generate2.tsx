@@ -226,6 +226,7 @@ import { GenerateGoogleAdHeadline } from "./GoogleAdHeadline";
 import { GenerateMarketingPlan } from "./MarketingPlanGenerator";
 import { GenerateGoogleAdDescription } from "./GoogleAdDescription";
 import { GenerateMarketingFunnel } from "./MarketingFunnel";
+import { GenerateProductDescription } from "./CreateProductDescription";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1030,6 +1031,8 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateMarketingPlan/>
       ):id === "6609a27c6231c9382088ec2e" ? (
         <GenerateMarketingFunnel/>
+      ):id === "66099fb26231c9382088ea19" ? (
+        <GenerateProductDescription/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
