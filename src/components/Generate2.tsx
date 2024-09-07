@@ -227,6 +227,10 @@ import { GenerateMarketingPlan } from "./MarketingPlanGenerator";
 import { GenerateGoogleAdDescription } from "./GoogleAdDescription";
 import { GenerateMarketingFunnel } from "./MarketingFunnel";
 import { GenerateProductDescription } from "./CreateProductDescription";
+import { GenerateArticleIdea } from "./ArticleIdeaGenerator";
+import { GenerateArticleOutline } from "./ArticleOutlineGenerator";
+import { GenerateArticleIntro } from "./ArticleIntroGenerator";
+import { GenerateBlogIdeas } from "./BlogIdeasGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1033,6 +1037,14 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateMarketingFunnel/>
       ):id === "66099fb26231c9382088ea19" ? (
         <GenerateProductDescription/>
+      ):id === "65c92d818f7cafdd6d4f3d1a" ? (
+        <GenerateArticleIdea/>
+      ):id === "65c92e8c8f7cafdd6d4f4282" ? (
+        <GenerateArticleOutline/>
+      ):id === "65c92ef98f7cafdd6d4f4287" ? (
+        <GenerateArticleIntro/>
+      ):id === "65c8cc6e4c88ac77e6565e39" ? (
+        <GenerateBlogIdeas/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(

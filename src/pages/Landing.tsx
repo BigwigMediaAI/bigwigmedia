@@ -366,12 +366,13 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
           />
         </div>
       </div>
+      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto">
+        <Testimonials />
+      </div>  
       <WhoCanUseIt />
       <PricingPlan />
       <FAQ />
-      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto">
-        <Testimonials />
-      </div>
+      
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
       <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto">
         <LandingBlog />
