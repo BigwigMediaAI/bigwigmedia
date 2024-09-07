@@ -233,6 +233,7 @@ import { GenerateArticleIntro } from "./ArticleIntroGenerator";
 import { GenerateBlogIdeas } from "./BlogIdeasGenerator";
 import { GenerateBlogTitle } from "./BlogTitleGenerator";
 import { GenerateBlogOutline } from "./BlogOutlineGenerator";
+import { GenerateBlogIntro } from "./BlogIntroGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1053,6 +1054,8 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateBlogOutline/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
+      ):id === "65c8cf254c88ac77e6565e5f" ? (
+        <GenerateBlogIntro/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
