@@ -231,6 +231,7 @@ import { GenerateArticleIdea } from "./ArticleIdeaGenerator";
 import { GenerateArticleOutline } from "./ArticleOutlineGenerator";
 import { GenerateArticleIntro } from "./ArticleIntroGenerator";
 import { GenerateBlogIdeas } from "./BlogIdeasGenerator";
+import { GenerateBlogTitle } from "./BlogTitleGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1045,6 +1046,8 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateArticleIntro/>
       ):id === "65c8cc6e4c88ac77e6565e39" ? (
         <GenerateBlogIdeas/>
+      ):id === "65c8cd394c88ac77e6565e4f" ? (
+        <GenerateBlogTitle/>
       ):id === "66aa34d5ec9fc26d5f2213a6" ? (
         <AudioTranscriber/>
       ):(
