@@ -234,6 +234,8 @@ import { GenerateBlogIdeas } from "./BlogIdeasGenerator";
 import { GenerateBlogTitle } from "./BlogTitleGenerator";
 import { GenerateBlogOutline } from "./BlogOutlineGenerator";
 import { GenerateBlogIntro } from "./BlogIntroGenerator";
+import { GenerateSeoAndDescription } from "./SeoTitle&DescriptionGenerator";
+import { GeneratePrompt } from "./PromptGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1056,6 +1058,10 @@ document.addEventListener('copy', handleCopyEvent);
         <AudioTranscriber/>
       ):id === "65c8cf254c88ac77e6565e5f" ? (
         <GenerateBlogIntro/>
+      ):id === "65c96f73c50c97e2d03a5c27" ? (
+        <GenerateSeoAndDescription/>
+      ):id === "65cb1a474378133a722cafa9" ? (
+        <GeneratePrompt/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
