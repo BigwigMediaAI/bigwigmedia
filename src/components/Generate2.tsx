@@ -51,7 +51,7 @@ import Audio from "./Audio";
 import AudioText from "./AudioText";
 import { RotateCw } from "lucide-react";
 import Share from "./Share";
-import { Script } from "./paraphrase2";
+import { VideoScript } from "./paraphrase2";
 import { InstagramImageTool } from "./InstagramImageResizer";
 import { LinkedinImageTool } from "./LinkedInImageResizer";
 import { PinterestImageTool } from "./PinterestImageResizer";
@@ -236,6 +236,7 @@ import { GenerateBlogOutline } from "./BlogOutlineGenerator";
 import { GenerateBlogIntro } from "./BlogIntroGenerator";
 import { GenerateSeoAndDescription } from "./SeoTitle&DescriptionGenerator";
 import { GeneratePrompt } from "./PromptGenerator";
+import { GenerateReviewReply } from "./ReviewReplyGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -677,7 +678,7 @@ document.addEventListener('copy', handleCopyEvent);
       {id === "65c87f7bfaf3fd266b16ce9f" ? (
         <Paraphrase />
       ) : id === "6601b84f03d49ef5e50f3caf" ? (
-          <Script groups={arr} val={val} setVal={setVal} handleSubmit={handleSubmit} output={output} isLoading={isLoading} />
+          <VideoScript/>
       ) : id === "65c88181faf3fd266b16cedb" ? (
         <ImageGenerator />
       ) : id === "65cb60bae8bbe5d25d13b9ba" ? (
@@ -1062,6 +1063,8 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateSeoAndDescription/>
       ):id === "65cb1a474378133a722cafa9" ? (
         <GeneratePrompt/>
+      ):id === "65cb19884378133a722ca9e5" ? (
+        <GenerateReviewReply/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
