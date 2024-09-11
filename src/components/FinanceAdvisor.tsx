@@ -249,29 +249,29 @@ export function FinanceAdvisor() {
     return (
         <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
             <div className="mb-5">
-                <label className="block text-[var(--primary-text-color)]">Description</label>
+                <label className="block text-[var(--primary-text-color)]">What’s Your Goal?</label>
                 <input
                     type="text"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Enter your financial situation description"
+                    placeholder="Enter what financial help you need (e.g., Saving for retirement, Managing debt)"
                     className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)]  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                 />
             </div>
 
             <div className="mb-5">
-                <label className="block text-[var(--primary-text-color)]">Amount</label>
+                <label className="block text-[var(--primary-text-color)]"> Amount to Invest or Save</label>
                 <input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    placeholder="Enter the amount"
+                    placeholder="Enter the amount (e.g., $5000, $100 per month)"
                     className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)]  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                 />
             </div>
 
             <div className="mb-5">
-                <label className="block text-[var(--primary-text-color)]">Language</label>
+                <label className="block text-[var(--primary-text-color)]">Select Language</label>
                 <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
@@ -286,7 +286,7 @@ export function FinanceAdvisor() {
             </div>
 
             <div className="mb-5">
-                <label className="block text-[var(--primary-text-color)]">Number of Advices</label>
+                <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
                 <input
                     type="number"
                     value={outputCount}

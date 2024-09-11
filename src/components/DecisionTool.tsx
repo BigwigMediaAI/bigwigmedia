@@ -148,7 +148,7 @@ export function Decision() {
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-col">
                     <div className="w-full pr-2">
-                    <label className="mb-2 block text-gray-700 dark:text-gray-300">Enter Your Decision:</label>
+                    <label className="mb-2 block text-gray-700 dark:text-gray-300">Enter your decision to know pros & cons</label>
                         <Textarea
                             className="mb-4 h-20 w-full rounded-md border-2 dark:bg-[#262626] border-gray-300 p-4"
                             placeholder="e.g: Starting a Bakery shop..."

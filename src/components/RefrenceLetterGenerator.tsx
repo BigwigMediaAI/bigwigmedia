@@ -295,7 +295,7 @@ export function RefrenceLetter() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => settone(e.target.value)}
@@ -307,7 +307,7 @@ export function RefrenceLetter() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -319,7 +319,7 @@ export function RefrenceLetter() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

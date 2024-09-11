@@ -257,46 +257,46 @@ export function GenerateLinkedInRecommendations() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Name</label>
+        <label className="block text-[var(--primary-text-color)]">Name of the Person You're Recommending</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="E.g., John Doe"
+          placeholder=" Enter their full name (e.g., John Smith)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Relationship</label>
+        <label className="block text-[var(--primary-text-color)]">Your Professional Relationship with Them</label>
         <input
           type="text"
           value={relationship}
           onChange={(e) => setRelationship(e.target.value)}
-          placeholder="E.g., Former Manager"
+          placeholder="Describe your relationship (e.g., Former Manager,Colleague)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Skills</label>
+        <label className="block text-[var(--primary-text-color)]">Skills They Excel In</label>
         <input
           type="text"
           value={skills}
           onChange={(e) => setSkills(e.target.value)}
-          placeholder="E.g., Project Management, Leadership"
+          placeholder="List key skills (e.g., Project Management, Team Leadership)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Accomplishments</label>
+        <label className="block text-[var(--primary-text-color)]">Notable Accomplishments</label>
         <textarea
           value={accomplishments}
           onChange={(e) => setAccomplishments(e.target.value)}
-          placeholder="E.g., Led the team to complete XYZ project successfully"
+          placeholder="Mention their accomplishments (e.g., Led a successful product launch that increased sales by 20%)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -308,7 +308,7 @@ export function GenerateLinkedInRecommendations() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -320,7 +320,7 @@ export function GenerateLinkedInRecommendations() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

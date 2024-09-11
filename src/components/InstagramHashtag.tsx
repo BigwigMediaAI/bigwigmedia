@@ -238,17 +238,17 @@ export function InstagramHashtag() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Topic</label>
+        <label className="block text-[var(--primary-text-color)]">What’s Your Instagram Post Topic?</label>
         <input
           type="text"
           value={topic}
           onChange={(e) => settopic(e.target.value)}
-          placeholder="E.g., Travel,AI,Technology"
+          placeholder="Enter the main topic for your post (e.g., Travel adventures in Europe)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm dark:text-gray-300 p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -260,7 +260,7 @@ export function InstagramHashtag() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

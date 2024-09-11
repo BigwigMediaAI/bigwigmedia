@@ -251,7 +251,7 @@ export function FollowupEmail() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">mailReceived</label>
+        <label className="block text-[var(--primary-text-color)]">Enter the mail which you received & want to replie</label>
         <input
           type="text"
           value={mailReceived}
@@ -261,7 +261,7 @@ export function FollowupEmail() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Purpose of Follow Up Email</label>
+        <label className="block text-[var(--primary-text-color)]">Purpose of follow up email</label>
         <input
           type="text"
           value={purposeOfFollowUpEmail}
@@ -271,7 +271,7 @@ export function FollowupEmail() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -283,7 +283,7 @@ export function FollowupEmail() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -295,7 +295,7 @@ export function FollowupEmail() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

@@ -257,14 +257,14 @@ export function GenerateArticleOutline() {
         <textarea
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
-          placeholder="e.g. Technology and Gadgets"
+          placeholder="Enter the topic or main idea (e.g., The Impact of Climate Change)"
           className="mt-1 block w-full rounded-md border-1 border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
           rows={4}
         />
       </div>
       
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -280,7 +280,7 @@ export function GenerateArticleOutline() {
       
       
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -295,7 +295,7 @@ export function GenerateArticleOutline() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

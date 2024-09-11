@@ -255,7 +255,7 @@ export function GenerateLinkedInPosts() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
         <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Topic</label>
+        <label className="block text-[var(--primary-text-color)]">What’s the Topic of your post?</label>
         <input
           type="text"
           value={topic}
@@ -265,7 +265,7 @@ export function GenerateLinkedInPosts() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Post Content</label>
+        <label className="block text-[var(--primary-text-color)]">Write or paste few word related to your post content.</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -275,7 +275,7 @@ export function GenerateLinkedInPosts() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -288,7 +288,7 @@ export function GenerateLinkedInPosts() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -301,7 +301,7 @@ export function GenerateLinkedInPosts() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

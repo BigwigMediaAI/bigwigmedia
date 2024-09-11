@@ -253,28 +253,28 @@ export function GenerateLinkedInConnection(){
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Name</label>
+        <label className="block text-[var(--primary-text-color)]">Recipient's Name</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="E.g., John Doe"
+          placeholder="Enter their full name (e.g., Alice Johnson)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Reason</label>
+        <label className="block text-[var(--primary-text-color)]">Reason for Connecting</label>
         <input
           type="text"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          placeholder="E.g., We met at the recent Tech Conference and I'd like to connect to discuss potential collaboration opportunities."
+          placeholder="Briefly describe why you want to connect (e.g., Interested in discussing collaboration opportunities)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -287,7 +287,7 @@ export function GenerateLinkedInConnection(){
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -300,7 +300,7 @@ export function GenerateLinkedInConnection(){
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

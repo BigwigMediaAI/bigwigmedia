@@ -321,7 +321,7 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language Preference</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         
         <select
           value={languagePreference}

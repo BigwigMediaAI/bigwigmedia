@@ -221,7 +221,7 @@ document.addEventListener('copy', handleCopyEvent);
               required
             />
             <label htmlFor="disclosingParty" className="block text-md font-medium text-[var(--primary-text-color)]">
-              Language:
+            Select Language:
             </label>
             <select
               value={language}
