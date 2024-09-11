@@ -256,14 +256,15 @@ export function GenerateInstagramStoryPost() {
         <textarea
           value={story}
           onChange={(e) => setstory(e.target.value)}
-          placeholder="Paste your instagram caption or write just a few words"
+          placeholder="Please copy and paste or write your Instagram story is about. 
+(e.g.,Exciting announcement: New product launch tomorrow! Stay tuned!)"
           className="mt-1 block w-full rounded-md border-1 border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
           rows={4}
         />
       </div>
       
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -278,7 +279,7 @@ export function GenerateInstagramStoryPost() {
       </div>
       
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

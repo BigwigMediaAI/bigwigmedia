@@ -279,11 +279,11 @@ export function GenerateFbAdHeadline() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Brand/Product Name</label>
+        <label className="block text-[var(--primary-text-color)]">Product/Service Name</label>
         <textarea
           value={brandOrProductName}
           onChange={(e) => setbrandOrProductName(e.target.value)}
-          placeholder="e.g. EcoClean Detergent"
+          placeholder="Enter the name of your product or service"
           className="mt-1 block w-full rounded-md border-1 border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
           rows={4}
         />
@@ -300,7 +300,7 @@ export function GenerateFbAdHeadline() {
       </div>
       <div className='flex gap-5 w-full'>
       <div className="w-1/2 mb-5">
-        <label className="block text-[var(--primary-text-color)]">Business Type</label>
+        <label className="block text-[var(--primary-text-color)]">Select Business Type</label>
         <select
           value={businessType}
           onChange={(e) => setBusinessType(e.target.value)}
@@ -315,7 +315,7 @@ export function GenerateFbAdHeadline() {
       </div>
       
       <div className="w-1/2 mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -331,7 +331,7 @@ export function GenerateFbAdHeadline() {
       </div>
     <div className='flex gap-5 w-full'>
       <div className="w-1/2 mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -346,7 +346,7 @@ export function GenerateFbAdHeadline() {
       </div>
       
       <div className="w-1/2 mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

@@ -252,18 +252,19 @@ export function GenerateFacebookPost() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Describe Your Post</label>
+        <label className="block text-[var(--primary-text-color)]">What’s Your Facebook Post About?</label>
         <textarea
           value={theme}
           onChange={(e) => settheme(e.target.value)}
-          placeholder="e.g. Family Reunion"
+          placeholder="Please copy and paste or write the content of your Facebook post. 
+(e.g.,Check out our latest blog post on the top 10 travel destinations for 2024!)."
           className="mt-1 block w-full rounded-md border-1 border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
           rows={4}
         />
       </div>
       
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -278,7 +279,7 @@ export function GenerateFacebookPost() {
       </div>
       
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}
