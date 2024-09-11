@@ -1,3 +1,4 @@
+// Video Script Generator
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';

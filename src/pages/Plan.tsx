@@ -229,7 +229,7 @@ const Plan = (props: Props) => {
                 <div
   key={index}
   className="flex flex-col justify-between p-8 border rounded-lg shadow-md bg-[#ECEFF1] text-[var(--primary-text-color)] hover:shadow-lg transition-all"
-  style={{ minWidth: '300px', minHeight: '400px' }}
+  style={{ minWidth: '300px', minHeight: '300px' }}
 >
   <div className="text-xl font-semibold text-center">
     <span className="capitalize">{ite.expairy} days</span>
