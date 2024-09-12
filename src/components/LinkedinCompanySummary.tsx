@@ -293,23 +293,18 @@ export function GenerateLinkedinCompanySummary() {
       </div>
       
       <div className="mb-5">
-        <label className="text-[var(--primary-text-color)]">Choose a Tone:</label>
-        <div className="tone-selector flex gap-4 justify-center">
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
+        <select
+          value={tone}
+          onChange={(e) => setTone(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
           {tones.map((toneOption) => (
-            <button
-              key={toneOption.value}
-              className={`px-4 py-2 rounded-full border ${
-                tone === toneOption.value ? "border border-[var(--teal-color)] text-[var(--teal-color)]" : "bg-white text-[var(--primary-text-color)]"
-              }`}
-              onClick={() => setTone(toneOption.value)}
-            >
-              <span className="flex items-center">
-                <img src={`/icons/${toneOption.value}.png`} alt="" className="mr-2" />
-                {toneOption.label}
-              </span>
-            </button>
+            <option key={toneOption.value} value={toneOption.value}>
+              {toneOption.label}
+            </option>
           ))}
-        </div>
+        </select>
       </div>
       <div className='flex justify-center gap-5'>
       <div className="mb-5 flex items-center gap-4">
