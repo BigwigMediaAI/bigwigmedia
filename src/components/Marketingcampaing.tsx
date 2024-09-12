@@ -158,7 +158,7 @@ document.addEventListener('copy', handleCopyEvent);
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <form onSubmit={handleSubmit}>
         <label htmlFor="product-description" className="block text-md font-medium text-[var(--primary-text-color)] mb-2">
-          Enter Product Description:
+          Enter Your Product Description:
         </label>
         <textarea
           id="product-description"
@@ -170,7 +170,7 @@ document.addEventListener('copy', handleCopyEvent);
 
         <div className="mb-4">
           <label htmlFor="language" className="block text-md font-medium text-[var(--primary-text-color)]">
-            Language:
+            Select Language:
           </label>
           <select
             id="language"

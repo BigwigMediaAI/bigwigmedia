@@ -271,7 +271,7 @@ export function SocialMediaPostGenerator() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
         <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Platform</label>
+        <label className="block text-[var(--primary-text-color)]">Select Social Media Platform</label>
         <select
           value={platform}
           onChange={(e) => setPlatform(e.target.value)}
@@ -283,7 +283,7 @@ export function SocialMediaPostGenerator() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Topic</label>
+        <label className="block text-[var(--primary-text-color)]">What's the topic of your post</label>
         <input
           type="text"
           value={topic}
@@ -293,7 +293,7 @@ export function SocialMediaPostGenerator() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Keywords</label>
+        <label className="block text-[var(--primary-text-color)]">Enter Few Keywords</label>
         <input
           type="text"
           value={keywords}
@@ -303,7 +303,7 @@ export function SocialMediaPostGenerator() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -315,7 +315,7 @@ export function SocialMediaPostGenerator() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -327,7 +327,7 @@ export function SocialMediaPostGenerator() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

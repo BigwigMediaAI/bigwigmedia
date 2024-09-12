@@ -256,7 +256,7 @@ export function GenerateInstagramBio() {
         <textarea
           value={profile}
           onChange={(e) => setprofile(e.target.value)}
-          placeholder="Please copy and paste or write what your Instagram profile is about in brief."
+          placeholder="Please copy and paste or write what your Instagram profile about in brief."
           className="mt-1 block w-full rounded-md border-1 border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
           rows={4}
         />

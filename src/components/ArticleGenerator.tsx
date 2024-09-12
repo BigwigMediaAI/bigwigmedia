@@ -249,18 +249,18 @@ export function GenerateArticle() {
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-md shadow-[var(--teal-color)]">
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Enter your Article</label>
+        <label className="block text-[var(--primary-text-color)]">What’s Your Article About?</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="This article will discuss the impact of remote work on productivity and employee well-being."
+          placeholder="Enter the main topic or details of your article (e.g., The Future of Artificial Intelligence)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
           rows={4}
         />
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -277,7 +277,7 @@ export function GenerateArticle() {
       
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -292,7 +292,7 @@ export function GenerateArticle() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Number of Outputs</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

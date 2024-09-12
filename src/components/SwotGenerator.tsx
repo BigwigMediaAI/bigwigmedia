@@ -269,7 +269,7 @@ document.addEventListener('copy', handleCopyEvent);
                 <div className="flex mb-4 gap-4">
                     <div className="w-1/2">
                         <label htmlFor="language" className="block text-md font-medium text-[var(--primary-text-color)]">
-                            Language
+                            Select Language
                         </label>
                         <select
                             id="language"
@@ -286,7 +286,7 @@ document.addEventListener('copy', handleCopyEvent);
                     </div>
                     <div className="w-1/2">
                         <label htmlFor="outputCount" className="block text-md font-medium text-[var(--primary-text-color)]">
-                            Output Count
+                            Select Output Count
                         </label>
                         <input
                             id="outputCount"

@@ -160,6 +160,14 @@ export function InstagramImgVidDownloader() {
         )}
       </div>
       <h3 className="text-sm text-center mt-4 italic text-gray-700">Hint - To Download video click on <span className="inline-flex items-center"><PiDotsThreeOutlineVerticalBold /></span> button then click on Download option.</h3>
+      <h3 className="text-sm text-center mt-4 italic text-red-500">Note:Only public Instagram account videos are downloadable. Private videos are not accessible yet.we're working on it!
+
+
+
+
+
+
+</h3>
       {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
