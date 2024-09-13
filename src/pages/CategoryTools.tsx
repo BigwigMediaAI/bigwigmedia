@@ -133,6 +133,9 @@ const CategoryTools: React.FC = () => {
       setTimeout(() => {
         setShowLoginModal(true);
       }, 0);
+
+      const redirectUrl = `/generate?id=${toolId}`;
+    navigate(`/login?redirect=${encodeURIComponent(redirectUrl)}`);
       
       return;
     }

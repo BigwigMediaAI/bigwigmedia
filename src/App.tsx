@@ -73,7 +73,7 @@ const App = () => {
   }, [location]);
   
   return (
-    <div className=" min-w-screen min-h-screen bg-white dark:bg-[#1E1E1E]">
+    <div className=" min-w-screen min-h-screen bg-white">
       <Routes>
         <Route path="/" element={<Landing />} />
         {/* <Route path="/2" element={<Landing />} /> */}

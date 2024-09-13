@@ -119,6 +119,8 @@ const CardComponent = ({
                 setTimeout(() => {
                   setShowLoginModal(true);
                 }, 0);
+                const redirectUrl = `/generate?id=${card._id}`;
+    navigate(`/login?redirect=${encodeURIComponent(redirectUrl)}`);
               } else {
                 const newPath = `/generate?id=${card._id}`;
                 window.open(newPath, "_blank");
