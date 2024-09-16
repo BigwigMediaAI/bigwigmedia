@@ -157,6 +157,7 @@ import { validateInput } from "@/utils/validateInput";
     return (
       <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
         <div className="flex flex-col">
+          <label htmlFor="text" className="mb-1">Paste Your News Article:</label>
           <Textarea
             className="mb-4 h-40 w-full rounded-md border-2  border-gray-300 p-4"
             placeholder="Enter News Article to Summarize."
@@ -175,7 +176,7 @@ import { validateInput } from "@/utils/validateInput";
           </div>
           <div className="flex items-center justify-between mb-4 space-x-4">
           <div className="w-1/2 flex flex-col">
-              <label htmlFor="languageCode">Language:</label>
+              <label htmlFor="languageCode">Select Language:</label>
               <select
                 id="languageCode"
                 value={languageCode}

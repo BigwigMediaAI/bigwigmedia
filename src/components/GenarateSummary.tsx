@@ -165,6 +165,7 @@ document.addEventListener('copy', handleCopyEvent);
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col">
+      <label htmlFor="text" className="mb-1">Paste Your Text To Summariz :</label>
         <Textarea
           className="mb-4 h-40 w-full rounded-md bg-white border-2 border-gray-300 p-4 text-[var(--primary-text-color)]"
           placeholder="Enter Text to Summarize."

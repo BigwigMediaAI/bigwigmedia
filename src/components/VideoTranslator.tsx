@@ -16,7 +16,7 @@ export function VideoTranslator() {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
-  const [targetLanguage, setTargetLanguage] = useState<string>('en');
+  const [targetLanguage, setTargetLanguage] = useState<string>('English');
   const [voiceTone, setVoiceTone] = useState<string>(VOICE_TONES[0]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { userId } = useAuth();

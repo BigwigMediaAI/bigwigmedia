@@ -308,7 +308,7 @@ document.addEventListener('copy', handleCopyEvent);
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Category</label>
+        <label className="block text-[var(--primary-text-color)]">Select Category</label>
         <select
           value={category}
           onChange={(e) => { setCategory(e.target.value); handleInputChange(); }}
@@ -322,7 +322,7 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Keywords</label>
+        <label className="block text-[var(--primary-text-color)]">Enter Few Keywords</label>
         <input
           type="text"
           value={keywords}
@@ -344,7 +344,7 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}

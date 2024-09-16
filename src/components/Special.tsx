@@ -182,7 +182,7 @@ document.addEventListener('copy', handleCopyEvent);
         </div>
         <div className="flex mb-4 justify-between">
           <div className="w-1/2 mr-4">
-            <label className="block text-[var(--primary-text-color)] mb-2">Language:</label>
+            <label className="block text-[var(--primary-text-color)] mb-2">Select Language:</label>
             <select
               className="rounded-md border border-[var(--primary-text-color)] p-2 w-full"
               value={language}
@@ -302,10 +302,10 @@ document.addEventListener('copy', handleCopyEvent);
             </select>
           </div>
           <div className="w-1/2">
-            <label className="block text-[var(--primary-text-color)] mb-2">Output Count:</label>
+            <label className="block text-[var(--primary-text-color)] mb-2">Select Output Count:</label>
             <input
               type="number"
-              className="rounded-md border border-[var(--primary-text-color)] p-2 w-full text-center"
+              className="rounded-md border border-[var(--primary-text-color)] p-2 w-full"
               placeholder="Output Count"
               value={outputCount}
               onChange={(e) => setOutputCount(parseInt(e.target.value))}

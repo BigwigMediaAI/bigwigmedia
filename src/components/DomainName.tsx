@@ -149,7 +149,7 @@ export function GenerateDomainNames() {
 
       <div className="mb-5 flex space-x-4">
         <div className="w-1/2">
-          <label className="block text-[var(--primary-text-color)]">Length</label>
+          <label className="block text-[var(--primary-text-color)]">Select Length</label>
           <input
             type="number"
             value={length}
@@ -159,7 +159,7 @@ export function GenerateDomainNames() {
           />
         </div>
         <div className="w-1/2">
-          <label className="block text-[var(--primary-text-color)]">Count</label>
+          <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
           <input
             type="number"
             value={count}

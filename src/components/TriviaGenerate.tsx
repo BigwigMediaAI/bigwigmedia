@@ -301,7 +301,7 @@ export function TriviaGenerator() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Topic</label>
+        <label className="block text-[var(--primary-text-color)]">Enter Topic</label>
         <input
           type="text"
           value={topic}
@@ -347,7 +347,7 @@ export function TriviaGenerator() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => { setLanguage(e.target.value); handleInputChange(); }}
