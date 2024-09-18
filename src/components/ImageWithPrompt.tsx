@@ -18,6 +18,7 @@ export function ImageSelectPromptGenerator() {
   const [outputCount, setOutputCount] = useState(3); // Default multiple prompt generation
   const [language, setLanguage] = useState("English"); // Default language
   const [generatedPrompts, setGeneratedPrompts] = useState<string[]>([]);
+  const [editedPrompt, setEditedPrompt] = useState(''); 
   const [selectedPrompt, setSelectedPrompt] = useState('');
   const [generatedImageUrl, setGeneratedImageUrl] = useState(''); // State to store the image URL
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
@@ -55,6 +56,7 @@ export function ImageSelectPromptGenerator() {
     setGeneratedPrompts([]);
     setGeneratedImageUrl(''); // Reset the image when generating new prompts
     setSelectedPrompt('');
+    setEditedPrompt('')
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -218,11 +220,12 @@ export function ImageSelectPromptGenerator() {
 
 
   const handleSelectPrompt = (prompt: string) => {
-    setSelectedPrompt(prompt); // Store selected prompt
+    setSelectedPrompt(prompt); 
+    setEditedPrompt(prompt)
   };
 
   const handleGenerateImage = async () => {
-    if (!selectedPrompt) {
+    if (!editedPrompt) {
       toast.error('Please select a prompt first.');
       return;
     }
@@ -233,7 +236,7 @@ export function ImageSelectPromptGenerator() {
     try {
       setIsImageLoading(true);
       const response = await axios.post(`${BASE_URL}/response/generateImageFromPrompt`, {
-        prompt: selectedPrompt,
+        prompt: editedPrompt,
       });
   
       if (response.status === 200 && response.data.images && response.data.images.length > 0) {
@@ -288,16 +291,6 @@ export function ImageSelectPromptGenerator() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Colors</label>
-        <input
-          type="text"
-          value={colors}
-          onChange={(e) => setColors(e.target.value)}
-          placeholder="E.g., soft greens and blues"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Background</label>
         <input
           type="text"
@@ -307,6 +300,49 @@ export function ImageSelectPromptGenerator() {
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Colors</label>
+        <select
+          value={colors}
+          onChange={(e) => setColors(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          <option value="">Select Colors</option>
+          <option value="Natural tones (e.g., sage green, stone gray, sand beige)">Natural Tones (sage green, stone gray, sand beige)</option>
+          <option value="Soft pastels (e.g., soft pinks, greens, and blues)">Soft Pastels (pinks, greens, blues)</option>
+          <option value="Warm tones (e.g., reds, oranges, yellows)">Warm Tones (reds, oranges, yellows)</option>
+          <option value="Cool tones (e.g., blues, purples, greens)">Cool Tones (blues, purples, greens)</option>
+          <option value="Earthy tones (e.g., browns, tans, muted greens)">Earthy Tones (browns, tans, greens)</option>
+          <option value="Monochrome (e.g., black, white, shades of gray)">Monochrome (black, white, gray)</option>
+          <option value="Bold and vibrant (e.g., neon pink, bright yellow, electric blue)">Bold and Vibrant (neons, bright colors)</option>
+          <option value="Muted and neutral (e.g., beige, light gray, soft olive)">Muted and Neutral (beige, light gray)</option>
+          <option value="Dark and moody (e.g., deep purples, dark blues, blacks)">Dark and Moody (purples, blues, blacks)</option>
+          <option value="Bright and cheerful (e.g., bright yellow, sky blue, bubblegum pink)">Bright and Cheerful (yellow, sky blue)</option>
+          <option value="Metallic (e.g., gold, silver, bronze)">Metallic (gold, silver, bronze)</option>
+          <option value="Jewel tones (e.g., emerald green, sapphire blue, ruby red)">Jewel Tones (emerald, sapphire, ruby)</option>
+          <option value="Retro colors (e.g., mustard yellow, burnt orange, teal)">Retro Colors (mustard yellow, burnt orange)</option>
+          <option value="Gradient (e.g., sunset colors, ocean blues)">Gradient (sunset colors, ocean blues)</option>
+          <option value="Fantasy palette (e.g., shimmering purples, icy blues)">Fantasy Palette (shimmering purples, icy blues)</option>
+          <option value="Autumnal (e.g., burnt orange, deep reds, olive green)">Autumnal (burnt orange, deep reds, olive green)</option>
+          <option value="Spring pastels (e.g., peach, baby blue, soft lavender)">Spring Pastels (peach, baby blue, lavender)</option>
+          <option value="Tropical palette (e.g., bright teal, coral, lime green)">Tropical Palette (bright teal, coral, lime green)</option>
+          <option value="Oceanic palette (e.g., deep sea blues, aqua, sandy beige)">Oceanic Palette (sea blues, aqua, beige)</option>
+          <option value="Wintery tones (e.g., icy blue, frosty white, cool gray)">Wintery Tones (icy blue, white, cool gray)</option>
+          <option value="Candy colors (e.g., bubblegum pink, cotton candy blue, mint green)">Candy Colors (bubblegum pink, mint green)</option>
+          <option value="Vintage tones (e.g., faded sepia, olive, mustard)">Vintage Tones (sepia, olive, mustard)</option>
+          <option value="Desert palette (e.g., sand, terracotta, cactus green)">Desert Palette (sand, terracotta, cactus green)</option>
+          <option value="Galaxy palette (e.g., deep space black, cosmic purple, starlight white)">Galaxy Palette (space black, cosmic purple)</option>
+          <option value="Floral tones (e.g., rose pink, lavender, buttercup yellow)">Floral Tones (rose pink, lavender, buttercup yellow)</option>
+          <option value="Forest palette (e.g., moss green, bark brown, pine needle green)">Forest Palette (moss green, bark brown)</option>
+          <option value="Sunset hues (e.g., golden orange, pinkish red, deep violet)">Sunset Hues (golden orange, pinkish red, violet)</option>
+          <option value="Rainy day tones (e.g., slate gray, misty blue, pale lavender)">Rainy Day Tones (slate gray, misty blue)</option>
+          <option value="Art Deco palette (e.g., gold, deep navy, emerald)">Art Deco Palette (gold, navy, emerald)</option>
+          <option value="Punk neon (e.g., hot pink, neon green, electric blue)">Punk Neon (hot pink, neon green)</option>
+        </select>
+      </div>
+
+
+      
       <div className='flex gap-3 w-full'>
       <div className="w-1/2 mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Style</label>
@@ -326,6 +362,23 @@ export function ImageSelectPromptGenerator() {
           <option value="Fantasy">Fantasy</option>
           <option value="Anime">Anime</option>
           <option value="3D Render">3D Render</option>
+          <option value="Surrealism">Surrealism</option>
+          <option value="Impressionism">Impressionism</option>
+          <option value="Minimalism">Minimalism</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Cubism">Cubism</option>
+          <option value="Pointillism">Pointillism</option>
+          <option value="Expressionism">Expressionism</option>
+          <option value="Steampunk">Steampunk</option>
+          <option value="Pixel Art">Pixel Art</option>
+          <option value="Vector Art">Vector Art</option>
+          <option value="Graffiti">Graffiti</option>
+          <option value="Chalk Drawing">Chalk Drawing</option>
+          <option value="Charcoal Drawing">Charcoal Drawing</option>
+          <option value="Flat Design">Flat Design</option>
+          <option value="Comic Book">Comic Book</option>
+          <option value="Collage">Collage</option>
+
         </select>
       </div>
 
@@ -347,6 +400,22 @@ export function ImageSelectPromptGenerator() {
           <option value="Ethereal and Surreal">Ethereal and Surreal</option>
           <option value="Melancholic and Somber">Melancholic and Somber</option>
           <option value="Bold and Dramatic">Bold and Dramatic</option>
+          <option value="Serene and Tranquil">Serene and Tranquil</option>
+          <option value="Joyful and Uplifting">Joyful and Uplifting</option>
+          <option value="Nostalgic and Reflective">Nostalgic and Reflective</option>
+          <option value="Tense and Suspenseful">Tense and Suspenseful</option>
+          <option value="Bright and Cheerful">Bright and Cheerful</option>
+          <option value="Chill and Relaxed">Chill and Relaxed</option>
+          <option value="Majestic and Grand">Majestic and Grand</option>
+          <option value="Gritty and Realistic">Gritty and Realistic</option>
+          <option value="Euphoric and Blissful">Euphoric and Blissful</option>
+          <option value="Mystical and Enchanting">Mystical and Enchanting</option>
+          <option value="Weird and Quirky">Weird and Quirky</option>
+          <option value="Rebellious and Defiant">Rebellious and Defiant</option>
+          <option value="Cold and Isolated">Cold and Isolated</option>
+          <option value="Festive and Celebratory">Festive and Celebratory</option>
+          <option value="Thoughtful and Contemplative">Thoughtful and Contemplative</option>
+
         </select>
       </div>
       </div>
@@ -424,8 +493,23 @@ export function ImageSelectPromptGenerator() {
         </div>
 
 
+{/* Editable Text Area for Selected Prompt */}
+{selectedPrompt && (
+        <div className="mt-5">
+          <h2 className="text-xl font-semibold mb-4">Edit Your Selected Prompt</h2>
+          <textarea
+            value={editedPrompt}
+            onChange={(e) => setEditedPrompt(e.target.value)}
+            className="w-full rounded-md border shadow-sm p-3 mb-4"
+            rows={4}
+          />
+        </div>
+      )}
+
+      
+
       {/* Button to generate image */}
-      {selectedPrompt && (
+      {editedPrompt && (
         <div className="mt-5 flex justify-center">
           <button
             className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"

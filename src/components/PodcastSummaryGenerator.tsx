@@ -199,7 +199,7 @@ export function PodcastSummary() {
         )}
       </div>
       <div className="mt-5 mb-10">
-        <label className="block text-gray-700">Language</label>
+        <label className="block text-gray-700">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
