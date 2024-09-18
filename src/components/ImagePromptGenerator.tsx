@@ -259,26 +259,6 @@ export function ImagePromptGenerator() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Style</label>
-        <input
-          type="text"
-          value={style}
-          onChange={(e) => setStyle(e.target.value)}
-          placeholder="E.g., realistic"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Feeling</label>
-        <input
-          type="text"
-          value={feeling}
-          onChange={(e) => setfeeling(e.target.value)}
-          placeholder="E.g., calm and peaceful"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Colors</label>
         <input
           type="text"
@@ -298,8 +278,53 @@ export function ImagePromptGenerator() {
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+      <div className='flex gap-3 w-full'>
+      <div className="w-1/2 mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Style</label>
+        <select
+          value={style}
+          onChange={(e) => setStyle(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          <option value="">Select Style</option>
+          <option value="Realistic">Realistic</option>
+          <option value="Watercolor">Watercolor</option>
+          <option value="Pencil Sketch">Pencil Sketch</option>
+          <option value="Oil Painting">Oil Painting</option>
+          <option value="Digital Art">Digital Art</option>
+          <option value="Pop Art">Pop Art</option>
+          <option value="Retro">Retro</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Anime">Anime</option>
+          <option value="3D Render">3D Render</option>
+        </select>
+      </div>
+
+      <div className="w-1/2 mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Feeling</label>
+        <select
+          value={feeling}
+          onChange={(e) => setfeeling(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          <option value="">Select Feeling</option>
+          <option value="Calm and Peaceful">Calm and Peaceful</option>
+          <option value="Energetic and Vibrant">Energetic and Vibrant</option>
+          <option value="Dark and Moody">Dark and Moody</option>
+          <option value="Warm and Cozy">Warm and Cozy</option>
+          <option value="Mysterious and Intriguing">Mysterious and Intriguing</option>
+          <option value="Romantic and Dreamy">Romantic and Dreamy</option>
+          <option value="Playful and Fun">Playful and Fun</option>
+          <option value="Ethereal and Surreal">Ethereal and Surreal</option>
+          <option value="Melancholic and Somber">Melancholic and Somber</option>
+          <option value="Bold and Dramatic">Bold and Dramatic</option>
+        </select>
+      </div>
+      </div>
+      
+      <div className='flex gap-3 w-full'>
+      <div className="w-1/2 mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -310,8 +335,8 @@ export function ImagePromptGenerator() {
           ))}
         </select>
       </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+      <div className="w-1/2 mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}
@@ -321,6 +346,7 @@ export function ImagePromptGenerator() {
             <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
           ))}
         </select>
+      </div>
       </div>
       <div className="mt-5 flex justify-center">
         <button
