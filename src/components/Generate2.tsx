@@ -238,6 +238,7 @@ import { GenerateSeoAndDescription } from "./SeoTitle&DescriptionGenerator";
 import { GeneratePrompt } from "./PromptGenerator";
 import { GenerateReviewReply } from "./ReviewReplyGenerator";
 import { SpotifyMp3Downloader } from "./SpotifyDownloader";
+import { ImageSelectPromptGenerator } from "./ImageWithPrompt";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1068,6 +1069,8 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateReviewReply/>
       ):id === "66e4027a54be9a68399be40a" ? (
         <SpotifyMp3Downloader/>
+      ):id === "66ea8e2238ee5d49df349ce4" ? (
+        <ImageSelectPromptGenerator/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
