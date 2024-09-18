@@ -93,7 +93,7 @@ export function PodcastSummary() {
     setIsLoading(true);
     try {
       const res = await axios.post<TranscriptionResponse>(
-        `${BASE_URL}/response/transcribe`,
+        `${BASE_URL}/response/transcribe?clerkId=${userId}`,
         formData,
         {
           headers: {

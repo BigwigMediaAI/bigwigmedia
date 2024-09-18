@@ -309,7 +309,7 @@ export function ImageSelectPromptGenerator() {
       </div>
       <div className='flex gap-3 w-full'>
       <div className="w-1/2 mb-5">
-        <label className="block text-[var(--primary-text-color)]">Style</label>
+        <label className="block text-[var(--primary-text-color)]">Select Style</label>
         <select
           value={style}
           onChange={(e) => setStyle(e.target.value)}
@@ -330,7 +330,7 @@ export function ImageSelectPromptGenerator() {
       </div>
 
       <div className="w-1/2 mb-5">
-        <label className="block text-[var(--primary-text-color)]">Feeling</label>
+        <label className="block text-[var(--primary-text-color)]">Select Feeling</label>
         <select
           value={feeling}
           onChange={(e) => setFeeling(e.target.value)}
@@ -354,7 +354,7 @@ export function ImageSelectPromptGenerator() {
       
       <div className='flex gap-3 w-full'>
       <div className="w-1/2 mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -366,7 +366,7 @@ export function ImageSelectPromptGenerator() {
         </select>
       </div>
       <div className="w-1/2 mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}
