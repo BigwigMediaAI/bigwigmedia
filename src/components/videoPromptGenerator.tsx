@@ -45,7 +45,8 @@ export function VideoPromptGenerator() {
   const handleGenerate = async () => {
     if (
       !validateInput(mainObject) ||
-      !validateInput(style)
+      !validateInput(cameraAngles)||
+      !validateInput(sceneType)
     ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
@@ -251,7 +252,8 @@ export function VideoPromptGenerator() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Main Object</label>
+        <label className="block text-[var(--primary-text-color)]">Describes the central focus of the Video (e.g., person, object)
+        </label>
         <input
           type="text"
           value={mainObject}
@@ -261,35 +263,41 @@ export function VideoPromptGenerator() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">cameraAngles</label>
+        <label className="block text-[var(--primary-text-color)]">Camera Angles or Perspectives</label>
         <input
           type="text"
           value={cameraAngles}
           onChange={(e) => setcameraAngles(e.target.value)}
-          placeholder="E.g., soft greens and blues"
+          placeholder="E.g., overhead view, close-up, wide angle"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
+
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">sceneType</label>
+        <label className="block text-[var(--primary-text-color)]">Scene Type or Background of the Video</label>
         <input
           type="text"
           value={sceneType}
           onChange={(e) => setsceneType(e.target.value)}
-          placeholder="E.g., a sunset sky"
+          placeholder="E.g., a bustling city street, tranquil forest"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
+
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Duration</label>
-        <input
-          type="number"
+        <select
           value={duration}
           onChange={(e) => setDuration(Number(e.target.value))}
-          placeholder="E.g., 10 sec"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        />
+        >
+          <option value={5}>5 sec</option>
+          <option value={10}>10 sec</option>
+          <option value={15}>15 sec</option>
+          <option value={20}>20 sec</option>
+        </select>
       </div>
+
       <div className='flex gap-3 w-full'>
       <div className="w-1/2 mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Style</label>
@@ -299,18 +307,29 @@ export function VideoPromptGenerator() {
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         >
           <option value="">Select Style</option>
-          <option value="Realistic">Realistic</option>
-          <option value="Watercolor">Watercolor</option>
-          <option value="Pencil Sketch">Pencil Sketch</option>
-          <option value="Oil Painting">Oil Painting</option>
-          <option value="Digital Art">Digital Art</option>
-          <option value="Pop Art">Pop Art</option>
-          <option value="Retro">Retro</option>
-          <option value="Fantasy">Fantasy</option>
-          <option value="Anime">Anime</option>
-          <option value="3D Render">3D Render</option>
+          <option value="cinematic">Cinematic</option>
+          <option value="documentary">Documentary</option>
+          <option value="vlog">Vlog</option>
+          <option value="animated">Animated</option>
+          <option value="stopMotion">Stop Motion</option>
+          <option value="timeLapse">Time-Lapse</option>
+          <option value="tutorial">Tutorial</option>
+          <option value="interview">Interview</option>
+          <option value="promo">Promotional</option>
+          <option value="musicVideo">Music Video</option>
+          <option value="montage">Montage</option>
+          <option value="narrative">Narrative</option>
+          <option value="liveStream">Live Stream</option>
+          <option value="explainer">Explainer</option>
+          <option value="commercial">Commercial</option>
+          <option value="testimonial">Testimonial</option>
+          <option value="bRoll">B-Roll</option>
+          <option value="behindTheScenes">Behind the Scenes</option>
+          <option value="socialMedia">Social Media Short</option>
+          <option value="experimental">Experimental</option>
         </select>
       </div>
+
 
       <div className="w-1/2 mb-5">
         <label className="block text-[var(--primary-text-color)]">Select mood</label>
@@ -319,7 +338,7 @@ export function VideoPromptGenerator() {
           onChange={(e) => setmood(e.target.value)}
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         >
-          <option value="">Select mood</option>
+          <option value="">Select Mood</option>
           <option value="Calm and Peaceful">Calm and Peaceful</option>
           <option value="Energetic and Vibrant">Energetic and Vibrant</option>
           <option value="Dark and Moody">Dark and Moody</option>
@@ -330,6 +349,21 @@ export function VideoPromptGenerator() {
           <option value="Ethereal and Surreal">Ethereal and Surreal</option>
           <option value="Melancholic and Somber">Melancholic and Somber</option>
           <option value="Bold and Dramatic">Bold and Dramatic</option>
+          <option value="Serene and Tranquil">Serene and Tranquil</option>
+          <option value="Joyful and Uplifting">Joyful and Uplifting</option>
+          <option value="Nostalgic and Reflective">Nostalgic and Reflective</option>
+          <option value="Tense and Suspenseful">Tense and Suspenseful</option>
+          <option value="Bright and Cheerful">Bright and Cheerful</option>
+          <option value="Chill and Relaxed">Chill and Relaxed</option>
+          <option value="Majestic and Grand">Majestic and Grand</option>
+          <option value="Gritty and Realistic">Gritty and Realistic</option>
+          <option value="Euphoric and Blissful">Euphoric and Blissful</option>
+          <option value="Mystical and Enchanting">Mystical and Enchanting</option>
+          <option value="Weird and Quirky">Weird and Quirky</option>
+          <option value="Rebellious and Defiant">Rebellious and Defiant</option>
+          <option value="Cold and Isolated">Cold and Isolated</option>
+          <option value="Festive and Celebratory">Festive and Celebratory</option>
+          <option value="Thoughtful and Contemplative">Thoughtful and Contemplative</option>
         </select>
       </div>
       </div>
