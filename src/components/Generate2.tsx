@@ -239,6 +239,7 @@ import { GeneratePrompt } from "./PromptGenerator";
 import { GenerateReviewReply } from "./ReviewReplyGenerator";
 import { SpotifyMp3Downloader } from "./SpotifyDownloader";
 import { ImageSelectPromptGenerator } from "./ImageWithPrompt";
+import { VideoPromptGenerator } from "./videoPromptGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1071,6 +1072,8 @@ document.addEventListener('copy', handleCopyEvent);
         <SpotifyMp3Downloader/>
       ):id === "66ea8e2238ee5d49df349ce4" ? (
         <ImageSelectPromptGenerator/>
+      ):id === "66ec0fde3510fbf0108ee8de" ? (
+        <VideoPromptGenerator/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
