@@ -188,26 +188,17 @@ export function YoutubeImageTool() {
               className="border bg-white border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
               onClick={() => document.getElementById("fileInput")?.click()}
             >
-              {image ? image.name : "Select Image File"}
+              Select Image File
             </Button>
+            {image && (
+                <p className="text-[var(--primary-text-color)] mt-2 text-center">{image.name}</p>
+              )}
             <p className="text-gray-400">or drag and drop files</p>
             <RefreshCw
               className="absolute top-1 right-1 w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
               onClick={refreshSelection}
             />
           
-          {/* {image && (
-            <div className="mt-4 w-full text-center">
-              <ul className="list-none">
-                <li key={0} className="text-gray-300">
-                  <span className="mr-5">{image.name}</span>
-                  <button onClick={removeFile} className="text-gray-300 hover:text-gray-500">
-                    &#x2715;
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )} */}
           </div>
           <select
             className="mb-4 w-full rounded-md border-2 border-gray-300 p-4"
