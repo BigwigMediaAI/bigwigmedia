@@ -305,56 +305,56 @@ export function ImageSelectPromptGenerator() {
         />
       </div>
       <div className="mb-5">
-  <label className="block text-[var(--primary-text-color)]">Colors</label>
-  <select
-    value={colors}
-    onChange={(e) => setColors(e.target.value)}
-    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-  >
-    <option value="">Select Colors</option>
-    <option value="Natural tones">Natural Tones</option>
-    <option value="Soft pastels">Soft Pastels</option>
-    <option value="Warm tones">Warm Tones</option>
-    <option value="Cool tones">Cool Tones</option>
-    <option value="Earthy tones">Earthy Tones</option>
-    <option value="Monochrome">Monochrome</option>
-    <option value="Bold and vibrant">Bold and Vibrant</option>
-    <option value="Muted and neutral">Muted and Neutral</option>
-    <option value="Dark and moody">Dark and Moody</option>
-    <option value="Bright and cheerful">Bright and Cheerful</option>
-    <option value="Metallic">Metallic</option>
-    <option value="Jewel tones">Jewel Tones</option>
-    <option value="Retro colors">Retro Colors</option>
-    <option value="Gradient">Gradient</option>
-    <option value="Fantasy palette">Fantasy Palette</option>
-    <option value="Autumnal">Autumnal</option>
-    <option value="Spring pastels">Spring Pastels</option>
-    <option value="Tropical palette">Tropical Palette</option>
-    <option value="Oceanic palette">Oceanic Palette</option>
-    <option value="Wintery tones">Wintery Tones</option>
-    <option value="Candy colors">Candy Colors</option>
-    <option value="Vintage tones">Vintage Tones</option>
-    <option value="Desert palette">Desert Palette</option>
-    <option value="Galaxy palette">Galaxy Palette</option>
-    <option value="Floral tones">Floral Tones</option>
-    <option value="Forest palette">Forest Palette</option>
-    <option value="Sunset hues">Sunset Hues</option>
-    <option value="Rainy day tones">Rainy Day Tones</option>
-    <option value="Art Deco palette">Art Deco Palette</option>
-    <option value="Punk neon">Punk Neon</option>
-    <option value="Custom">Custom Color</option> {/* Add this option */}
-  </select>
+        <label className="block text-[var(--primary-text-color)]">Select Colors</label>
+        <select
+          value={colors}
+          onChange={(e) => setColors(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          <option value="">Select Colors</option>
+          <option value="Natural tones">Natural Tones</option>
+          <option value="Soft pastels">Soft Pastels</option>
+          <option value="Warm tones">Warm Tones</option>
+          <option value="Cool tones">Cool Tones</option>
+          <option value="Earthy tones">Earthy Tones</option>
+          <option value="Monochrome">Monochrome</option>
+          <option value="Bold and vibrant">Bold and Vibrant</option>
+          <option value="Muted and neutral">Muted and Neutral</option>
+          <option value="Dark and moody">Dark and Moody</option>
+          <option value="Bright and cheerful">Bright and Cheerful</option>
+          <option value="Metallic">Metallic</option>
+          <option value="Jewel tones">Jewel Tones</option>
+          <option value="Retro colors">Retro Colors</option>
+          <option value="Gradient">Gradient</option>
+          <option value="Fantasy palette">Fantasy Palette</option>
+          <option value="Autumnal">Autumnal</option>
+          <option value="Spring pastels">Spring Pastels</option>
+          <option value="Tropical palette">Tropical Palette</option>
+          <option value="Oceanic palette">Oceanic Palette</option>
+          <option value="Wintery tones">Wintery Tones</option>
+          <option value="Candy colors">Candy Colors</option>
+          <option value="Vintage tones">Vintage Tones</option>
+          <option value="Desert palette">Desert Palette</option>
+          <option value="Galaxy palette">Galaxy Palette</option>
+          <option value="Floral tones">Floral Tones</option>
+          <option value="Forest palette">Forest Palette</option>
+          <option value="Sunset hues">Sunset Hues</option>
+          <option value="Rainy day tones">Rainy Day Tones</option>
+          <option value="Art Deco palette">Art Deco Palette</option>
+          <option value="Punk neon">Punk Neon</option>
+          <option value="Custom">Custom Color</option> {/* Add this option */}
+        </select>
 
-  {colors === "Custom" && (
-    <input
-      type="text"
-      placeholder="Enter your custom color"
-      value={customColor}
-      onChange={(e) => setCustomColor(e.target.value)}
-      className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-    />
-  )}
-</div>
+        {colors === "Custom" && (
+          <input
+            type="text"
+            placeholder="Enter your custom color"
+            value={customColor}
+            onChange={(e) => setCustomColor(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+          />
+        )}
+      </div>
 
 
 
