@@ -44,7 +44,7 @@ export function ImagePromptGenerator() {
   const handleGenerate = async () => {
     if (
       !validateInput(mainObject) ||
-      !validateInput(style)
+      !validateInput(background)
     ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;

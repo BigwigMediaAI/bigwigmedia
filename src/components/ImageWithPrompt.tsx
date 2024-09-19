@@ -48,7 +48,7 @@ export function ImageSelectPromptGenerator() {
   };
 
   const handleGeneratePrompts = async () => {
-    if (!validateInput(mainObject) || !validateInput(style)) {
+    if (!validateInput(mainObject) || !validateInput(background)) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
