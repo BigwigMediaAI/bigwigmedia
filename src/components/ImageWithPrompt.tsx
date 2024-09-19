@@ -14,6 +14,7 @@ export function ImageSelectPromptGenerator() {
   const [style, setStyle] = useState('');
   const [feeling, setFeeling] = useState('');
   const [colors, setColors] = useState('');
+  const [customColor, setCustomColor] = useState('');
   const [background, setBackground] = useState('');
   const [outputCount, setOutputCount] = useState(3); // Default multiple prompt generation
   const [language, setLanguage] = useState("English"); // Default language
@@ -57,6 +58,7 @@ export function ImageSelectPromptGenerator() {
     setGeneratedImageUrl(''); // Reset the image when generating new prompts
     setSelectedPrompt('');
     setEditedPrompt('')
+    
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -71,12 +73,14 @@ export function ImageSelectPromptGenerator() {
       return;
     }
 
+    const selectedColors = colors === 'Custom' ? customColor : colors;
+
     try {
       const response = await axios.post(`${BASE_URL}/response/generatePrompts`, {
         mainObject,
         style,
         feeling,
-        colors,
+        colors:selectedColors,
         background,
         language,
         outputCount,
@@ -281,65 +285,77 @@ export function ImageSelectPromptGenerator() {
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       {/* Input fields */}
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Main Object</label>
+        <label className="block text-[var(--primary-text-color)]">Describes the central focus of the Image (e.g., person, object)</label>
         <input
           type="text"
           value={mainObject}
           onChange={(e) => setMainObject(e.target.value)}
-          placeholder="E.g., a lone tree"
+          placeholder="E.g., A majestic mountain peak, a playful puppy"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Background</label>
+        <label className="block text-[var(--primary-text-color)]">Describe the background of image</label>
         <input
           type="text"
           value={background}
           onChange={(e) => setBackground(e.target.value)}
-          placeholder="E.g., a sunset sky"
+          placeholder="E.g., A golden sunset over the ocean, a busy city skyline  "
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Colors</label>
-        <select
-          value={colors}
-          onChange={(e) => setColors(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        >
-          <option value="">Select Colors</option>
-          <option value="Natural tones (e.g., sage green, stone gray, sand beige)">Natural Tones (sage green, stone gray, sand beige)</option>
-          <option value="Soft pastels (e.g., soft pinks, greens, and blues)">Soft Pastels (pinks, greens, blues)</option>
-          <option value="Warm tones (e.g., reds, oranges, yellows)">Warm Tones (reds, oranges, yellows)</option>
-          <option value="Cool tones (e.g., blues, purples, greens)">Cool Tones (blues, purples, greens)</option>
-          <option value="Earthy tones (e.g., browns, tans, muted greens)">Earthy Tones (browns, tans, greens)</option>
-          <option value="Monochrome (e.g., black, white, shades of gray)">Monochrome (black, white, gray)</option>
-          <option value="Bold and vibrant (e.g., neon pink, bright yellow, electric blue)">Bold and Vibrant (neons, bright colors)</option>
-          <option value="Muted and neutral (e.g., beige, light gray, soft olive)">Muted and Neutral (beige, light gray)</option>
-          <option value="Dark and moody (e.g., deep purples, dark blues, blacks)">Dark and Moody (purples, blues, blacks)</option>
-          <option value="Bright and cheerful (e.g., bright yellow, sky blue, bubblegum pink)">Bright and Cheerful (yellow, sky blue)</option>
-          <option value="Metallic (e.g., gold, silver, bronze)">Metallic (gold, silver, bronze)</option>
-          <option value="Jewel tones (e.g., emerald green, sapphire blue, ruby red)">Jewel Tones (emerald, sapphire, ruby)</option>
-          <option value="Retro colors (e.g., mustard yellow, burnt orange, teal)">Retro Colors (mustard yellow, burnt orange)</option>
-          <option value="Gradient (e.g., sunset colors, ocean blues)">Gradient (sunset colors, ocean blues)</option>
-          <option value="Fantasy palette (e.g., shimmering purples, icy blues)">Fantasy Palette (shimmering purples, icy blues)</option>
-          <option value="Autumnal (e.g., burnt orange, deep reds, olive green)">Autumnal (burnt orange, deep reds, olive green)</option>
-          <option value="Spring pastels (e.g., peach, baby blue, soft lavender)">Spring Pastels (peach, baby blue, lavender)</option>
-          <option value="Tropical palette (e.g., bright teal, coral, lime green)">Tropical Palette (bright teal, coral, lime green)</option>
-          <option value="Oceanic palette (e.g., deep sea blues, aqua, sandy beige)">Oceanic Palette (sea blues, aqua, beige)</option>
-          <option value="Wintery tones (e.g., icy blue, frosty white, cool gray)">Wintery Tones (icy blue, white, cool gray)</option>
-          <option value="Candy colors (e.g., bubblegum pink, cotton candy blue, mint green)">Candy Colors (bubblegum pink, mint green)</option>
-          <option value="Vintage tones (e.g., faded sepia, olive, mustard)">Vintage Tones (sepia, olive, mustard)</option>
-          <option value="Desert palette (e.g., sand, terracotta, cactus green)">Desert Palette (sand, terracotta, cactus green)</option>
-          <option value="Galaxy palette (e.g., deep space black, cosmic purple, starlight white)">Galaxy Palette (space black, cosmic purple)</option>
-          <option value="Floral tones (e.g., rose pink, lavender, buttercup yellow)">Floral Tones (rose pink, lavender, buttercup yellow)</option>
-          <option value="Forest palette (e.g., moss green, bark brown, pine needle green)">Forest Palette (moss green, bark brown)</option>
-          <option value="Sunset hues (e.g., golden orange, pinkish red, deep violet)">Sunset Hues (golden orange, pinkish red, violet)</option>
-          <option value="Rainy day tones (e.g., slate gray, misty blue, pale lavender)">Rainy Day Tones (slate gray, misty blue)</option>
-          <option value="Art Deco palette (e.g., gold, deep navy, emerald)">Art Deco Palette (gold, navy, emerald)</option>
-          <option value="Punk neon (e.g., hot pink, neon green, electric blue)">Punk Neon (hot pink, neon green)</option>
-        </select>
-      </div>
+  <label className="block text-[var(--primary-text-color)]">Colors</label>
+  <select
+    value={colors}
+    onChange={(e) => setColors(e.target.value)}
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  >
+    <option value="">Select Colors</option>
+    <option value="Natural tones">Natural Tones</option>
+    <option value="Soft pastels">Soft Pastels</option>
+    <option value="Warm tones">Warm Tones</option>
+    <option value="Cool tones">Cool Tones</option>
+    <option value="Earthy tones">Earthy Tones</option>
+    <option value="Monochrome">Monochrome</option>
+    <option value="Bold and vibrant">Bold and Vibrant</option>
+    <option value="Muted and neutral">Muted and Neutral</option>
+    <option value="Dark and moody">Dark and Moody</option>
+    <option value="Bright and cheerful">Bright and Cheerful</option>
+    <option value="Metallic">Metallic</option>
+    <option value="Jewel tones">Jewel Tones</option>
+    <option value="Retro colors">Retro Colors</option>
+    <option value="Gradient">Gradient</option>
+    <option value="Fantasy palette">Fantasy Palette</option>
+    <option value="Autumnal">Autumnal</option>
+    <option value="Spring pastels">Spring Pastels</option>
+    <option value="Tropical palette">Tropical Palette</option>
+    <option value="Oceanic palette">Oceanic Palette</option>
+    <option value="Wintery tones">Wintery Tones</option>
+    <option value="Candy colors">Candy Colors</option>
+    <option value="Vintage tones">Vintage Tones</option>
+    <option value="Desert palette">Desert Palette</option>
+    <option value="Galaxy palette">Galaxy Palette</option>
+    <option value="Floral tones">Floral Tones</option>
+    <option value="Forest palette">Forest Palette</option>
+    <option value="Sunset hues">Sunset Hues</option>
+    <option value="Rainy day tones">Rainy Day Tones</option>
+    <option value="Art Deco palette">Art Deco Palette</option>
+    <option value="Punk neon">Punk Neon</option>
+    <option value="Custom">Custom Color</option> {/* Add this option */}
+  </select>
+
+  {colors === "Custom" && (
+    <input
+      type="text"
+      placeholder="Enter your custom color"
+      value={customColor}
+      onChange={(e) => setCustomColor(e.target.value)}
+      className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+    />
+  )}
+</div>
+
 
 
       
