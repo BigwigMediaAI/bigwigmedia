@@ -44,7 +44,7 @@ export function ImagePromptGenerator() {
   const handleGenerate = async () => {
     if (
       !validateInput(mainObject) ||
-      !validateInput(style)
+      !validateInput(background)
     ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
@@ -249,34 +249,65 @@ export function ImagePromptGenerator() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Main Object</label>
+        <label className="block text-[var(--primary-text-color)]">Describes the central focus of the Image (e.g., person, object)</label>
         <input
           type="text"
           value={mainObject}
           onChange={(e) => setMainObject(e.target.value)}
-          placeholder="E.g., a lone tree"
+          placeholder="E.g., A majestic mountain peak, a playful puppy"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
+      
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Colors</label>
-        <input
-          type="text"
-          value={colors}
-          onChange={(e) => setColors(e.target.value)}
-          placeholder="E.g., soft greens and blues"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Background</label>
+        <label className="block text-[var(--primary-text-color)]">Describe the background of image</label>
         <input
           type="text"
           value={background}
           onChange={(e) => setBackground(e.target.value)}
-          placeholder="E.g., a sunset sky"
+          placeholder="E.g.,  A golden sunset over the ocean, a busy city skyline"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Colors</label>
+        <select
+          value={colors}
+          onChange={(e) => setColors(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          <option value="">Select Colors</option>
+          <option value="Natural tones">Natural Tones</option>
+          <option value="Soft pastels">Soft Pastels</option>
+          <option value="Warm tones">Warm Tones</option>
+          <option value="Cool tones">Cool Tones</option>
+          <option value="Earthy tones">Earthy Tones</option>
+          <option value="Monochrome">Monochrome</option>
+          <option value="Bold and vibrant">Bold and Vibrant</option>
+          <option value="Muted and neutral">Muted and Neutral</option>
+          <option value="Dark and moody">Dark and Moody</option>
+          <option value="Bright and cheerful">Bright and Cheerful</option>
+          <option value="Metallic">Metallic</option>
+          <option value="Jewel tones">Jewel Tones</option>
+          <option value="Retro colors">Retro Colors</option>
+          <option value="Gradient">Gradient</option>
+          <option value="Fantasy palette">Fantasy Palette</option>
+          <option value="Autumnal">Autumnal</option>
+          <option value="Spring pastels">Spring Pastels</option>
+          <option value="Tropical palette">Tropical Palette</option>
+          <option value="Oceanic palette">Oceanic Palette</option>
+          <option value="Wintery tones">Wintery Tones</option>
+          <option value="Candy colors">Candy Colors</option>
+          <option value="Vintage tones">Vintage Tones</option>
+          <option value="Desert palette">Desert Palette</option>
+          <option value="Galaxy palette">Galaxy Palette</option>
+          <option value="Floral tones">Floral Tones</option>
+          <option value="Forest palette">Forest Palette</option>
+          <option value="Sunset hues">Sunset Hues</option>
+          <option value="Rainy day tones">Rainy Day Tones</option>
+          <option value="Art Deco palette">Art Deco Palette</option>
+          <option value="Punk neon">Punk Neon</option>
+        </select>
       </div>
       <div className='flex gap-3 w-full'>
       <div className="w-1/2 mb-5">
@@ -297,6 +328,23 @@ export function ImagePromptGenerator() {
           <option value="Fantasy">Fantasy</option>
           <option value="Anime">Anime</option>
           <option value="3D Render">3D Render</option>
+          <option value="Surrealism">Surrealism</option>
+          <option value="Impressionism">Impressionism</option>
+          <option value="Minimalism">Minimalism</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Cubism">Cubism</option>
+          <option value="Pointillism">Pointillism</option>
+          <option value="Expressionism">Expressionism</option>
+          <option value="Steampunk">Steampunk</option>
+          <option value="Pixel Art">Pixel Art</option>
+          <option value="Vector Art">Vector Art</option>
+          <option value="Graffiti">Graffiti</option>
+          <option value="Chalk Drawing">Chalk Drawing</option>
+          <option value="Charcoal Drawing">Charcoal Drawing</option>
+          <option value="Flat Design">Flat Design</option>
+          <option value="Comic Book">Comic Book</option>
+          <option value="Collage">Collage</option>
+
         </select>
       </div>
 
@@ -318,6 +366,22 @@ export function ImagePromptGenerator() {
           <option value="Ethereal and Surreal">Ethereal and Surreal</option>
           <option value="Melancholic and Somber">Melancholic and Somber</option>
           <option value="Bold and Dramatic">Bold and Dramatic</option>
+          <option value="Serene and Tranquil">Serene and Tranquil</option>
+          <option value="Joyful and Uplifting">Joyful and Uplifting</option>
+          <option value="Nostalgic and Reflective">Nostalgic and Reflective</option>
+          <option value="Tense and Suspenseful">Tense and Suspenseful</option>
+          <option value="Bright and Cheerful">Bright and Cheerful</option>
+          <option value="Chill and Relaxed">Chill and Relaxed</option>
+          <option value="Majestic and Grand">Majestic and Grand</option>
+          <option value="Gritty and Realistic">Gritty and Realistic</option>
+          <option value="Euphoric and Blissful">Euphoric and Blissful</option>
+          <option value="Mystical and Enchanting">Mystical and Enchanting</option>
+          <option value="Weird and Quirky">Weird and Quirky</option>
+          <option value="Rebellious and Defiant">Rebellious and Defiant</option>
+          <option value="Cold and Isolated">Cold and Isolated</option>
+          <option value="Festive and Celebratory">Festive and Celebratory</option>
+          <option value="Thoughtful and Contemplative">Thoughtful and Contemplative</option>
+
         </select>
       </div>
       </div>

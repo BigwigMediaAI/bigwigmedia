@@ -186,8 +186,11 @@ export function SnapchatImageTool() {
               className="border border-[var(--gray-color)] text-gray-600 bg-[var(--white-color)] px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
               onClick={() => document.getElementById("fileInput")?.click()}
             >
-              {image ? image.name : "Select Image File"}
+              Select Image File
             </Button>
+            {image && (
+                <p className="text-[var(--primary-text-color)] mt-2 text-center">{image.name}</p>
+              )}
             <p className="text-gray-400">or drag and drop files</p>
             <RefreshCw
               className="absolute top-1 right-1 w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"

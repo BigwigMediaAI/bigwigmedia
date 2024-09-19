@@ -27,7 +27,10 @@ const Blog = () => {
     const fetchBlogPosts = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/blog/viewblog`);
-        setBlogPosts(response.data);
+        const sortedPosts = response.data.sort(
+          (a: BlogPost, b: BlogPost) => new Date(b.datePublished).getTime() - new Date(a.datePublished).getTime()
+        );
+        setBlogPosts(sortedPosts);
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch blog posts');

@@ -14,10 +14,12 @@ export function ImageSelectPromptGenerator() {
   const [style, setStyle] = useState('');
   const [feeling, setFeeling] = useState('');
   const [colors, setColors] = useState('');
+  const [customColor, setCustomColor] = useState('');
   const [background, setBackground] = useState('');
   const [outputCount, setOutputCount] = useState(3); // Default multiple prompt generation
   const [language, setLanguage] = useState("English"); // Default language
   const [generatedPrompts, setGeneratedPrompts] = useState<string[]>([]);
+  const [editedPrompt, setEditedPrompt] = useState(''); 
   const [selectedPrompt, setSelectedPrompt] = useState('');
   const [generatedImageUrl, setGeneratedImageUrl] = useState(''); // State to store the image URL
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
@@ -46,7 +48,7 @@ export function ImageSelectPromptGenerator() {
   };
 
   const handleGeneratePrompts = async () => {
-    if (!validateInput(mainObject) || !validateInput(style)) {
+    if (!validateInput(mainObject) || !validateInput(background)) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
@@ -55,6 +57,8 @@ export function ImageSelectPromptGenerator() {
     setGeneratedPrompts([]);
     setGeneratedImageUrl(''); // Reset the image when generating new prompts
     setSelectedPrompt('');
+    setEditedPrompt('')
+    
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -69,12 +73,14 @@ export function ImageSelectPromptGenerator() {
       return;
     }
 
+    const selectedColors = colors === 'Custom' ? customColor : colors;
+
     try {
       const response = await axios.post(`${BASE_URL}/response/generatePrompts`, {
         mainObject,
         style,
         feeling,
-        colors,
+        colors:selectedColors,
         background,
         language,
         outputCount,
@@ -218,11 +224,12 @@ export function ImageSelectPromptGenerator() {
 
 
   const handleSelectPrompt = (prompt: string) => {
-    setSelectedPrompt(prompt); // Store selected prompt
+    setSelectedPrompt(prompt); 
+    setEditedPrompt(prompt)
   };
 
   const handleGenerateImage = async () => {
-    if (!selectedPrompt) {
+    if (!editedPrompt) {
       toast.error('Please select a prompt first.');
       return;
     }
@@ -233,7 +240,7 @@ export function ImageSelectPromptGenerator() {
     try {
       setIsImageLoading(true);
       const response = await axios.post(`${BASE_URL}/response/generateImageFromPrompt`, {
-        prompt: selectedPrompt,
+        prompt: editedPrompt,
       });
   
       if (response.status === 200 && response.data.images && response.data.images.length > 0) {
@@ -278,35 +285,80 @@ export function ImageSelectPromptGenerator() {
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       {/* Input fields */}
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Main Object</label>
+        <label className="block text-[var(--primary-text-color)]">Describes the central focus of the Image (e.g., person, object)</label>
         <input
           type="text"
           value={mainObject}
           onChange={(e) => setMainObject(e.target.value)}
-          placeholder="E.g., a lone tree"
+          placeholder="E.g., A majestic mountain peak, a playful puppy"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Colors</label>
-        <input
-          type="text"
-          value={colors}
-          onChange={(e) => setColors(e.target.value)}
-          placeholder="E.g., soft greens and blues"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Background</label>
+        <label className="block text-[var(--primary-text-color)]">Describe the background of image</label>
         <input
           type="text"
           value={background}
           onChange={(e) => setBackground(e.target.value)}
-          placeholder="E.g., a sunset sky"
+          placeholder="E.g., A golden sunset over the ocean, a busy city skyline  "
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Colors</label>
+        <select
+          value={colors}
+          onChange={(e) => setColors(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          <option value="">Select Colors</option>
+          <option value="Natural tones">Natural Tones</option>
+          <option value="Soft pastels">Soft Pastels</option>
+          <option value="Warm tones">Warm Tones</option>
+          <option value="Cool tones">Cool Tones</option>
+          <option value="Earthy tones">Earthy Tones</option>
+          <option value="Monochrome">Monochrome</option>
+          <option value="Bold and vibrant">Bold and Vibrant</option>
+          <option value="Muted and neutral">Muted and Neutral</option>
+          <option value="Dark and moody">Dark and Moody</option>
+          <option value="Bright and cheerful">Bright and Cheerful</option>
+          <option value="Metallic">Metallic</option>
+          <option value="Jewel tones">Jewel Tones</option>
+          <option value="Retro colors">Retro Colors</option>
+          <option value="Gradient">Gradient</option>
+          <option value="Fantasy palette">Fantasy Palette</option>
+          <option value="Autumnal">Autumnal</option>
+          <option value="Spring pastels">Spring Pastels</option>
+          <option value="Tropical palette">Tropical Palette</option>
+          <option value="Oceanic palette">Oceanic Palette</option>
+          <option value="Wintery tones">Wintery Tones</option>
+          <option value="Candy colors">Candy Colors</option>
+          <option value="Vintage tones">Vintage Tones</option>
+          <option value="Desert palette">Desert Palette</option>
+          <option value="Galaxy palette">Galaxy Palette</option>
+          <option value="Floral tones">Floral Tones</option>
+          <option value="Forest palette">Forest Palette</option>
+          <option value="Sunset hues">Sunset Hues</option>
+          <option value="Rainy day tones">Rainy Day Tones</option>
+          <option value="Art Deco palette">Art Deco Palette</option>
+          <option value="Punk neon">Punk Neon</option>
+          <option value="Custom">Custom Color</option> {/* Add this option */}
+        </select>
+
+        {colors === "Custom" && (
+          <input
+            type="text"
+            placeholder="Enter your custom color"
+            value={customColor}
+            onChange={(e) => setCustomColor(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+          />
+        )}
+      </div>
+
+
+
+      
       <div className='flex gap-3 w-full'>
       <div className="w-1/2 mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Style</label>
@@ -326,6 +378,23 @@ export function ImageSelectPromptGenerator() {
           <option value="Fantasy">Fantasy</option>
           <option value="Anime">Anime</option>
           <option value="3D Render">3D Render</option>
+          <option value="Surrealism">Surrealism</option>
+          <option value="Impressionism">Impressionism</option>
+          <option value="Minimalism">Minimalism</option>
+          <option value="Abstract">Abstract</option>
+          <option value="Cubism">Cubism</option>
+          <option value="Pointillism">Pointillism</option>
+          <option value="Expressionism">Expressionism</option>
+          <option value="Steampunk">Steampunk</option>
+          <option value="Pixel Art">Pixel Art</option>
+          <option value="Vector Art">Vector Art</option>
+          <option value="Graffiti">Graffiti</option>
+          <option value="Chalk Drawing">Chalk Drawing</option>
+          <option value="Charcoal Drawing">Charcoal Drawing</option>
+          <option value="Flat Design">Flat Design</option>
+          <option value="Comic Book">Comic Book</option>
+          <option value="Collage">Collage</option>
+
         </select>
       </div>
 
@@ -347,6 +416,22 @@ export function ImageSelectPromptGenerator() {
           <option value="Ethereal and Surreal">Ethereal and Surreal</option>
           <option value="Melancholic and Somber">Melancholic and Somber</option>
           <option value="Bold and Dramatic">Bold and Dramatic</option>
+          <option value="Serene and Tranquil">Serene and Tranquil</option>
+          <option value="Joyful and Uplifting">Joyful and Uplifting</option>
+          <option value="Nostalgic and Reflective">Nostalgic and Reflective</option>
+          <option value="Tense and Suspenseful">Tense and Suspenseful</option>
+          <option value="Bright and Cheerful">Bright and Cheerful</option>
+          <option value="Chill and Relaxed">Chill and Relaxed</option>
+          <option value="Majestic and Grand">Majestic and Grand</option>
+          <option value="Gritty and Realistic">Gritty and Realistic</option>
+          <option value="Euphoric and Blissful">Euphoric and Blissful</option>
+          <option value="Mystical and Enchanting">Mystical and Enchanting</option>
+          <option value="Weird and Quirky">Weird and Quirky</option>
+          <option value="Rebellious and Defiant">Rebellious and Defiant</option>
+          <option value="Cold and Isolated">Cold and Isolated</option>
+          <option value="Festive and Celebratory">Festive and Celebratory</option>
+          <option value="Thoughtful and Contemplative">Thoughtful and Contemplative</option>
+
         </select>
       </div>
       </div>
@@ -424,8 +509,23 @@ export function ImageSelectPromptGenerator() {
         </div>
 
 
+{/* Editable Text Area for Selected Prompt */}
+{selectedPrompt && (
+        <div className="mt-5">
+          <h2 className="text-xl font-semibold mb-4">Edit Your Selected Prompt</h2>
+          <textarea
+            value={editedPrompt}
+            onChange={(e) => setEditedPrompt(e.target.value)}
+            className="w-full rounded-md border shadow-sm p-3 mb-4"
+            rows={4}
+          />
+        </div>
+      )}
+
+      
+
       {/* Button to generate image */}
-      {selectedPrompt && (
+      {editedPrompt && (
         <div className="mt-5 flex justify-center">
           <button
             className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
