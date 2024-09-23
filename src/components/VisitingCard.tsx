@@ -86,7 +86,7 @@ export function GenerateVisitingCard() {
 
   // Generate Visiting Card
   const handleGenerateCard = async () => {
-    if (!name || !position || !phone || !email || !address || !company) {
+    if (!name || !position || !phone || !email || !address) {
       toast.error('All fields are required!');
       return;
     }
@@ -203,7 +203,7 @@ const handleEmailChange = (value:any) => {
   </div>
   <div>
     <label className="block text-sm font-semibold mb-2">
-      Specify Your Job Position or Title<span className="text-red-500">*</span>
+      Enter Your Job Title<span className="text-red-500">*</span>
     </label>
     <input
       type="text"
@@ -216,7 +216,7 @@ const handleEmailChange = (value:any) => {
   </div>
   <div>
   <label className="block text-sm font-semibold mb-2">
-    Provide Your Contact Phone Number<span className="text-red-500">*</span>
+    Enter Your Phone Number<span className="text-red-500">*</span>
   </label>
   <input
     type="tel"
@@ -236,7 +236,7 @@ const handleEmailChange = (value:any) => {
 
 <div>
   <label className="block text-sm font-semibold mb-2">
-    Enter a Valid Email Address<span className="text-red-500">*</span>
+    Enter Your Email Address<span className="text-red-500">*</span>
   </label>
   <input
     type="email"
@@ -255,7 +255,7 @@ const handleEmailChange = (value:any) => {
 
   <div>
     <label className="block text-sm font-semibold mb-2">
-      Enter Your Complete Residential or Office Address<span className="text-red-500">*</span>
+      Enter Your Registered Business Address<span className="text-red-500">*</span>
     </label>
     <input
       type="text"
@@ -263,19 +263,19 @@ const handleEmailChange = (value:any) => {
       onChange={(e) => setAddress(e.target.value)}
       placeholder="e.g., 123 Main St, City, Country"
       className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
-      maxLength={40}
+      maxLength={50}
       required
     />
   </div>
   <div>
     <label className="block text-sm font-semibold mb-2">
-      Provide the Name of Your Company or Organization<span className="text-red-500">*</span>
+      Enter Your Company Name
     </label>
     <input
       type="text"
       value={company}
       onChange={(e) => setCompany(e.target.value)}
-      placeholder="e.g., ABC Corporation"
+      placeholder="e.g., Bigwig Media & Events Pvt Ltd"
       className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
       required
     />
@@ -288,7 +288,7 @@ const handleEmailChange = (value:any) => {
       <div className="grid md:grid-cols-4 grid-cols-2 gap-6 mt-6">
 
         <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Choose a Color for Your Name:</label>
+          <label className="block text-sm font-semibold mb-2">Choose Your Name Color:</label>
           <input
             type="color"
             value={nameColor}
@@ -297,7 +297,7 @@ const handleEmailChange = (value:any) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Select the Color for Your Job Position Title:</label>
+          <label className="block text-sm font-semibold mb-2">Choose Your Job Title Color:</label>
           <input
             type="color"
             value={positionColor}
@@ -306,7 +306,7 @@ const handleEmailChange = (value:any) => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Choose a General Text Color for the Card:</label>
+          <label className="block text-sm font-semibold mb-2">Choose Text Color:</label>
           <input
             type="color"
             value={textColor}
@@ -315,7 +315,7 @@ const handleEmailChange = (value:any) => {
         </div>
         
         <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Pick a Color for the Separator Line:</label>
+          <label className="block text-sm font-semibold mb-2">Choose Line Color:</label>
           <input
             type="color"
             value={lineColor}
@@ -356,7 +356,7 @@ const handleEmailChange = (value:any) => {
 
       <div className="mt-8 flex justify-center">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-5 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleGenerateCard}
           disabled={isLoading}
         >
