@@ -339,7 +339,7 @@ const handleEmailChange = (value:any) => {
 
       <div className="mt-6">
         <label className="block text-sm font-semibold mb-2">Choose any of templates:</label>
-        <div className="flex flex-wrap justify-center space-x-4">
+        <div className="flex flex-wrap justify-center gap-3">
           {backgroundImages.map((image) => (
             <div
               key={image.id}

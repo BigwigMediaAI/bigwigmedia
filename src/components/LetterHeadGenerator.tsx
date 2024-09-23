@@ -36,6 +36,8 @@ export function GenerateLetterhead() {
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [HeaderColor, setHeaderColor] = useState('#000000');
+  const [FooterColor, setFooterColor] = useState('#808080');
+  const [FooterLineColor, setFooterLineColor] = useState('#000000');
   const [currentDate, setCurrentDate] = useState('');
   const [phone, setPhone] = useState('');
   const [background, setBackground] = useState<any>(null);
@@ -123,6 +125,8 @@ export function GenerateLetterhead() {
     formData.append('email', email);
     formData.append('website', website);
     formData.append('HeaderColor', HeaderColor);
+    formData.append('FooterLineColor', FooterLineColor);
+    formData.append('FooterColor', FooterColor);
     formData.append('currentDate', currentDate);
     formData.append('phone', phone);
 
@@ -150,6 +154,37 @@ export function GenerateLetterhead() {
     }
   }, [isLoading, pdfUrl]);
 
+  const [emailError, setEmailError] = useState(false);
+
+  const handleEmailChange = (value:any) => {
+    setEmail(value);
+  
+    // Regular expression for validating email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+    if (!emailRegex.test(value)) {
+      setEmailError(true);  // Show error if email is invalid
+    } else {
+      setEmailError(false); // Hide error if email is valid
+    }
+  };
+
+const [websiteError, setWebsiteError] = useState(false);
+
+const handleWebsiteChange = (value:any) => {
+  setWebsite(value);
+
+  // Regex for validating website URL format
+  const websiteRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
+
+  if (!websiteRegex.test(value)) {
+    setWebsiteError(true);  // Set error if URL is invalid
+  } else {
+    setWebsiteError(false);  // Clear error if URL is valid
+  }
+};
+
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
        <div className='mb-5'>
@@ -174,6 +209,7 @@ export function GenerateLetterhead() {
     value={address}
     onChange={(e) => setAddress(e.target.value)}
     placeholder="e.g., 123 Main St, City, Country"
+    maxLength={65}
     className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
     required
   />
@@ -185,27 +221,39 @@ export function GenerateLetterhead() {
       Enter Your Contact Phone Number<span className="text-red-500">*</span>
     </label>
     <input
-      type="text"
-      value={phone}
-      onChange={(e) => setPhone(e.target.value)}
-      placeholder="e.g., +1 123 456 7890"
-      className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
-      required
-    />
+    type="tel"
+    value={phone}
+    onChange={(e) => {
+      const value = e.target.value;
+      // Regex to match a phone number that starts with '+' followed by numbers
+      if (/^\+?[0-9]*$/.test(value)) {
+        setPhone(value);
+      }
+    }}
+    placeholder="e.g., +1 123 456 7890"
+    className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
+    required
+  />
   </div>
   <div className='w-1/2'>
-    <label className="block text-sm font-semibold mb-2">
-      Enter a Valid Email Address<span className="text-red-500">*</span>
-    </label>
-    <input
-      type="email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      placeholder="e.g., john.doe@example.com"
-      className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
-      required
-    />
-  </div>
+  <label className="block text-sm font-semibold mb-2">
+    Enter a Valid Email Address<span className="text-red-500">*</span>
+  </label>
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => handleEmailChange(e.target.value)}  // Use a handler for validation
+    placeholder="e.g., john.doe@example.com"
+    className={`block w-full p-3 border rounded-md focus:outline-none ${emailError ? 'border-red-500' : 'focus:border-blue-500'}`}  // Dynamic border color on error
+    required
+  />
+  {emailError && (
+    <span className="text-red-500 text-sm mt-2">
+      Please enter a valid email address.
+    </span>
+  )}
+</div>
+
 </div>
 
 <div className='mb-5'>
@@ -215,12 +263,18 @@ export function GenerateLetterhead() {
   <input
     type="text"
     value={website}
-    onChange={(e) => setWebsite(e.target.value)}
+    onChange={(e) => handleWebsiteChange(e.target.value)}  // Use handler for validation
     placeholder="e.g., www.yourwebsite.com"
-    className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
+    className={`block w-full p-3 border rounded-md focus:outline-none ${websiteError ? 'border-red-500' : 'focus:border-blue-500'}`}  // Dynamic border color
     required
   />
+  {websiteError && (
+    <span className="text-red-500 text-sm mt-2">
+      Please enter a valid website URL.
+    </span>
+  )}
 </div>
+
 
 
         
@@ -228,11 +282,26 @@ export function GenerateLetterhead() {
 
       <div className="grid grid-cols-3 gap-6 mt-6">
         <div className="mb-4">
-          <label className="block text-sm font-semibold">Choose Your Company Name Color:</label>
+          <label className="block text-sm font-semibold">Choose Company Name Color:</label>
           <input
             type="color"
             value={HeaderColor}
             onChange={(e) => setHeaderColor(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-semibold">Choose Footer Line Color:</label>
+          <input
+            type="color"
+            value={FooterLineColor}
+            onChange={(e) => setFooterLineColor(e.target.value)}
+          />
+        </div><div className="mb-4">
+          <label className="block text-sm font-semibold">Choose Footer Text Color:</label>
+          <input
+            type="color"
+            value={FooterColor}
+            onChange={(e) => setFooterColor(e.target.value)}
           />
         </div>
     
@@ -244,12 +313,12 @@ export function GenerateLetterhead() {
           type="file"
           accept="image/*"
           onChange={handleFileChange}
-          className="block w-full text-sm text-black file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-500 file:text-white hover:file:bg-gray-600"
+          className="block w-full p-3 border rounded-md"
             />
             </div>
             <div className="mt-6">
         <label className="block text-sm font-semibold mb-2">Choose any of templates:</label>
-        <div className="flex flex-wrap justify-center space-x-4">
+        <div className="flex flex-wrap gap-3 justify-center">
           {backgroundImages.map((image) => (
             <div
               key={image.id}
