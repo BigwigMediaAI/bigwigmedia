@@ -7,6 +7,11 @@ import background1 from '../assets/converted-image (2).png';
 import background2 from '../assets/Letterhead_01.png';
 import background3 from '../assets/Letterhead_11.png';
 import background4 from '../assets/converted-image (3).png';
+import background5 from '../assets/letterHead template.png';
+import background6 from '../assets/LetterHead Template2.png';
+import background7 from '../assets/letterTemplate3.png';
+import background8 from '../assets/letterHead Template5.png';
+import background9 from '../assets/letterHead Template6.png';
 import CreditLimitModal from './Model3';
 import { useAuth } from '@clerk/clerk-react';
 import { BASE_URL, BASE_URL2 } from '@/utils/funcitons';
@@ -17,6 +22,11 @@ const backgroundImages = [
   { id: 2, src: background2, name: 'Background 2' },
   { id: 3, src: background3, name: 'Background 3' },
   { id: 4, src: background4, name: 'Background 4' },
+  { id: 5, src: background5, name: 'background 5' },
+  { id: 6, src: background6, name: 'background 6' },
+  { id: 7, src: background7, name: 'background 7' },
+  { id: 8, src: background8, name: 'background 8' },
+  { id: 9, src: background9, name: 'background 9' },
 ];
 
 export function GenerateLetterhead() {
