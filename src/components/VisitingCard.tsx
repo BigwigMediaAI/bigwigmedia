@@ -6,7 +6,13 @@ import '../App.css';
 import background1 from '../assets/5103ebbd814dce9ea69a85d083e16db9.jpg';
 import background2 from '../assets/Blank-Business-Card-Templates-141.jpg';
 import background3 from '../assets/abstract-blank-name-card-template-for-business-artwork-eps-10-J953R6.jpg';
-import background4 from '../assets/business-card-black-with-gold-texture-premium-card-with-vintage-pattern-business-card-modern-creative-template-sale-banner-vector.jpg';
+import background4 from '../assets/Screenshot (72).jpg'
+import background5 from '../assets/Screenshot (73).jpg'
+import background6 from '../assets/Screenshot (74).jpg'
+import background8 from '../assets/Screenshot (77).jpg'
+import background9 from '../assets/Screenshot (78).jpg'
+import background10 from '../assets/Screenshot (79).jpg'
+import background7 from '../assets/Screenshot (80).jpg'
 import CreditLimitModal from './Model3';  // Modal to handle credit exhaustion
 import { useAuth } from '@clerk/clerk-react';
 import { BASE_URL,BASE_URL2 } from '@/utils/funcitons';
@@ -17,6 +23,12 @@ const backgroundImages = [
   { id: 2, src: background2, name: 'Background 2' },
   { id: 3, src: background3, name: 'Background 3' },
   { id: 4, src: background4, name: 'Background 4' },
+  { id: 5, src: background5, name: 'Background 5' },
+  { id: 6, src: background6, name: 'Background 6' },
+  { id: 8, src: background8, name: 'Background 8' },
+  { id: 9, src: background9, name: 'Background 9' },
+  { id: 10, src: background10, name: 'Background 10' },
+  { id: 7, src: background7, name: 'Background 7' }
 ];
 
 export function GenerateVisitingCard() {
