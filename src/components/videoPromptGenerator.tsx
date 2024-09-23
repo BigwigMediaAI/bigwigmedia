@@ -71,7 +71,7 @@ export function VideoPromptGenerator() {
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/GenerateVideoPromptContent`, {
+      const response = await axios.post(`${BASE_URL}/response/GenerateVideoPromptContent?clerkId=${userId}`, {
         mainObject,
         style,
         mood,
