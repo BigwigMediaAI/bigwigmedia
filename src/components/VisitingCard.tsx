@@ -5,12 +5,12 @@ import { Loader2 } from 'lucide-react';
 import '../App.css';
 import background1 from '../assets/5103ebbd814dce9ea69a85d083e16db9.jpg';
 import background2 from '../assets/Blank-Business-Card-Templates-141.jpg';
-import background3 from '../assets/abstract-blank-name-card-template-for-business-artwork-eps-10-J953R6.jpg';
+import background3 from '../assets/page 2.jpg';
 import background4 from '../assets/Screenshot (72).jpg'
-import background5 from '../assets/Screenshot (73).jpg'
+import background5 from '../assets/page.jpg'
 import background6 from '../assets/Screenshot (74).jpg'
 import background8 from '../assets/Screenshot (77).jpg'
-import background9 from '../assets/Screenshot (78).jpg'
+import background9 from '../assets/page 1.jpg'
 import background10 from '../assets/Screenshot (79).jpg'
 import background7 from '../assets/Screenshot (80).jpg'
 import CreditLimitModal from './Model3';  // Modal to handle credit exhaustion
@@ -263,7 +263,7 @@ const handleEmailChange = (value:any) => {
       onChange={(e) => setAddress(e.target.value)}
       placeholder="e.g., 123 Main St, City, Country"
       className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
-      maxLength={30}
+      maxLength={40}
       required
     />
   </div>
