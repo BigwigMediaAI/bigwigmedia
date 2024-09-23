@@ -76,7 +76,7 @@ export function ImageSelectPromptGenerator() {
     const selectedColors = colors === 'Custom' ? customColor : colors;
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/generatePrompts`, {
+      const response = await axios.post(`${BASE_URL}/response/generatePrompts?clerkId=${userId}`, {
         mainObject,
         style,
         feeling,
