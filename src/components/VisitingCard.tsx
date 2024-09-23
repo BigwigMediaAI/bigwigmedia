@@ -169,6 +169,21 @@ export function GenerateVisitingCard() {
     }
   }, [isLoading, pdfUrl]);
 
+  const [emailError, setEmailError] = useState(false);
+
+const handleEmailChange = (value:any) => {
+  setEmail(value);
+
+  // Regular expression for validating email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(value)) {
+    setEmailError(true);  // Show error if email is invalid
+  } else {
+    setEmailError(false); // Hide error if email is valid
+  }
+};
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
 
@@ -200,31 +215,44 @@ export function GenerateVisitingCard() {
     />
   </div>
   <div>
-    <label className="block text-sm font-semibold mb-2">
-      Provide Your Contact Phone Number<span className="text-red-500">*</span>
-    </label>
-    <input
-      type="text"
-      value={phone}
-      onChange={(e) => setPhone(e.target.value)}
-      placeholder="e.g., +1 123 456 7890"
-      className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
-      required
-    />
-  </div>
-  <div>
-    <label className="block text-sm font-semibold mb-2">
-      Enter a Valid Email Address<span className="text-red-500">*</span>
-    </label>
-    <input
-      type="email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      placeholder="e.g., john.doe@example.com"
-      className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
-      required
-    />
-  </div>
+  <label className="block text-sm font-semibold mb-2">
+    Provide Your Contact Phone Number<span className="text-red-500">*</span>
+  </label>
+  <input
+    type="tel"
+    value={phone}
+    onChange={(e) => {
+      const value = e.target.value;
+      // Regex to match a phone number that starts with '+' followed by numbers
+      if (/^\+?[0-9]*$/.test(value)) {
+        setPhone(value);
+      }
+    }}
+    placeholder="e.g., +1 123 456 7890"
+    className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
+    required
+  />
+</div>
+
+<div>
+  <label className="block text-sm font-semibold mb-2">
+    Enter a Valid Email Address<span className="text-red-500">*</span>
+  </label>
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => handleEmailChange(e.target.value)}  // Call custom function for email validation
+    placeholder="e.g., john.doe@example.com"
+    className={`block w-full p-3 border rounded-md focus:outline-none ${emailError ? 'border-red-500' : 'focus:border-blue-500'}`}  // Change border color on error
+    required
+  />
+  {emailError && (
+    <span className="text-red-500 text-sm mt-2">
+      Please enter a valid email address.
+    </span>
+  )}
+</div>
+
   <div>
     <label className="block text-sm font-semibold mb-2">
       Enter Your Complete Residential or Office Address<span className="text-red-500">*</span>
@@ -235,6 +263,7 @@ export function GenerateVisitingCard() {
       onChange={(e) => setAddress(e.target.value)}
       placeholder="e.g., 123 Main St, City, Country"
       className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
+      maxLength={30}
       required
     />
   </div>
