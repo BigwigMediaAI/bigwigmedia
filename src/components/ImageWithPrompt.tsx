@@ -239,7 +239,7 @@ export function ImageSelectPromptGenerator() {
   
     try {
       setIsImageLoading(true);
-      const response = await axios.post(`${BASE_URL}/response/generateImageFromPrompt`, {
+      const response = await axios.post(`${BASE_URL}/response/generateImageFromPrompt?clerkId=${userId}`, {
         prompt: editedPrompt,
       });
   
