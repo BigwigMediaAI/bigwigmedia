@@ -189,13 +189,13 @@ const handleWebsiteChange = (value:any) => {
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
        <div className='mb-5'>
   <label className="block text-sm font-semibold mb-2">
-    Enter Your Company/Organisation Name<span className="text-red-500">*</span>
+    Enter Your Company / Business Name<span className="text-red-500">*</span>
   </label>
   <input
     type="text"
     value={headerText}
     onChange={(e) => setHeaderText(e.target.value)}
-    placeholder="e.g., ABC Corporation"
+    placeholder="e.g., Bigwig Media & Events Private Limited"
     className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
     required
   />
@@ -203,12 +203,12 @@ const handleWebsiteChange = (value:any) => {
 
 <div className='mb-5'>
   <label className="block text-sm font-semibold mb-2">
-    Enter Your Complete Address<span className="text-red-500">*</span>
+    Enter Your Business Address<span className="text-red-500">*</span>
   </label>
   <textarea
     value={address}
     onChange={(e) => setAddress(e.target.value)}
-    placeholder="e.g., 123 Main St, City, Country"
+    placeholder="e.g., S1, Janta Market, Rajouri Garden, New Delhi, 110027"
     maxLength={65}
     className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
     required
@@ -218,7 +218,7 @@ const handleWebsiteChange = (value:any) => {
 <div className='flex w-full gap-3 mb-5'>
   <div className='w-1/2'>
     <label className="block text-sm font-semibold mb-2">
-      Enter Your Contact Phone Number<span className="text-red-500">*</span>
+      Enter Your Phone Number<span className="text-red-500">*</span>
     </label>
     <input
     type="tel"
@@ -237,7 +237,7 @@ const handleWebsiteChange = (value:any) => {
   </div>
   <div className='w-1/2'>
   <label className="block text-sm font-semibold mb-2">
-    Enter a Valid Email Address<span className="text-red-500">*</span>
+    Enter a Email Address<span className="text-red-500">*</span>
   </label>
   <input
     type="email"
@@ -282,7 +282,7 @@ const handleWebsiteChange = (value:any) => {
 
       <div className="grid grid-cols-3 gap-6 mt-6">
         <div className="mb-4">
-          <label className="block text-sm font-semibold">Choose Company Name Color:</label>
+          <label className="block text-sm font-semibold">Choose Header Text Color:</label>
           <input
             type="color"
             value={HeaderColor}
@@ -335,7 +335,7 @@ const handleWebsiteChange = (value:any) => {
 
       <div className="mt-8 flex justify-center">
         <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-5 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={handleGenerateLetterhead}
           disabled={isLoading}
         >
@@ -356,11 +356,13 @@ const handleWebsiteChange = (value:any) => {
               <iframe
                 src={pdfUrl}
                 title="Generated Letterhead"
-                className="w-full h-96"
+                className="w-full"
+                style={{ height: '130vh' }} // Full viewport height
                 frameBorder="0"
               />
             </div>
           )
+          
         )}
       </div>
 
