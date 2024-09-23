@@ -241,6 +241,8 @@ import { SpotifyMp3Downloader } from "./SpotifyDownloader";
 import { ImageSelectPromptGenerator } from "./ImageWithPrompt";
 import { PodcastSummary } from "./PodcastSummaryGenerator";
 import { VideoPromptGenerator } from "./videoPromptGenerator";
+import { GenerateLetterhead } from "./LetterHeadGenerator";
+import { GenerateVisitingCard } from "./VisitingCard";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1077,6 +1079,10 @@ document.addEventListener('copy', handleCopyEvent);
         <PodcastSummary/>
       ):id === "66ec0fde3510fbf0108ee8de" ? (
         <VideoPromptGenerator/>
+      ):id === "66f1425e0ab136750d271d36" ? (
+        <GenerateLetterhead/>
+      ):id === "66f1426d0ab136750d271d37" ? (
+        <GenerateVisitingCard/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
