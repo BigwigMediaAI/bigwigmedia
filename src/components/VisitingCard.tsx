@@ -10,9 +10,10 @@ import background4 from '../assets/Screenshot (72).jpg'
 import background5 from '../assets/page.jpg'
 import background6 from '../assets/Screenshot (74).jpg'
 import background8 from '../assets/Screenshot (77).jpg'
-import background9 from '../assets/page 1.jpg'
 import background10 from '../assets/Screenshot (79).jpg'
 import background7 from '../assets/Screenshot (80).jpg'
+import background9 from '../assets/Screenshot (81).png'
+import background11 from '../assets/Screenshot (82).png'
 import CreditLimitModal from './Model3';  // Modal to handle credit exhaustion
 import { useAuth } from '@clerk/clerk-react';
 import { BASE_URL,BASE_URL2 } from '@/utils/funcitons';
@@ -28,7 +29,8 @@ const backgroundImages = [
   { id: 8, src: background8, name: 'Background 8' },
   { id: 9, src: background9, name: 'Background 9' },
   { id: 10, src: background10, name: 'Background 10' },
-  { id: 7, src: background7, name: 'Background 7' }
+  { id: 7, src: background7, name: 'Background 7' },
+  { id: 11, src: background11, name: 'Background 11' }
 ];
 
 export function GenerateVisitingCard() {
@@ -326,7 +328,7 @@ const handleEmailChange = (value:any) => {
 
       <div className="mt-6">
   <label className="block text-sm font-semibold mb-2">
-    Upload Your Company Logo (Jpg Only):
+    Upload Your Company Logo (Supported Image: Jpg/Png):
   </label>
   <input
     type="file"
