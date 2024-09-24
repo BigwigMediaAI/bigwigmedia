@@ -41,6 +41,9 @@ export function GenerateLetterhead() {
   const [currentDate, setCurrentDate] = useState('');
   const [phone, setPhone] = useState('');
   const [background, setBackground] = useState<any>(null);
+  const [watermarkType, setWatermarkType] = useState('');
+    const [watermarkText, setWatermarkText] = useState('');
+    const [addWatermark, setAddWatermark] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -129,6 +132,12 @@ export function GenerateLetterhead() {
     formData.append('FooterColor', FooterColor);
     formData.append('currentDate', currentDate);
     formData.append('phone', phone);
+    formData.append('watermarkType', watermarkType);
+    if (watermarkType === 'text') {
+        formData.append('watermarkText', watermarkText);
+    }
+    
+    
 
     try {
       const response = await axios.post(`${BASE_URL}/response/create-letterhead`, formData, {
@@ -187,7 +196,8 @@ const handleWebsiteChange = (value:any) => {
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
-       <div className='mb-5'>
+      <div className='flex gap-6 w-full'>
+       <div className='mb-5 w-2/3'>
   <label className="block text-sm font-semibold mb-2">
     Enter Your Company / Business Name<span className="text-red-500">*</span>
   </label>
@@ -200,6 +210,29 @@ const handleWebsiteChange = (value:any) => {
     required
   />
 </div>
+
+<div className="mb-4 w-1/3">
+          <label className="block text-sm font-semibold">Choose Header Text Color:</label>
+          <input
+            type="color"
+            value={HeaderColor}
+            onChange={(e) => setHeaderColor(e.target.value)}
+            className='h-14 w-12'
+          />
+        </div>
+
+</div>
+
+<div className='mb-5'>
+        <label className="block text-sm font-semibold mb-2">Upload Your Company Logo (Supported Image: Jpg/Png):</label>
+        <input
+  type="file"
+  accept=".jpg,.jpeg,.png"
+  onChange={handleFileChange}
+  className="block w-full p-3 border rounded-md"
+/>
+
+            </div>
 
 <div className='mb-5'>
   <label className="block text-sm font-semibold mb-2">
@@ -214,6 +247,8 @@ const handleWebsiteChange = (value:any) => {
     required
   />
 </div>
+
+
 
 <div className='flex w-full gap-3 mb-5'>
   <div className='w-1/2'>
@@ -281,20 +316,14 @@ const handleWebsiteChange = (value:any) => {
       
 
       <div className="grid grid-cols-3 gap-6 mt-6">
-        <div className="mb-4">
-          <label className="block text-sm font-semibold">Choose Header Text Color:</label>
-          <input
-            type="color"
-            value={HeaderColor}
-            onChange={(e) => setHeaderColor(e.target.value)}
-          />
-        </div>
+        
         <div className="mb-4">
           <label className="block text-sm font-semibold">Choose Footer Line Color:</label>
           <input
             type="color"
             value={FooterLineColor}
             onChange={(e) => setFooterLineColor(e.target.value)}
+            className='h-14 w-12'
           />
         </div><div className="mb-4">
           <label className="block text-sm font-semibold">Choose Footer Text Color:</label>
@@ -302,20 +331,81 @@ const handleWebsiteChange = (value:any) => {
             type="color"
             value={FooterColor}
             onChange={(e) => setFooterColor(e.target.value)}
+            className='h-14 w-12'
           />
         </div>
     
       </div>
 
-      <div className="mt-6">
-        <label className="block text-sm font-semibold mb-2">Upload Your Company Logo (Png Only):</label>
+      <div className="mt-5 mb-5">
+  <label>Would you like to add a watermark?</label>
+  <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
+    <label>
+      <input
+        type="radio"
+        value="yes"
+        checked={addWatermark === true}
+        onChange={() => setAddWatermark(true)}
+      />
+      Yes
+    </label>
+    <label>
+      <input
+        type="radio"
+        value="no"
+        checked={addWatermark === false}
+        onChange={() => {
+          setAddWatermark(false);
+          setWatermarkType(''); // Clear watermark type when "No" is selected
+        }}
+      />
+      No
+    </label>
+  </div>
+</div>
+
+{/* Conditionally show watermark options if the user selects 'Yes' */}
+{addWatermark && (
+  <div className='mt-5 mb-5'>
+    <label>Watermark Type:</label>
+    <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
+      <label>
         <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className="block w-full p-3 border rounded-md"
-            />
-            </div>
+          type="radio"
+          value="logo"
+          checked={watermarkType === 'logo'}
+          onChange={(e) => setWatermarkType(e.target.value)}
+        />
+        Logo
+      </label>
+      <label>
+        <input
+          type="radio"
+          value="text"
+          checked={watermarkType === 'text'}
+          onChange={(e) => setWatermarkType(e.target.value)}
+        />
+        Text
+      </label>
+    </div>
+
+    {/* Conditionally show watermark text input if the user selects 'text' */}
+    {watermarkType === 'text' && (
+      <div className='mb-5'>
+        <label className="block text-sm font-semibold mb-2">
+          Enter Watermark Text:
+        </label>
+        <input
+          value={watermarkText}
+          onChange={(e) => setWatermarkText(e.target.value)}
+          placeholder="e.g., Confidential"
+          className="block w-full p-3 border rounded-md focus:border-blue-500 focus:outline-none"
+        />
+      </div>
+    )}
+  </div>
+)}
+
             <div className="mt-6">
         <label className="block text-sm font-semibold mb-2">Choose any of templates:</label>
         <div className="flex flex-wrap gap-3 justify-center">
