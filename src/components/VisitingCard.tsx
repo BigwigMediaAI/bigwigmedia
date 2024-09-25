@@ -18,6 +18,8 @@ import CreditLimitModal from './Model3';  // Modal to handle credit exhaustion
 import { useAuth } from '@clerk/clerk-react';
 import { BASE_URL,BASE_URL2 } from '@/utils/funcitons';
 import { validateInput } from '@/utils/validateInput';
+import front from '../assets/front.png'
+import back from '../assets/back.png'
 
 const backgroundImages = [
   { id: 1, src: background1, name: 'Background 1' },
@@ -40,9 +42,11 @@ export function GenerateVisitingCard() {
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [company, setCompany] = useState('');
+  const [includeCompanyOnBack, setIncludeCompanyOnBack] = useState(true);
+  const [includeLogoOnFront, setIncludeLogoOnFront] = useState(true);
   const [backgroundColor, setBackgroundColor] = useState('#FFFFFF');
   const [nameColor, setNameColor] = useState('#000000');
-  const [positionColor, setPositionColor] = useState('#a2a2a3');
+  const [positionColor, setPositionColor] = useState('#000000');
   const [textColor, setTextColor] = useState('#000000');
   const [lineColor, setLineColor] = useState('#000000');
   const [logo, setLogo] = useState<File | null>(null);
@@ -88,7 +92,7 @@ export function GenerateVisitingCard() {
 
   // Generate Visiting Card
   const handleGenerateCard = async () => {
-    if (!name || !position || !phone || !email || !address) {
+    if (!name || !position || !phone || !email ) {
       toast.error('All fields are required!');
       return;
     }
@@ -146,6 +150,9 @@ export function GenerateVisitingCard() {
     formData.append('positionColor', positionColor);
     formData.append('textColor', textColor);
     formData.append('lineColor', lineColor);
+    formData.append('includeCompanyOnBack', includeCompanyOnBack ? 'true' : 'false');
+    formData.append('includeLogoOnFront', includeLogoOnFront ? 'true' : 'false');
+
 
     try {
       const response = await axios.post(`${BASE_URL}/response/visiting`, formData, {
@@ -186,11 +193,13 @@ const handleEmailChange = (value:any) => {
   }
 };
 
+
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
-
-<div className="grid md:grid-cols-2 grid-cols-1 gap-6">
-  <div>
+<h1 className='text-center underline text-xl mb-5 font-semibold'>Front Side</h1>
+<div className='flex gap-5 w-full'>
+  <div className='w-2/3'>
     <label className="block text-sm font-semibold mb-2">
       Enter Your Full Name<span className="text-red-500">*</span>
     </label>
@@ -203,7 +212,18 @@ const handleEmailChange = (value:any) => {
       required
     />
   </div>
-  <div>
+  <div className="mb-4 w-1/3">
+          <label className="block text-sm font-semibold mb-2">Choose Your Name Color:</label>
+          <input
+            type="color"
+            value={nameColor}
+            onChange={(e) => setNameColor(e.target.value)}
+            className='w-14 h-12'
+          />
+        </div>
+        </div> 
+        <div className='flex gap-5 w-full'> 
+  <div className='w-2/3'>
     <label className="block text-sm font-semibold mb-2">
       Enter Your Job Title<span className="text-red-500">*</span>
     </label>
@@ -216,7 +236,17 @@ const handleEmailChange = (value:any) => {
       required
     />
   </div>
-  <div>
+  <div className="mb-4 w-1/3">
+          <label className="block text-sm font-semibold mb-2">Choose Your Job Title Color:</label>
+          <input
+            type="color"
+            value={positionColor}
+            onChange={(e) => setPositionColor(e.target.value)}
+            className='w-14 h-12'
+          />
+        </div>
+  </div> 
+  <div className='mb-5'>
   <label className="block text-sm font-semibold mb-2">
     Enter Your Phone Number<span className="text-red-500">*</span>
   </label>
@@ -257,7 +287,7 @@ const handleEmailChange = (value:any) => {
 
   <div>
     <label className="block text-sm font-semibold mb-2">
-      Enter Your Registered Business Address<span className="text-red-500">*</span>
+      Enter Your Registered Business Address:
     </label>
     <input
       type="text"
@@ -269,6 +299,97 @@ const handleEmailChange = (value:any) => {
       required
     />
   </div>
+
+      <div className="grid md:grid-cols-4 grid-cols-2 gap-6 mt-6">
+        <div className="mb-4">
+          <label className="block text-sm font-semibold mb-2">Choose Text Color:</label>
+          <input
+            type="color"
+            value={textColor}
+            onChange={(e) => setTextColor(e.target.value)}
+            className='w-14 h-12'
+          />
+        </div>
+        
+        <div className="mb-4">
+          <label className="block text-sm font-semibold mb-2">Choose Line Color:</label>
+          <input
+            type="color"
+            value={lineColor}
+            onChange={(e) => setLineColor(e.target.value)}
+            className='w-14 h-12'
+          />
+        </div>
+      </div>
+
+      <div className="mt-6 mb-5">
+  <label className="block text-sm font-semibold mb-2">Would You like to Add Logo</label>
+  <div className="flex gap-4">
+    <label className="flex items-center">
+      <input
+        type="radio"
+        value="true"
+        checked={includeLogoOnFront === true}
+        onChange={() => setIncludeLogoOnFront(true)}
+        className="mr-2"
+      />
+      Yes
+    </label>
+    <label className="flex items-center">
+      <input
+        type="radio"
+        value="false"
+        checked={includeLogoOnFront === false}
+        onChange={() => setIncludeLogoOnFront(false)}
+        className="mr-2"
+      />
+      No
+    </label>
+  </div>
+</div>
+
+      <h1 className='text-center underline text-xl mb-5 font-semibold'>Back Side</h1>
+
+      
+
+      <div className="mt-6 mb-5">
+  <label className="block text-sm font-semibold mb-2">
+    Upload Your Company Logo (Supported Image: Jpg/Png):
+  </label>
+  <input
+    type="file"
+    accept="image/*"
+    onChange={handleFileChange}
+    className="block w-full p-3 border rounded-md"
+  />
+</div>
+<div className="mt-6 mb-5">
+  <label className="block text-sm font-semibold mb-2">Would You like to Add Company Name</label>
+  <div className="flex gap-4">
+    <label className="flex items-center">
+      <input
+        type="radio"
+        value="true"
+        checked={includeCompanyOnBack === true}
+        onChange={() => setIncludeCompanyOnBack(true)}
+        className="mr-2"
+      />
+      Yes
+    </label>
+    <label className="flex items-center">
+      <input
+        type="radio"
+        value="false"
+        checked={includeCompanyOnBack === false}
+        onChange={() => setIncludeCompanyOnBack(false)}
+        className="mr-2"
+      />
+      No
+    </label>
+  </div>
+</div>
+
+{includeCompanyOnBack && (
   <div>
     <label className="block text-sm font-semibold mb-2">
       Enter Your Company Name
@@ -282,64 +403,11 @@ const handleEmailChange = (value:any) => {
       required
     />
   </div>
-</div>
+)}
 
 
 
-
-      <div className="grid md:grid-cols-4 grid-cols-2 gap-6 mt-6">
-
-        <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Choose Your Name Color:</label>
-          <input
-            type="color"
-            value={nameColor}
-            onChange={(e) => setNameColor(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Choose Your Job Title Color:</label>
-          <input
-            type="color"
-            value={positionColor}
-            onChange={(e) => setPositionColor(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Choose Text Color:</label>
-          <input
-            type="color"
-            value={textColor}
-            onChange={(e) => setTextColor(e.target.value)}
-          />
-        </div>
-        
-        <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Choose Line Color:</label>
-          <input
-            type="color"
-            value={lineColor}
-            onChange={(e) => setLineColor(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="mt-6">
-  <label className="block text-sm font-semibold mb-2">
-    Upload Your Company Logo (Supported Image: Jpg/Png):
-  </label>
-  <input
-    type="file"
-    accept="image/*"
-    onChange={handleFileChange}
-    className="block w-full p-3 border rounded-md"
-  />
-</div>
-
-
-      <div className="mt-6">
+      <div className="mt-6 mb-10">
         <label className="block text-sm font-semibold mb-2">Choose any of templates:</label>
         <div className="flex flex-wrap justify-center gap-3">
           {backgroundImages.map((image) => (
@@ -354,6 +422,19 @@ const handleEmailChange = (value:any) => {
             </div>
           ))}
         </div>
+      </div>
+
+<h1 className='font-semibold mb-2'>Sample Visiting Card:</h1>
+      <div className='flex justify-start gap-5'>
+        <div className='w-1/3 text-center' >
+        <img src={front} alt=""/>
+        <p className='font-semibold'>Front Side</p>
+        </div>
+        <div className='w-1/3 text-center' >
+        <img src={back} alt="" />
+        <p className='font-semibold'>Back Side</p>
+        </div>
+        
       </div>
 
       <div className="mt-8 flex justify-center">
@@ -379,7 +460,8 @@ const handleEmailChange = (value:any) => {
               <iframe
                 src={pdfUrl}
                 title="Generated Visiting Card"
-                className="w-full h-96"
+                className="w-full"
+                style={{ height: '130vh' }}
                 frameBorder="0"
               />
             </div>
