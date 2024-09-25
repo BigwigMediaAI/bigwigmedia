@@ -148,24 +148,46 @@ export function QRCodeGenerator() {
     };
   }, []);
 
+  const [websiteError, setWebsiteError] = useState(false);
+
+const handleWebsiteChange = (value:any) => {
+  setUrl(value);
+
+  // Regex for validating website URL format
+  const websiteRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
+
+  if (!websiteRegex.test(value)) {
+    setWebsiteError(true);  // Set error if URL is invalid
+  } else {
+    setWebsiteError(false);  // Clear error if URL is valid
+  }
+};
+
+
+
   return (
     <div className="m-auto w-full max-w-2xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="max-w-md mx-auto">
         <div className="mb-4">
           <label className="block text-[var(--primary-text-color)] text-sm font-bold mb-2">
-            URL
+            Enter or Paste Your Url
           </label>  
           <input
             type="text"
             placeholder="Enter URL of your choice"
-            className="appearance-none border rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
+            className="`block w-full p-3 border rounded-md focus:outline-none ${websiteError ? 'border-red-500' : 'focus:border-blue-500'}`"
             value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => handleWebsiteChange(e.target.value)}
           />
+          {websiteError && (
+    <span className="text-red-500 text-sm mt-2">
+      Please enter a valid website URL.
+    </span>
+  )}
         </div>
         <div className="mb-4">
           <label className="block text-[var(--primary-text-color)] text-sm font-bold mb-2">
-            Text Above QR
+            Enter The Text Above QR
           </label>
           <input
             type="text"
@@ -173,11 +195,12 @@ export function QRCodeGenerator() {
             className="appearance-none border rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
             value={textAboveQR}
             onChange={(e) => setTextAboveQR(e.target.value)}
+            maxLength={30}
           />
         </div>
         <div className="mb-4">
           <label className="block text-[var(--primary-text-color)] text-sm font-bold mb-2">
-            Text Below QR
+            Enter The Text Below QR
           </label>
           <input
             type="text"
@@ -185,42 +208,65 @@ export function QRCodeGenerator() {
             className="appearance-none border rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
             value={textBelowQR}
             onChange={(e) => setTextBelowQR(e.target.value)}
+            maxLength={30}
           />
         </div>
         <div className="mb-4 flex justify-between items-center">
-          <div className="w-1/2 pr-2">
-            <label className="block text-[var(--primary-text-color)] text-sm font-bold mb-2">
-              Color 🎨
-            </label>
-            <div className="relative">
-              <div
-                className=" rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline cursor-pointer flex items-center"
-                onClick={() => setShowColorPicker(!showColorPicker)}
-              >
-                <Palette className="mr-2  rounded-lg w-10 h-10 " />
-                <span>{color || "Click to select color"}</span>
-              </div>
-              {showColorPicker && (
-                <div ref={colorPickerRef} className="absolute z-10 top-10 left-0">
-                  <ChromePicker color={color} onChange={(newColor) => setColor(newColor.hex)} />
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="w-1/2 pl-2">
-            <label className="block text-[var(--primary-text-color)] text-sm font-bold mb-2">
-              Logo
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              className="appearance-none border rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setLogo(e.target.files ? e.target.files[0] : null)
-              }
-            />
-          </div>
+  <div className="w-1/2 pr-2">
+    <label className="block text-[var(--primary-text-color)] text-sm font-bold mb-2">
+      Select QR Color 🎨
+    </label>
+    <div className="relative">
+      {/* Preset Colors */}
+      <div className="flex space-x-2">
+        {["#000000", "#FF0000", "#00FF00", "#0000FF", "#FFD700"].map((presetColor) => (
+          <div
+            key={presetColor}
+            onClick={() => setColor(presetColor)}
+            className="w-8 h-8 rounded-full cursor-pointer border-2"
+            style={{
+              backgroundColor: presetColor,
+              borderColor: color === presetColor ? "black" : "transparent",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Button to trigger ChromePicker */}
+      <button
+        onClick={() => setShowColorPicker(!showColorPicker)}
+        className="mt-2 text-sm text-[var(--primary-text-color)] underline"
+      >
+        {showColorPicker ? "Close Custom Picker" : "Choose Custom Color"}
+      </button>
+
+      {/* ChromePicker for custom colors */}
+      {showColorPicker && (
+        <div ref={colorPickerRef} className="absolute z-10 top-10 left-0">
+          <ChromePicker
+            color={color}
+            onChange={(newColor) => setColor(newColor.hex)}
+          />
         </div>
+      )}
+    </div>
+  </div>
+
+  <div className="w-1/2 pl-2">
+    <label className="block text-[var(--primary-text-color)] text-sm font-bold mb-2">
+      Upload Logo
+    </label>
+    <input
+      type="file"
+      accept="image/*"
+      className="appearance-none border rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+        setLogo(e.target.files ? e.target.files[0] : null)
+      }
+    />
+  </div>
+</div>
+
         <div className="flex items-center justify-center flex-wrap">
           <button
             onClick={handleGenerateQRCode}
@@ -232,7 +278,7 @@ export function QRCodeGenerator() {
       </div>
       {isLoading && (
         <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--primary-text-color)]" />
+          <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--primary-text-color)]" />
           <p className="text-[var(--primary-text-color)] text-justify">Data processing in progress. Please bear with us...</p>
         </div>
       )}
@@ -241,6 +287,7 @@ export function QRCodeGenerator() {
           <h3 className="text-xl font-semibold mb-4 text-center">Generated QR Code</h3>
           <div className="rounded-md p-4  relative overflow-x-auto max-w-full">
             <img src={qrCode} alt="QR Code" className="mx-auto" />
+            <div className='flex justify-center'>
             <button
               onClick={handleDownloadQRCode}
               className="mt-4 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
@@ -253,6 +300,8 @@ export function QRCodeGenerator() {
                 title='Share'>
                   Share
               </button>
+            </div>
+            
           </div>
         </div>
       )}
