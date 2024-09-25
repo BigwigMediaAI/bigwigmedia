@@ -243,6 +243,8 @@ import { PodcastSummary } from "./PodcastSummaryGenerator";
 import { VideoPromptGenerator } from "./videoPromptGenerator";
 import { GenerateLetterhead } from "./LetterHeadGenerator";
 import { GenerateVisitingCard } from "./VisitingCard";
+import { GenerateFreestyleEmailUtil } from "./FreeStyleEmail";
+import { GenerateEmailReplie } from "./EmailReplie";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1083,6 +1085,10 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateLetterhead/>
       ):id === "66f1426d0ab136750d271d37" ? (
         <GenerateVisitingCard/>
+      ):id === "65c8c9164c88ac77e6565cb1" ? (
+        <GenerateFreestyleEmailUtil/>
+      ):id === "6609a5666231c9382088ec5c" ? (
+        <GenerateEmailReplie/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
