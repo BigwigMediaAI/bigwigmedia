@@ -15,7 +15,7 @@ export function GenerateBlogPost() {
   const [keywords, setKeywords] = useState('');
   const [tone, setTone] = useState('informative');
   const [language, setLanguage] = useState('English');
-  const [wordCount, setWordCount] = useState(1500);
+  const [wordCount, setWordCount] = useState(500);
   const [includeIntroduction, setIncludeIntroduction] = useState(true);
   const [includeConclusion, setIncludeConclusion] = useState(true);
   const [outputCount, setOutputCount] = useState(1);
@@ -66,6 +66,7 @@ export function GenerateBlogPost() {
       setIsLoading(false);
       return;
     }
+    console.log(includeConclusion, includeIntroduction)
 
     try {
       const response = await axios.post(`${BASE_URL}/response/generateBlogPost?clerkId=${userId}`, {
@@ -79,6 +80,7 @@ export function GenerateBlogPost() {
         includeConclusion,
         outputCount
       });
+      
 
       if (response.status === 200) {
         console.log(response.data);
@@ -242,14 +244,6 @@ export function GenerateBlogPost() {
     { value: 5, label: '5' },
   ];
 
-  const wordCounts = [
-    { value: 500, label: '500' },
-    { value: 800, label: '800' },
-    { value: 1000, label: '1000' },
-    { value: 1500, label: '1500' },
-    { value: 2000, label: '2000' }
-  ];
-
   const handleCopy = (caption:any) => {
     navigator.clipboard.writeText(caption);
     toast.success('Post copied to clipboard!');
@@ -310,19 +304,21 @@ export function GenerateBlogPost() {
       </div>
 
       <div className="mb-5">
-      <label className="block text-[var(--primary-text-color)]">Select Word Count</label>
-        <select
-          value={wordCount}
-          onChange={(e) => setWordCount(Number(e.target.value))}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        >
-          {wordCounts.map((wordCountOption) => (
-            <option key={wordCountOption.value} value={wordCountOption.value}>
-              {wordCountOption.label}
-            </option>
-          ))}
-        </select>
-      </div>      
+  <label className="block text-[var(--primary-text-color)]">Select Word Count</label>
+  <select
+    value={wordCount}
+    onChange={(e) => setWordCount(Number(e.target.value))}
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  >
+    <option value="">Select a word count</option>
+    <option value="400">300</option>
+    <option value="500">500</option>
+    <option value="700">700</option>
+    <option value="1000">1000</option>
+    <option value="1500">1500</option>
+  </select>
+</div>
+    
 
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Tone</label>

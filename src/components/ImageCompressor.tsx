@@ -186,6 +186,7 @@ export function ImageCompressor() {
       {isImageGenerated && (
         <div className="flex flex-col items-center mt-5" ref={resultsRef}>
           <img src={imageUrl} alt="Compressed image" className="w-40 h-40 mb-4" />
+          <div className="flex justify-center gap-4">
           <Button
             className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit"
             onClick={() => {
@@ -198,12 +199,13 @@ export function ImageCompressor() {
             Download
           </Button>
           <Button
-                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                className=" text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleShare}
               title="Share">
                 Share
                 
               </Button>
+        </div>
         </div>
       )}
       {!isImageGenerated && (

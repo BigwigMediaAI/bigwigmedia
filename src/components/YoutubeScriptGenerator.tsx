@@ -111,7 +111,17 @@ export function YouTubeScriptGenerator() {
     { value: 'Casual and Conversational', label: 'Casual and Conversational' },
     { value: 'Energetic and Exciting', label: 'Energetic and Exciting' },
     { value: 'Serious and Formal', label: 'Serious and Formal' },
+    { value: 'Creative and Playful', label: 'Creative and Playful' },
+    { value: 'Persuasive and Confident', label: 'Persuasive and Confident' },
+    { value: 'Humorous and Lighthearted', label: 'Humorous and Lighthearted' },
+    { value: 'Inspirational and Uplifting', label: 'Inspirational and Uplifting' },
+    { value: 'Minimal and Direct', label: 'Minimal and Direct' },
+    { value: 'Emotional and Passionate', label: 'Emotional and Passionate' },
+    { value: 'Optimistic and Motivational', label: 'Optimistic and Motivational' },
+    { value: 'Warm and Welcoming', label: 'Warm and Welcoming' },
+    { value: 'Urgent and Actionable', label: 'Urgent and Actionable' }
   ];
+  
 
   const languages = [
     { value: 'Afrikaans', label: 'Afrikaans' },
@@ -284,18 +294,7 @@ export function YouTubeScriptGenerator() {
           ))}
         </select>
       </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
-        <select
-          value={tone}
-          onChange={(e) => setTone(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        >
-          {tones.map((toneOption) => (
-            <option key={toneOption.value} value={toneOption.value}>{toneOption.label}</option>
-          ))}
-        </select>
-      </div>
+      
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
@@ -305,6 +304,19 @@ export function YouTubeScriptGenerator() {
         >
           {languages.map((languageOption) => (
             <option key={languageOption.value} value={languageOption.value}>{languageOption.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
+        <select
+          value={tone}
+          onChange={(e) => setTone(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
+        >
+          {tones.map((toneOption) => (
+            <option key={toneOption.value} value={toneOption.value}>{toneOption.label}</option>
           ))}
         </select>
       </div>
