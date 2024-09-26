@@ -20,6 +20,10 @@ export function SpotifyMp3Downloader() {
   const resultsRef = useRef<HTMLDivElement>(null);
   const { userId } = useAuth();
 
+  // Define maximum number of retries
+  const MAX_RETRIES = 3;
+  let retryCount = 0;
+
   const handleDownload = async () => {
     setIsLoading(true);
     setErrorMessage(null);
@@ -33,38 +37,54 @@ export function SpotifyMp3Downloader() {
       loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 100);
 
-    try {
-      const response = await axios.get(
-        `https://spotify-downloader9.p.rapidapi.com/downloadSong`,
-        {
-          params: { songId: encodeURIComponent(spotifyLink) },
-          headers: {
-            "x-rapidapi-key": "b3402da2eemsh9f38aabddad6fabp1be739jsn49f1254bdd37",
-            "x-rapidapi-host": "spotify-downloader9.p.rapidapi.com",
-          },
+    // Create a function that will attempt to fetch the song and handle retries
+    const fetchSong = async () => {
+      try {
+        const response = await axios.get(
+          `https://spotify-downloader9.p.rapidapi.com/downloadSong`,
+          {
+            params: { songId: encodeURIComponent(spotifyLink) },
+            headers: {
+              "x-rapidapi-key": "b3402da2eemsh9f38aabddad6fabp1be739jsn49f1254bdd37",
+              "x-rapidapi-host": "spotify-downloader9.p.rapidapi.com",
+            },
+          }
+        );
+
+        // Check if the response and data are valid before destructuring
+        if (response.status === 200 && response.data?.data) {
+          const { title, artist, album, cover, downloadLink } = response.data.data;
+
+          // Update the state with the valid data
+          setSongTitle(title || "Unknown Title");
+          setArtist(artist || "Unknown Artist");
+          setAlbum(album || "Unknown Album");
+          setCover(cover || "");
+          setDownloadLink(downloadLink || "");
+
+        } else {
+          throw new Error("Error: Unable to fetch the song download link.");
         }
-      );
-
-      if (response.status === 200) {
-        const { title, artist, album, cover, downloadLink } = response.data.data;
-
-        setSongTitle(title);
-        setArtist(artist);
-        setAlbum(album);
-        setCover(cover);
-        setDownloadLink(downloadLink);
-      } else {
-        setErrorMessage("Error: Unable to fetch the song download link.");
+      } catch (error) {
+        if (error instanceof Error) {
+          // Retry the fetch if the error occurs and retry count is less than MAX_RETRIES
+          if (retryCount < MAX_RETRIES) {
+            retryCount++;
+            console.warn(`Retrying... attempt ${retryCount}`);
+            fetchSong(); // Retry the fetch
+          } else {
+            setErrorMessage("Error: " + error.message);
+          }
+        } else {
+          setErrorMessage("An unknown error occurred.");
+        }
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage("Error: " + error.message);
-      } else {
-        setErrorMessage("An unknown error occurred.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    };
+
+    // Call the fetchSong function to start the download process
+    fetchSong();
   };
 
   const handleDownloadClick = () => {

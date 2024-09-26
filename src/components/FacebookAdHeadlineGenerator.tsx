@@ -97,15 +97,25 @@ export function GenerateFbAdHeadline() {
   }, [isLoading, generatedfbAds]);
 
   const tones = [
-    { value: 'Professional', label: 'Professional' },
-    { value: 'Creative', label: 'Creative' },
-    { value: 'Humorous', label: 'Humorous' },
-    { value: 'Minimal', label: 'Minimal' },
-    { value: 'Casual', label: 'Casual' },
-    { value: 'Inspirational', label: 'Inspirational' },
-    { value: 'Formal', label: 'Formal' },
-    { value: 'Friendly', label: 'Friendly' },
-    { value: 'Serious', label: 'Serious' }
+    { value: 'informative', label: 'Informative' },
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
+    { value: 'humorous', label: 'Humorous' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
+  
 ];
 
 
