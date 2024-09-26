@@ -93,16 +93,25 @@ export function GenerateBlogIntro() {
   }, [isLoading, generatedBlogIntro]);
 
   const tones = [
-    { value: 'Formal', label: 'Formal' },
-    { value: 'Informal', label: 'Informal' },
-    { value: 'Optimistic', label: 'Optimistic' },
-    { value: 'Pessimistic', label: 'Pessimistic' },
-    { value: 'Humorous', label: 'Humorous' },
-    { value: 'Sarcastic', label: 'Sarcastic' },
-    { value: 'Joyful', label: 'Joyful' },
-    { value: 'Sad', label: 'Sad' },
-    { value: 'Serious', label: 'Serious' },
-    { value: 'Ironic', label: 'Ironic' }
+    { value: 'informative', label: 'Informative' },
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
+    { value: 'humorous', label: 'Humorous' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
+  
     // Add more tones as needed
   ];
 

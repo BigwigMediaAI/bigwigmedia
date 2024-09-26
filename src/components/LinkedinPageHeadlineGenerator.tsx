@@ -95,11 +95,25 @@ export function GenerateLinkedinPageHeadline() {
   }, [isLoading, generatedLinkedinPageHeadline]);
 
   const tones = [
-    { value: 'Professional', label: 'Professional' },
-    { value: 'Creative', label: 'Creative' },
-    { value: 'Humurous', label: 'Humurous' },
-    { value: 'Minimal', label: 'Minimal' },
-    { value: 'Informal', label: 'Informal' }
+    { value: 'informative', label: 'Informative' },
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
+    { value: 'humorous', label: 'Humorous' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
+  
     // Add more tones as needed
   ];
 
@@ -276,6 +290,21 @@ export function GenerateLinkedinPageHeadline() {
           ))}
         </select>
       </div>
+
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
+        <select
+          value={tone}
+          onChange={(e) => setTone(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          {tones.map((toneOption) => (
+            <option key={toneOption.value} value={toneOption.value}>
+              {toneOption.label}
+            </option>
+          ))}
+        </select>
+      </div>
       
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
@@ -292,20 +321,7 @@ export function GenerateLinkedinPageHeadline() {
         </select>
       </div>
       
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
-        <select
-          value={tone}
-          onChange={(e) => setTone(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        >
-          {tones.map((toneOption) => (
-            <option key={toneOption.value} value={toneOption.value}>
-              {toneOption.label}
-            </option>
-          ))}
-        </select>
-      </div>
+
       <div className='flex justify-center gap-5'>
       <div className="mb-5 flex items-center gap-4">
         <label className="text-[var(--primary-text-color)]">Use Emoji</label>

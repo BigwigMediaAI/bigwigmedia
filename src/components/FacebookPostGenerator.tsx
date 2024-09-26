@@ -95,11 +95,25 @@ export function GenerateFacebookPost() {
   }, [isLoading, generatedFbPost]);
 
   const tones = [
-    { value: 'Professional', label: 'Professional' },
-    { value: 'Creative', label: 'Creative' },
-    { value: 'Humurous', label: 'Humurous' },
-    { value: 'Minimal', label: 'Minimal' },
-    { value: 'Informal', label: 'Informal' }
+    { value: 'informative', label: 'Informative' },
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
+    { value: 'humorous', label: 'Humorous' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
+  
     // Add more tones as needed
   ];
 
