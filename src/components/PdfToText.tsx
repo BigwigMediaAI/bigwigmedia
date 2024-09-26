@@ -194,7 +194,7 @@ export function PdfToTextConverter() {
       </div>
       {isLoading && (
         <div ref={loaderRef} className="w-full flex flex-col items-center justify-center m-auto  max-w-4xl rounded-b-md">
-          <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)]" />
+          <Loader2 className="animate-spin w-20 mt-10 h-20 text-[var(--dark-gray-color)]" />
           <p className="text-[var(--dark-gray-color)] text-center mt-4">Data processing in progress. Please bear with us...</p>
         </div>
       )}
