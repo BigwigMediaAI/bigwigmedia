@@ -294,7 +294,8 @@ export function JobDescription() {
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
-      <div className="mb-5">
+      <div className='flex gap-3 w-full'>
+      <div className="mb-5 w-1/3">
         <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
@@ -306,7 +307,7 @@ export function JobDescription() {
           ))}
         </select>
       </div>
-      <div className="mb-5">
+      <div className="mb-5 w-1/3">
         <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
@@ -318,7 +319,7 @@ export function JobDescription() {
           ))}
         </select>
       </div>
-      <div className="mb-5">
+      <div className="mb-5 w-1/3">
         <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
@@ -329,6 +330,7 @@ export function JobDescription() {
             <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
           ))}
         </select>
+      </div>
       </div>
       <div className="mt-5 flex justify-center">
         <button

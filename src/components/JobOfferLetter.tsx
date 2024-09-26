@@ -102,12 +102,24 @@ export function OfferLetter() {
   }, [isLoading, generatedReviewResponse]);
 
   const tones = [
-    { value: '', label: 'Select tone' },
-    { value: 'engaging', label: 'Engaging' },
     { value: 'informative', label: 'Informative' },
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
     { value: 'humorous', label: 'Humorous' },
-    { value: 'enthusiastic', label: 'Enthusiastic' },
-    { value: 'polite', label: 'Polite' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
   ];
 
   const languages = [
@@ -285,7 +297,8 @@ export function OfferLetter() {
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
-      <div className="mb-5">
+      <div className='flex gap-5 w-full'>
+      <div className="mb-5 w-1/2">
         <label className="block text-[var(--primary-text-color)]">Start Date</label>
         <input
             type='date'
@@ -294,7 +307,7 @@ export function OfferLetter() {
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
-      <div className="mb-5">
+      <div className="mb-5 w-1/2">
         <label className="block text-[var(--primary-text-color)]">Salary</label>
         <input
           value={salary}
@@ -303,7 +316,9 @@ export function OfferLetter() {
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
-      <div className="mb-5">
+      </div>
+      <div className='flex gap-3 w-full'>
+      <div className="mb-5 w-1/3">
         <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
@@ -315,7 +330,7 @@ export function OfferLetter() {
           ))}
         </select>
       </div>
-      <div className="mb-5">
+      <div className="mb-5 w-1/3">
         <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
@@ -327,7 +342,7 @@ export function OfferLetter() {
           ))}
         </select>
       </div>
-      <div className="mb-5">
+      <div className="mb-5 w-1/3">
         <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
@@ -338,6 +353,7 @@ export function OfferLetter() {
             <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
           ))}
         </select>
+      </div>
       </div>
       <div className="mt-5 flex justify-center">
         <button
