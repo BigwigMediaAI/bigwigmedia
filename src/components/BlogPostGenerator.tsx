@@ -102,12 +102,25 @@ export function GenerateBlogPost() {
 
   const tones = [
     { value: 'informative', label: 'Informative' },
-    { value: 'Professional', label: 'Professional' },
-    { value: 'Creative', label: 'Creative' },
-    { value: 'Humorous', label: 'Humorous' },
-    { value: 'Minimal', label: 'Minimal' },
-    { value: 'Informal', label: 'Informal' }
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
+    { value: 'humorous', label: 'Humorous' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
   ];
+  
 
   const languages = [
     { value: 'Afrikaans', label: 'Afrikaans' },
@@ -229,6 +242,14 @@ export function GenerateBlogPost() {
     { value: 5, label: '5' },
   ];
 
+  const wordCounts = [
+    { value: 500, label: '500' },
+    { value: 800, label: '800' },
+    { value: 1000, label: '1000' },
+    { value: 1500, label: '1500' },
+    { value: 2000, label: '2000' }
+  ];
+
   const handleCopy = (caption:any) => {
     navigator.clipboard.writeText(caption);
     toast.success('Post copied to clipboard!');
@@ -279,13 +300,43 @@ export function GenerateBlogPost() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Enter Keywords (comma-separated)</label>
+        <label className="block text-[var(--primary-text-color)]">Enter Keywords related to Blogs (comma-separated)</label>
         <input
           value={keywords}
           onChange={(e) => setKeywords(e.target.value)}
           placeholder="AI, artificial intelligence, future technology, ethics in AI"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
+      </div>
+
+      <div className="mb-5">
+      <label className="block text-[var(--primary-text-color)]">Select Word Count</label>
+        <select
+          value={wordCount}
+          onChange={(e) => setWordCount(Number(e.target.value))}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          {wordCounts.map((wordCountOption) => (
+            <option key={wordCountOption.value} value={wordCountOption.value}>
+              {wordCountOption.label}
+            </option>
+          ))}
+        </select>
+      </div>      
+
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
+        <select
+          value={tone}
+          onChange={(e) => setTone(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          {tones.map((toneOption) => (
+            <option key={toneOption.value} value={toneOption.value}>
+              {toneOption.label}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-5">
@@ -304,13 +355,18 @@ export function GenerateBlogPost() {
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Word Count</label>
-        <input
-          type="number"
-          value={wordCount}
-          onChange={(e) => setWordCount(Number(e.target.value))}
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
+        <select
+          value={outputCount}
+          onChange={(e) => setOutputCount(Number(e.target.value))}
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        />
+        >
+          {outputCounts.map((outputOption) => (
+            <option key={outputOption.value} value={outputOption.value}>
+              {outputOption.label}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className='flex justify-center gap-5'>
@@ -337,38 +393,6 @@ export function GenerateBlogPost() {
           <span className="slider round"></span>
         </label>
       </div>
-      </div>
-
-      
-
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
-        <select
-          value={tone}
-          onChange={(e) => setTone(e.target.value)}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        >
-          {tones.map((toneOption) => (
-            <option key={toneOption.value} value={toneOption.value}>
-              {toneOption.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
-        <select
-          value={outputCount}
-          onChange={(e) => setOutputCount(Number(e.target.value))}
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-        >
-          {outputCounts.map((outputOption) => (
-            <option key={outputOption.value} value={outputOption.value}>
-              {outputOption.label}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div className="mt-5 flex justify-center">
