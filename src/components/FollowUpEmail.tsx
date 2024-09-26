@@ -252,12 +252,12 @@ export function FollowupEmail() {
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Enter the mail which you received & want to replie</label>
-        <input
-          type="text"
+        <textarea
           value={mailReceived}
           onChange={(e) => setmailReceived(e.target.value)}
           placeholder="E.g., I received your email about the upcoming project."
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)]  shadow-sm  p-3 mb-4"
+          rows={4}
         />
       </div>
       <div className="mb-5">

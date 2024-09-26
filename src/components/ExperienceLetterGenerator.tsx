@@ -263,59 +263,60 @@ export function ExperienceLetter() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Employee Name</label>
-        <input
-          value={employeeName}
-          onChange={(e) => setemployeeName(e.target.value)}
-          placeholder="E.g, John Doe"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Position</label>
-        <input
-          value={position}
-          onChange={(e) => setposition(e.target.value)}
-          placeholder='E.g, Software Engineer'
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Department</label>
-        <input
-          value={department}
-          onChange={(e) => setdepartment(e.target.value)}
-          placeholder="E.g, Designer and Developer"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Duration</label>
-        <input
-          value={duration}
-          onChange={(e) => setduration(e.target.value)}
-          placeholder="E.g, 3 years"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Achievements</label>
-        <textarea
-          value={achievements}
-          onChange={(e) => setachievements(e.target.value)}
-          placeholder="E.g, Developed key features for the company's flagship product, led a team of junior developers, improved system performance by 30%"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Company</label>
-        <input
-          value={company}
-          onChange={(e) => setcompany(e.target.value)}
-          placeholder="E.g, Tech Solutions Ltd."
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
+  <label className="block text-[var(--primary-text-color)]">Employee Full Name</label>
+  <input
+    value={employeeName}
+    onChange={(e) => setemployeeName(e.target.value)}
+    placeholder="E.g., John Doe"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Job Title/Position</label>
+  <input
+    value={position}
+    onChange={(e) => setposition(e.target.value)}
+    placeholder="E.g., Senior Software Engineer"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Department/Team</label>
+  <input
+    value={department}
+    onChange={(e) => setdepartment(e.target.value)}
+    placeholder="E.g., Design and Development"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Employment Duration</label>
+  <input
+    value={duration}
+    onChange={(e) => setduration(e.target.value)}
+    placeholder="E.g., 3 years and 6 months"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Key Achievements</label>
+  <textarea
+    value={achievements}
+    onChange={(e) => setachievements(e.target.value)}
+    placeholder="E.g., Developed core features for the company's flagship product, led a team of 5 junior developers, improved system performance by 30%"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Company Name</label>
+  <input
+    value={company}
+    onChange={(e) => setcompany(e.target.value)}
+    placeholder="E.g., Tech Solutions Ltd."
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
