@@ -140,7 +140,7 @@ export function GenerateLetterhead() {
     
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/create-letterhead`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/create-letterhead?clerkId=${userId}`, formData, {
         responseType: 'blob',
         headers: { 'Content-Type': 'multipart/form-data' },
       });

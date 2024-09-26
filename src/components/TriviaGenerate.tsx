@@ -301,15 +301,18 @@ export function TriviaGenerator() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Enter Topic</label>
-        <input
-          type="text"
-          value={topic}
-          onChange={(e) => { setTopic(e.target.value); handleInputChange(); }}
-          placeholder="Enter the topic of trivia"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
-        />
-      </div>
+  <label className="block text-[var(--primary-text-color)]">
+    Enter the Topic for Your Trivia Quiz
+  </label>
+  <input
+    type="text"
+    value={topic}
+    onChange={(e) => { setTopic(e.target.value); handleInputChange(); }}
+    placeholder="e.g. Science, History, Technology"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 mb-4"
+  />
+</div>
+
 
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Number of Questions</label>

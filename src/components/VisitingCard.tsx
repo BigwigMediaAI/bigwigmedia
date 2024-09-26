@@ -155,7 +155,7 @@ export function GenerateVisitingCard() {
 
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/visiting`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/visiting?clerkId=${userId}`, formData, {
         responseType: 'blob',
         headers: { 'Content-Type': 'multipart/form-data' },
       });
