@@ -1,36 +1,33 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { Download, Loader2, Share2 } from "lucide-react";
 import { FaSyncAlt } from "react-icons/fa";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
-import CreditLimitModal from "./Model3";
-import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
-
-
+import { PiDotsThreeOutlineVerticalBold } from "react-icons/pi";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
+import { toast } from "sonner";
 
 export function Mp3Downloader() {
-  const [videoLink, setVideoLink] = useState("");
-  const [downloadLink, setDownloadLink] = useState("");
+  const [audioLink, setAudioLink] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [videoTitle, setVideoTitle] = useState("");
-  const [thumbUrl, setThumbUrl] = useState("");
-  const [hasFetched, setHasFetched] = useState(false);
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
+  const [audioTitle, setAudioTitle] = useState<string | null>(null); // State for audio title
+  const { userId } = useAuth();
+
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [showModal3, setShowModal3] = useState(false);
-  const [credits, setCredits] = useState(0);
-  const { userId } = useAuth();
-
+  const [credits, setCredits] = useState(0);
 
   const getCredits = async () => {
     try {
       const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
       if (res.status === 200) {
         setCredits(res.data.data.currentLimit);
-        return res.data.data.currentLimit; // Return credits for immediate use
+        return res.data.data.currentLimit;
       } else {
         toast.error("Error occurred while fetching account credits");
         return 0;
@@ -38,26 +35,19 @@ export function Mp3Downloader() {
     } catch (error) {
       console.error('Error fetching credits:', error);
       toast.error("Error occurred while fetching account credits");
-      return 0;
-    }
-  };
-
-  const extractVideoId = (url: string): string | null => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : null;
+      return 0;
+    }
   };
 
   const handleDownload = async () => {
     setIsLoading(true);
     setErrorMessage(null);
-    setHasFetched(false);
-    setDownloadLink("");
-    setVideoTitle("");
-    setThumbUrl("");
+    setDownloadUrl(null);
+    setAudioTitle(null); // Reset audio title on new download
+
 
     setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+      loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 100);
 
     const currentCredits = await getCredits();
@@ -68,28 +58,20 @@ export function Mp3Downloader() {
         setShowModal3(true);
       }, 0);
       setIsLoading(false)
-      return;
-    }
+      return;
+    }
 
     try {
-      const videoId = extractVideoId(videoLink);
-      if (!videoId) {
-        throw new Error("Invalid YouTube video link");
-      }
-      const response = await axios.get(`https://youtube-mp3-download1.p.rapidapi.com/dl`, {
-        params: { id: videoId },
-        headers: {
-          'X-RapidAPI-Key': 'b3402da2eemsh9f38aabddad6fabp1be739jsn49f1254bdd37',
-          'X-RapidAPI-Host': 'youtube-mp3-download1.p.rapidapi.com'
-        }
+      const response = await axios.get(`${BASE_URL}/response/ytdl?clerkId=${userId}`, {
+        params: { url: audioLink },
       });
-      if (response.data.status === "ok") {
-        setVideoTitle(response.data.title);
-        setDownloadLink(response.data.link);
-        setThumbUrl(response.data.thumb);
-        setHasFetched(true);
+      console.log(response);
+      if (response.data.status) {
+        setDownloadUrl(response.data.data.data.audio); // Use audio URL
+        setThumbnailUrl(response.data.data.data.thumbnail);
+        setAudioTitle(response.data.data.data.title); 
       } else {
-        setErrorMessage("API Error: " + JSON.stringify(response.data));
+        throw new Error("Failed to get the download URL.");
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -102,56 +84,40 @@ export function Mp3Downloader() {
     }
   };
 
-  const handleDownloadClick = () => {
-    window.open(downloadLink, '_blank');
-  };
-
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: videoTitle,
-          text: `Check out this MP3: ${videoTitle}`,
-          url: downloadLink,
-        });
-      } catch (error) {
-        console.error("Error sharing:", error);
-      }
-    } else {
-      alert("Sharing is not supported on this browser.");
-    }
-  };
-
   const handleRefresh = () => {
     window.location.reload();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVideoLink(e.target.value);
-    setDownloadLink("");
-    setVideoTitle("");
-    setThumbUrl("");
-    setHasFetched(false);
+    setAudioLink(e.target.value);
+    setDownloadUrl(null);
     setErrorMessage(null);
+    setThumbnailUrl(null);
+    setAudioTitle(null); // Reset audio title on input change
+
   };
 
   useEffect(() => {
-    if (!isLoading && hasFetched) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth',block:'center' });
+    if (!isLoading) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  }, [isLoading, hasFetched]);
+  }, [isLoading]);
 
-  
+  const handleDownloadClick = (url: string | null) => {
+    if (url) {
+      window.open(url, "_blank");
+    }
+  };
 
   return (
     <div className="m-auto w-full max-w-xl mx-auto mt-8 bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)] rounded-lg">
-          <h3 className="text-base mb-2  text-[var(--primary-text-color)]">Copy any video link from Youtube and paste it in the box below :</h3>
+      <h3 className="text-base mb-2  text-[var(--primary-text-color)]">Copy any audio link from Youtube and paste it in the box below :</h3>
       <div className="flex items-center mb-4">
         <input
           type="text"
-          value={videoLink}
+          value={audioLink}
           onChange={handleInputChange}
-          placeholder="Paste YouTube Video Link"
+          placeholder="Paste YouTube Audio Link"
           className="w-full px-4 py-2 rounded-md border border-[var(--primary-text-color)] focus:outline-none focus:border-blue-500"
         />
         <button onClick={handleRefresh} className="ml-2 text-blue-500 hover:text-blue-700">
@@ -161,65 +127,45 @@ export function Mp3Downloader() {
       <div className="flex justify-center">
         <button
           onClick={handleDownload}
-          disabled={isLoading || !videoLink || hasFetched}
-          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full ${
-            isLoading || !videoLink || hasFetched ? 'bg-gray-500 cursor-not-allowed' : 'text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit'
+          disabled={isLoading || !audioLink}
+          className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5 ${
+            isLoading || !audioLink ? "bg-gray-500 cursor-not-allowed" : "bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)]"
           }`}
         >
           {isLoading ? (
             <>
-              
-              Downloading...
               <Loader2 className="animate-spin mr-2 inline-block" />
+              Getting Audio...
             </>
           ) : (
-            'Download MP3'
+            "Get Audio"
           )}
         </button>
       </div>
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[dark-gray-color]" />
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           <>
-            {errorMessage && (
-              <div className="text-red-500 mt-4">
-                {errorMessage}
-              </div>
-            )}
-            {thumbUrl && (
-              <div className="mt-4 flex-col items-center">
-                <img src={thumbUrl} alt="Video Thumbnail" className="w-full h-auto rounded-md" />
-                <p className="mt-2 text-lg font-semibold text-[var(--primary-text-color)]">{videoTitle}</p>
-              </div>
-            )}
-            {downloadLink && (
-              <div ref={resultsRef} className="flex items-center justify-center mt-3 gap-3">
-                <button
-                  onClick={handleDownloadClick}
-                  className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit"
-                title="Download">
-                  Download
-                  <Download/>
-                </button>
-                <button
-                  onClick={handleShare}
-                  className="text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit"
-                  title="Share"
-                >
-                  Share
-                  <Share2/>
-                </button>
+            {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
+            {thumbnailUrl && <img src={thumbnailUrl} alt="Audio Thumbnail" className="mt-4 w-full" />}
+            {downloadUrl && (
+              <div className="flex flex-col items-center mt-4">
+                <h4 className="text-lg font-semibold">{audioTitle}</h4> {/* Display audio title */}
+                <audio controls className="w-full max-w-xl rounded-lg">
+                  <source src={downloadUrl} type="audio/mp4" />
+                  Your browser does not support the audio element.
+                </audio>
               </div>
             )}
           </>
         )}
       </div>
-      <h3 className="text-sm mt-4 italic text-gray-700">Hint - To copy any video link from Youtube, click on <span className="inline-flex items-center"><BsThreeDotsVertical /></span> then click on share then after click copy link option.</h3>
-      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
+      <h3 className="text-sm mt-4 italic text-gray-700">Hint - To download audio click on <span className="inline-flex items-center"><PiDotsThreeOutlineVerticalBold /></span> button then click on Download option.</h3>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
 }
