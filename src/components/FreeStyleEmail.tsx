@@ -200,7 +200,7 @@ export function GenerateFreestyleEmailUtil() {
      
 <div className='flex gap-5 w-full'>
 <div className="mb-5 w-1/2">
-        <label className="block text-gray-700">Language</label>
+        <label className="block text-gray-700">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -319,7 +319,7 @@ export function GenerateFreestyleEmailUtil() {
         </select>
       </div>
       <div className="mb-5 w-1/2">
-        <label className="block text-gray-700">Output Count</label>
+        <label className="block text-gray-700">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}
