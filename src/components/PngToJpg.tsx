@@ -100,10 +100,6 @@ export function PNGtoJPGConverter() {
     }
   };
 
-  const refreshSelection = () => {
-    window.location.reload();
-  };
-
   const handleDownload = () => {
     const a = document.createElement("a");
     a.href = imageUrl;
@@ -174,36 +170,19 @@ export function PNGtoJPGConverter() {
             ref={fileInputRef}
           />
           <Button
-            className="border bg-white border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+            className="border border-[var(--gray-color)] text-gray-600 bg-[var(--white-color)] px-4 py-2 mb-3 rounded-md hover:bg-gray-100 w-48 text-ellipsis overflow-hidden whitespace-nowrap"
             onClick={() => document.getElementById("fileInput")?.click()}
           >
             {selectedFiles.length > 0 ? selectedFiles[0].name : "Select PNG Image"}
           </Button>
           <p className="text-gray-400">or drag and drop files</p>
-          <RefreshCw
-            className="absolute top-1 right-1 w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-            onClick={refreshSelection}
-          />
+          
         </div>
-        {/* <div className="mt-4 w-full text-center">
-          {selectedFiles.length > 0 && (
-            <ul className="list-none">
-              <li key={0} className="text-[var(--dark-gray-color)]">
-                <span className="mr-5">{selectedFiles[0].name}</span>
-                <button
-                  onClick={removeFile}
-                  className="text-[var(--dark-gray-color)] hover:text-gray-500"
-                >
-                  &#x2715;
-                </button>
-              </li>
-            </ul>
-          )}
-        </div> */}
+        
       </div>
       <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={convertPNG}
           disabled={selectedFiles.length === 0 || isLoading}
         >
@@ -214,26 +193,28 @@ export function PNGtoJPGConverter() {
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
           imageUrl && (
             <div ref={resultsRef} className="mt-5 text-center">
-              <img src={imageUrl} alt="Converted image" className="mx-auto mb-5 w-48" />
+              <img src={imageUrl} alt="Converted image" className="mx-auto mb-5 w-72" />
+              <div className="flex">
               <Button
-                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleDownload}
               title="Download">
                 Download
               </Button>
               <Button
-                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleShare}
              title="Share" >
                 Share
                 
               </Button>
+              </div>
             </div>
           )
         )}

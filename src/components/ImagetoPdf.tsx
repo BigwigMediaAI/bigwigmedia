@@ -195,7 +195,7 @@ export function JPEGtoPDFConverter() {
       </div>
       <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
           onClick={generatePDF}
           disabled={selectedFiles.length === 0 || isLoading}
         >
@@ -205,7 +205,7 @@ export function JPEGtoPDFConverter() {
       <div className="mt-5">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
@@ -214,7 +214,7 @@ export function JPEGtoPDFConverter() {
               <iframe src={pdfUrl} width="100%" height="500px"></iframe>
               <div className="flex justify-center gap-4">
                 <Button
-                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={() => {
                     const a = document.createElement("a");
                     a.href = pdfUrl;
@@ -225,12 +225,11 @@ export function JPEGtoPDFConverter() {
                   Download PDF
                 </Button>
                 <Button
-                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                  className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={sharePDF}
                   disabled={!navigator.share}
                 title="Share">
                   Share PDF
-                  <Share2 className="ml-2 w-5 h-5" />
                 </Button>
               </div>
             </div>
