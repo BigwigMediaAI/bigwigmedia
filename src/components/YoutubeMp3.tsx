@@ -85,7 +85,7 @@ export function Mp3Downloader() {
   };
 
   const handleRefresh = () => {
-    window.location.reload();
+    setAudioLink('')
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

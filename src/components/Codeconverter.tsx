@@ -146,6 +146,7 @@ document.addEventListener('copy', handleCopyEvent);
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col md:flex-col">
         <div className="w-full pr-2">
+        <label className="block text-[var(--primary-text-color)]">Write or Paste the code</label>
           <Textarea
             className="mb-5 h-40 border border-[var(--primary-text-color)]"
             placeholder="Example:
@@ -172,7 +173,7 @@ console.log(data);
           </select>
           <div className="flex w-full my-4 items-center justify-center">
             <Button
-              className={`text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)]  ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[var(--hover-teal-color)]'}`}
+              className={`text-white text-center font-outfit md:tepxt-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)]  ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[var(--hover-teal-color)]'}`}
               onClick={handleSubmit}
             >
               {isLoading ? "Generating..." : convertedCode ? "Regenerate" : "Generate"}

@@ -17,7 +17,7 @@ export function Paraphrase() {
     const [isLoading, setIsLoading] = useState(false);
     const [outputs, setOutputs] = useState<string[]>([]);
     const [selectedTone, setSelectedTone] = useState("neutral");
-    const [language, setLanguage] = useState("en"); // Default language
+    const [language, setLanguage] = useState("English"); // Default language
     const [outputCount, setOutputCount] = useState(3); // Default output count
     const { userId } = useAuth();
     const navigate = useNavigate();
@@ -166,6 +166,7 @@ export function Paraphrase() {
         <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
             <div className="flex flex-col items-start">
                 <div className="w-full pr-2 flex-1">
+                <label className="block text-[var(--primary-text-color)]">Write or Paste the Text</label>
                     <Textarea
                         className="mb-4 h-40 w-full rounded-md border-2  border-gray-300 p-4"
                         placeholder="Enter Text to Paraphrase."
@@ -351,7 +352,7 @@ export function Paraphrase() {
                 </div>
 
                 <Button
-                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60  w-fit mx-auto mt-4"
+                    className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60  w-fit mx-auto mt-4"
                     onClick={handleSubmit}
                     disabled={isLoading}
                 >
