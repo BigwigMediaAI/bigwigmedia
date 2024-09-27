@@ -99,11 +99,24 @@ export function YoutubeTitleGenerator() {
   }, [isLoading, generatedYtTitles]);
 
   const tones = [
-    { value: '', label: 'Select tone' },
-    { value: 'engaging', label: 'Engaging' },
     { value: 'informative', label: 'Informative' },
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
     { value: 'humorous', label: 'Humorous' },
-    { value: 'enthusiastic', label: 'Enthusiastic' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
   ];
 
   const languages = [
@@ -256,7 +269,7 @@ export function YoutubeTitleGenerator() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Topic</label>
+        <label className="block text-[var(--primary-text-color)]">Enter The Topic</label>
         <input
           type="text"
           value={topic}
@@ -266,7 +279,7 @@ export function YoutubeTitleGenerator() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Keywords</label>
+        <label className="block text-[var(--primary-text-color)]">Related Keywords</label>
         <input
           type="text"
           value={keywords}
@@ -286,7 +299,7 @@ export function YoutubeTitleGenerator() {
         />
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Tone</label>
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -298,7 +311,7 @@ export function YoutubeTitleGenerator() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -310,7 +323,7 @@ export function YoutubeTitleGenerator() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}

@@ -75,11 +75,11 @@ export function YoutubeVideoIdeas() {
         console.log(response.data);
         setGeneratedYtIdeas(response.data);
       } else {
-        toast.error('Error generating attention-grabbing titles. Please try again later.');
+        toast.error('Error generating Video Ideas. Please try again later.');
       }
     } catch (error) {
-      console.error('Error generating attention-grabbing titles:', error);
-      toast.error('Error generating attention-grabbing titles. Please try again later.');
+      console.error('Error generating Video Ideas:', error);
+      toast.error('Error generating Video Ideas. Please try again later.');
     } finally {
       setIsLoading(false);
     }
@@ -92,11 +92,24 @@ export function YoutubeVideoIdeas() {
   }, [isLoading, generatedYtideas]);
 
   const tones = [
-    { value: '', label: 'Select tone' },
-    { value: 'engaging', label: 'Engaging' },
     { value: 'informative', label: 'Informative' },
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
     { value: 'humorous', label: 'Humorous' },
-    { value: 'enthusiastic', label: 'Enthusiastic' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
   ];
 
   const languages = [
@@ -229,35 +242,38 @@ export function YoutubeVideoIdeas() {
     const element = document.createElement("a");
     const file = new Blob([generatedYtideas.join("\n\n")], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "youtube_titles.txt";
+    element.download = "youtube_idea.txt";
     document.body.appendChild(element);
     element.click();
   };
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Youtube Titles',
+      title: 'Youtube Idea',
       text: generatedYtideas.join("\n\n"),
     };
     try {
       await navigator.share(shareData);
     } catch (err) {
-      console.error('Error sharing youtube titles:', err);
+      console.error('Error sharing youtube ideas:', err);
     }
   };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Topic</label>
-        <input
-          type="text"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          placeholder="E.g., Tech Innovations in 2024"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
+  <label className="block text-[var(--primary-text-color)]">
+    Enter the topic
+  </label>
+  <input
+    type="text"
+    value={topic}
+    onChange={(e) => setTopic(e.target.value)}
+    placeholder="E.g., The Impact of Tech Innovations in 2024"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Tone</label>
         <select

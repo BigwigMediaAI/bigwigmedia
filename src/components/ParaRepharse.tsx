@@ -16,7 +16,7 @@ export function Rephrase() {
   const [output, setOutput] = useState<string[]>([]);
   const [language, setLanguage] = useState("English");
   const [tone, setTone] = useState("neutral");
-  const [outputCount, setOutputCount] = useState(4); // Default output count
+  const [outputCount, setOutputCount] = useState(1); // Default output count
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -149,9 +149,11 @@ document.addEventListener('copy', handleCopyEvent);
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col">
+      <label className="block text-[var(--primary-text-color)]">Enter text or paste text to rephrase</label>
         <Textarea
           className="mb-4 h-40 w-full rounded-md border-2 border-gray-300 p-4"
-          placeholder="Enter Text to Rephrase."
+          placeholder="
+Newton's First Law states that an object at rest will remain at rest, and an object in motion will continue moving at a constant velocity unless acted upon by an external force. This law, also called the Law of Inertia, emphasizes that objects resist changes to their state of motion. For example, a book on a table won't move unless pushed, and a car moving at a constant speed will continue unless friction or another force slows it down."
           value={text}
           onChange={handleTextChange}
         />
@@ -164,9 +166,13 @@ document.addEventListener('copy', handleCopyEvent);
             <ClipboardCopyIcon className="mr-2 h-5 w-5" />
             Paste Text
           </Button>
-          <div className="flex gap-4">
+          
+        </div>
+        <div className="flex gap-4 w-full">
+          <div className="w-1/3">
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
             <select
-              className="rounded-md px-2 py-1 text-gray-600  border-2 border-gray-300"
+              className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             >
@@ -282,28 +288,56 @@ document.addEventListener('copy', handleCopyEvent);
               <option value="Zulu">Zulu</option>
 
             </select>
+            </div>
+            <div className="w-1/3">
+            <label className="block text-[var(--primary-text-color)]">Select Tone</label>
             <select
-              className="rounded-md px-2 py-1 text-gray-600  border-2 border-gray-300"
-              value={tone}
-              onChange={(e) => setTone(e.target.value)}
-            >
-              <option value="neutral">Neutral</option>
-              <option value="formal">Formal</option>
-              <option value="casual">Casual</option>
-            </select>
-            <input
-              type="number"
-              className="rounded-md px-2 py-1 text-gray-600  border-2 border-gray-300 w-20"
+  className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3 mb-4"
+  value={tone}
+  onChange={(e) => setTone(e.target.value)}
+>
+  <option value="neutral">Neutral</option>
+  <option value="formal">Formal</option>
+  <option value="casual">Casual</option>
+  <option value="friendly">Friendly</option>
+  <option value="professional">Professional</option>
+  <option value="confident">Confident</option>
+  <option value="persuasive">Persuasive</option>
+  <option value="enthusiastic">Enthusiastic</option>
+  <option value="empathetic">Empathetic</option>
+  <option value="informative">Informative</option>
+  <option value="humorous">Humorous</option>
+  <option value="authoritative">Authoritative</option>
+  <option value="optimistic">Optimistic</option>
+  <option value="urgent">Urgent</option>
+  <option value="motivational">Motivational</option>
+  <option value="sarcastic">Sarcastic</option>
+  <option value="thoughtful">Thoughtful</option>
+  <option value="respectful">Respectful</option>
+  <option value="dramatic">Dramatic</option>
+  <option value="bold">Bold</option>
+  <option value="sincere">Sincere</option>
+</select>
+
+            </div>
+            <div className="w-1/3">
+            <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
+            <select
+              className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
               value={outputCount}
-              onChange={(e) => setOutputCount(parseInt(e.target.value))}
-              min={1}
-              max={10} // Adjust max number of outputs as needed
-            />
+              onChange={(e) => setOutputCount(Number(e.target.value))}
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            </div>
           </div>
-        </div>
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
@@ -311,7 +345,7 @@ document.addEventListener('copy', handleCopyEvent);
             <>
               <div ref={resultsRef} className="flex flex-col gap-4 mt-4">
                 {output.map((item, index) => (
-                  <div key={index} className="relative h-40 w-full rounded-md border-2 border-gray-300  text-gray-800 p-5 overflow-y-scroll">
+                  <div key={index} className="relative h-60 w-full rounded-md border-2 border-gray-300  text-gray-800 p-5 overflow-y-scroll">
                     <p className="mt-6 text-justify">{item}</p>
                     <Button
                       className="absolute top-2 right-2 rounded-md px-2 py-1 bg-white hover:bg-white text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
@@ -338,7 +372,7 @@ document.addEventListener('copy', handleCopyEvent);
                 ))}
               </div>
               <Button
-                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60 w-fit mx-auto mt-4"
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60 w-fit mx-auto mt-4"
                 onClick={handleSubmit}
               >
                 Regenerate
@@ -348,7 +382,7 @@ document.addEventListener('copy', handleCopyEvent);
         )}
         {!isLoading && output.length === 0 && (
           <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60  w-fit mx-auto"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] disabled:opacity-60  w-fit mx-auto"
             onClick={handleSubmit}
           >
             {isLoading ? (
