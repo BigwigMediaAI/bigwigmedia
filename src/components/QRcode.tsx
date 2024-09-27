@@ -48,6 +48,7 @@ export function QRCodeGenerator() {
       setIsLoading(false);
       return;
     }
+    setQRCode("")
 
     // Scroll to loader after a short delay to ensure it's rendered
     setTimeout(() => {
@@ -64,6 +65,8 @@ export function QRCodeGenerator() {
       return;
     }
 
+
+
     try {
       const formData = new FormData();
       formData.append("url", url);
@@ -77,7 +80,7 @@ export function QRCodeGenerator() {
       const response = await axios.post(`${BASE_URL}/response/generate?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
-
+      
       setQRCode(URL.createObjectURL(response.data));
 
       // Scroll to the QR code image after setting the QR code state

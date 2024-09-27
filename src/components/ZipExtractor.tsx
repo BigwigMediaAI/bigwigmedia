@@ -175,10 +175,6 @@ export function ZipExtractor() {
             <p className="text-text-[var(--primary-text-color)] m-4">{selectedFile.name}</p>
             <p className="text-gray-400 mb-4">Drag and drop a ZIP file here, or click to browse</p>
             
-            <RefreshCwIcon
-              className="w-8 h-8 text-gray-400 mt-2 cursor-pointer"
-              onClick={handleRefresh}
-            />
           </>
         ) : (
           <>
@@ -191,8 +187,11 @@ export function ZipExtractor() {
           </>
         )}
       </div>
+      <p className="text-red-600 mt-4 text-sm">
+       Note: Please ensure that the ZIP file contains only files and not any folders.
+      </p>
       <Button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
+        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
         onClick={handleExtract}
         disabled={isLoading || !selectedFile || extractedFiles.length > 0}
       >
@@ -208,7 +207,7 @@ export function ZipExtractor() {
         extractedFiles.length > 0 && (
           <div ref={resultsRef} className="mt-6">
             <h2 className="text-xl font-semibold mb-4">Extracted Files</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="flex gap-4 justify-center flex-wrap">
               {extractedFiles.map((file) => (
                 <div 
                   key={file.filename} 

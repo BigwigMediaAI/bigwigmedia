@@ -169,7 +169,7 @@ export function NotesGenerator() {
   document.addEventListener('copy', handleCopyEvent);
 
     return (
-      <div className="h-44 w-full rounded-md border-2 border-gray-300  text-[var(--primary-text-color)] p-5 overflow-y-scroll relative">
+      <div className="max-h-unit-8xl w-full rounded-md border-2 border-gray-300  text-[var(--primary-text-color)] p-5 overflow-y-scroll relative">
         {summaryArray.map(([sectionKey, sectionContent], sectionIndex) => (
           <div key={sectionIndex}>
             <strong>{sectionKey}:</strong>
@@ -214,9 +214,10 @@ export function NotesGenerator() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="flex flex-col">
+      <label className="block text-[var(--primary-text-color)]">Enter Text or Paste the Text</label>
         <Textarea
-          className="mb-4 h-40 w-full rounded-md border-2  border-gray-300 p-4"
-          placeholder="Enter Text to Generate Quick Notes."
+          className="mb-4 h-48 w-full rounded-md border-2  border-gray-300 p-4"
+          placeholder="Newton's First Law states that an object at rest will remain at rest, and an object in motion will continue moving at a constant velocity unless acted upon by an external force. This law, also called the Law of Inertia, emphasizes that objects resist changes to their state of motion. For example, a book on a table won't move unless pushed, and a car moving at a constant speed will continue unless friction or another force slows it down."
           value={text}
           onChange={handleTextChange}
         />
@@ -356,7 +357,7 @@ export function NotesGenerator() {
             <div className="flex flex-col gap-2 mt-4">
               {renderSummary()}
               <Button
-                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:[var(--hover-teal-color)] w-fit mx-auto mt-4"
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:[var(--hover-teal-color)] w-fit mx-auto mt-4"
                 onClick={handleSubmit}
               >
                 Regenerate
@@ -366,7 +367,7 @@ export function NotesGenerator() {
         )}
         {!isLoading && !summary && (
           <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:[var(--hover-teal-color)] w-fit mx-auto"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:[var(--hover-teal-color)] w-fit mx-auto"
             onClick={handleSubmit}
           >
             {isLoading ? (

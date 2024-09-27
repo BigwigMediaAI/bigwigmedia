@@ -178,71 +178,86 @@ document.addEventListener('copy', handleCopyEvent);
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Job Description</label>
-        <textarea
-          value={jobDescription}
-          onChange={(e) => setJobDescription(e.target.value)}
-          placeholder="Enter job description (e.g., We are looking for a skilled software developer with experience in Node.js and React)"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
-        />
-      </div>
+  <label className="block text-[var(--primary-text-color)]">
+    Job Description (Responsibilities and Requirements)
+  </label>
+  <textarea
+    value={jobDescription}
+    onChange={(e) => setJobDescription(e.target.value)}
+    placeholder="e.g., Seeking an experienced full-stack developer with proficiency in JavaScript, Node.js, and React. Responsibilities include designing scalable web applications and collaborating with cross-functional teams."
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+  />
+</div>
+
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)] ">
+    Enter Your Full Name (As it appears on official documents)
+  </label>
+  <input
+    type="text"
+    value={userName}
+    onChange={(e) => setUserName(e.target.value)}
+    placeholder="e.g., John Doe"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+  />
+</div>
+
+
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">
+    Enter Your Email Address
+  </label>
+  <input
+    type="email"
+    value={userEmail}
+    onChange={(e) => setUserEmail(e.target.value)}
+    placeholder="e.g., john.doe@example.com"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+  />
+</div>
+
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">
+    Enter Your Phone Number
+  </label>
+  <input
+    type="tel"
+    value={userPhone}
+    onChange={(e) => setUserPhone(e.target.value)}
+    placeholder="e.g., +1 (123) 456-7890"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+  />
+</div>
+
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">
+    Enter Your Address (Optional)
+  </label>
+  <input
+    type="text"
+    value={userAddress}
+    onChange={(e) => setUserAddress(e.target.value)}
+    placeholder="e.g., 1234 Elm St, Springfield, IL"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+  />
+</div>
+
+
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">
+    Enter Key Highlights / Achievements
+  </label>
+  <textarea
+    value={highlights}
+    onChange={(e) => setHighlights(e.target.value)}
+    placeholder="e.g., Led development of large-scale web applications, reduced page load times by 30%, recognized for outstanding problem-solving skills"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+  />
+</div>
+
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Your Name</label>
-        <input
-          type="text"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          placeholder="Enter your name"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
-        />
-      </div>
-
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Your Email</label>
-        <input
-          type="email"
-          value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
-          placeholder="Enter your email"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
-        />
-      </div>
-
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Your Phone</label>
-        <input
-          type="text"
-          value={userPhone}
-          onChange={(e) => setUserPhone(e.target.value)}
-          placeholder="Enter your phone number"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
-        />
-      </div>
-
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Your Address (optional)</label>
-        <input
-          type="text"
-          value={userAddress}
-          onChange={(e) => setUserAddress(e.target.value)}
-          placeholder="Enter your address"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
-        />
-      </div>
-
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Highlights</label>
-        <textarea
-          value={highlights}
-          onChange={(e) => setHighlights(e.target.value)}
-          placeholder="Enter highlights (e.g., Experience with large-scale applications, strong problem-solving skills, and a passion for technology)"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  px-3 py-2"
-        />
-      </div>
-
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -363,7 +378,7 @@ document.addEventListener('copy', handleCopyEvent);
       </div>
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Number of Outputs</label>
+        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <input
           type="number"
           value={outputCount}

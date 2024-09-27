@@ -259,41 +259,45 @@ export function RefrenceLetter() {
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Candidate Name</label>
-        <input
-          value={candidateName}
-          onChange={(e) => setcandidateName(e.target.value)}
-          placeholder="E.g, John Doe"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Relationship</label>
-        <input
-          value={relationship}
-          onChange={(e) => setrelationship(e.target.value)}
-          placeholder='E.g, former supervisor'
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">skills</label>
-        <input
-          value={skills}
-          onChange={(e) => setskills(e.target.value)}
-          placeholder="E.g, leadership, problem-solving , communication"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">achievements</label>
-        <input
-          value={achievements}
-          onChange={(e) => setachievements(e.target.value)}
-          placeholder="E.g, increased sales by 20%, led a team of 10 people, implemented a new project management system"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
+  <label className="block text-[var(--primary-text-color)]">Candidate Full Name</label>
+  <input
+    value={candidateName}
+    onChange={(e) => setcandidateName(e.target.value)}
+    placeholder="E.g., Jane Smith"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Professional Relationship</label>
+  <input
+    value={relationship}
+    onChange={(e) => setrelationship(e.target.value)}
+    placeholder="E.g., direct supervisor, team lead"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Relevant Skills</label>
+  <input
+    value={skills}
+    onChange={(e) => setskills(e.target.value)}
+    placeholder="E.g., project management, communication, critical thinking"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+
+<div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">Key Achievements</label>
+  <textarea
+    value={achievements}
+    onChange={(e) => setachievements(e.target.value)}
+    placeholder="E.g., boosted sales by 20%, led a team of 10, introduced a new project management system"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
