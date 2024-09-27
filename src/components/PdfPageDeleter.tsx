@@ -203,7 +203,7 @@ export function PdfPageDeleter() {
                 <p>It appears you don't have a PDF plugin for this browser. No biggie... you can <a href={URL.createObjectURL(pdfFile)}>click here to download the PDF file.</a></p>
               </object>
             </div>
-            <div className="flex flex-col items-center mb-5 w-full">
+            <div className="flex flex-col mb-5 w-full">
               <label className="mb-2 text-[var(--primary-text-color)]">Pages to Delete (comma-separated)</label>
               <input
                 type="text"
@@ -215,7 +215,7 @@ export function PdfPageDeleter() {
             </div>
             <div className="flex justify-center mb-5">
               <Button
-                className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bt-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${pdfFile ? '' : 'opacity-50 cursor-not-allowed'}`}
+                className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${pdfFile ? '' : 'opacity-50 cursor-not-allowed'}`}
                 onClick={handleDeleteClick}
                 disabled={!pdfFile || isLoading}
               >
@@ -228,7 +228,7 @@ export function PdfPageDeleter() {
       <div  className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
           <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
             <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         ) : (
@@ -244,16 +244,16 @@ export function PdfPageDeleter() {
                   <p>It appears you don't have a PDF plugin for this browser. No biggie... you can <a href={modifiedPdfUrl}>click here to download the PDF file.</a></p>
                 </object>
               </div>
-              <div className="mt-4 w-full text-center">
+              <div className="flex gap-5 justify-center ">
                 <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-5"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
                   onClick={handleDownloadClick}
                 title="Download">
                   Download
                   <Download className="w-6 h-6 text-white" />
                 </Button>
                 <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
                   onClick={handleShareClick}
                 title="Share">
                   Share

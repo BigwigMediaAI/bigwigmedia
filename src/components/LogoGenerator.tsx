@@ -232,7 +232,7 @@ const LogoGenerator = (props: Props) => {
       </div>
 
       <button
-        className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isLoading ? "cursor-wait" : ""}`}
+        className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs mt-10 py-4 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isLoading ? "cursor-wait" : ""}`}
         onClick={(e) => void handleSubmit(e)}
         disabled={isLoading || !companyName || !companyType}
       >

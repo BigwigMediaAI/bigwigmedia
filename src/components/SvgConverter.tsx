@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Clipboard, Share2 } from "lucide-react";
+import { Loader2, RefreshCw, Clipboard, Share2, UploadIcon } from "lucide-react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
@@ -131,18 +131,36 @@ export function SvgConverter() {
   const handleShare = async () => {
     if (navigator.share) {
       try {
+        // Fetch the image from the URL and convert it to a Blob
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+  
+        // Create a file from the Blob
+        const file = new File([blob], "converted-image.svg", { type: blob.type });
+  
+        // Use Web Share API to share the file
         await navigator.share({
           title: "Converted Image",
-          text: "Here is the converted PNG image.",
-          files: [new File([await fetch(imageUrl).then(r => r.blob())], "converted-image.png", { type: "image/png" })],
+          text: "Here is the converted SVG image.",
+          files: [file], // Ensure the file is passed correctly
         });
+  
         toast.success("Image shared successfully.");
       } catch (error) {
+        console.error("Error sharing image:", error);
         toast.error("Error sharing image. Please try again later.");
       }
     } else {
       toast.error("Sharing is not supported on this device.");
     }
+  };
+  
+
+  const handleDownload = () => {
+    const a = document.createElement("a");
+    a.href = imageUrl;
+    a.download = "converted-image.svg";
+    a.click();
   };
 
   return (
@@ -153,6 +171,7 @@ export function SvgConverter() {
         onDragOver={(e) => e.preventDefault()}
       >
         <div className="w-full flex flex-col items-center justify-center">
+        <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
           <input
             type="file"
             accept="image/jpeg, image/png"
@@ -161,59 +180,55 @@ export function SvgConverter() {
             id="imageInput"
           />
           <Button
-            className="border border-[var(--gray-color)] text-gray-600 bg-[var(--white-color)] px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
+            className="border border-[var(--gray-color)] text-gray-600 bg-[var(--white-color)] px-4 py-2 mb-3 rounded-md hover:bg-gray-100 w-48 text-ellipsis overflow-hidden whitespace-nowrap"
             onClick={() => document.getElementById("imageInput")?.click()}
           >
             {selectedFile ? selectedFile.name : "Browse Files"}
           </Button>
           <p className="text-gray-600">or drag and drop an image (JPG or PNG)</p>
         </div>
-        <RefreshCw
-          className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-          onClick={refreshSelection}
-        />
+        
       </div>
-      {isLoading && (
-        <div ref={loaderRef} className="flex flex-col items-center mt-5">
-          <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)] mt-10" />
-          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-        </div>
-      )}
-      {isImageGenerated && (
-        <div ref={resultsRef} className="flex flex-col items-center mt-5">
-          <img src={imageUrl} alt="Converted image" className="w-40 h-40 mb-4" />
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit"
-            onClick={() => {
-              const a = document.createElement("a");
-              a.href = imageUrl;
-              a.download = "converted-image.svg";
-              a.click();
-            }}
-          title="Download">
-            Download
-          </Button>
-          <Button
-                className="mt-3 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+
+      <div className="mt-5 flex justify-center">
+        <Button
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          onClick={convertImage}
+          disabled={!selectedFile}
+        >
+          {isLoading ? "Converting..." : imageUrl ? "Convert Again" : "Convert"}
+        </Button>
+      </div>
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
+            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          imageUrl && (
+            <div ref={resultsRef} className="mt-5 text-center">
+              <img src={imageUrl} alt="Converted image" className="mx-auto mb-5 w-72" />
+              <div className="flex">
+              <Button
+                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                onClick={handleDownload}
+              title="Download">
+                Download
+              </Button>
+              <Button
+                className=" text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 onClick={handleShare}
-              title="Share">
+             title="Share" >
                 Share
                 
               </Button>
-        </div>
-      )}
-      {!isImageGenerated && (
-        <div className="mt-5 flex justify-center">
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
-            onClick={convertImage}
-            disabled={!selectedFile || isLoading}
-          >
-            {isLoading ? "Converting..." : "Convert Image"}
-          </Button>
-         
-        </div>
-      )}
+              </div>
+            </div>
+          )
+        )}
+      </div>
+      
       {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
