@@ -192,9 +192,25 @@ export function Paraphrase() {
                             onChange={(e) => setSelectedTone(e.target.value)}
                             className="rounded-md border-2 border-gray-300 p-2 mb-4 w-full"
                         >
-                            <option value="neutral">Neutral</option>
-                            <option value="formal">Formal</option>
+                            <option value="informative">Informative</option>
+                            <option value="professional">Professional</option>
+                            <option value="creative">Creative</option>
+                            <option value="humorous">Humorous</option>
+                            <option value="minimal">Minimal</option>
+                            <option value="informal">Informal</option>
+                            <option value="persuasive">Persuasive</option>
+                            <option value="emotional">Emotional</option>
+                            <option value="conversational">Conversational</option>
+                            <option value="authoritative">Authoritative</option>
+                            <option value="analytical">Analytical</option>
+                            <option value="sarcastic">Sarcastic</option>
+                            <option value="optimistic">Optimistic</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="motivational">Motivational</option>
+                            <option value="friendly">Friendly</option>
                             <option value="casual">Casual</option>
+                            <option value="formal">Formal</option>
+
                         </select>
                     </div>
                     <div className="flex-col w-1/3">
