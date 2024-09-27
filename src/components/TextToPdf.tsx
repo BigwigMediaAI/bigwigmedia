@@ -135,7 +135,8 @@ export function TextToPdfConverter() {
 
   return (
     <div className="m-auto w-full max-w-2xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
-      <div className="flex items-center mb-4">
+      <div className=" items-center mb-4">
+      <label className="block text-[var(--primary-text-color)]">Write or Paste the Text</label>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -143,9 +144,7 @@ export function TextToPdfConverter() {
           rows={6}
           className="w-full px-4 py-2 rounded-md border border-[var(--primary-text-color)] focus:outline-none focus:border-blue-500"
         />
-        <button onClick={handleRefresh} className="ml-2 text-blue-500 hover:text-blue-700">
-          <FaSyncAlt />
-        </button>
+        
       </div>
       {pdfUrl && showPdf && (
         <div className="mt-4 mb-4">

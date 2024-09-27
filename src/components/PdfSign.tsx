@@ -173,10 +173,7 @@ export function PdfSignTool() {
             </Button>
             <p className="text-gray-400">or drag and drop PDF file</p>
           </div>
-          <RefreshCw
-            className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-            onClick={refreshSelection}
-          />
+          
         </div>
         {selectedFile && (
           <div className="mt-4 w-full text-center">
@@ -186,7 +183,7 @@ export function PdfSignTool() {
       </div>
       <div className="mt-5 flex justify-center">
         <Button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
           onClick={signPdf}
           disabled={!selectedFile || isLoading}
         >
