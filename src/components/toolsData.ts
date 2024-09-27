@@ -245,13 +245,6 @@ export interface Category {
       redirectTo: "/category/Paraphase Tools"
     },
     {
-      logo: "https://www.svgrepo.com/show/159920/detective.svg",
-      name: "AI Detector Tools",
-      toolCount: 1,
-      tagLine: "Identify and Analyze with Precision Using Our AI Detector Tools",
-      redirectTo: "/category/AI Detector Tools"
-    },
-    {
       logo: "https://www.svgrepo.com/show/410916/research.svg",
       name: "Humanize AI Tools",
       toolCount: 1,

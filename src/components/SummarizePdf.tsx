@@ -8,9 +8,126 @@ import { useAuth } from "@clerk/clerk-react";
 import { Loader2, Copy, RefreshCw, Upload } from 'lucide-react';
 import { FaDownload, FaShareAlt } from "react-icons/fa";
 
+
+const languages = [
+  { value: 'Afrikaans', label: 'Afrikaans' },
+  { value: 'Albanian', label: 'Albanian' },
+  { value: 'Amharic', label: 'Amharic' },
+  { value: 'Arabic', label: 'Arabic' },
+  { value: 'Armenian', label: 'Armenian' },
+  { value: 'Azerbaijani', label: 'Azerbaijani' },
+  { value: 'Basque', label: 'Basque' },
+  { value: 'Belarusian', label: 'Belarusian' },
+  { value: 'Bengali', label: 'Bengali' },
+  { value: 'Bosnian', label: 'Bosnian' },
+  { value: 'Bulgarian', label: 'Bulgarian' },
+  { value: 'Catalan', label: 'Catalan' },
+  { value: 'Cebuano', label: 'Cebuano' },
+  { value: 'Chichewa', label: 'Chichewa' },
+  { value: 'Chinese (Simplified)', label: 'Chinese (Simplified)' },
+  { value: 'Chinese (Traditional)', label: 'Chinese (Traditional)' },
+  { value: 'Corsican', label: 'Corsican' },
+  { value: 'Croatian', label: 'Croatian' },
+  { value: 'Czech', label: 'Czech' },
+  { value: 'Danish', label: 'Danish' },
+  { value: 'Dutch', label: 'Dutch' },
+  { value: 'English', label: 'English' },
+  { value: 'Esperanto', label: 'Esperanto' },
+  { value: 'Estonian', label: 'Estonian' },
+  { value: 'Filipino', label: 'Filipino' },
+  { value: 'Finnish', label: 'Finnish' },
+  { value: 'French', label: 'French' },
+  { value: 'Frisian', label: 'Frisian' },
+  { value: 'Galician', label: 'Galician' },
+  { value: 'Georgian', label: 'Georgian' },
+  { value: 'German', label: 'German' },
+  { value: 'Greek', label: 'Greek' },
+  { value: 'Gujarati', label: 'Gujarati' },
+  { value: 'Haitian Creole', label: 'Haitian Creole' },
+  { value: 'Hausa', label: 'Hausa' },
+  { value: 'Hawaiian', label: 'Hawaiian' },
+  { value: 'Hebrew', label: 'Hebrew' },
+  { value: 'Hindi', label: 'Hindi' },
+  { value: 'Hmong', label: 'Hmong' },
+  { value: 'Hungarian', label: 'Hungarian' },
+  { value: 'Icelandic', label: 'Icelandic' },
+  { value: 'Igbo', label: 'Igbo' },
+  { value: 'Indonesian', label: 'Indonesian' },
+  { value: 'Irish', label: 'Irish' },
+  { value: 'Italian', label: 'Italian' },
+  { value: 'Japanese', label: 'Japanese' },
+  { value: 'Javanese', label: 'Javanese' },
+  { value: 'Kannada', label: 'Kannada' },
+  { value: 'Kazakh', label: 'Kazakh' },
+  { value: 'Khmer', label: 'Khmer' },
+  { value: 'Kinyarwanda', label: 'Kinyarwanda' },
+  { value: 'Korean', label: 'Korean' },
+  { value: 'Kurdish (Kurmanji)', label: 'Kurdish (Kurmanji)' },
+  { value: 'Kyrgyz', label: 'Kyrgyz' },
+  { value: 'Lao', label: 'Lao' },
+  { value: 'Latin', label: 'Latin' },
+  { value: 'Latvian', label: 'Latvian' },
+  { value: 'Lithuanian', label: 'Lithuanian' },
+  { value: 'Luxembourgish', label: 'Luxembourgish' },
+  { value: 'Macedonian', label: 'Macedonian' },
+  { value: 'Malagasy', label: 'Malagasy' },
+  { value: 'Malay', label: 'Malay' },
+  { value: 'Malayalam', label: 'Malayalam' },
+  { value: 'Maltese', label: 'Maltese' },
+  { value: 'Maori', label: 'Maori' },
+  { value: 'Marathi', label: 'Marathi' },
+  { value: 'Mongolian', label: 'Mongolian' },
+  { value: 'Myanmar (Burmese)', label: 'Myanmar (Burmese)' },
+  { value: 'Nepali', label: 'Nepali' },
+  { value: 'Norwegian', label: 'Norwegian' },
+  { value: 'Odia (Oriya)', label: 'Odia (Oriya)' },
+  { value: 'Pashto', label: 'Pashto' },
+  { value: 'Persian', label: 'Persian' },
+  { value: 'Polish', label: 'Polish' },
+  { value: 'Portuguese', label: 'Portuguese' },
+  { value: 'Punjabi', label: 'Punjabi' },
+  { value: 'Romanian', label: 'Romanian' },
+  { value: 'Russian', label: 'Russian' },
+  { value: 'Samoan', label: 'Samoan' },
+  { value: 'Scots Gaelic', label: 'Scots Gaelic' },
+  { value: 'Serbian', label: 'Serbian' },
+  { value: 'Sesotho', label: 'Sesotho' },
+  { value: 'Shona', label: 'Shona' },
+  { value: 'Sindhi', label: 'Sindhi' },
+  { value: 'Sinhala', label: 'Sinhala' },
+  { value: 'Slovak', label: 'Slovak' },
+  { value: 'Slovenian', label: 'Slovenian' },
+  { value: 'Somali', label: 'Somali' },
+  { value: 'Spanish', label: 'Spanish' },
+  { value: 'Sundanese', label: 'Sundanese' },
+  { value: 'Swahili', label: 'Swahili' },
+  { value: 'Swedish', label: 'Swedish' },
+  { value: 'Tajik', label: 'Tajik' },
+  { value: 'Tamil', label: 'Tamil' },
+  { value: 'Tatar', label: 'Tatar' },
+  { value: 'Telugu', label: 'Telugu' },
+  { value: 'Thai', label: 'Thai' },
+  { value: 'Turkish', label: 'Turkish' },
+  { value: 'Turkmen', label: 'Turkmen' },
+  { value: 'Ukrainian', label: 'Ukrainian' },
+  { value: 'Urdu', label: 'Urdu' },
+  { value: 'Uyghur', label: 'Uyghur' },
+  { value: 'Uzbek', label: 'Uzbek' },
+  { value: 'Vietnamese', label: 'Vietnamese' },
+  { value: 'Welsh', label: 'Welsh' },
+  { value: 'Xhosa', label: 'Xhosa' },
+  { value: 'Yiddish', label: 'Yiddish' },
+  { value: 'Yoruba', label: 'Yoruba' },
+  { value: 'Zulu', label: 'Zulu' }
+  
+  // Add more languages as needed
+];
+
+
 export function PdfSummarizer() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [language, setLanguage] = useState("English")
   const [summary, setSummary] = useState('');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
@@ -80,6 +197,7 @@ export function PdfSummarizer() {
 
       const formData = new FormData();
       formData.append('pdf', selectedFile);
+      formData.append('language',language)
 
       const response = await axios.post(`${BASE_URL}/response/pdf-summarize?clerkId=${userId}`, formData, {
         headers: {
@@ -172,10 +290,7 @@ export function PdfSummarizer() {
             </Button>
             <p className="text-gray-400">or drag and drop PDF file</p>
           </div>
-          <RefreshCw 
-            className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-            onClick={refreshSelection} 
-          />
+          
         </div>
         {selectedFile && (
           <div className="mt-4 w-full text-center">
@@ -183,6 +298,21 @@ export function PdfSummarizer() {
           </div>
         )}
       </div>
+
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
+        <select
+          value={language}
+          onChange={(e) => { setLanguage(e.target.value) }}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm focus:border-indigo-500 focus:ring-indigo-500  p-3 mb-4"
+        >
+          <option value="">Select Language</option>
+          {languages.map((langOption) => (
+            <option key={langOption.value} value={langOption.value}>{langOption.label}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="mt-5 flex justify-center">
         <Button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"

@@ -113,7 +113,6 @@ import { VideoTranslator } from "./VideoTranslator";
 import { YouTubeTranslator } from "./YoutubeTranslator";
 import { FinanceAdvisor } from "./FinanceAdvisor";
 import { ImageCropper } from "./ImageCrop";
-import { AIDetector } from "./AiDetector";
 import { NewsSummarize } from "./NewsSummary";
 import { TextInfographic } from "./TextInfoGraphic";
 import { ImageCompressor } from "./ImageCompressor";
@@ -825,8 +824,6 @@ document.addEventListener('copy', handleCopyEvent);
         <FinanceAdvisor/>
       ) : id === "666c220d2ee240337cc199a3" ? (
         <ImageCropper/>
-      ) : id === "666da5118e6978dd891a37df" ? (
-        <AIDetector/>
       ) : id === "666da51c8e6978dd891a37e0" ? (
         <NewsSummarize/>
       ) : id === "666da52a8e6978dd891a37e1" ? (

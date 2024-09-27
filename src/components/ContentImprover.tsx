@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Loader2, Clipboard, Share2, Download } from 'lucide-react';
+import { Loader2, Clipboard, Share2, Download, Copy } from 'lucide-react';
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import CreditLimitModal from "./Model3";;
@@ -218,27 +218,25 @@ export function ContentImprover() {
     toast.success('Improved content copied to clipboard!');
   };
 
-  const handleShare = async (text: string) => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Improved Content',
-          text,
-        });
-        toast.success('Content shared successfully!');
-      } catch (error) {
-        console.error('Error sharing content:', error);
-        toast.error('Error sharing content. Please try again later.');
-      }
-    } else {
-      toast.error('Share API not supported in this browser.');
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Improved Content',
+      text: improvedContents.join("\n\n"),
+    };
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      console.error('Error sharing content:', err);
     }
   };
 
-  const handleDownload = (text: string) => {
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, 'improved-content.txt');
-    toast.success('Content downloaded successfully!');
+  const handleDownload = () => {
+    const element = document.createElement("a");
+    const file = new Blob([improvedContents.join("\n\n")], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "Content.txt";
+    document.body.appendChild(element);
+    element.click();
   };
 
   const handleInputChange = () => {
@@ -331,36 +329,45 @@ document.addEventListener('copy', handleCopyEvent);
         </div>
       )}
 
-      {improvedContents.length > 0 && (
-        <div ref={resultsRef} className="mt-6">
-          <h2 className="text-2xl text-[var(--primary-text-color)] mb-4 underline">Improved Content:</h2>
-          {improvedContents.map((content, index) => (
-            <div key={index} className="border border-[var(--primary-text-color)] rounded-md mb-4">
-              <div className="border p-4 rounded-lg relative">
-                <p className="text-[var(--primary-text-color)] whitespace-pre-line mt-5 justify-center">{content}</p>
-                <div className="absolute top-2 right-2 flex space-x-2">
-                  <button
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
-                    onClick={() => handleCopy(content)}
-                  title='Copy'>
-                    <Clipboard className="w-5 h-5" />
-                  </button>
-                  <button
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
-                    onClick={() => handleShare(content)}
-                  title='Share'>
-                    <Share2 className="w-5 h-5" />
-                  </button>
-                  <button
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
-                    onClick={() => handleDownload(content)}
-                  title='Download'>
-                    <Download className="w-5 h-5" />
-                  </button>
+{improvedContents.length > 0 && (
+        <div ref={resultsRef} className="mt-5 border p-4 rounded-lg">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-lg font-bold">Improved Content</h2>
+            <div className="flex gap-2">
+                    <button
+                    onClick={handleShare}
+                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                    title="Share"
+                    >
+                    <Share2 />
+                    </button>
+                    <button
+                    onClick={handleDownload}
+                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                    title="Download"
+                    >
+                    <Download />
+                    </button>
+                </div>
+          </div>
+          <div className="space-y-4">
+            {improvedContents.map((content, idx) => (
+              <div key={idx} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
+              <div className="flex justify-between items-center mb-2">
+                <div className="absolute top-2 right-2 space-x-2">
+                <button
+                  onClick={() => navigator.clipboard.writeText(content)}
+                  className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                  title="Copy"
+                >
+                  <Copy />
+                </button>
                 </div>
               </div>
+              <p className="text-[var(--primary-text-color)]  whitespace-pre-wrap">{content}</p>
             </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
       {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
