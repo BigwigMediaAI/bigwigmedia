@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Download, Share2 } from "lucide-react"; // Add Share2 icon
 import { BASE_URL } from "@/utils/funcitons";
 import { useAuth } from "@clerk/clerk-react";
+import BigwigLoader from "@/pages/Loader";
 
 const VOICE_TONES = ["alloy", "echo", "nova", "shimmer"];
 const LANGUAGES = [
@@ -186,10 +187,10 @@ export function YouTubeTranslator() {
       </div>
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
-          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-300" />
-            <p className="text-gray-300 text-justify">Data processing in progress. Please wait...</p>
-          </div>
+        <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+        <BigwigLoader styleType="cube" />
+        <p className="text-[var(--dark-gray-color)] text-ceter mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
         ) : (
           translatedVideoUrl && (
             <div ref={resultRef} className="m-auto w-full max-w-2xl rounded-lg dark:bg-[#3f3e3e] bg-white p-6  mt-5 flex flex-col items-center">
