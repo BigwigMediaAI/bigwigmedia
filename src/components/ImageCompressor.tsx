@@ -6,6 +6,7 @@ import { Loader2, RefreshCw, Share2, UploadIcon } from "lucide-react";
 import { useAuth } from "@clerk/clerk-react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import CreditLimitModal from "./Model3";
+import BigwigLoader from "@/pages/Loader";
 
 export function ImageCompressor() {
   const [isLoading, setIsLoading] = useState(false);
@@ -178,10 +179,10 @@ export function ImageCompressor() {
         />
       </div>
       {isLoading && (
-        <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-        <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
-        <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-      </div>
+        <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+        <BigwigLoader styleType="cube" />
+        <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
       )}
       {isImageGenerated && (
         <div className="flex flex-col items-center mt-5" ref={resultsRef}>

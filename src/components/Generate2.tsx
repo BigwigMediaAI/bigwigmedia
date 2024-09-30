@@ -244,6 +244,7 @@ import { GenerateLetterhead } from "./LetterHeadGenerator";
 import { GenerateVisitingCard } from "./VisitingCard";
 import { GenerateFreestyleEmailUtil } from "./FreeStyleEmail";
 import { GenerateEmailReplie } from "./EmailReplie";
+import BigwigLoader from "@/pages/Loader";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1151,10 +1152,10 @@ document.addEventListener('copy', handleCopyEvent);
               dangerouslySetInnerHTML={{ __html: output?.output as string }}
             />
           ) : (
-            <div className="w-full h-full flex flex-col items-center text-justify justify-center">
-              <Loader2 className="animate-spin w-20 h-20 mt-20" />
-              <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-            </div>
+            <div className="w-full flex flex-col items-center justify-center mt-10">
+            <BigwigLoader styleType="cube" />
+            <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
           )}
         </div>
       )}

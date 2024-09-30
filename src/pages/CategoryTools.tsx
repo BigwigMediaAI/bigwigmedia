@@ -10,6 +10,7 @@ import { Loader2 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import { FiArrowLeft } from 'react-icons/fi';
 import Model3 from '../components/Model3'
+import BigwigLoader from './Loader';
 
 interface Tool {
   _id: string;
@@ -201,10 +202,10 @@ const CategoryTools: React.FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-[var(--dark-gray-color)]" />
-            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-          </div>
+          <div className="w-full flex flex-col items-center justify-center mt-10">
+          <BigwigLoader styleType="cube" />
+          <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please Wait...</p>
+          </div>
         ) : filteredTools.length === 0 && categoryName === 'My Tools' ? (
           <div className="flex items-center justify-center ">
             <h1 className='text-5xl text-[var(--gray-color)]'>No Bookmarks</h1>

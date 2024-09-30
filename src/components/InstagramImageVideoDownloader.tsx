@@ -7,6 +7,7 @@ import CreditLimitModal from "./Model3";
 import { PiDotsThreeOutlineVerticalBold } from "react-icons/pi";
 import { useAuth } from "@clerk/clerk-react";
 import { toast } from "sonner";
+import BigwigLoader from "@/pages/Loader";
 
 export function InstagramImgVidDownloader() {
   const [postLink, setPostLink] = useState<string>("");
@@ -133,10 +134,10 @@ export function InstagramImgVidDownloader() {
       </div>
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {isLoading ? (
-          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-20 text-gray-600" />
-            <p className="text-gray-600">Data processing in progress. Please bear with us...</p>
-          </div>
+          <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+          <BigwigLoader styleType="cube" />
+          <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
         ) : (
           <>
             {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
