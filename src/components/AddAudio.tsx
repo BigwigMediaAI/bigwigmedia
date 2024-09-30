@@ -347,9 +347,9 @@ export function VideoAudioTrimmer() {
 
       <div className="w-full pl-2 flex flex-col gap-2 justify-between">
         {showLoader && (
-          <div ref={loaderRef} className="w-full mt-10 flex flex-col items-center justify-center">
-          <BigwigLoader styleType="cube"  />
-          <p className="mt-5 text-[var(--dark-gray-color)] text-center">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          <div ref={loaderRef} className="w-full flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin w-20 h-20 mt-5 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
           </div>
         )}
         {outputVideoUrl && (

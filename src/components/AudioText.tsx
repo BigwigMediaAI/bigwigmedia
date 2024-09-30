@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
 import { Loader2, Share2 } from "lucide-react";
-import BigwigLoader from "@/pages/BigwigLoader";
 
 enum WordOptions {
   ALLOY = "alloy",
@@ -26,11 +25,11 @@ enum WordOptions {
   FABLE = "fable",
   ONYX = "onyx",
   NOVA = "nova",
-  SHIMMER = "shimmer"
+  SHIMMER = "shimmer",
 }
 
 const AudioText = () => {
-  const [file, setfile] = useState<string>("");
+  const [file, setFile] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [audioBuffer, setAudioBuffer] = useState<string>("");
   const [tone, setTone] = useState<WordOptions>(WordOptions.ALLOY);
@@ -38,7 +37,7 @@ const AudioText = () => {
   const key = import.meta.env.VITE_OPEN_API_KEY_AUDIO as string;
   const openai = new OpenAI({ apiKey: key, dangerouslyAllowBrowser: true });
 
-  const ref = useRef(null);
+  const audioRef = useRef<HTMLAudioElement>(null); // Ref for audio element
 
   const handleTranscribe = async (e: any) => {
     e.preventDefault();
@@ -63,7 +62,7 @@ const AudioText = () => {
       const blob = new Blob([arrayBuffer], { type: "audio/mpeg" });
       const objectURL = URL.createObjectURL(blob);
 
-      setAudioBuffer(objectURL);
+      setAudioBuffer(objectURL); // Set the audio URL
 
       if (mp3.status === 200) {
         await axios.post(`${BASE_URL2}/limits/decrease?clerkId=${userId}`);
@@ -71,7 +70,11 @@ const AudioText = () => {
     } catch (error: any) {
       toast.error("There has been a problem with your fetch operation:", error);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Remove the loader after processing
+      if (audioRef.current) {
+        audioRef.current.load(); // Load new audio source
+        audioRef.current.play(); // Automatically play the audio once ready
+      }
     }
   };
 
@@ -79,12 +82,12 @@ const AudioText = () => {
     if (!audioBuffer) return;
 
     try {
-      const blob = await fetch(audioBuffer).then(res => res.blob());
-      const file = new File([blob], 'audio_file.mp3', { type: blob.type });
+      const blob = await fetch(audioBuffer).then((res) => res.blob());
+      const file = new File([blob], "audio_file.mp3", { type: blob.type });
 
       if (navigator.share) {
         await navigator.share({
-          title: 'Generated Audio',
+          title: "Generated Audio",
           files: [file],
         });
         toast.success("Audio shared successfully.");
@@ -107,7 +110,7 @@ const AudioText = () => {
           className="mb-4 h-24 w-full min-w-[300px] rounded-md border-2 border-gray-300 p-4"
           placeholder="Enter Prompt to generate audio"
           value={file}
-          onChange={(e) => setfile(e.target.value)}
+          onChange={(e) => setFile(e.target.value)}
         />
       </div>
 
@@ -137,37 +140,41 @@ const AudioText = () => {
         Generate
       </Button>
 
-      {isLoading && (
-        <div className="w-full mt-10 flex flex-col items-center justify-center">
-        <BigwigLoader styleType="cube"  />
-        <p className="mt-5 text-[var(--dark-gray-color)] text-center">Processing your data. Please bear with us as we ensure the best results for you...</p>
-        </div>
-      )}
-
-      <audio controls key={audioBuffer} autoPlay className="mx-auto">
+      <audio ref={audioRef} controls className="mx-auto">
         <source src={audioBuffer} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
 
-      {audioBuffer && (
-        <div className="flex justify-center gap-4 mt-4">
-          <a
-            href={audioBuffer}
-            download="audio_file.mp3"
-            className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
-            title="Download"
-          >
-            Download
-          </a>
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
-            onClick={handleShareClick}
-            title="Share"
-          >
-            Share
-          </Button>
-        </div>
-      )}
+      <div className="mt-5">
+        {isLoading ? (
+          <div className="w-full flex flex-col items-center justify-center">
+          <Loader2 className="animate-spin w-20 h-20 mt-5 text-[var(--dark-gray-color)]" />
+          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
+          </div>
+        ) : (
+          audioBuffer && (
+            <div className="flex justify-center gap-4 mt-4">
+              <a
+                href={audioBuffer}
+                download="audio_file.mp3"
+                className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                title="Download"
+              >
+                Download
+              </a>
+              <Button
+                className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                onClick={handleShareClick}
+                title="Share"
+              >
+                Share
+              </Button>
+            </div>
+          )
+        )}
+      </div>
+
+     
     </div>
   );
 };

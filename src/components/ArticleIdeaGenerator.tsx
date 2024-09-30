@@ -7,7 +7,6 @@ import { useAuth } from "@clerk/clerk-react";
 import { validateInput } from '@/utils/validateInput';
 import CreditLimitModal from './Model3';
 import '../App.css'
-import BigwigLoader from '@/pages/BigwigLoader';
 
 export function GenerateArticleIdea() {
   const [isLoading, setIsLoading] = useState(false);
@@ -327,10 +326,10 @@ export function GenerateArticleIdea() {
       
       <div className="mt-5">
         {isLoading ? (
-            <div ref={loaderRef} className="w-full mt-10 flex flex-col items-center justify-center">
-            <BigwigLoader styleType="cube"  />
-            <p className="mt-5 text-[var(--dark-gray-color)] text-center">Processing your data. Please bear with us as we ensure the best results for you...</p>
-            </div>
+           <div ref={loaderRef} className="w-full flex flex-col items-center justify-center">
+           <Loader2 className="animate-spin w-20 h-20 mt-5 text-[var(--dark-gray-color)]" />
+           <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
+           </div>
         ) : (
             generatedArticleIdea.length > 0 && (
             <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
