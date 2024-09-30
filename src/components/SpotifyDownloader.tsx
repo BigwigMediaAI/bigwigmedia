@@ -6,6 +6,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import CreditLimitModal from "./Model3";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
+import BigwigLoader from "@/pages/Loader";
 
 export function SpotifyMp3Downloader() {
   const [spotifyLink, setSpotifyLink] = useState("");
@@ -148,10 +149,10 @@ export function SpotifyMp3Downloader() {
       </div>
 
       {isLoading && (
-        <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-10 text-[dark-gray-color]" />
-          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress...</p>
-        </div>
+        <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+        <BigwigLoader styleType="cube" />
+        <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
       )}
 
       {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}

@@ -7,6 +7,7 @@ import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 import { Loader2, Copy, RefreshCw, Upload } from 'lucide-react';
 import { FaDownload, FaShareAlt } from "react-icons/fa";
+import BigwigLoader from '@/pages/Loader';
 
 
 const languages = [
@@ -323,10 +324,10 @@ export function PdfSummarizer() {
         </Button>
       </div>
       {isLoading && (
-        <div ref={loaderRef} className="mt-5 w-full flex flex-col items-center justify-center dark:bg-[#3f3e3e] m-auto  max-w-4xl rounded-b-md">
-          <Loader2 className="animate-spin w-20 h-20 text-[var(--dark-gray-color)]" />
-          <p className="text-[var(--dark-gray-color)] text-center mt-4">Data processing in progress. Please bear with us...</p>
-        </div>
+        <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+        <BigwigLoader styleType="cube" />
+        <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
       )}
       {summary && (
         <div ref={resultRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner">

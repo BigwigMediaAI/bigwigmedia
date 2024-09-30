@@ -8,6 +8,7 @@ import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 
 import zip from "../assets/zip.svg";
+import BigwigLoader from "@/pages/Loader";
 
 export function FileToZipConverter() {
   const [isLoading, setIsLoading] = useState(false);
@@ -209,10 +210,10 @@ export function FileToZipConverter() {
 
       <div className="mt-5">
         {isLoading ? (
-          <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-            <Loader2 className="animate-spin w-20 h-20 mt-10 text-[var(--dark-gray-color)]" />
-            <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-          </div>
+          <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+          <BigwigLoader styleType="cube" />
+          <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
         ) : (
           zipFile && (
             <div ref={resultsRef} className="mt-5 text-center">

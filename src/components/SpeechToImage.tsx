@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { validateInput } from "@/utils/validateInput";
+import BigwigLoader from "@/pages/Loader";
 
 const buttonLabels = [
   "Professional",
@@ -305,10 +306,10 @@ const GeneratorImage: React.FC<Props> = () => {
 </button>
 
 {isLoading ? (
-  <div ref={loaderRef} className="w-full h-full flex flex-col items-center justify-center">
-    <Loader2 className="animate-spin w-20 h-20 mt-10" />
-    <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-  </div>
+  <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+  <BigwigLoader styleType="cube" />
+  <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
 ) : (
   !!output.length && (
     <div ref={resultsRef} className="h-fit w-full mt-20 justify-center rounded-md border-2 border-gray-300  py-10 flex flex-row flex-wrap gap-5 text-gray-800 p-5 ">
