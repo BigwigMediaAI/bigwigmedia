@@ -338,7 +338,7 @@ Newton's First Law states that an object at rest will remain at rest, and an obj
           </div>
         {isLoading ? (
           <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
-          <BigwigLoader styleType="cube" />
+          <BigwigLoader />
           <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
           </div>
         ) : (

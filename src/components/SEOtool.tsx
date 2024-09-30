@@ -141,7 +141,7 @@ Digital media"
         <div className="w-full  pl-2 flex flex-col gap-2 justify-between">
           {isLoading ? (
             <div className="w-full flex flex-col items-center justify-center mt-10">
-            <BigwigLoader styleType="cube" />
+            <BigwigLoader />
             <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
           </div>
           ) : data.length > 0 ? (

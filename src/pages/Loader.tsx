@@ -1,29 +1,16 @@
-import React from "react";
-import './loader.css'; // Import the CSS file
+import React from 'react';
+import './loader.css'; // Import the corresponding CSS
 
-interface BigwigLoaderProps {
-    styleType: 
-      | "spin" 
-      | "bounce" 
-      | "grow" 
-      | "cube" 
-      | "ripple" 
-      | "flip" 
-      | "wave" 
-      | "rotate" 
-      | "pulse" 
-      | "scatter"; // Added new style types
-  }
-  
-
-const BigwigLoader: React.FC<BigwigLoaderProps> = ({ styleType }) => {
+const BigwigLoader: React.FC = () => {
   return (
-    <div className={`bigwig-loader loader-${styleType}`}>
-      <div className="bigwig-circle">
-        <div className="bigwig-ai-text">
-          <span className="bigwig-a">A</span>
-          <span className="bigwig-i">I</span>
-        </div>
+    <div className="loader-container">
+      <div className="flipping-cards">
+        <div className="card">B</div>
+        <div className="card">I</div>
+        <div className="card">G</div>
+        <div className="card">W</div>
+        <div className="card">I</div>
+        <div className="card">G</div>
       </div>
     </div>
   );

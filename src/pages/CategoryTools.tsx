@@ -203,7 +203,7 @@ const CategoryTools: React.FC = () => {
 
         {isLoading ? (
           <div className="w-full flex flex-col items-center justify-center mt-10">
-          <BigwigLoader styleType="cube" />
+          <BigwigLoader />
           <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please Wait...</p>
           </div>
         ) : filteredTools.length === 0 && categoryName === 'My Tools' ? (
