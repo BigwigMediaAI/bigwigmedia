@@ -11,6 +11,7 @@ export function GenerateEmailReplie() {
   const [isLoading, setIsLoading] = useState(false);
   const [to, setTo] = useState('');
   const [receivedEmail, setreceivedEmail] = useState('');
+  const [replyIntent, setreplyIntent] = useState('');
   const [tone, setTone] = useState('');
   const [language, setLanguage] = useState('en');
   const [outputCount, setOutputCount] = useState(1);
@@ -58,7 +59,7 @@ export function GenerateEmailReplie() {
 
     try {
       const response = await axios.post(`${BASE_URL}/response/generateemailreplie?clerkId=${userId}`, {
-        to, receivedEmail, tone, language, outputCount
+        to, receivedEmail, tone, language, outputCount,replyIntent
       });
 
       if (response.status === 200) {
@@ -117,6 +118,16 @@ export function GenerateEmailReplie() {
           value={receivedEmail}
           onChange={(e) => setreceivedEmail(e.target.value)}
           placeholder="Thank you for your message. I wanted to ask for a follow-up on our project."
+          className="w-full p-3 border rounded-md shadow-sm"
+          rows={4}
+        />
+      </div>
+      <div className="mb-5">
+        <label className="block text-gray-700">What you want to reply : </label>
+        <textarea
+          value={replyIntent}
+          onChange={(e) => setreplyIntent(e.target.value)}
+          placeholder=""
           className="w-full p-3 border rounded-md shadow-sm"
           rows={4}
         />
