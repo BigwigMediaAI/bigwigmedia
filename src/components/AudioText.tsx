@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
 import { Loader2, Share2 } from "lucide-react";
+import BigwigLoader from "@/pages/Loader";
 
 enum WordOptions {
   ALLOY = "alloy",
@@ -147,10 +148,10 @@ const AudioText = () => {
 
       <div className="mt-5">
         {isLoading ? (
-          <div className="w-full flex flex-col items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-5 text-[var(--dark-gray-color)]" />
-          <p className="text-[var(--dark-gray-color)] text-justify">Data processing in progress. Please bear with us...</p>
-          </div>
+          <div className="w-full flex flex-col items-center justify-center mt-10">
+          <BigwigLoader styleType="cube" />
+          <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
         ) : (
           audioBuffer && (
             <div className="flex justify-center gap-4 mt-4">
