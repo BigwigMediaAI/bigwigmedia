@@ -132,6 +132,7 @@ const AudioText = () => {
 
       <Button
         className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+        className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-6 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
         onClick={(e) => void handleTranscribe(e)}
       >
         Generate

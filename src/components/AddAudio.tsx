@@ -336,7 +336,7 @@ export function VideoAudioTrimmer() {
         <div className="flex justify-center mt-10 mb-5">
         
           <Button
-            className={`text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${selectedVideoFile && selectedAudioFile ? '' : 'opacity-50 cursor-not-allowed'}`}
+            className={`text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-base py-6 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${selectedVideoFile && selectedAudioFile ? '' : 'opacity-50 cursor-not-allowed'}`}
             onClick={handleConvertClick}
             disabled={!selectedVideoFile || !selectedAudioFile || isLoading}
           >
