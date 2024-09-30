@@ -10,7 +10,6 @@ import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import CreditLimitModal from "./Model3";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/clerk-react";
-import BigwigLoader from "@/pages/BigwigLoader";
 
 
 export function VideoAudioTrimmer() {

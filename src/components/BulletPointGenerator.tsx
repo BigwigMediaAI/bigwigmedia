@@ -6,7 +6,6 @@ import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 import { validateInput } from '@/utils/validateInput';
-import BigwigLoader from '@/pages/BigwigLoader';
 
 export function BulletPointGenerator() {
   const [isLoading, setIsLoading] = useState(false);
