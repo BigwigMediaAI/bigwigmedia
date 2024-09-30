@@ -187,7 +187,7 @@ const Footer = () => {
               BigWig Media AI Tools
             </div>
             <div className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
-              Made with ❤ by{" "}
+              Made with <span className="text-red-600">❤</span> by{" "}
               <button onClick={() => window.open("https://bigwigmedia.in")}>BigWigMedia</button>
             </div>
           </div>

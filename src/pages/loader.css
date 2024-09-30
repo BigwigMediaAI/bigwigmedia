@@ -1,0 +1,201 @@
+/* Loader container */
+.bigwig-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust height based on where it's used */
+  }
+  
+  /* Circular background with updated color */
+  .bigwig-circle {
+    width: 70px;
+    height: 70px;
+    background-color: #343474; /* Updated color */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  /* AI text styling */
+  .bigwig-ai-text {
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    gap: 0.2rem; /* Adjust the spacing between A and I */
+  }
+  
+  /* Spin animation */
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Bounce animation */
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  /* Grow animation */
+  @keyframes grow {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+  
+  /* Rotate cube animation */
+  @keyframes rotateCube {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+  
+  /* Ripple animation */
+  @keyframes ripple {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  
+  /* Flip animation */
+  @keyframes flip {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(180deg);
+    }
+  }
+  
+  /* Wave animation */
+  @keyframes wave {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(-10px);
+    }
+    50% {
+      transform: translateY(5px);
+    }
+    75% {
+      transform: translateY(-5px);
+    }
+  }
+  
+  /* Rotate animation */
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Pulse animation */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Scatter animation */
+  @keyframes scatter {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(-10px, -10px);
+    }
+    50% {
+      transform: translate(10px, 10px);
+    }
+    75% {
+      transform: translate(-10px, 10px);
+    }
+  }
+  
+  /* Loader Styles */
+  .loader-spin .bigwig-circle {
+    animation: spin 2s infinite linear; /* Spinning effect */
+  }
+  
+  .loader-bounce .bigwig-circle {
+    animation: bounce 1s infinite ease-in-out; /* Bouncing effect */
+  }
+  
+  .loader-grow .bigwig-circle {
+    animation: grow 1.5s infinite ease-in-out; /* Growing effect */
+  }
+  
+  .loader-cube .bigwig-circle {
+    width: 50px;
+    height: 50px;
+    animation: rotateCube 2s infinite linear; /* Rotating effect */
+  }
+  
+  .loader-ripple .bigwig-circle {
+    background-color: transparent; /* Transparent to show ripples */
+    overflow: hidden;
+  }
+  
+  .loader-ripple .bigwig-circle::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(52, 52, 116, 0.6); /* Color for ripples */
+    border-radius: 50%;
+    animation: ripple 1.5s infinite ease-in-out; /* Ripple effect */
+  }
+  
+  .loader-flip .bigwig-circle {
+    animation: flip 1.5s infinite ease-in-out; /* Flip effect */
+  }
+  
+  .loader-wave .bigwig-circle {
+    animation: wave 1s infinite ease-in-out; /* Wave effect */
+  }
+  
+  .loader-rotate .bigwig-circle {
+    animation: rotate 2s infinite linear; /* Rotation effect */
+  }
+  
+  .loader-pulse .bigwig-circle {
+    animation: pulse 1.5s infinite ease-in-out; /* Pulse effect */
+  }
+  
+  .loader-scatter .bigwig-circle {
+    animation: scatter 1.5s infinite ease-in-out; /* Scatter effect */
+  }
+  

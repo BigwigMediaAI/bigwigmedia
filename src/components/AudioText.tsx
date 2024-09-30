@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
 import { Loader2, Share2 } from "lucide-react";
+import BigwigLoader from "@/pages/BigwigLoader";
 
 enum WordOptions {
   ALLOY = "alloy",
@@ -130,12 +131,18 @@ const AudioText = () => {
       </Select>
 
       <Button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+        className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
         onClick={(e) => void handleTranscribe(e)}
       >
-        {isLoading && <Loader2 className="animate-spin w-7 h-7" />}
         Generate
       </Button>
+
+      {isLoading && (
+        <div className="w-full mt-10 flex flex-col items-center justify-center">
+        <BigwigLoader styleType="cube"  />
+        <p className="mt-5 text-[var(--dark-gray-color)] text-center">Processing your data. Please bear with us as we ensure the best results for you...</p>
+        </div>
+      )}
 
       <audio controls key={audioBuffer} autoPlay className="mx-auto">
         <source src={audioBuffer} type="audio/mpeg" />
@@ -147,13 +154,13 @@ const AudioText = () => {
           <a
             href={audioBuffer}
             download="audio_file.mp3"
-            className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-1 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
             title="Download"
           >
             Download
           </a>
           <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+            className="text-white text-center font-outfit md:text-lg font-semibold flex text-xs py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
             onClick={handleShareClick}
             title="Share"
           >
