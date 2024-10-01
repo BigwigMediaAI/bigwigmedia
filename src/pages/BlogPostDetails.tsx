@@ -11,6 +11,7 @@ import { useUser } from '@clerk/clerk-react';
 import { emails } from '@/utils/email'; // List of admin emails
 import { BASE_URL } from "@/utils/funcitons";
 import Comments from './Comments';
+import BigwigLoader from './Loader';
 
 const toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],
@@ -122,7 +123,10 @@ const BlogPostDetails = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className='flex flex-col items-center justify-center h-screen'>
+    <BigwigLoader />
+    <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please Wait...</p>
+    </div>  ;
   }
 
   if (error) {

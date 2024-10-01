@@ -8,6 +8,7 @@ import { emails } from "@/utils/email";
 import { FaEdit, FaTrashAlt, FaPlus, FaSearch } from 'react-icons/fa';
 import debounce from 'lodash.debounce';
 import { BASE_URL } from "@/utils/funcitons";
+import BigwigLoader from './Loader';
 
 
 type BlogPost = {
@@ -132,7 +133,10 @@ const Blog = () => {
   }, [searchQuery, debouncedSearch]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className='flex flex-col items-center justify-center h-screen'>
+      <BigwigLoader />
+      <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please Wait...</p>
+      </div>  ;
   }
 
   if (error) {
