@@ -245,6 +245,7 @@ import { GenerateVisitingCard } from "./VisitingCard";
 import { GenerateFreestyleEmailUtil } from "./FreeStyleEmail";
 import { GenerateEmailReplie } from "./EmailReplie";
 import BigwigLoader from "@/pages/Loader";
+import { AudioRephraser } from "./AudioRephrase";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1087,6 +1088,8 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateFreestyleEmailUtil/>
       ):id === "6609a5666231c9382088ec5c" ? (
         <GenerateEmailReplie/>
+      ):id === "66fe7775200b2c17bcbeb484" ? (
+        <AudioRephraser/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">

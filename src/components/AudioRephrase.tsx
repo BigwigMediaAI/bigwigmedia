@@ -8,16 +8,16 @@ import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 import BigwigLoader from "@/pages/Loader";
 
-const VOICE_TONES = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"];
 
-export function AudioTranslation() {
+
+export function AudioRephraser() {
   const [isLoading, setIsLoading] = useState(false);
   const [translatedAudioUrl, setTranslatedAudioUrl] = useState<string | null>(null);
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [targetLanguage, setTargetLanguage] = useState<string>('en');
-  const [voiceTone, setVoiceTone] = useState<string>(VOICE_TONES[0]);
+  const [tone, settone] = useState('nova');
+  const [targetLanguage, setTargetLanguage] = useState('English');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -25,6 +25,127 @@ export function AudioTranslation() {
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
+
+  const VOICE_TONES = [
+    { value: 'alloy', label: 'alloy' },
+{ value: 'echo', label: 'echo' },
+{ value: 'nova', label: 'nova' },
+{ value: 'fable', label: 'fable' },
+{ value: 'onyx', label: 'onyx' },
+{ value: 'shimmer', label: 'shimmer' }
+  ];
+
+  const languages = [
+    { value: 'Afrikaans', label: 'Afrikaans' },
+{ value: 'Albanian', label: 'Albanian' },
+{ value: 'Amharic', label: 'Amharic' },
+{ value: 'Arabic', label: 'Arabic' },
+{ value: 'Armenian', label: 'Armenian' },
+{ value: 'Azerbaijani', label: 'Azerbaijani' },
+{ value: 'Basque', label: 'Basque' },
+{ value: 'Belarusian', label: 'Belarusian' },
+{ value: 'Bengali', label: 'Bengali' },
+{ value: 'Bosnian', label: 'Bosnian' },
+{ value: 'Bulgarian', label: 'Bulgarian' },
+{ value: 'Catalan', label: 'Catalan' },
+{ value: 'Cebuano', label: 'Cebuano' },
+{ value: 'Chichewa', label: 'Chichewa' },
+{ value: 'Chinese (Simplified)', label: 'Chinese (Simplified)' },
+{ value: 'Chinese (Traditional)', label: 'Chinese (Traditional)' },
+{ value: 'Corsican', label: 'Corsican' },
+{ value: 'Croatian', label: 'Croatian' },
+{ value: 'Czech', label: 'Czech' },
+{ value: 'Danish', label: 'Danish' },
+{ value: 'Dutch', label: 'Dutch' },
+{ value: 'English', label: 'English' },
+{ value: 'Esperanto', label: 'Esperanto' },
+{ value: 'Estonian', label: 'Estonian' },
+{ value: 'Filipino', label: 'Filipino' },
+{ value: 'Finnish', label: 'Finnish' },
+{ value: 'French', label: 'French' },
+{ value: 'Frisian', label: 'Frisian' },
+{ value: 'Galician', label: 'Galician' },
+{ value: 'Georgian', label: 'Georgian' },
+{ value: 'German', label: 'German' },
+{ value: 'Greek', label: 'Greek' },
+{ value: 'Gujarati', label: 'Gujarati' },
+{ value: 'Haitian Creole', label: 'Haitian Creole' },
+{ value: 'Hausa', label: 'Hausa' },
+{ value: 'Hawaiian', label: 'Hawaiian' },
+{ value: 'Hebrew', label: 'Hebrew' },
+{ value: 'Hindi', label: 'Hindi' },
+{ value: 'Hmong', label: 'Hmong' },
+{ value: 'Hungarian', label: 'Hungarian' },
+{ value: 'Icelandic', label: 'Icelandic' },
+{ value: 'Igbo', label: 'Igbo' },
+{ value: 'Indonesian', label: 'Indonesian' },
+{ value: 'Irish', label: 'Irish' },
+{ value: 'Italian', label: 'Italian' },
+{ value: 'Japanese', label: 'Japanese' },
+{ value: 'Javanese', label: 'Javanese' },
+{ value: 'Kannada', label: 'Kannada' },
+{ value: 'Kazakh', label: 'Kazakh' },
+{ value: 'Khmer', label: 'Khmer' },
+{ value: 'Kinyarwanda', label: 'Kinyarwanda' },
+{ value: 'Korean', label: 'Korean' },
+{ value: 'Kurdish (Kurmanji)', label: 'Kurdish (Kurmanji)' },
+{ value: 'Kyrgyz', label: 'Kyrgyz' },
+{ value: 'Lao', label: 'Lao' },
+{ value: 'Latin', label: 'Latin' },
+{ value: 'Latvian', label: 'Latvian' },
+{ value: 'Lithuanian', label: 'Lithuanian' },
+{ value: 'Luxembourgish', label: 'Luxembourgish' },
+{ value: 'Macedonian', label: 'Macedonian' },
+{ value: 'Malagasy', label: 'Malagasy' },
+{ value: 'Malay', label: 'Malay' },
+{ value: 'Malayalam', label: 'Malayalam' },
+{ value: 'Maltese', label: 'Maltese' },
+{ value: 'Maori', label: 'Maori' },
+{ value: 'Marathi', label: 'Marathi' },
+{ value: 'Mongolian', label: 'Mongolian' },
+{ value: 'Myanmar (Burmese)', label: 'Myanmar (Burmese)' },
+{ value: 'Nepali', label: 'Nepali' },
+{ value: 'Norwegian', label: 'Norwegian' },
+{ value: 'Odia (Oriya)', label: 'Odia (Oriya)' },
+{ value: 'Pashto', label: 'Pashto' },
+{ value: 'Persian', label: 'Persian' },
+{ value: 'Polish', label: 'Polish' },
+{ value: 'Portuguese', label: 'Portuguese' },
+{ value: 'Punjabi', label: 'Punjabi' },
+{ value: 'Romanian', label: 'Romanian' },
+{ value: 'Russian', label: 'Russian' },
+{ value: 'Samoan', label: 'Samoan' },
+{ value: 'Scots Gaelic', label: 'Scots Gaelic' },
+{ value: 'Serbian', label: 'Serbian' },
+{ value: 'Sesotho', label: 'Sesotho' },
+{ value: 'Shona', label: 'Shona' },
+{ value: 'Sindhi', label: 'Sindhi' },
+{ value: 'Sinhala', label: 'Sinhala' },
+{ value: 'Slovak', label: 'Slovak' },
+{ value: 'Slovenian', label: 'Slovenian' },
+{ value: 'Somali', label: 'Somali' },
+{ value: 'Spanish', label: 'Spanish' },
+{ value: 'Sundanese', label: 'Sundanese' },
+{ value: 'Swahili', label: 'Swahili' },
+{ value: 'Swedish', label: 'Swedish' },
+{ value: 'Tajik', label: 'Tajik' },
+{ value: 'Tamil', label: 'Tamil' },
+{ value: 'Tatar', label: 'Tatar' },
+{ value: 'Telugu', label: 'Telugu' },
+{ value: 'Thai', label: 'Thai' },
+{ value: 'Turkish', label: 'Turkish' },
+{ value: 'Turkmen', label: 'Turkmen' },
+{ value: 'Ukrainian', label: 'Ukrainian' },
+{ value: 'Urdu', label: 'Urdu' },
+{ value: 'Uyghur', label: 'Uyghur' },
+{ value: 'Uzbek', label: 'Uzbek' },
+{ value: 'Vietnamese', label: 'Vietnamese' },
+{ value: 'Welsh', label: 'Welsh' },
+{ value: 'Xhosa', label: 'Xhosa' },
+{ value: 'Yiddish', label: 'Yiddish' },
+{ value: 'Yoruba', label: 'Yoruba' },
+{ value: 'Zulu', label: 'Zulu' }
+  ];
 
   const getCredits = async () => {
     try {
@@ -85,10 +206,10 @@ export function AudioTranslation() {
       const inputRef = fileInputRef.current;
       if (!inputRef || !inputRef.files) return;
       formData.append("audio", inputRef.files[0]);
+      formData.append("tone", tone);
       formData.append("targetLanguage", targetLanguage);
-      formData.append("voiceTone", voiceTone);
 
-      const response = await axios.post(`${BASE_URL}/response/audio-translate?clerkId=${userId}`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/audioRepharse?clerkId=${userId}`, formData, {
         responseType: 'blob'
       });
 
@@ -178,49 +299,39 @@ export function AudioTranslation() {
             <audio controls src={audioUrl} ref={audioPlayerRef} className="w-full mb-4" />
           </div>
         )}
-        <div className="flex justify-between items-center mb-5 w-full">
-          <div className="w-1/2 mr-2">
-            <label htmlFor="targetLanguage" className="mb-2 text-[var(--dark-gray-color)]">Target Language</label>
-            <select id="targetLanguage" value={targetLanguage} onChange={(e) => setTargetLanguage(e.target.value)} className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-blue-500">
-              <option value="en">English</option>
-              <option value="fr">French</option>
-              <option value="es">Spanish</option>
-              <option value="de">German</option>
-              <option value="it">Italian</option>
-              <option value="hn">Hindi</option>
-              <option value="pt">Portuguese</option>
-              <option value="ru">Russian</option>
-              <option value="ar">Arabic</option>
-              <option value="zh">Chinese (Simplified)</option>
-              <option value="ja">Japanese</option>
-              <option value="ko">Korean</option>
-              <option value="tr">Turkish</option>
-              <option value="nl">Dutch</option>
-              <option value="pl">Polish</option>
-            <option value="sv">Swedish</option>
-            <option value="fi">Finnish</option>
-            <option value="no">Norwegian</option>
-            <option value="da">Danish</option>
-            <option value="el">Greek</option>
-            <option value="cs">Czech</option>
-            <option value="hu">Hungarian</option>
-            <option value="th">Thai</option>
-            <option value="id">Indonesian</option>
-            <option value="ms">Malay</option>
-            <option value="vi">Vietnamese</option>
-              {/* Add more language options as needed */}
-            </select>
-          </div>
-          <div className="w-1/2 ml-2">
-            <label htmlFor="voiceTone" className="mb-2 text-[var(--dark-gray-color)]">Voice Tone</label>
-            <select id="voiceTone" value={voiceTone} onChange={(e) => setVoiceTone(e.target.value)} className="border border-gray-300 px-4 py-2 rounded-md w-full focus:outline-none focus:border-blue-500">
-              {VOICE_TONES.map((tone) => (
-                <option key={tone} value={tone}>{tone}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <p className="text-red-600 mb-4 text-md">
+<div className="w-full flex gap-5">
+<div className="w-1/2 mb-5">
+        <label className="block text-[var(--primary-text-color)]">Select Language</label>
+        <select
+          value={targetLanguage}
+          onChange={(e) => setTargetLanguage(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          {languages.map((languageOption) => (
+            <option key={languageOption.value} value={languageOption.value}>
+              {languageOption.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-5 w-1/2">
+        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
+        <select
+          value={tone}
+          onChange={(e) => settone(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        >
+          {VOICE_TONES.map((voiceTone) => (
+            <option key={voiceTone.value} value={voiceTone.value}>
+              {voiceTone.label}
+            </option>
+          ))}
+        </select>
+      </div>
+</div>
+
+      <p className="text-red-600 mb-4 text-md">
       Note: Response time varies with file size; larger files may take longer to process.
       </p>
         <div className="flex justify-center mb-5">
@@ -229,7 +340,7 @@ export function AudioTranslation() {
             onClick={handleConvertClick}
             disabled={!isFileSelected || isLoading}
           >
-            {isLoading ? "Translating..." : 'Translate'}
+            {isLoading ? "Rephrasing..." : 'Rephrase'}
           </Button>
         </div>
       
@@ -247,13 +358,13 @@ export function AudioTranslation() {
                 <audio controls src={translatedAudioUrl} className="w-full mb-4" />
                 <div className="flex gap-5">
                 <Button
-                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                  className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-6 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                   onClick={handleDownloadClick}
                 title="Download">
                   Download
                 </Button>
                 <Button
-                      className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                      className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-6 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                       onClick={handleShareClick}
                       title="Share"
                     >
