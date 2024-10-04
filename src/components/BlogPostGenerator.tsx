@@ -21,6 +21,7 @@ export function GenerateBlogPost() {
   const [includeConclusion, setIncludeConclusion] = useState(true);
   const [outputCount, setOutputCount] = useState(1);
   const [generatedBlogPost, setgeneratedBlogPost] = useState([]);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -52,6 +53,7 @@ export function GenerateBlogPost() {
     }
     setIsLoading(true);
     setgeneratedBlogPost([]);
+    setGeneratedImageUrl('');
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -85,7 +87,8 @@ export function GenerateBlogPost() {
 
       if (response.status === 200) {
         console.log(response.data);
-        setgeneratedBlogPost(response.data);
+        setgeneratedBlogPost(response.data.posts);
+        setGeneratedImageUrl(response.data.imageUrl);
       } else {
         toast.error('Error generating blog posts. Please try again later.');
       }
@@ -402,6 +405,10 @@ export function GenerateBlogPost() {
         </button>
         
       </div>
+          {generatedBlogPost.length>0 && (
+             <p className="text-red-600 mt-4 mb-4 text-md">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
+          )}
+     
 
       <div className="mt-5">
         {isLoading ? (
@@ -410,48 +417,56 @@ export function GenerateBlogPost() {
             <p className="text-[var(--dark-gray-color)] text-ceter mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
           </div>
         ) : (
-            generatedBlogPost.length > 0 && (
-            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
-                <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-[var(--primary-text-color)]  ">Generated Blog Post</h1>
-                <div className="flex gap-2">
-                    <button
-                    onClick={handleShare}
-                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
-                    title="Share"
-                    >
-                    <Share2 />
-                    </button>
-                    <button
-                    onClick={handleDownload}
-                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
-                    title="Download"
-                    >
-                    <Download />
-                    </button>
-                </div>
-                </div>
+          generatedBlogPost.length > 0 && (
+            <>
+              <div id="blog-post" ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
+              <div className="flex justify-between items-center mb-4">
+                    <h1 className="text-2xl text-[var(--primary-text-color)]  ">Generated Blog Post</h1>
+                    <div className="flex gap-2">
+                        <button
+                        onClick={handleShare}
+                        className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                        title="Share"
+                        >
+                        <Share2 />
+                        </button>
+                        <button
+                        onClick={handleDownload}
+                        className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                        title="Download"
+                        >
+                        <Download />
+                        </button>
+                    </div>
+                    </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedBlogPost.map((post, index) => (
-          <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
-            <div className="flex justify-between items-center mb-2">
-              <div className="absolute top-2 right-2 space-x-2">
-                <button
-                  onClick={() => handleCopy(post)}
-                  className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
-                  title="Copy"
-                >
-                  <Copy />
-                </button>
+                  {generatedBlogPost.map((post, index) => (
+                    <div key={index} className="p-4 rounded-lg mb-4 relative border border-[var(--primary-text-color)]">
+                      {generatedImageUrl && (
+                        <div>
+                        <a href={generatedImageUrl} target="_blank" rel="noopener noreferrer">
+                          <img src={generatedImageUrl} alt="Generated Blog Image" className="w-1/2 mb-10 m-auto" />
+                        </a>
+                      </div>
+                      
+                      )}
+                      <div className="absolute top-2 right-2 space-x-2">
+                    <button
+                      onClick={() => handleCopy(post)}
+                      className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                      title="Copy"
+                    >
+                      <Copy />
+                    </button>
+                  </div>
+                      <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-            <p className="text-[var(--primary-text-color)]  whitespace-pre-wrap">{post}</p>
-          </div>
-        ))}
-        </div>
-                
-            </div>
-            )
+    
+            </>
+          )
         )}
       </div>
       {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
