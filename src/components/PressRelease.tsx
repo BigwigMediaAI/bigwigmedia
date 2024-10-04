@@ -13,10 +13,12 @@ export function GeneratePressRelease() {
   const [isLoading, setIsLoading] = useState(false);
   const [organizationName, setorganizationName] = useState('');
   const [eventName, setEventName] = useState('');
+  const [eventDetails, setEventDetails] = useState('');
   const [tone, setTone] = useState('informative');
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
   const [generatedPressRelease, setgeneratedPressRelease] = useState([]);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -42,12 +44,13 @@ export function GeneratePressRelease() {
   };
 
   const handleGenerate = async () => {
-    if (!validateInput(organizationName)) {
+    if (!validateInput(organizationName|| eventName || eventDetails)) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }
     setIsLoading(true);
     setgeneratedPressRelease([]);
+    setGeneratedImageUrl('');
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -68,6 +71,7 @@ export function GeneratePressRelease() {
       const response = await axios.post(`${BASE_URL}/response/generatePressRelease?clerkId=${userId}`, {
         organizationName,
         eventName,
+        eventDetails,
         tone,
         language,
         outputCount
@@ -75,7 +79,8 @@ export function GeneratePressRelease() {
 
       if (response.status === 200) {
         console.log(response.data);
-        setgeneratedPressRelease(response.data);
+        setgeneratedPressRelease(response.data.posts);
+        setGeneratedImageUrl(response.data.imageUrl);
       } else {
         toast.error('Error generating press release. Please try again later.');
       }
@@ -95,11 +100,23 @@ export function GeneratePressRelease() {
 
   const tones = [
     { value: 'informative', label: 'Informative' },
-    { value: 'Professional', label: 'Professional' },
-    { value: 'Creative', label: 'Creative' },
-    { value: 'Humorous', label: 'Humorous' },
-    { value: 'Minimal', label: 'Minimal' },
-    { value: 'Informal', label: 'Informal' }
+    { value: 'professional', label: 'Professional' },
+    { value: 'creative', label: 'Creative' },
+    { value: 'humorous', label: 'Humorous' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'informal', label: 'Informal' },
+    { value: 'persuasive', label: 'Persuasive' },
+    { value: 'emotional', label: 'Emotional' },
+    { value: 'conversational', label: 'Conversational' },
+    { value: 'authoritative', label: 'Authoritative' },
+    { value: 'analytical', label: 'Analytical' },
+    { value: 'sarcastic', label: 'Sarcastic' },
+    { value: 'optimistic', label: 'Optimistic' },
+    { value: 'urgent', label: 'Urgent' },
+    { value: 'motivational', label: 'Motivational' },
+    { value: 'friendly', label: 'Friendly' },
+    { value: 'casual', label: 'Casual' },
+    { value: 'formal', label: 'Formal' },
   ];
 
   const languages = [
@@ -253,21 +270,29 @@ export function GeneratePressRelease() {
 
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Enter your Organization Name</label>
-        <textarea
+        <input
           value={organizationName}
           onChange={(e) => setorganizationName(e.target.value)}
           placeholder=" Enter the name of your organization (e.g., Tech Innovators Inc.)"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-          rows={4}
         />
       </div>
 
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Enter your Event Name</label>
-        <textarea
+        <input
           value={eventName}
           onChange={(e) => setEventName(e.target.value)}
           placeholder="Enter the name of your event or announcement (e.g., Annual Product Launch)"
+          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+        />
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Enter your Event Details</label>
+        <textarea
+          value={eventDetails}
+          onChange={(e) => setEventDetails(e.target.value)}
+          placeholder="e.g. The Annual Tech Summit 2024 will bring together industry leaders to discuss the latest trends in technology."
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
           rows={4}
         />
@@ -330,7 +355,9 @@ export function GeneratePressRelease() {
         </button>
         
       </div>
-
+      {generatedPressRelease.length>0 && (
+             <p className="text-red-600 mt-4 mb-4 text-md">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
+          )}
       <div className="mt-5">
         {isLoading ? (
             <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
@@ -360,23 +387,29 @@ export function GeneratePressRelease() {
                 </div>
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedPressRelease.map((post, index) => (
-          <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
-            <div className="flex justify-between items-center mb-2">
-              <div className="absolute top-2 right-2 space-x-2">
-                <button
-                  onClick={() => handleCopy(post)}
-                  className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
-                  title="Copy"
-                >
-                  <Copy />
-                </button>
-              </div>
-            </div>
-            <p className="text-[var(--primary-text-color)]  whitespace-pre-wrap">{post}</p>
-          </div>
-        ))}
-        </div>
+                  {generatedPressRelease.map((post, index) => (
+                    <div key={index} className="p-4 rounded-lg mb-4 relative border border-[var(--primary-text-color)]">
+                      {generatedImageUrl && (
+                        <div>
+                        <a href={generatedImageUrl} target="_blank" rel="noopener noreferrer">
+                          <img src={generatedImageUrl} alt="Generated Blog Image" className="w-1/2 mb-10 m-auto" />
+                        </a>
+                      </div>
+                      
+                      )}
+                      <div className="absolute top-2 right-2 space-x-2">
+                    <button
+                      onClick={() => handleCopy(post)}
+                      className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                      title="Copy"
+                    >
+                      <Copy />
+                    </button>
+                  </div>
+                      <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
+                    </div>
+                  ))}
+                </div>
                 
             </div>
             )
