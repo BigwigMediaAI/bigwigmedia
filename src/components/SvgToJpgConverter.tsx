@@ -61,7 +61,7 @@ export function SvgToJpgConverter() {
     setTimeout(() => {
         loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100); 
-      
+
     try {
       if (selectedFiles.length === 0) {
         toast.error("Please select an SVG image.");
@@ -73,7 +73,7 @@ export function SvgToJpgConverter() {
       const formData = new FormData();
       formData.append("svg", selectedFiles[0]);
 
-      const response = await axios.post(`${BASE_URL}/response/convertsvgtojpg`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/convertsvgtojpg?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
 

@@ -81,7 +81,7 @@ export function SvgToPngConverter() {
       const formData = new FormData();
       formData.append("image", selectedFiles[0]);
 
-      const response = await axios.post(`${BASE_URL}/response/convertsvgtopng`, formData, {
+      const response = await axios.post(`${BASE_URL}/response/convertsvgtopng?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
 
