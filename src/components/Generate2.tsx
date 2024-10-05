@@ -246,6 +246,8 @@ import { GenerateFreestyleEmailUtil } from "./FreeStyleEmail";
 import { GenerateEmailReplie } from "./EmailReplie";
 import BigwigLoader from "@/pages/Loader";
 import { AudioRephraser } from "./AudioRephrase";
+import { SvgToPngConverter } from "./SvgToPngConverter";
+import { SvgToJpgConverter } from "./SvgToJpgConverter";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1090,6 +1092,10 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateEmailReplie/>
       ):id === "66fe7775200b2c17bcbeb484" ? (
         <AudioRephraser/>
+      ):id === "67011406eb20632c857f6f38" ? (
+        <SvgToPngConverter/>
+      ):id === "67011411eb20632c857f6f39" ? (
+        <SvgToJpgConverter/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">

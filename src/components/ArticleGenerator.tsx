@@ -16,6 +16,7 @@ export function GenerateArticle() {
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
   const [generatedArticle, setgeneratedArticle] = useState([]);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -47,6 +48,7 @@ export function GenerateArticle() {
     }
     setIsLoading(true);
     setgeneratedArticle([]);
+    setGeneratedImageUrl('');
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -73,7 +75,8 @@ export function GenerateArticle() {
 
       if (response.status === 200) {
         console.log(response.data);
-        setgeneratedArticle(response.data);
+        setgeneratedArticle(response.data.posts);
+        setGeneratedImageUrl(response.data.imageUrl);
       } else {
         toast.error('Error generating articles. Please try again later.');
       }
@@ -347,23 +350,29 @@ export function GenerateArticle() {
                 </div>
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedArticle.map((post, index) => (
-          <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
-            <div className="flex justify-between items-center mb-2">
-              <div className="absolute top-2 right-2 space-x-2">
-                <button
-                  onClick={() => handleCopy(post)}
-                  className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
-                  title="Copy"
-                >
-                  <Copy />
-                </button>
-              </div>
-            </div>
-            <p className="text-[var(--primary-text-color)]  whitespace-pre-wrap">{post}</p>
-          </div>
-        ))}
-        </div>
+                  {generatedArticle.map((post, index) => (
+                    <div key={index} className="p-4 rounded-lg mb-4 relative border border-[var(--primary-text-color)]">
+                      {generatedImageUrl && (
+                        <div>
+                        <a href={generatedImageUrl} target="_blank" rel="noopener noreferrer">
+                          <img src={generatedImageUrl} alt="Generated Blog Image" className="w-1/2 mb-10 m-auto" />
+                        </a>
+                      </div>
+                      
+                      )}
+                      <div className="absolute top-2 right-2 space-x-2">
+                    <button
+                      onClick={() => handleCopy(post)}
+                      className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                      title="Copy"
+                    >
+                      <Copy />
+                    </button>
+                  </div>
+                      <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
+                    </div>
+                  ))}
+                </div>
                 
             </div>
             )
