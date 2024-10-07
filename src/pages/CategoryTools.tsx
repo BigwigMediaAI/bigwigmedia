@@ -149,7 +149,7 @@ const CategoryTools: React.FC = () => {
 
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate(-1);
   };
 
   const handleSearch = () => {

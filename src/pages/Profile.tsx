@@ -83,7 +83,6 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0,0)
     if (isLoaded && !isSignedIn) {
       navigate("/login");
       toast.error("Login to continue...");
