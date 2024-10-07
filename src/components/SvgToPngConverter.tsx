@@ -66,7 +66,10 @@ export function SvgToPngConverter() {
         toast.error("Please select an SVG image.");
         return;
       }
-
+      // Scroll to loader after a short delay to ensure it's rendered
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block:'center' });
+    }, 100);
       const currentCredits = await getCredits();
       if (currentCredits <= 0) {
         setShowModal3(true);
