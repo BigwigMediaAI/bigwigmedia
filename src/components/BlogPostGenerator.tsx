@@ -48,7 +48,7 @@ export function GenerateBlogPost() {
   };
 
   const handleGenerate = async () => {
-    if (!validateInput(description)) {
+    if (!validateInput(description) || !validateInput(title) || !validateInput(keywords) ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
     }

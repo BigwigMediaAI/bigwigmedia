@@ -19,6 +19,7 @@ export function GeneratePressRelease() {
   const [outputCount, setOutputCount] = useState(1);
   const [generatedPressRelease, setgeneratedPressRelease] = useState([]);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
+  const [generateImage, setGenerateImage] = useState(true);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -74,7 +75,8 @@ export function GeneratePressRelease() {
         eventDetails,
         tone,
         language,
-        outputCount
+        outputCount,
+        generateImage
       });
 
       if (response.status === 200) {
@@ -345,6 +347,24 @@ export function GeneratePressRelease() {
         </select>
       </div>
 
+
+      <div className="space-y-4">
+  {/* Checkbox for generating AI image */}
+  <div className="flex items-center space-x-3">
+    <input 
+      type="checkbox" 
+      className="h-5 w-5 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+      checked={generateImage} 
+      onChange={(e) => setGenerateImage(e.target.checked)} 
+    />
+    <label className="text-lg font-medium text-gray-700">
+      Would you like to Generate an Image
+    </label>
+  </div>
+
+</div>
+
+
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
@@ -356,7 +376,7 @@ export function GeneratePressRelease() {
         
       </div>
 
-      {generatedPressRelease.length>0 && (
+      {generatedImageUrl && (
             <div>
              <p className="text-red-600 mt-4 mb-4 text-md md:block hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
              <p className="text-red-600 mt-4 mb-4 text-md md:hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by tapping on it. You will be redirected to a new page, where you can touch and hold the image, then select "Save Image" to download it.</p>
