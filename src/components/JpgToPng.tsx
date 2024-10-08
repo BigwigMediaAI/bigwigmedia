@@ -59,11 +59,11 @@ export function JPGtoPNGConverter() {
     setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles].slice(0, 10));
   };
 
-  const convertSVGToJPG = async () => {
+  const convertJPGToPNG = async () => {
     setIsLoading(true);
     try {
       if (selectedFiles.length === 0) {
-        toast.error("Please select an SVG image.");
+        toast.error("Please select an Jpg image.");
         return;
       }
 
@@ -224,7 +224,7 @@ export function JPGtoPNGConverter() {
       <div className="mt-5 flex justify-center">
         <Button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
-          onClick={convertSVGToJPG}
+          onClick={convertJPGToPNG}
           disabled={selectedFiles.length === 0 || isLoading}
         >
           {isLoading ? "Converting..." : zipUrl ? "Convert Again" : "Convert JPG"}
