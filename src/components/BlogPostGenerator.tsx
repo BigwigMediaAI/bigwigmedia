@@ -23,7 +23,6 @@ export function GenerateBlogPost() {
   const [generatedBlogPost, setgeneratedBlogPost] = useState([]);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
   const [generateImage, setGenerateImage] = useState(true); // Toggle for generating an image
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -73,29 +72,17 @@ export function GenerateBlogPost() {
     }
 
     try {
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('keywords', keywords);
-      formData.append('tone', tone);
-      formData.append('language', language);
-      formData.append('wordCount', wordCount.toString());
-      formData.append('includeIntroduction', includeIntroduction.toString());
-      formData.append('includeConclusion', includeConclusion.toString());
-      formData.append('outputCount', outputCount.toString());
-
-      // Handle image upload or image generation flag
-      if (imageFile) {
-        formData.append('image', imageFile); // If the user uploads an image
-        formData.append('generateImage', 'false'); // Make sure to mark that you're not generating an image
-      } else {
-        formData.append('generateImage', 'true'); // Set the flag to generate an image
-      }
-
-      const response = await axios.post(`${BASE_URL}/response/generateBlogPost?clerkId=${userId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const response = await axios.post(`${BASE_URL}/response/generateBlogPost?clerkId=${userId}`, {
+        title,
+        description,
+        keywords,
+        tone,
+        language,
+        wordCount,
+        includeIntroduction,
+        includeConclusion,
+        outputCount,
+        generateImage
       });
 
       if (response.status === 200) {
@@ -418,28 +405,10 @@ export function GenerateBlogPost() {
       onChange={(e) => setGenerateImage(e.target.checked)} 
     />
     <label className="text-lg font-medium text-gray-700">
-      Generate AI Image for the Blog Post
+      Would you like to Generate an Image
     </label>
   </div>
 
-  {/* If the user doesn't want to generate an AI image, show the file upload section */}
-  {!generateImage && (
-    <div className="mt-5 space-y-3">
-      <label 
-        htmlFor="imageFile" 
-        className="block text-lg font-medium text-gray-700"
-      >
-        Upload Image
-      </label>
-      <input 
-        type="file" 
-        id="imageFile" 
-        accept="image/*" 
-        className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
-        onChange={(e) => setImageFile(e.target.files ? e.target.files[0] : null)} 
-      />
-    </div>
-  )}
 </div>
 
 
@@ -453,7 +422,7 @@ export function GenerateBlogPost() {
         </button>
         
       </div>
-          {generatedBlogPost.length>0 && (
+          {generatedImageUrl && (
             <div>
              <p className="text-red-600 mt-4 mb-4 text-md md:block hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
              <p className="text-red-600 mt-4 mb-4 text-md md:hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by tapping on it. You will be redirected to a new page, where you can touch and hold the image, then select "Save Image" to download it.</p>
