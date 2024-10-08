@@ -269,12 +269,11 @@ export function GenerateNewsLetter() {
 
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Enter your Organization Name</label>
-        <textarea
+        <input
           value={organizationName}
           onChange={(e) => setorganizationName(e.target.value)}
           placeholder="e.g. Tech Innovators Inc."
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
-          rows={4}
         />
       </div>
 
