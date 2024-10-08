@@ -347,6 +347,13 @@ export function GenerateNewsLetter() {
         
       </div>
 
+      {generatedNewsLetter.length>0 && (
+            <div>
+             <p className="text-red-600 mt-4 mb-4 text-md md:block hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
+             <p className="text-red-600 mt-4 mb-4 text-md md:hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by tapping on it. You will be redirected to a new page, where you can touch and hold the image, then select "Save Image" to download it.</p>
+             </div>
+          )}
+
       <div className="mt-5">
         {isLoading ? (
         <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
