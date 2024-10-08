@@ -227,7 +227,7 @@ export function JPGtoPNGConverter() {
           onClick={convertJPGToPNG}
           disabled={selectedFiles.length === 0 || isLoading}
         >
-          {isLoading ? "Converting..." : zipUrl ? "Convert Again" : "Convert JPG"}
+          {isLoading ? "Converting..." : zipUrl ? "Convert Again" : "Convert"}
         </Button>
       </div>
 
