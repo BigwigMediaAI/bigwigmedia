@@ -484,7 +484,7 @@ const handleEmailChange = (value:any) => {
               <iframe
                 src={pdfUrl}
                 title="Generated Visiting Card"
-                className="w-full sm:hidden"
+                className="w-full hidden md:block"
                 style={{ height: '130vh' }}
                 frameBorder="0"
               />
