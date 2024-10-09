@@ -12,6 +12,16 @@ import background6 from '../assets/LetterHead Template2.png';
 import background7 from '../assets/letterTemplate3.png';
 import background8 from '../assets/letterHead Template5.png';
 import background9 from '../assets/letterHead Template6.png';
+import background10 from '../assets/letterHeadtemplate12.jpg';
+import background11 from '../assets/letterheadtemplate13.jpg';
+import background12 from '../assets/letterheadtemplate14.jpg';
+import background13 from '../assets/letterheadtemplate15.jpg';
+import background14 from '../assets/letterheadtemplate16.jpg';
+import background15 from '../assets/letterheadtemplate17.jpg';
+import background16 from '../assets/letterheadtemplate18.jpg';
+import background17 from '../assets/letterheadtemplate19.jpg';
+import background18 from '../assets/letterheadtemplate20.jpg';
+import background19 from '../assets/letterheadtemplate21.jpg';
 import CreditLimitModal from './Model3';
 import { useAuth } from '@clerk/clerk-react';
 import { BASE_URL, BASE_URL2 } from '@/utils/funcitons';
@@ -28,6 +38,16 @@ const backgroundImages = [
   { id: 7, src: background7, name: 'background 7' },
   { id: 8, src: background8, name: 'background 8' },
   { id: 9, src: background9, name: 'background 9' },
+  { id: 10, src: background10, name: 'background 10' },
+  { id: 11, src: background11, name: 'background 11' },
+  { id: 12, src: background12, name: 'background 12' },
+  { id: 13, src: background13, name: 'background 13' },
+  { id: 14, src: background14, name: 'background 14' },
+  { id: 15, src: background15, name: 'background 15' },
+  { id: 16, src: background16, name: 'background 16' },
+  { id: 17, src: background17, name: 'background 17' },
+  { id: 18, src: background18, name: 'background 18' },
+  { id: 19, src: background19, name: 'background 19' },
 ];
 
 export function GenerateLetterhead() {
@@ -407,22 +427,28 @@ const handleWebsiteChange = (value:any) => {
   </div>
 )}
 
-            <div className="mt-6">
-        <label className="block text-sm font-semibold mb-2">Choose any of templates:</label>
-        <div className="flex flex-wrap gap-3 justify-center">
-          {backgroundImages.map((image) => (
-            <div
-              key={image.id}
-              className={`cursor-pointer p-2 border-2 rounded-md transition-colors duration-300 ${
-                background?.id === image.id ? 'border-blue-500' : 'border-gray-200'
-              }`}
-              onClick={() => handleBackgroundSelection(image)}
-            >
-              <img src={image.src} alt={image.name} className="md:w-36 md:h-48 w-24 h-36 object-cover rounded" />
-            </div>
-          ))}
+<div className="mt-6">
+  <label className="block text-sm font-semibold mb-2">Choose any of templates:</label>
+  <div className="overflow-x-auto">
+    <div className="grid grid-flow-col auto-cols-max gap-3 justify-start">
+      {backgroundImages.map((image) => (
+        <div
+          key={image.id}
+          className={`cursor-pointer p-2 border-2 rounded-md transition-colors duration-300 ${
+            background?.id === image.id ? 'border-blue-500' : 'border-gray-200'
+          }`}
+          onClick={() => handleBackgroundSelection(image)}
+        >
+          <img
+            src={image.src}
+            alt={image.name}
+            className="md:w-36 md:h-48 w-24 h-36 object-cover rounded"
+          />
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
 
       <div className="mt-8 flex justify-center">
         <button

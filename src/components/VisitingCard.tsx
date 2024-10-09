@@ -3,17 +3,25 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import '../App.css';
-import background1 from '../assets/5103ebbd814dce9ea69a85d083e16db9.jpg';
-import background2 from '../assets/Blank-Business-Card-Templates-141.jpg';
-import background3 from '../assets/page 2.jpg';
-import background4 from '../assets/Screenshot (72).jpg'
-import background5 from '../assets/page.jpg'
-import background6 from '../assets/Screenshot (74).jpg'
-import background8 from '../assets/Screenshot (77).jpg'
-import background10 from '../assets/Screenshot (79).jpg'
-import background7 from '../assets/Screenshot (80).jpg'
-import background9 from '../assets/Screenshot (81).png'
-import background11 from '../assets/Screenshot (82).png'
+import background1 from '../assets/Visiting_Card/5103ebbd814dce9ea69a85d083e16db9.jpg';
+import background2 from '../assets/Visiting_Card/Blank-Business-Card-Templates-141.jpg';
+import background3 from '../assets/Visiting_Card/Screenshot (72).jpg';
+import background4 from '../assets/Visiting_Card/Screenshot (74).jpg'
+import background5 from '../assets/Visiting_Card/Screenshot (76).jpg'
+import background6 from '../assets/Visiting_Card/Screenshot (77).jpg'
+import background8 from '../assets/Visiting_Card/Screenshot (79).jpg'
+import background10 from '../assets/Visiting_Card/Screenshot (80).jpg'
+import background7 from '../assets/Visiting_Card/Screenshot (81).png'
+import background9 from '../assets/Visiting_Card/Screenshot (82).png'
+import background11 from '../assets/Visiting_Card/Screenshot (92).png'
+import background12 from '../assets/Visiting_Card/Screenshot (93).png'
+import background13 from '../assets/Visiting_Card/Screenshot (95).png'
+import background14 from '../assets/Visiting_Card/Screenshot (96).png'
+import background15 from '../assets/Visiting_Card/Screenshot (97).png'
+import background16 from '../assets/Visiting_Card/page 2.jpg'
+import background17 from '../assets/Visiting_Card/page.jpg'
+import background18 from '../assets/Visiting_Card/image 7.png'
+import background19 from '../assets/Visiting_Card/Screenshot (98).png'
 import CreditLimitModal from './Model3';  // Modal to handle credit exhaustion
 import { useAuth } from '@clerk/clerk-react';
 import { BASE_URL,BASE_URL2 } from '@/utils/funcitons';
@@ -33,7 +41,15 @@ const backgroundImages = [
   { id: 9, src: background9, name: 'Background 9' },
   { id: 10, src: background10, name: 'Background 10' },
   { id: 7, src: background7, name: 'Background 7' },
-  { id: 11, src: background11, name: 'Background 11' }
+  { id: 11, src: background11, name: 'Background 11' },
+  { id: 12, src: background12, name: 'Background 12' },
+  { id: 13, src: background13, name: 'Background 13' },
+  { id: 14, src: background14, name: 'Background 14' },
+  { id: 15, src: background15, name: 'Background 15' },
+  { id: 16, src: background16, name: 'Background 16' },
+  { id: 17, src: background17, name: 'Background 17' },
+  { id: 18, src: background18, name: 'Background 18' },
+  { id: 19, src: background19, name: 'Background 19' }
 ];
 
 export function GenerateVisitingCard() {
@@ -408,22 +424,28 @@ const handleEmailChange = (value:any) => {
 
 
 
-      <div className="mt-6 mb-10">
-        <label className="block text-sm font-semibold mb-2">Choose any of templates:</label>
-        <div className="flex flex-wrap justify-center gap-3">
-          {backgroundImages.map((image) => (
-            <div
-              key={image.id}
-              className={`cursor-pointer p-2 border-2 rounded-md transition-colors duration-300 ${
-                selectedBackground?.id === image.id ? 'border-blue-500' : 'border-gray-200'
-              }`}
-              onClick={() => handleBackgroundSelection(image)}
-            >
-              <img src={image.src} alt={image.name} className="md:w-40 md:h-28 w-36 h-24 object-cover rounded" />
-            </div>
-          ))}
+<div className="mt-6 mb-10">
+  <label className="block text-sm font-semibold mb-2">Choose any of templates:</label>
+  <div className="overflow-x-auto">
+    <div className="grid grid-flow-col auto-cols-max gap-3 justify-start">
+      {backgroundImages.map((image) => (
+        <div
+          key={image.id}
+          className={`cursor-pointer p-2 border-2 rounded-md transition-colors duration-300 ${
+            selectedBackground?.id === image.id ? 'border-blue-500' : 'border-gray-200'
+          }`}
+          onClick={() => handleBackgroundSelection(image)}
+        >
+          <img
+            src={image.src}
+            alt={image.name}
+            className="md:w-52 md:h-32 w-44 h-28 object-cover rounded"
+          />
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
 
 <h1 className='font-semibold mb-2'>Sample Visiting Card:</h1>
       <div className='flex justify-start gap-5'>
