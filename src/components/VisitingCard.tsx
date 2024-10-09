@@ -212,6 +212,7 @@ const handleEmailChange = (value:any) => {
 
 
 
+
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
 <h1 className='text-center underline text-xl mb-5 font-semibold'>Front Side</h1>
@@ -487,6 +488,19 @@ const handleEmailChange = (value:any) => {
                 style={{ height: '130vh' }}
                 frameBorder="0"
               />
+              <div className="flex justify-center ">
+              <button
+                className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                onClick={() => {
+                  const a = document.createElement("a");
+                  a.href = pdfUrl;
+                  a.download = "converted.pdf";
+                  a.click();
+                }}
+              title="Download">
+                Download PDF
+              </button>
+                </div>
             </div>
           )
         )}
