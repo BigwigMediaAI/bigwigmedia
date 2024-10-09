@@ -473,10 +473,23 @@ const handleWebsiteChange = (value:any) => {
               <iframe
                 src={pdfUrl}
                 title="Generated Letterhead"
-                className="w-full"
+                className="w-full hidden md:block"
                 style={{ height: '130vh' }} // Full viewport height
                 frameBorder="0"
               />
+              <div className="flex justify-center ">
+              <button
+                className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+                onClick={() => {
+                  const a = document.createElement("a");
+                  a.href = pdfUrl;
+                  a.download = "converted.pdf";
+                  a.click();
+                }}
+              title="Download">
+                Download Letter Head
+              </button>
+                </div>
             </div>
           )
           
