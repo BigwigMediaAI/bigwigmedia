@@ -484,7 +484,7 @@ const handleEmailChange = (value:any) => {
               <iframe
                 src={pdfUrl}
                 title="Generated Visiting Card"
-                className="w-full"
+                className="w-full sm:hidden"
                 style={{ height: '130vh' }}
                 frameBorder="0"
               />
@@ -498,7 +498,7 @@ const handleEmailChange = (value:any) => {
                   a.click();
                 }}
               title="Download">
-                Download PDF
+                Download Visiting Card
               </button>
                 </div>
             </div>
