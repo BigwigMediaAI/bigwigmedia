@@ -208,7 +208,7 @@ export function PNGtoPDFConverter() {
         ) : (
           pdfUrl && (
             <div ref={resultsRef} className="mt-5 text-center">
-              <iframe src={pdfUrl} width="100%" height="500px"></iframe>
+              <embed src={pdfUrl} width="100%" height="500px" type="application/pdf" />
               <div className="flex justify-center ">
               <Button
                 className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
