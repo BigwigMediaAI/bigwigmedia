@@ -274,7 +274,7 @@ const handleWebsiteChange = (value:any) => {
 <div className='flex w-full gap-3 mb-5'>
   <div className='w-1/2'>
     <label className="block text-sm font-semibold mb-2">
-      Enter Your Phone Number<span className="text-red-500">*</span>
+      Enter Phone Number<span className="text-red-500">*</span>
     </label>
     <input
     type="tel"
