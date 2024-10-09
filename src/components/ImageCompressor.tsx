@@ -1,23 +1,29 @@
-import { Button } from "@/components/ui/button"; // Replace with your button component
+import { Button } from "@/components/ui/button";
 import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Share2, UploadIcon } from "lucide-react";
-import { useAuth } from "@clerk/clerk-react";
+import { DownloadIcon, UploadIcon } from "lucide-react";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
-import CreditLimitModal from "./Model3";
+import CreditLimitModal from "./Model3";
+import { useAuth } from "@clerk/clerk-react";
 import BigwigLoader from "@/pages/Loader";
+
+interface ExtractedImage {
+  filename: string;
+  url: string;
+}
 
 export function ImageCompressor() {
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [isImageGenerated, setIsImageGenerated] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [zipUrl, setZipUrl] = useState<string>(""); // To hold the zip file URL
+  const [extractedImages, setExtractedImages] = useState<ExtractedImage[]>([]); // Correctly typed array
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [showModal3, setShowModal3] = useState(false);
-  const [credits, setCredits] = useState(0);
+  const [hoveredFile, setHoveredFile] = useState<string | null>(null);
+  const [credits, setCredits] = useState(0);
 
   const getCredits = async () => {
     try {
@@ -30,196 +36,247 @@ export function ImageCompressor() {
         return 0;
       }
     } catch (error) {
-      console.error('Error fetching credits:', error);
+      console.error("Error fetching credits:", error);
       toast.error("Error occurred while fetching account credits");
-      return 0;
-    }
-  };
+      return 0;
+    }
+  };
 
   useEffect(() => {
     return () => {
-      if (imageUrl) {
-        window.URL.revokeObjectURL(imageUrl);
+      if (zipUrl) {
+        window.URL.revokeObjectURL(zipUrl);
       }
     };
-  }, [imageUrl]);
+  }, [zipUrl]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file && file.type.includes("image/")) {
-      setSelectedFile(file);
-      // Clear previously compressed image
-      if (imageUrl) {
-        setImageUrl("");
-        setIsImageGenerated(false);
-      }
-    } else {
-      toast.error("Please select a valid image file.");
+    const files = e.target.files || [];
+    const newFiles = Array.from(files).filter((file) => 
+        file.type === "image/jpeg" || file.type === "image/png"
+    );
+    
+    if (newFiles.length < files.length) {
+        toast.error("Please select only jpg or png format files.");
     }
-  };
+    
+    setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles].slice(0, 10));
+};
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.includes("image/")) {
-      setSelectedFile(file);
-      // Clear previously compressed image
-      if (imageUrl) {
-        setImageUrl("");
-        setIsImageGenerated(false);
-      }
-    } else {
-      toast.error("Please drop a valid image file.");
-    }
-  };
-
-  const refreshSelection = () => {
-    setSelectedFile(null);
-    setImageUrl("");
-    setIsImageGenerated(false);
-  };
-
-  const compressImage = async () => {
+  const compressedImage = async () => {
     setIsLoading(true);
     try {
-      if (!selectedFile) {
-        toast.error("Please select an image.");
+      if (selectedFiles.length === 0) {
+        toast.error("Please select JPG/PNG image.");
         return;
       }
 
       // Scroll to loader after a short delay to ensure it's rendered
-      setTimeout(() => {
-        loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
+    setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block:'center' });
+    }, 100);
 
       const currentCredits = await getCredits();
-    console.log('Current Credits:', currentCredits);
-
-    if (currentCredits <= 0) {
-      setTimeout(() => {
+      if (currentCredits <= 0) {
         setShowModal3(true);
-      }, 0);
-      setIsLoading(false)
-      return;
-    }
+        setIsLoading(false);
+        return;
+      }
 
       const formData = new FormData();
-      formData.append("image", selectedFile);
+      selectedFiles.forEach((file) => formData.append("image", file));
 
+      // Convert SVG to PNG and get ZIP
       const response = await axios.post(`${BASE_URL}/response/compressImage?clerkId=${userId}`, formData, {
         responseType: "blob",
       });
 
       if (response.status === 200) {
-        const blob = new Blob([response.data], { type: "image/jpeg" });
+        const blob = new Blob([response.data], { type: "application/zip" });
         const url = window.URL.createObjectURL(blob);
-        setImageUrl(url);
-        setIsImageGenerated(true);
-        toast.success("Image compressed successfully. Ready to download.");
+        setZipUrl(url); // Store ZIP URL
+        toast.success("Files compressed successfully. Extracting files...");
 
-        // Scroll to results after compression
-        setTimeout(() => {
-          resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 500);
+        // Automatically extract the ZIP file
+        await extractZip(response.data);
       } else {
-        toast.error("Error compressing image. Please try again later.");
+        toast.error("Error converting images. Please try again later.");
       }
     } catch (error) {
-      console.error("Error compressing image:", error);
-      toast.error("Error compressing image. Please try again later.");
+      console.error("Error converting images:", error);
+      toast.error("Error converting images. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Converted Image",
-          text: "Here is the converted PNG image.",
-          files: [new File([await fetch(imageUrl).then(r => r.blob())], "converted-image.png", { type: "image/png" })],
-        });
-        toast.success("Image shared successfully.");
-      } catch (error) {
-        toast.error("Error sharing image. Please try again later.");
+  const extractZip = async (zipFileBlob: Blob) => {
+    try {
+      const formData = new FormData();
+      formData.append("zipfile", zipFileBlob);
+
+      const response = await axios.post(`${BASE_URL}/response/files?clerkId=${userId}`, formData);
+      
+      if (response.status === 200) {
+        // Extract filenames and URLs from the response data
+        const imagesData: ExtractedImage[] = response.data.files.map((file: any) => ({
+          filename: file.filename,
+          url: file.url,
+        }));
+        
+        // Update state with the extracted image data
+        setExtractedImages(imagesData);
+        console.log(imagesData)
+        toast.success("Files extracted successfully.");
+      } else {
+        toast.error("Error extracting files.");
       }
-    } else {
-      toast.error("Sharing is not supported on this device.");
+    } catch (error) {
+      console.error("Error extracting ZIP:", error);
+      toast.error("Error extracting ZIP. Please try again later.");
     }
   };
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    const newFiles = Array.from(files).filter((file) => 
+        file.type === "image/jpeg" || file.type === "image/png"
+    );
+
+    if (newFiles.length < files.length) {
+        toast.error("Please select only jpg or png format files.");
+    }
+    
+    setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles].slice(0, 10));
+};
+
+  const removeFile = (index: number) => {
+    const updatedFiles = [...selectedFiles];
+    updatedFiles.splice(index, 1);
+    setSelectedFiles(updatedFiles);
+  };
+
+  const handleDownload = async (filename: string) => {
+    try {
+      const res = await axios.get(`${BASE_URL}/response/files?filename=${encodeURIComponent(filename)}&clerkId=${userId}`, {
+        responseType: "blob",
+      });
+  
+      // Create a blob URL for the file
+      const blob = new Blob([res.data]);
+      const blobURL = URL.createObjectURL(blob);
+  
+      // Create an anchor element and set its href to the blob URL
+      const link = document.createElement("a");
+      link.href = blobURL;
+      link.setAttribute("download", filename);
+  
+      // Append the anchor element to the document body and click it programmatically
+      document.body.appendChild(link);
+      link.click();
+  
+      // Cleanup
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobURL);
+    } catch (error) {
+      toast.error("Error downloading file");
+    }
+  };
+  
+
   return (
-    <div className="m-auto w-full max-w-2xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <div
-        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex items-center justify-between"
+        className="border-4 border-dashed border-[var(--gray-color)] p-6 mb-5 rounded-md w-full flex flex-col items-center"
+        onDragOver={handleDragOver}
         onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
       >
-        <div className="w-full flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center w-full relative">
           <UploadIcon className="w-12 h-12 text-[var(--gray-color)] mb-4" />
           <input
             type="file"
-            accept="image/*"
+            id="fileInput"
+            accept="image/jpeg, image/jpg, image/png"
+            multiple
             onChange={handleFileChange}
             style={{ display: "none" }}
-            id="imageInput"
           />
           <Button
-            className=" bg-white border border-gray-300 text-gray-600 px-4 py-2 mb-3 rounded-md hover:bg-gray-100"
-            onClick={() => document.getElementById("imageInput")?.click()}
+            className="border border-[var(--gray-color)] text-gray-600 bg-[var(--white-color)] px-4 py-2 mb-3 rounded-md hover:bg-gray-100 w-48 text-ellipsis overflow-hidden whitespace-nowrap"
+            onClick={() => document.getElementById("fileInput")?.click()}
           >
-            {selectedFile ? selectedFile.name : "Browse Files"}
+            Browse Files
           </Button>
-          <p className="text-gray-600">or drag and drop an image file</p>
+          <p className="text-gray-400">or drag and drop files</p>
         </div>
-        <RefreshCw
-          className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-          onClick={refreshSelection}
-        />
+        <div className="mt-4 w-full text-center">
+          {selectedFiles.length > 0 && (
+            <ul className="list-none">
+              {selectedFiles.map((file, index) => (
+                <li key={index} className="text-[var(--primary-text-color)]">
+                  <span className="mr-5">{file.name}</span>
+                  <button onClick={() => removeFile(index)} className="text-[var(--primary-text-color)] hover:text-[var(--teal-color)]">
+                    &#x2715;
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-      {isLoading && (
-        <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
-        <BigwigLoader />
-        <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
-          </div>
-      )}
-      {isImageGenerated && (
-        <div className="flex flex-col items-center mt-5" ref={resultsRef}>
-          <img src={imageUrl} alt="Compressed image" className="w-40 h-40 mb-4" />
-          <div className="flex justify-center gap-4">
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit"
-            onClick={() => {
-              const a = document.createElement("a");
-              a.href = imageUrl;
-              a.download = "compressed-image.jpg";
-              a.click();
-            }}
-          title="Download">
-            Download
-          </Button>
-          <Button
-                className=" text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
-                onClick={handleShare}
-              title="Share">
-                Share
-                
-              </Button>
-        </div>
-        </div>
-      )}
-      {!isImageGenerated && (
-        <div className="mt-5 flex justify-center">
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
-            onClick={compressImage}
-            disabled={!selectedFile || isLoading}
-          >
-            Compress Image
-          </Button>
-        </div>
-      )}
+      <div className="mt-5 flex justify-center">
+        <Button
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-9 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          onClick={compressedImage}
+          disabled={selectedFiles.length === 0 || isLoading}
+        >
+          {isLoading ? "Compressing..." : zipUrl ? "Compress Again" : "Compress Image"}
+        </Button>
+      </div>
+
+      <div className="mt-5">
+        {isLoading ? (
+          <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+            <BigwigLoader />
+            <p className="text-[var(--dark-gray-color)] text-center mt-5">
+              Processing your data. Please bear with us as we convert your images.
+            </p>
+          </div>
+        ) : (
+            extractedImages.length > 0 && (
+          <div ref={resultsRef} className="mt-6">
+            <h2 className="text-xl font-semibold mb-4">Compressed Files</h2>
+            <div className="flex gap-4 justify-center flex-wrap">
+              {extractedImages.map((file) => (
+                <div 
+                  key={file.filename} 
+                  className={`border border-[var(--primary-text-color)] p-4 rounded-md relative cursor-pointer ${hoveredFile === file.filename ? 'bg-gray-200 text-black' : ''}`}
+                  onMouseEnter={() =>setHoveredFile(file.filename)}
+                  onMouseLeave={() => setHoveredFile(null)}
+                >
+                  <span className="inline-block w-full truncate text-[var(--primary-text-color)]">{file.filename}</span>
+                  {hoveredFile === file.filename && (
+                    <button
+                      className=" rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-2 py-2 bg-transparent bg-white text-[var(--teal-color)]"
+                      onClick={() => handleDownload(file.filename)}
+                    title="Download" >
+                      <DownloadIcon className=" mr-1 inline-block " />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+
+        )}
+      </div>
+
       {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );

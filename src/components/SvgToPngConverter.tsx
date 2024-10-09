@@ -225,7 +225,7 @@ export function SvgToPngConverter() {
           onClick={convertSVGToPNG}
           disabled={selectedFiles.length === 0 || isLoading}
         >
-          {isLoading ? "Converting..." : zipUrl ? "Convert Again" : "Convert SVG"}
+          {isLoading ? "Converting..." : zipUrl ? "Convert Again" : "Convert To PNG"}
         </Button>
       </div>
 
