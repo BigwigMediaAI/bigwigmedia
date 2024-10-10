@@ -248,6 +248,7 @@ import BigwigLoader from "@/pages/Loader";
 import { AudioRephraser } from "./AudioRephrase";
 import { SvgToPngConverter } from "./SvgToPngConverter";
 import { SvgToJpgConverter } from "./SvgToJpgConverter";
+import { VideoSummary } from "./VideoSummaryGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1096,6 +1097,8 @@ document.addEventListener('copy', handleCopyEvent);
         <SvgToPngConverter/>
       ):id === "67011411eb20632c857f6f39" ? (
         <SvgToJpgConverter/>
+      ):id === "6707c7437d4dd0ca210ba250" ? (
+        <VideoSummary/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
