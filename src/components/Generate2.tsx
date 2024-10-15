@@ -249,6 +249,7 @@ import { AudioRephraser } from "./AudioRephrase";
 import { SvgToPngConverter } from "./SvgToPngConverter";
 import { SvgToJpgConverter } from "./SvgToJpgConverter";
 import { VideoSummary } from "./VideoSummaryGenerator";
+import YoutubeToText from "./YoutubeToText";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1099,6 +1100,8 @@ document.addEventListener('copy', handleCopyEvent);
         <SvgToJpgConverter/>
       ):id === "6707c7437d4dd0ca210ba250" ? (
         <VideoSummary/>
+      ):id === "670dfd9818304a695cffe9fc" ? (
+        <YoutubeToText/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
