@@ -85,7 +85,7 @@ export function VideoDownloader() {
   };
 
   const handleRefresh = () => {
-    window.location.reload();
+    setVideoLink('')
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +108,7 @@ export function VideoDownloader() {
   };
 
   return (
-    <div className="m-auto w-full max-w-xl mx-auto mt-8 bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)] rounded-lg">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
           <h3 className="text-base mb-2  text-[var(--primary-text-color)]">Copy any video link from Youtube and paste it in the box below :</h3>
       <div className="flex items-center mb-4">
         <input

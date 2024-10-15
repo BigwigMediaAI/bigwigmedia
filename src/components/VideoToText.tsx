@@ -179,17 +179,18 @@ document.addEventListener('copy', handleCopyEvent);
             </Button>
             <p className="text-gray-400">or drag and drop video file</p>
           </div>
-          <RefreshCw 
-            className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-            onClick={refreshSelection} 
-          />
+          
         </div>
         {selectedFile && (
           <div className="mt-4 w-full text-center">
             <p className="text-[var(--primary-text-color)]">{selectedFile.name}</p>
           </div>
         )}
+       
       </div>
+      <p className="text-red-600 mb-4 text-md">
+      Note: Response time varies with file size; larger files may take longer to process.
+      </p>
       <div className="mt-5 flex justify-center">
         <Button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-6 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)]"
@@ -208,7 +209,7 @@ document.addEventListener('copy', handleCopyEvent);
           </div>
         ) : (
           isTextExtracted && (
-            <div ref={resultsRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-96 overflow-y-auto">
+            <div ref={resultsRef} className="mt-5 p-4 border border-gray-300 rounded-md shadow-inner max-h-unit-9xl overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Extracted Text:</h2>
                 <div className="flex gap-2 items-center">
