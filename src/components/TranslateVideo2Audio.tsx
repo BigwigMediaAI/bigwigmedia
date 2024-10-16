@@ -17,7 +17,7 @@ export function VideoTranslation() {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
-  const [targetLanguage, setTargetLanguage] = useState<string>('en');
+  const [targetLanguage, setTargetLanguage] = useState<string>('');
   const [voiceTone, setVoiceTone] = useState<string>(VOICE_TONES[0]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
@@ -57,10 +57,6 @@ export function VideoTranslation() {
     setTranslatedAudioUrl("")
   };
 
-  const refreshConverter = () => {
-    window.location.reload();
-    
-  };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -191,10 +187,7 @@ export function VideoTranslation() {
               )}
               <p className="text-gray-400">or drag and drop a video file</p>
             </div>
-            <RefreshCw
-              className="w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-              onClick={refreshConverter}
-            />
+            
           </div>
         </div>
         {videoUrl && (
@@ -204,7 +197,7 @@ export function VideoTranslation() {
         )}
         <div className="flex justify-between items-center mb-5 w-full">
           <div className="w-1/2 mr-2">
-            <label htmlFor="targetLanguage" className="mb-2 text-[var(--primary-text-color)]">Target Language</label>
+            <label htmlFor="targetLanguage" className="mb-2 text-[var(--primary-text-color)]">Target Language (Optional):</label>
             <select id="targetLanguage" value={targetLanguage} onChange={(e) => setTargetLanguage(e.target.value)} className="border border-[var(--primary-text-color)] px-4 py-2 rounded-md w-full focus:outline-none focus:border-blue-500">
             <option value="">Select language</option>
             <option value="Afrikaans">Afrikaans</option>
@@ -330,6 +323,10 @@ export function VideoTranslation() {
             </select>
           </div>
         </div>
+        <p className="text-red-600 mb-4 text-md">
+  Note: The video should be less than 10 minutes. Additionally, Response time varies with file size; larger files may take longer to process. 
+</p>
+
         <div className="flex justify-center mb-5">
           <Button
             className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-6 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}

@@ -69,7 +69,7 @@ export function ExtractImage() {
       const formData = new FormData();
       formData.append('pdf', selectedFiles[0]);
 
-      const response = await axios.post(`${BASE_URL}/response/extract?clerkId=${userId}`, formData, {
+      const response = await axios.post(`https://extract-image.onrender.com/convert`, formData, {
         responseType: 'blob',
       });
 
@@ -86,10 +86,6 @@ export function ExtractImage() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const refreshSelection = () => {
-    window.location.reload();
   };
 
   const handleDownload = () => {
@@ -147,10 +143,7 @@ export function ExtractImage() {
             Browse File
           </button>
           <p className="text-gray-400">or drag and drop a file</p>
-          <RefreshCw
-            className="absolute top-1 right-1 w-6 h-6 text-blue-500 cursor-pointer hover:text-blue-800"
-            onClick={refreshSelection}
-          />
+          
         </div>
         <div className="mt-4 w-full text-center">
           {selectedFiles.length > 0 && (
