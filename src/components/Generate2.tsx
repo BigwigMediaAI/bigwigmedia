@@ -110,7 +110,6 @@ import { PdfChat } from "./ChatWithPdf";
 import { AudioTranslation } from "./AudioTranslator";
 import { VideoTranslation } from "./TranslateVideo2Audio";
 import { VideoTranslator } from "./VideoTranslator";
-import { YouTubeTranslator } from "./YoutubeTranslator";
 import { FinanceAdvisor } from "./FinanceAdvisor";
 import { ImageCropper } from "./ImageCrop";
 import { NewsSummarize } from "./NewsSummary";
