@@ -251,6 +251,8 @@ import { VideoSummary } from "./VideoSummaryGenerator";
 import YoutubeToText from "./YoutubeToText";
 import YoutubeToAudio from "./YtVideoToAudio";
 import { TranslatorAudio } from "./SpeechConverter";
+import { AIBackground } from "./AiBackground";
+import YoutubeTranslator from "./YoutubeTranslator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1107,6 +1109,10 @@ document.addEventListener('copy', handleCopyEvent);
         <YoutubeToAudio/>
       ):id === "6710ff51fca3ac2c71f64c93" ? (
         <TranslatorAudio/>
+      ):id === "6712536766e3121226928ecc" ? (
+        <AIBackground/>
+      ):id === "6712535a66e3121226928ecb" ? (
+        <YoutubeTranslator/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
