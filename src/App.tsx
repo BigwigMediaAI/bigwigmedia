@@ -60,8 +60,6 @@ import { YoutubeScriptOutline } from "./components/YoutubeScriptOutline";
 import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
-import { ImageToWebp } from "./components/ImageToWebpConverter";
-import { WebpToJpg } from "./components/WebToJpgConverter";
 
 const App = () => {
  
@@ -133,8 +131,6 @@ const App = () => {
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
         <Route path="/pod" element={<PodcastSummary />} />
-        <Route path="/webp" element={<ImageToWebp />} />
-        <Route path="/webptojpg" element={<WebpToJpg />} />
 </Routes>
     </div>
   );

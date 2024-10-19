@@ -253,6 +253,8 @@ import YoutubeToAudio from "./YtVideoToAudio";
 import { TranslatorAudio } from "./SpeechConverter";
 import { AIBackground } from "./AiBackground";
 import YoutubeTranslator from "./YoutubeTranslator";
+import { WebpToJpg } from "./WebToJpgConverter";
+import { ImageToWebp } from "./ImageToWebpConverter";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1113,6 +1115,10 @@ document.addEventListener('copy', handleCopyEvent);
         <AIBackground/>
       ):id === "6712535a66e3121226928ecb" ? (
         <YoutubeTranslator/>
+      ):id === "6713b9321c835279285bb641" ? (
+        <WebpToJpg/>
+      ):id === "6713b93b1c835279285bb642" ? (
+        <ImageToWebp/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
