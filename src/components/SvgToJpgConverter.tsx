@@ -263,8 +263,6 @@ export function SvgToJpgConverter() {
                     alt={file.filename}
                     className="w-32 h-auto object-contain mb-2 rounded-md"
                   />
-                
-                <span className="inline-block w-full truncate text-[var(--primary-text-color)]">{file.filename}</span>
 
                 {/* Download button positioned at the top right corner */}
                   <button
