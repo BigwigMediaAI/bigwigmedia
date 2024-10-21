@@ -7,6 +7,7 @@ import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import CreditLimitModal from "./Model3";
 import { useAuth } from "@clerk/clerk-react";
 import BigwigLoader from "@/pages/Loader";
+import JSZip from "jszip";
 
 interface ExtractedImage {
   filename: string;
@@ -106,27 +107,33 @@ export function JPGtoPNGConverter() {
     }
   };
 
-  const extractZip = async (zipFileBlob: Blob) => {
-    try {
-      const formData = new FormData();
-      formData.append("zipfile", zipFileBlob);
+  const extractZip = async (zipBlob: Blob) => {
+    const jsZip = new JSZip();
+    const extractedImages: ExtractedImage[] = [];
 
-      const response = await axios.post(`${BASE_URL}/response/files?clerkId=${userId}`, formData);
-      
-      if (response.status === 200) {
-        // Extract filenames and URLs from the response data
-        const imagesData: ExtractedImage[] = response.data.files.map((file: any) => ({
-          filename: file.filename,
-          url: file.url,
-        }));
-        
-        // Update state with the extracted image data
-        setExtractedImages(imagesData);
-        console.log(imagesData)
-        toast.success("Files extracted successfully.");
-      } else {
-        toast.error("Error extracting files.");
+    try {
+      // Load ZIP content
+      const zip = await jsZip.loadAsync(zipBlob);
+
+      // Loop through each file in the ZIP
+      for (const filename of Object.keys(zip.files)) {
+        const file = zip.files[filename];
+
+        if (!file.dir) {
+          // Read the file as a blob
+          const blob = await file.async("blob");
+
+          // Convert the blob to a URL for displaying the image
+          const url = URL.createObjectURL(blob);
+
+          extractedImages.push({ filename, url });
+        }
       }
+
+      // Update the state with the extracted images
+      setExtractedImages(extractedImages);
+      console.log(extractedImages)
+      toast.success("Files extracted successfully.");
     } catch (error) {
       console.error("Error extracting ZIP:", error);
       toast.error("Error extracting ZIP. Please try again later.");
@@ -155,28 +162,29 @@ export function JPGtoPNGConverter() {
 
   const handleDownload = async (filename: string) => {
     try {
-      const res = await axios.get(`${BASE_URL}/response/files?filename=${encodeURIComponent(filename)}&clerkId=${userId}`, {
-        responseType: "blob",
-      });
-  
-      // Create a blob URL for the file
-      const blob = new Blob([res.data]);
-      const blobURL = URL.createObjectURL(blob);
-  
-      // Create an anchor element and set its href to the blob URL
-      const link = document.createElement("a");
-      link.href = blobURL;
-      link.setAttribute("download", filename);
-  
-      // Append the anchor element to the document body and click it programmatically
+      // Find the corresponding extracted image by filename
+      const image = extractedImages.find(img => img.filename === filename);
+      
+      if (!image) {
+        throw new Error("Image not found for download.");
+      }
+      
+      // Create an anchor element and set the href to the image URL
+      const link = document.createElement('a');
+      link.href = image.url; // URL of the image
+      link.download = filename; // Name for the downloaded file
+      
+      // Programmatically click the link to trigger the download
       document.body.appendChild(link);
       link.click();
-  
-      // Cleanup
+      
+      // Clean up the link element after download
       document.body.removeChild(link);
-      URL.revokeObjectURL(blobURL);
-    } catch (error) {
-      toast.error("Error downloading file");
+      
+      toast.success("Downloading " + filename);
+    } catch (error: any) {
+      console.error('Error downloading file:', error);
+      toast.error('Error downloading file: ' + error.message);
     }
   };
   
@@ -244,24 +252,32 @@ export function JPGtoPNGConverter() {
           <div ref={resultsRef} className="mt-6">
             <h2 className="text-xl font-semibold mb-4">Converted Files</h2>
             <div className="flex gap-4 justify-center flex-wrap">
-              {extractedImages.map((file) => (
-                <div 
-                  key={file.filename} 
-                  className={`border border-[var(--primary-text-color)] p-4 rounded-md relative cursor-pointer ${hoveredFile === file.filename ? 'bg-gray-200 text-black' : ''}`}
-                  onMouseEnter={() =>setHoveredFile(file.filename)}
-                  onMouseLeave={() => setHoveredFile(null)}
-                >
-                  <span className="inline-block w-full truncate text-[var(--primary-text-color)]">{file.filename}</span>
-                  {hoveredFile === file.filename && (
-                    <button
-                      className=" rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-2 py-2 bg-transparent bg-white text-[var(--teal-color)]"
-                      onClick={() => handleDownload(file.filename)}
-                    title="Download" >
-                      <DownloadIcon className=" mr-1 inline-block " />
-                    </button>
-                  )}
-                </div>
-              ))}
+            {extractedImages.map((file) => (
+              <div
+                key={file.filename}
+                className={`border border-[var(--primary-text-color)] p-4 rounded-md relative cursor-pointer w-32`}
+                onMouseEnter={() => setHoveredFile(file.filename)}
+                onMouseLeave={() => setHoveredFile(null)}
+              >
+                  <img
+                    src={file.url}
+                    alt={file.filename}
+                    className="w-32 h-auto object-contain mb-2 rounded-md"
+                  />
+                
+                {/* Download button positioned at the top right corner */}
+                  <button
+                    className="rounded-full absolute top-2 right-2 transform px-2 py-2 bg-white text-[var(--teal-color)]"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent the hover leave event
+                      handleDownload(file.filename);
+                    }}
+                    title="Download"
+                  >
+                    <DownloadIcon className="mr-1 inline-block" />
+                  </button>
+              </div>
+            ))}
             </div>
           </div>
         )
