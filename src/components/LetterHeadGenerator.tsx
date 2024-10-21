@@ -22,6 +22,34 @@ import background16 from '../assets/LetterHead/letterheadtemplate18.jpg';
 import background17 from '../assets/LetterHead/letterheadtemplate19.jpg';
 import background18 from '../assets/LetterHead/letterheadtemplate20.jpg';
 import background19 from '../assets/LetterHead/letterheadtemplate21.jpg';
+import background20 from '../assets/LetterHead/letterheadtemplate22.jpg';
+import background21 from '../assets/LetterHead/letterheadtemplate23.jpg';
+import background22 from '../assets/LetterHead/letterheadtemplate24.jpg';
+import background23 from '../assets/LetterHead/letterheadtemplate25.jpg';
+import background24 from '../assets/LetterHead/letterheadtemplate26.jpg';
+import background25 from '../assets/LetterHead/letterheadtemplate27.jpg';
+import background26 from '../assets/LetterHead/letterheadtemplate28.jpg';
+import background27 from '../assets/LetterHead/letterheadtemplate29.jpg';
+import background28 from '../assets/LetterHead/letterheadtemplate30.jpg';
+import background29 from '../assets/LetterHead/letterheadtemplate31.jpg';
+import background30 from '../assets/LetterHead/letterheadtemplate32.jpg';
+import background31 from '../assets/LetterHead/letterheadtemplate33.jpg';
+import background32 from '../assets/LetterHead/letterheadtemplate34.jpg';
+import background33 from '../assets/LetterHead/letterheadtemplate35.jpg';
+import background34 from '../assets/LetterHead/letterheadtemplate36.jpg';
+import background35 from '../assets/LetterHead/letterheadtemplate37.jpg';
+import background36 from '../assets/LetterHead/letterheadtemplate38.jpg';
+import background37 from '../assets/LetterHead/letterheadtemplate39.jpg';
+import background38 from '../assets/LetterHead/letterheadtemplate40.jpg';
+import background39 from '../assets/LetterHead/letterheadtemplate41.jpg';
+import background40 from '../assets/LetterHead/letterheadtemplate42.jpg';
+import background41 from '../assets/LetterHead/letterheadtemplate43.jpg';
+import background42 from '../assets/LetterHead/letterheadtemplate44.jpg';
+import background43 from '../assets/LetterHead/letterheadtemplate45.jpg';
+import background44 from '../assets/LetterHead/letterheadtemplate46.jpg';
+import background45 from '../assets/LetterHead/letterheadtemplate47.jpg';
+import background46 from '../assets/LetterHead/letterheadtemplate48.jpg';
+import background47 from '../assets/LetterHead/letterheadtemplate49.jpg';
 import CreditLimitModal from './Model3';
 import { useAuth } from '@clerk/clerk-react';
 import { BASE_URL, BASE_URL2 } from '@/utils/funcitons';
@@ -48,6 +76,34 @@ const backgroundImages = [
   { id: 17, src: background17, name: 'background 17' },
   { id: 18, src: background18, name: 'background 18' },
   { id: 19, src: background19, name: 'background 19' },
+  { id: 20, src: background20, name: 'background 20' },
+  { id: 21, src: background21, name: 'background 21' },
+  { id: 22, src: background22, name: 'background 22' },
+  { id: 23, src: background23, name: 'background 23' },
+  { id: 24, src: background24, name: 'background 24' },
+  { id: 25, src: background25, name: 'background 25' },
+  { id: 26, src: background26, name: 'background 26' },
+  { id: 27, src: background27, name: 'background 27' },
+  { id: 28, src: background28, name: 'background 28' },
+  { id: 29, src: background29, name: 'background 29' },
+  { id: 30, src: background30, name: 'background 30' },
+  { id: 31, src: background31, name: 'background 31' },
+  { id: 32, src: background32, name: 'background 32' },
+  { id: 33, src: background33, name: 'background 33' },
+  { id: 34, src: background34, name: 'background 34' },
+  { id: 35, src: background35, name: 'background 35' },
+  { id: 36, src: background36, name: 'background 36' },
+  { id: 37, src: background37, name: 'background 37' },
+  { id: 38, src: background38, name: 'background 38' },
+  { id: 39, src: background39, name: 'background 39' },
+  { id: 40, src: background40, name: 'background 40' },
+  { id: 41, src: background41, name: 'background 41' },
+  { id: 42, src: background42, name: 'background 42' },
+  { id: 43, src: background43, name: 'background 43' },
+  { id: 44, src: background44, name: 'background 44' },
+  { id: 45, src: background45, name: 'background 45' },
+  { id: 46, src: background46, name: 'background 46' },
+  { id: 47, src: background47, name: 'background 47' },
 ];
 
 export function GenerateLetterhead() {
