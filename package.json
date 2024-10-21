@@ -35,6 +35,7 @@
     "current-location-geo": "^1.1.5",
     "file-saver": "^2.0.5",
     "framer-motion": "^10.18.0",
+    "jszip": "^3.10.1",
     "konva": "^9.3.14",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.314.0",
