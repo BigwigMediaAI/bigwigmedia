@@ -323,6 +323,7 @@ export function VideoTranslator() {
             </select>
           </div>
         </div>
+        <h3 className="text-red-600 mt-4 text-md mb-5">Note: Videos must be under 10 minutes, and music-related content will not be translated.</h3>
         <div className="flex justify-center mb-5">
           <Button
             className={`text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-7 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto ${isFileSelected ? '' : 'opacity-50 cursor-not-allowed'}`}
