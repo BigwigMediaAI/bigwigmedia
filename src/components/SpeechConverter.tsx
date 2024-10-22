@@ -35,7 +35,7 @@ export function TranslatorAudio() {
   useEffect(() => {
     if ('webkitSpeechRecognition' in window) {
       const speechRecognition = new window.webkitSpeechRecognition() as typeof SpeechRecognition ;
-      speechRecognition.continuous = false;
+      speechRecognition.continuous = true;
       speechRecognition.interimResults = false;
       speechRecognition.lang = 'en-US';
 
