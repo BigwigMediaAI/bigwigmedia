@@ -9,12 +9,12 @@ import CreditLimitModal from './Model3';
 import '../App.css'
 import BigwigLoader from '@/pages/Loader';
 
-export function SeoContentImprover() {
+export function SeoAudit() {
   const [isLoading, setIsLoading] = useState(false);
   const [content, setcontent] = useState('');
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
-  const [generatedSeoImprover, setgeneratedSeoImprover] = useState([]);
+  const [generatedSeoAudit, setgeneratedSeoAudit] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -45,7 +45,7 @@ export function SeoContentImprover() {
       return;
     }
     setIsLoading(true);
-    setgeneratedSeoImprover([]);
+    setgeneratedSeoAudit([]);
 
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -63,7 +63,7 @@ export function SeoContentImprover() {
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/response/improveSEOContent?clerkId=${userId}`, {
+      const response = await axios.post(`${BASE_URL}/response/auditSEO?clerkId=${userId}`, {
         content,
         language,
         outputCount
@@ -71,23 +71,23 @@ export function SeoContentImprover() {
 
       if (response.status === 200) {
         console.log(response.data);
-        setgeneratedSeoImprover(response.data);
+        setgeneratedSeoAudit(response.data);
       } else {
-        toast.error('Error improving seo. Please try again later.');
+        toast.error('Error auditing seo. Please try again later.');
       }
     } catch (error) {
-      console.error('Error improving seo:', error);
-      toast.error('Error improving seo. Please try again later.');
+      console.error('Error auditing seo:', error);
+      toast.error('Error auditing seo. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!isLoading && generatedSeoImprover.length > 0) {
+    if (!isLoading && generatedSeoAudit.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isLoading, generatedSeoImprover]);
+  }, [isLoading, generatedSeoAudit]);
 
   const languages = [
     { value: 'Afrikaans', label: 'Afrikaans' },
@@ -216,7 +216,7 @@ export function SeoContentImprover() {
 
   const handleDownload = () => {
     const element = document.createElement("a");
-    const file = new Blob([generatedSeoImprover.join("\n\n")], { type: "text/plain" });
+    const file = new Blob([generatedSeoAudit.join("\n\n")], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
     element.download = "seo.txt";
     document.body.appendChild(element);
@@ -225,13 +225,13 @@ export function SeoContentImprover() {
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Seo Content Improver',
-      text: generatedSeoImprover.join("\n\n"),
+      title: 'Seo Audit',
+      text: generatedSeoAudit.join("\n\n"),
     };
     try {
       await navigator.share(shareData);
     } catch (err) {
-      console.error('Error sharing inproved seo:', err);
+      console.error('Error sharing seo audit:', err);
     }
   };
 
@@ -287,7 +287,7 @@ export function SeoContentImprover() {
           onClick={handleGenerate}
           disabled={isLoading}
         >
-          {isLoading ? 'Generating...' : (generatedSeoImprover.length > 0 ? "Regenerate" : 'Generate')}
+          {isLoading ? 'Generating...' : (generatedSeoAudit.length > 0 ? "Regenerate" : 'Generate')}
         </button>
         
       </div>
@@ -299,10 +299,10 @@ export function SeoContentImprover() {
         <p className="text-[var(--dark-gray-color)] text-ceter mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
           </div>
         ) : (
-            generatedSeoImprover.length > 0 && (
+            generatedSeoAudit.length > 0 && (
             <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
                 <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-[var(--primary-text-color)]  ">Improved SEO Content</h1>
+                <h1 className="text-2xl text-[var(--primary-text-color)]  ">Generated SEO Audit</h1>
                 <div className="flex gap-2">
                     <button
                     onClick={handleShare}
@@ -321,7 +321,7 @@ export function SeoContentImprover() {
                 </div>
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedSeoImprover.map((post, index) => (
+              {generatedSeoAudit.map((post, index) => (
           <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
             <div className="flex justify-between items-center mb-2">
               <div className="absolute top-2 right-2 space-x-2">

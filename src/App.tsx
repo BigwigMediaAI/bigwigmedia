@@ -62,6 +62,7 @@ import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
 import { SeoOptimizer } from "./components/SeoOptimizer";
 import { SeoContentImprover } from "./components/SeoContentImprover";
+import { SeoAudit } from "./components/SeoAudit";
 
 const App = () => {
  
@@ -135,6 +136,7 @@ const App = () => {
         <Route path="/pod" element={<PodcastSummary />} />
         <Route path="/opt" element={<SeoOptimizer />} />
         <Route path="/imp" element={<SeoContentImprover />} />
+        <Route path="/audit" element={<SeoAudit />} />
 </Routes>
     </div>
   );
