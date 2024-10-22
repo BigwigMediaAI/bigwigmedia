@@ -102,33 +102,34 @@ const GeneratorImage: React.FC<Props> = () => {
   useEffect(() => {
     if ('webkitSpeechRecognition' in window) {
       const speechRecognition = new window.webkitSpeechRecognition() as SpeechRecognition;
-      speechRecognition.continuous = false;
+      speechRecognition.continuous = true; // Enable continuous recording
       speechRecognition.interimResults = false;
       speechRecognition.lang = 'en-US';
-
+  
       speechRecognition.onstart = () => {
         setIsRecording(true);
       };
-
+  
       speechRecognition.onresult = (event: SpeechRecognitionEvent) => {
         const speechToText = event.results[0][0].transcript;
-        setText(speechToText);
+        setText((prevText) => prevText + ' ' + speechToText); // Append new text
       };
-
+  
       speechRecognition.onerror = (event: SpeechRecognitionErrorEvent) => {
         console.error(event.error);
         setIsRecording(false);
       };
-
+  
       speechRecognition.onend = () => {
         setIsRecording(false);
       };
-
+  
       setRecognition(speechRecognition);
     } else {
       toast.error("Sorry, your browser doesn't support speech recognition.");
     }
   }, []);
+  
 
   const handleStartRecording = () => {
     if (recognition) {
@@ -234,7 +235,7 @@ const GeneratorImage: React.FC<Props> = () => {
         className="mb-4 h-24 w-full rounded-md border border-[var(--primary-text-color)] p-4"
         placeholder="Please speak after a beep"
         value={text}
-        readOnly
+        onChange={(e) => setText(e.target.value)}
       />
 
       {/* Record Button */}
