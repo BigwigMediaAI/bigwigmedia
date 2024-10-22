@@ -60,6 +60,8 @@ import { YoutubeScriptOutline } from "./components/YoutubeScriptOutline";
 import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
+import { SeoOptimizer } from "./components/SeoOptimizer";
+import { SeoContentImprover } from "./components/SeoContentImprover";
 
 const App = () => {
  
@@ -131,6 +133,8 @@ const App = () => {
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
         <Route path="/pod" element={<PodcastSummary />} />
+        <Route path="/opt" element={<SeoOptimizer />} />
+        <Route path="/imp" element={<SeoContentImprover />} />
 </Routes>
     </div>
   );
