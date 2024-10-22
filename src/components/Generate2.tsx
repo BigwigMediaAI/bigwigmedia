@@ -255,6 +255,9 @@ import { AIBackground } from "./AiBackground";
 import YoutubeTranslator from "./YoutubeTranslator";
 import { WebpToJpg } from "./WebToJpgConverter";
 import { ImageToWebp } from "./ImageToWebpConverter";
+import { SeoOptimizer } from "./SeoOptimizer";
+import { SeoContentImprover } from "./SeoContentImprover";
+import { SeoAudit } from "./SeoAudit";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1119,6 +1122,12 @@ document.addEventListener('copy', handleCopyEvent);
         <WebpToJpg/>
       ):id === "6713b93b1c835279285bb642" ? (
         <ImageToWebp/>
+      ):id === "67178f1aa7c7d93dddcda215" ? (
+        <SeoOptimizer/>
+      ):id === "67178f27a7c7d93dddcda216" ? (
+        <SeoContentImprover/>
+      ):id === "67178f31a7c7d93dddcda217" ? (
+        <SeoAudit/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
