@@ -258,6 +258,8 @@ import { ImageToWebp } from "./ImageToWebpConverter";
 import { SeoOptimizer } from "./SeoOptimizer";
 import { SeoContentImprover } from "./SeoContentImprover";
 import { SeoAudit } from "./SeoAudit";
+import { GoogleAdContent } from "./GoogleAdContent";
+import { PdfSplit } from "./PdfSplitter";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1128,6 +1130,10 @@ document.addEventListener('copy', handleCopyEvent);
         <SeoContentImprover/>
       ):id === "67178f31a7c7d93dddcda217" ? (
         <SeoAudit/>
+      ):id === "6718e44255ba7a01200c0db4" ? (
+        <GoogleAdContent/>
+      ):id === "6718e44b55ba7a01200c0db5" ? (
+        <PdfSplit/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
