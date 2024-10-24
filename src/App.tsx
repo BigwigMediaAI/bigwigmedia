@@ -60,6 +60,7 @@ import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
 import { WatermarkPdf } from "./components/WatermarkPdf";
+import { SeoCompetitorAnalysis } from "./components/SeoCompetitorAnalysis";
 
 const App = () => {
  
@@ -132,6 +133,7 @@ const App = () => {
         <Route path="/aboutme" element={<AboutmeGenerator />} />
         <Route path="/pod" element={<PodcastSummary />} />
         <Route path="/watermark" element={<WatermarkPdf />} />
+        <Route path="/ana" element={<SeoCompetitorAnalysis />} />
 </Routes>
     </div>
   );
