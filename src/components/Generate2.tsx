@@ -260,6 +260,9 @@ import { SeoContentImprover } from "./SeoContentImprover";
 import { SeoAudit } from "./SeoAudit";
 import { GoogleAdContent } from "./GoogleAdContent";
 import { PdfSplit } from "./PdfSplitter";
+import { WatermarkPdf } from "./WatermarkPdf";
+import { SeoCompetitorAnalysis } from "./SeoCompetitorAnalysis";
+import { HeicToImage } from "./Heictoimage";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1134,6 +1137,12 @@ document.addEventListener('copy', handleCopyEvent);
         <GoogleAdContent/>
       ):id === "6718e44b55ba7a01200c0db5" ? (
         <PdfSplit/>
+      ):id === "671a39793452164a43bdd916" ? (
+        <WatermarkPdf/>
+      ):id === "671a39833452164a43bdd917" ? (
+        <SeoCompetitorAnalysis/>
+      ):id === "671a398c3452164a43bdd918" ? (
+        <HeicToImage/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
