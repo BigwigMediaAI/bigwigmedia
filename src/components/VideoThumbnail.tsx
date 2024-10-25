@@ -333,7 +333,7 @@ export function VideoThumbnail() {
                     />
                     {downloadUrl && (
                       <Button
-                        className="mt-2"
+                        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-6 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                         onClick={() => {
                           const link = document.createElement("a");
                           link.href = downloadUrl;
@@ -343,7 +343,7 @@ export function VideoThumbnail() {
                           document.body.removeChild(link);
                         }}
                       >
-                        Download Image
+                        Download
                       </Button>
                     )}
                   </div>
