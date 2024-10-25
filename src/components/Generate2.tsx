@@ -263,6 +263,7 @@ import { PdfSplit } from "./PdfSplitter";
 import { WatermarkPdf } from "./WatermarkPdf";
 import { SeoCompetitorAnalysis } from "./SeoCompetitorAnalysis";
 import { HeicToImage } from "./Heictoimage";
+import { VideoThumbnail } from "./VideoThumbnail";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1143,6 +1144,8 @@ document.addEventListener('copy', handleCopyEvent);
         <SeoCompetitorAnalysis/>
       ):id === "671a398c3452164a43bdd918" ? (
         <HeicToImage/>
+      ):id === "671b7d4753961a0b2a9a387f" ? (
+        <VideoThumbnail/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
