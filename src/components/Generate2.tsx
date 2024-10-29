@@ -265,6 +265,7 @@ import { SeoCompetitorAnalysis } from "./SeoCompetitorAnalysis";
 import { HeicToImage } from "./Heictoimage";
 import { VideoThumbnail } from "./VideoThumbnail";
 import { VideoToArticle } from "./VideoToArticle";
+import { YoutubeShortsCaption } from "./YoutubeShortsCaptionGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1149,6 +1150,8 @@ document.addEventListener('copy', handleCopyEvent);
         <VideoThumbnail/>
       ):id === "6720896a9323accd6ed0fb73" ? (
         <VideoToArticle/>
+      ):id === "6720a9a681e81c2ccfab3c7e" ? (
+        <YoutubeShortsCaption/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
