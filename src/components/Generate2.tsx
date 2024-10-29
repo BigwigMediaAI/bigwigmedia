@@ -264,6 +264,7 @@ import { WatermarkPdf } from "./WatermarkPdf";
 import { SeoCompetitorAnalysis } from "./SeoCompetitorAnalysis";
 import { HeicToImage } from "./Heictoimage";
 import { VideoThumbnail } from "./VideoThumbnail";
+import { VideoToArticle } from "./VideoToArticle";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1146,6 +1147,8 @@ document.addEventListener('copy', handleCopyEvent);
         <HeicToImage/>
       ):id === "671b7d4753961a0b2a9a387f" ? (
         <VideoThumbnail/>
+      ):id === "6720896a9323accd6ed0fb73" ? (
+        <VideoToArticle/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
