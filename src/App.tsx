@@ -60,6 +60,7 @@ import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
 import { GenerateYTArticle } from "./components/YtVideoToArticle";
+import { VideoToArticle } from "./components/VideoToArticle";
 
 const App = () => {
  
@@ -132,6 +133,7 @@ const App = () => {
         <Route path="/aboutme" element={<AboutmeGenerator />} />
         <Route path="/pod" element={<PodcastSummary />} />
         <Route path="/yt" element={<GenerateYTArticle />} />
+        <Route path="/vidart" element={<VideoToArticle />} />
 </Routes>
     </div>
   );
