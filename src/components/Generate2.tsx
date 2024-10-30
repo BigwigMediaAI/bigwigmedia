@@ -267,6 +267,8 @@ import { VideoThumbnail } from "./VideoThumbnail";
 import { VideoToArticle } from "./VideoToArticle";
 import { YoutubeShortsCaption } from "./YoutubeShortsCaptionGenerator";
 import { GenerateYTArticle } from "./YtVideoToArticle";
+import { PressReleaseFormatter } from "./PressReleaseFormatter";
+import { NewsLetterSubjectline } from "./PressReleaseSubjectline";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1155,6 +1157,10 @@ document.addEventListener('copy', handleCopyEvent);
         <YoutubeShortsCaption/>
       ):id === "6721c4c831867b5a40807575" ? (
         <GenerateYTArticle/>
+      ):id === "672211a1eba906edb2700658" ? (
+        <PressReleaseFormatter/>
+      ):id === "672211aaeba906edb2700659" ? (
+        <NewsLetterSubjectline/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
