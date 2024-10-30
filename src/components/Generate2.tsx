@@ -266,6 +266,7 @@ import { HeicToImage } from "./Heictoimage";
 import { VideoThumbnail } from "./VideoThumbnail";
 import { VideoToArticle } from "./VideoToArticle";
 import { YoutubeShortsCaption } from "./YoutubeShortsCaptionGenerator";
+import { GenerateYTArticle } from "./YtVideoToArticle";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1152,6 +1153,8 @@ document.addEventListener('copy', handleCopyEvent);
         <VideoToArticle/>
       ):id === "6720a9a681e81c2ccfab3c7e" ? (
         <YoutubeShortsCaption/>
+      ):id === "6721c4c831867b5a40807575" ? (
+        <GenerateYTArticle/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
