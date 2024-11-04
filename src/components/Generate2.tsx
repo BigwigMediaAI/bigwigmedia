@@ -269,6 +269,8 @@ import { YoutubeShortsCaption } from "./YoutubeShortsCaptionGenerator";
 import { GenerateYTArticle } from "./YtVideoToArticle";
 import { PressReleaseFormatter } from "./PressReleaseFormatter";
 import { NewsLetterSubjectline } from "./PressReleaseSubjectline";
+import { PodcastIntro } from "./PodcastInroduction";
+import { PodcastConclusion } from "./PodcastConclusion";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1161,6 +1163,10 @@ document.addEventListener('copy', handleCopyEvent);
         <PressReleaseFormatter/>
       ):id === "672211aaeba906edb2700659" ? (
         <NewsLetterSubjectline/>
+      ):id === "6728b817db2aa48cccb3a5cb" ? (
+        <PodcastIntro/>
+      ):id === "6728b821db2aa48cccb3a5cc" ? (
+        <PodcastConclusion/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
