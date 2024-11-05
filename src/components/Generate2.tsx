@@ -272,6 +272,8 @@ import { NewsLetterSubjectline } from "./PressReleaseSubjectline";
 import { PodcastIntro } from "./PodcastInroduction";
 import { PodcastConclusion } from "./PodcastConclusion";
 import ImageOverlay from "./backgroundImage";
+import { BlogPostIntro } from "./BlogPostIntroduction";
+import { BlogPostConclusion } from "./BlogPostConclusion";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1170,6 +1172,10 @@ document.addEventListener('copy', handleCopyEvent);
         <PodcastConclusion/>
       ):id === "6729dd2e76ed49d2dd371914" ? (
         <ImageOverlay/>
+      ):id === "672a089d5a2644398a58a006" ? (
+        <BlogPostIntro/>
+      ):id === "672a08a85a2644398a58a007" ? (
+        <BlogPostConclusion/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
