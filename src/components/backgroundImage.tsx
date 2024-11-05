@@ -3,6 +3,8 @@ import axios from 'axios';
 import { BASE_URL, BASE_URL2 } from '@/utils/funcitons';
 import { useAuth } from '@clerk/clerk-react';
 import { toast } from 'sonner';
+import BigwigLoader from '@/pages/Loader';
+import CreditLimitModal from './Model3';
 
 const ImageOverlay: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +83,9 @@ const ImageOverlay: React.FC = () => {
             setResultImage(imageUrl); // Set the generated image URL
         } catch (error) {
             console.error('Error uploading images:', error);
-        }
+        }finally {
+            setIsLoading(false);
+          }
     };
 
     useEffect(() => {
@@ -113,15 +117,23 @@ const ImageOverlay: React.FC = () => {
                     type="submit"
                     className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
                 >
-                    Change Background
+                     {isLoading ? 'Changing...' :  'Change Background'}
                 </button>
             </form>
-            {resultImage && (
-                <div className="mt-4 flex-col items-center justify-center border">
+
+            <div className="mt-5">
+        {isLoading ? (
+        <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+        <BigwigLoader />
+        <p className="text-[var(--dark-gray-color)] text-ceter mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+          </div>
+        ) : (
+            resultImage && (
+                <div className="mt-4 flex-col items-center justify-center">
                     <img
                         src={resultImage}
                         alt="Result"
-                        className="rounded-lg shadow-lg max-w-full h-auto mb-4"
+                        className="rounded-lg shadow-lg max-w-full h-auto mb-4 mx-auto"
                     />
                     <a
                         href={resultImage}
@@ -131,7 +143,10 @@ const ImageOverlay: React.FC = () => {
                         Download Image
                     </a>
                 </div>
-            )}
+            )
+        )}
+      </div>
+      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
         </div>
     );
 };
