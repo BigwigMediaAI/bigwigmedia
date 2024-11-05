@@ -60,6 +60,7 @@ import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
 import { BlogPostIntro } from "./components/BlogPostIntroduction";
+import { BlogPostConclusion } from "./components/BlogPostConclusion";
 
 const App = () => {
  
@@ -131,7 +132,7 @@ const App = () => {
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
         <Route path="/pod" element={<PodcastSummary />} />
-        <Route path="/blogpost" element={<BlogPostIntro />} />
+        <Route path="/blogpost" element={<BlogPostConclusion />} />
 </Routes>
     </div>
   );
