@@ -1288,7 +1288,7 @@ document.addEventListener('copy', handleCopyEvent);
           className="w-full flex flex-col gap-2 p-5 shadow-md shadow-[var(--teal-color)] rounded-md"
         >
           {description?.faq?.map((ac, id) => (
-            <AccordionItem value={ac.question} key={id}>
+            <AccordionItem value={ac.question} key={id} className="border-1 rounded-md">
               <AccordionTrigger
                 className="   py-4 z-40 items-center rounded-md shadow-md px-5 font-outfit"
                 key={ac.question}
