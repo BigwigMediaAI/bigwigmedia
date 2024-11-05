@@ -105,6 +105,7 @@ const ImageOverlay: React.FC = () => {
                     className="mb-4 border-1 border-gray-700 p-3 rounded-md"
                     required
                 />
+                
                 <label className="mb-2 font-semibold" htmlFor="backgroundImage">Upload Background Image:</label>
                 <input
                     type="file"
@@ -113,6 +114,7 @@ const ImageOverlay: React.FC = () => {
                     className="mb-4 border-1 border-gray-700 p-3 rounded-md"
                     required
                 />
+                <p className="text-sm text-red-600 mb-4 italic">Note: Main image must have a transparent background.</p>
                 <button
                     type="submit"
                     className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
