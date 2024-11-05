@@ -1285,7 +1285,7 @@ document.addEventListener('copy', handleCopyEvent);
         <Accordion
           type="single"
           collapsible
-          className="w-full flex flex-col gap-2"
+          className="w-full flex flex-col gap-2 p-5 shadow-md shadow-[var(--teal-color)] rounded-md"
         >
           {description?.faq?.map((ac, id) => (
             <AccordionItem value={ac.question} key={id}>
