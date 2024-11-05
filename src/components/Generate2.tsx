@@ -271,6 +271,7 @@ import { PressReleaseFormatter } from "./PressReleaseFormatter";
 import { NewsLetterSubjectline } from "./PressReleaseSubjectline";
 import { PodcastIntro } from "./PodcastInroduction";
 import { PodcastConclusion } from "./PodcastConclusion";
+import ImageOverlay from "./backgroundImage";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1167,6 +1168,8 @@ document.addEventListener('copy', handleCopyEvent);
         <PodcastIntro/>
       ):id === "6728b821db2aa48cccb3a5cc" ? (
         <PodcastConclusion/>
+      ):id === "6729dd2e76ed49d2dd371914" ? (
+        <ImageOverlay/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">

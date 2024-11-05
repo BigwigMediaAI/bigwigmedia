@@ -59,7 +59,6 @@ import { YoutubeScriptOutline } from "./components/YoutubeScriptOutline";
 import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
-import ImageOverlay from "./components/backgroundImage";
 
 const App = () => {
  
@@ -131,7 +130,6 @@ const App = () => {
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
         <Route path="/pod" element={<PodcastSummary />} />
-        <Route path="/addImage" element={<ImageOverlay />} />
 </Routes>
     </div>
   );
