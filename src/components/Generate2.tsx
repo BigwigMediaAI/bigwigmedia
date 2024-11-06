@@ -274,6 +274,7 @@ import { PodcastConclusion } from "./PodcastConclusion";
 import ImageOverlay from "./backgroundImage";
 import { BlogPostIntro } from "./BlogPostIntroduction";
 import { BlogPostConclusion } from "./BlogPostConclusion";
+import { VideoFormatConverter } from "./VideoFormatConverter";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1176,6 +1177,8 @@ document.addEventListener('copy', handleCopyEvent);
         <BlogPostIntro/>
       ):id === "672a08a85a2644398a58a007" ? (
         <BlogPostConclusion/>
+      ):id === "672b17a827f9819ed1027c18" ? (
+        <VideoFormatConverter/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
