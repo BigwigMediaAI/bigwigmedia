@@ -57,7 +57,8 @@ const Blog = () => {
     <Container>
       <BlogTitle>Our Trending Blogs</BlogTitle>
       <Description>
-      Discover how AI can boost your content creation, save time, and enhance productivity. Learn more about Bigwigmedia.AI in our blogs.
+      
+Boost content creation, save time, and enhance productivity with Bigwigmedia.AI.
       </Description>
       <Grid>
         {blogPosts.slice(0, 4).map(post => (
@@ -83,9 +84,8 @@ const Blog = () => {
 export default Blog;
 
 const Container = styled.div`
-  width: 90%;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
   border-radius: 0.5rem;
 `;
 

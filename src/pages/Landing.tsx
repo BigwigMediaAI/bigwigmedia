@@ -1,79 +1,40 @@
-// import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
-// import Hero from "../components/Hero";
-// import Menu from "../components/Menu";
-import Cards from "../components/Cards";
 import Stats from "./Stats";
-// import MenuMobile from "@/components/MenuMobile";
-import { useEffect, useState,useRef } from "react";
-import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
-import axios from "axios";
-import { useUser } from "@clerk/clerk-react";
-import { toast } from "sonner";
-import { useSearchParams,useNavigate } from "react-router-dom";
-import { Bookmark, Popsicle } from "lucide-react";
 import Modal from "../components/Model";
-import CategoryBox from "../components/CategoryBox";
-// @ts-ignore
-import { getLocation } from "current-location-geo";
-import {Loader2} from "lucide-react"
+import LoginModal from '../components/Model2';
 import FAQ from "./Faq";
 import LandingBlog from "./LandingBlog";
-import TestimonialsCarousel from "./Testimonials";
 import Testimonials from "./Testimonials";
 import PricingPlan from "./Pricing";
 import Features from "./Features";
-import categories from "@/components/toolsData";
-import gradient from "../assets/gradient.png";
 import WhoCanUseIt from "./WhoCanUse";
-// import Profile from "@/components/Profile";
-import MenuMobile from "@/components/MenuMobile";
-import Menu from "@/components/Menu";
+import { motion } from "framer-motion";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+
+
 import '../App.css'
-
-// type Props = {};
-
-export interface Card {
-  _id: String;
-  name: String;
-  description: String;
-  logo: string;
-  isBookmarked: Boolean;
-  labels: string[];
-  tagLine: String;
-  // setChange: Function;
-}
+import img1 from '../assets/first.jpg'
+import first from '../assets/bigwig-img-removebg-preview.png'
+import line1 from '../assets/line1.png'
+import line2 from '../assets/line2.png'
+import stats from '../assets/stats.jpg'
+import ToolShowcase from "./ToolsShowCase";
+import BestTool from "./BestTools";
+import gif from "../assets/image_generator.gif"
+import aiInSocial from "../assets/intro logo.mp4"
+import sora from "../assets/120848-724673614.mp4"
+import intro from "../assets/176794-856056410.mp4"
 
 const Landing = () => {
-  const [buttons, setButtons] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { user, isSignedIn, isLoaded } = useUser();
-  const [change, setChange] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [showTrialModal, setShowTrialModal] = useState(false);
-  const [searchResults, setSearchResults] = useState<Card[]>([]);
-  const [wordIndex, setWordIndex] = useState(0);
-  const [filteredCategories, setFilteredCategories] = useState(categories);
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const selectedButton = urlParams.get("selectedButton")?? "All Tools";
-
-
-  const [cards, setCards] = useState<Card[]>([]);
-  const [cardsBookmark, setCardsBookmark] = useState<Card[]>([]);
-  const [search, setSearch] = useState("");
-  const [isSearched, setIsSearched] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
-  const resultRef=useRef<HTMLDivElement>(null)
   const navigate = useNavigate();
-
-  const handleCloseTrialModal = () => {
-    // Function to handle closing the trial modal
-    setShowTrialModal(false);
-    // Set sessionStorage flag to indicate modal has been closed
-    sessionStorage.setItem("modalShown", "true");
-  };
+  const [showTrialModal, setShowTrialModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false); // State to show/hide scroll-to-top button
 
   useEffect(() => {
     const modalShown = sessionStorage.getItem("modalShown");
@@ -91,118 +52,23 @@ const Landing = () => {
     }
   }, [isLoaded, isSignedIn, user]);
 
-  const getLocationFunction = () => {
-    if (!location) {
-      getLocation(function (err: any, position: any) {
-        if (err) {
-          if (err.message === "User denied Geolocation") {
-            toast.error("Please enable location to get the best experience");
-          }
-        } else {
-          setLocation(position.address);
-        }
-      });
-    }
-  }
- 
-
-
-
-  const getButtons = async () => {
-    // const
-    const res = await axios.get(`${BASE_URL2}/objects/getCategories`);
-    const bookmarked = [...res.data.message];
-    if (isSignedIn) bookmarked.splice(1, 0, "My Tools");
-    setButtons(bookmarked);
-    // console.log(bookmarked)
+  const handleCloseTrialModal = () => {
+    setShowTrialModal(false);
+    sessionStorage.setItem("modalShown", "true");
   };
-  // console.log(buttons)
 
-  useEffect(() => {
-    getButtons();
-    // isSignedIn && getBookMarks();
-  }, [isLoaded, isSignedIn]);
 
-  const getBookMarks = async (bool = false) => {
-    console.log("a")
-    if (!isSignedIn) {
-      setCards([]);
-      toast.error("Please sign in to view your bookmarks");
-      return;
+  // Function to handle Explore button click
+  const handleExploreClick = () => {
+    if (isSignedIn) {
+      navigate('/tool'); // Redirect to /tool if logged in
+    } else {
+      setTimeout(() => {
+        setShowLoginModal(true); 
+      }, 0);
+      // Show login modal if not logged in
     }
-    // if (!location) return;
-    let locationn = "";
-    try {
-      getLocation(function (err: any, position: any) {
-        if (err) {
-          console.error("Error:", err);
-        } else {
-          locationn = position.addresss;
-        }
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-    // console.log(location)
-
-    // console.log("av", locationn, location);
-
-    const res = await axios.get(
-      `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location??locationn}`
-    );
-  
-  
-    const cards = res.data.data.map((card: Card) => ({
-      ...card,
-      isBookmarked: true,
-    }));
-    // setCards(cards);
-    setCardsBookmark(cards);
-  
-    if (bool) setCards(cards);
-    setIsLoading(false);
   };
-  // useEffect(() => {
-  //   if (mytools) {
-  //     setTimeout(() => {
-  //       searchParams.delete("mytools");
-  //       setSearchParams(searchParams);
-  //     }, 5000);
-  //   }
-  // }, []);
-
-  const getTemplates = async () => {
-    let url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}`;
-    // console.log("three", location);
-
-    if (isSignedIn)
-      url = `${BASE_URL2}/objects/getObjectByLabel/${selectedButton}?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}&address=${location}`;
-    const res = await axios.get(url);
-    // console.log("this is respose",res)
-    setCards(res.data.message);
-    setIsLoading(false);
-  };
-// console.log(cards)
-  useEffect(() => {
-    // if (buttons.length === 0) return;
-    // getLocationFunction()
-    if (isSearched && selectedButton === isSearched) return;
-    if (!isLoaded) return;
-    setIsLoading(true);
-    if (selectedButton !== "My Tools") {
-      getTemplates();
-    } else if (isSignedIn) getBookMarks(true);
-  }, [selectedButton, isLoaded, location]);
-  useEffect(() => {
-    if (buttons.length === 0) return;
-    if (selectedButton !== "My Tools") {
-      // getTemplates();
-    } else if (isSignedIn) {
-      setIsLoading(true);
-
-      getBookMarks(true);
-    }
-  }, [isLoaded, change]);
 
   const rotatingWords = [
     "Your Work",
@@ -231,58 +97,39 @@ const Landing = () => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (search.trim() === "") {
-      setFilteredCategories(categories);
-    } else {
-      const filtered = categories.filter((category:any) =>
-        category.name.toLowerCase().includes(search.toLowerCase())
-      );
-      setFilteredCategories(filtered);
-      // console.log(filteredCategories)
-    }
-  }, [search]);
-
-const handleSearch = async () => {
-  if (search.trim() === "") return;
-  setIsLoading(true);
-  const res = await axios.get(`${BASE_URL2}/objects/searchObjects/${search}`);
-  if (window.innerWidth < 768) {
-    if (!!isSearched) {
-      setButtons([search, ...buttons.slice(1)]);
-    } else setButtons([search, ...buttons]);
-    searchParams.set("selectedButton", search);
-    setSearchParams(searchParams);
-  }
-  setCards(res.data.message);
-  setIsSearched(search);
-  setIsLoading(false);
-};
-
-const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setSearch(e.target.value);
-};
-
-const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  if (e.key === "Enter") {
-    handleSearch();
-  }
-};
-
-  const toolSetter = (tool:string)=>{
-    searchParams.set("selectedButton", tool);
-    setSearchParams(searchParams);
-  }
-
-
-
+    // Handle scroll to top button visibility
+    useEffect(() => {
+      const toggleVisibility = () => {
+        if (window.scrollY > 300) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
+      };
+  
+      window.addEventListener("scroll", toggleVisibility);
+      return () => window.removeEventListener("scroll", toggleVisibility);
+    }, []);
+  
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
 
   return (
     <div className="bg-[var(--background-color)]">
       <Nav />
-      <div className="px-5 min-h-screen">
-        <div className="flex flex-col justify-center items-center relative mt-5">
-          <div className="text-[var(--primary-text-color)] text-center font-outfit text-[20px] md:text-[30px] lg:text-[40px] font-normal w-full flex gap-2 justify-center flex-wrap">
+      <div className="relative">
+  {/* Background Image */}
+  <video src={sora} autoPlay muted loop className="w-full opacity-90 object-cover" />
+
+  {/* Text Section (Top Center) */}
+  <div className="w-full absolute top-0 left-1/2 transform -translate-x-1/2 pt-8 md:pt-16 flex flex-col items-center text-center space-y-2 md:space-y-4">
+    <h4 className="text-center md:text-xl text-sm  bg-white text-[var(--teal-color)] px-10 py-2 rounded-2xl">#1 AI Tools Platform</h4>
+
+    <div className="text-white text-center font-outfit text-[20px] md:text-[30px] lg:text-[40px] font-normal w-full flex gap-2 justify-center flex-wrap">
             <span>Tools to Make{" "}</span>
             <span
               className="rotating-words fontW w-1/3 md:w-1/5 lg:w-1/6 font-outfit font-semibold text-white"
@@ -296,93 +143,145 @@ const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
             </span>{" "}
             <span>Simple</span>
           </div>
-          <div className="text-medium md:text-[30px] text-center text-[var(--primary-text-color)] mt-3 md:mt-5 mb-5">All-In-One AI Tools Platform</div>
+    <p className="px-5 text-sm md:text-xl font-medium text-white max-w-lg sm:max-w-2xl">
+      Discover AI tools for social media, marketing, and more—boost productivity and creativity.
+    </p>
+    <video 
+  src={intro} 
+  autoPlay
+  muted
+  loop
+  className="w-3/4 md:w-2/3 mt-4 md:mt-6 px-4 py-2 rounded-lg border-2  bg-black"
+/>
+  </div>
+</div>
 
-          <div className="w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit mb-10">
-            <div className="z-10 w-full max-w-[637px] mx-auto p-[4px] md:p-2 bg-[var(--background-color)] shadow-md border border-[var(--teal-color)] rounded-full">
-              <div className="flex justify-between items-center">
-                <input
-                  placeholder="Find Your Tool.."
-                  className="w-full border-none focus-visible:placeholder:text-transparent z-50 rounded-l-full outline-none px-4 py-1 md:py-4 placeholder:text-[var(--gray-color)] text-[var(--primary-text-color)] bg-transparent"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                />
-                <button
-                  className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--green)] hover:bg-[#141481] transition-all duration-300 ease-in-out"
-                  onClick={handleSearch}
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <div className="flex items-center justify-center ">
-          <Stats />
-        </div>
-        <div className=" hidden md:block">
-          {buttons.length > 0 && (
-            <Menu
-              buttons={buttons}
-              selectedButton={selectedButton}
-              setSelectedButton={toolSetter}
-            />
-          )}
-          {/* <Cards cards={cards} isLoading={isLoading} setChange={setChange} /> */}
-        </div>
-  
-        <div className="max-w-6xl m-auto px-4 hidden md:block ">
-          <div className="mb-6">
-            {filteredCategories.length === 0 ? (
-              <p className="text-center text-2xl md:text-5xl mt-8 text-[var(--gray-color)]">No such category found</p>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                {filteredCategories.map((category) =>
-                  category.name === "My Tools" && !isSignedIn ? null : (
-                    <CategoryBox
-                      key={category.name}
-                      logo={category.logo}
-                      name={category.name}
-                      toolCount={category.toolCount}
-                      tagLine={category.tagLine}
-                      redirectTo={category.redirectTo}
-                    />
-                  )
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="md:hidden">
-          <MenuMobile
-            buttons={buttons}
-            selectedButton={selectedButton}
-            setSelectedButton={toolSetter}
-            cards={cards}
-            isLoading={isLoading}
-            setChange={setChange}
+<section className="my-10 md:mt-10 about pt-20 md:pt-10 px-6 md:px-10 bg-white">
+  <div className="max-w-7xl mx-auto">
+    <div className="heading text-center mb-4">
+      
+      <h2 className="text-xl md:text-4xl font-bold text-gray-800 leading-snug">
+        Unlock Your Potential with Our Comprehensive Solutions
+      </h2>
+    </div>
+
+    <div className="content flex flex-col md:flex-row items-center gap-8">
+      {/* Left Content */}
+      <div className="left md:w-1/2 p-6 rounded-lg">
+        <h3 className="text-xl md:text-2xl font-bold mb-6 text-gray-800 leading-tight">
+          A Suite of Tools for Every Need
+        </h3>
+        <p className="mb-6 text-md text-gray-700 text-justify leading-relaxed">
+          Our platform offers an extensive collection of over 230 tools designed to enhance productivity and creativity. From image generation and prompt creators to marketing and email tools, we provide everything you need to streamline your workflow.
+        </p>
+        <p className="mb-6 text-md text-gray-700 text-justify leading-relaxed">
+          Whether you’re looking for HR solutions, video editing tools, file converters, or QR code generators, we’ve got you covered. Discover how our versatile tools can help you achieve your goals efficiently and effectively.
+        </p>
+        <button
+          className="flex items-center px-8 py-3 bg-[var(--teal-color)] text-white font-medium rounded-full shadow-md hover:bg-[var(--hover-teal-color)] transition-all duration-300 ease-in-out transform hover:scale-105"
+          onClick={handleExploreClick}
+        >
+          <span>Explore Tools</span>
+          <i className="fas fa-arrow-circle-right ml-3"></i>
+        </button>
+      </div>
+
+      {/* Right Content - Image with border */}
+      <div className="right md:w-1/2 p-4">
+      <div className=" rounded-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
+          <video
+            src={aiInSocial}
+        className="w-full h-auto rounded-lg shadow-lg"
+        autoPlay // Autoplay video when loaded
+        muted // Mute video by default
+        loop // Loop the video
           />
         </div>
       </div>
-      <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto">
+    </div>
+  </div>
+</section>
+
+
+      <div className="relative">
+        <img src={line2} alt="Line Decoration" className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10" />
+        <img src={stats} alt="Stats Image" className="w-full h-48 flex items-center justify-between z-0" />
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <Stats />
+        </div>
+        <img src={line1} alt="Line Decoration" className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10" />
+      </div>
+      <div className="mt-10 px-9 md:px-14 lg:px-24 mx-auto">
+      <BestTool />
+      </div>
+
+      <div className="relative mt-12">
+        <img src={line2} alt="Line Decoration" className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10" />
+        <img src={stats} alt="Stats Image" className="w-full h-60 flex items-center justify-between z-0" />
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+        <WhoCanUseIt />
+        </div>
+        <img src={line1} alt="Line Decoration" className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10" />
+      </div>
+
+
+      <ToolShowcase />
+
+
+      <div className=" px-9 md:px-14 lg:px-24 mx-auto">
         <Testimonials />
-      </div>  
-      <WhoCanUseIt />
+      </div>
+      
       <PricingPlan />
       <FAQ />
-      
+  
       <Modal isOpen={showTrialModal} onClose={handleCloseTrialModal} />
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
+
       <div className="mt-20 px-9 md:px-14 lg:px-24 mx-auto">
         <LandingBlog />
       </div>
       <Features />
+      <div className="relative">
+        <img src={line2} alt="Top Decoration" className="absolute top-0 left-0" />
+        <div className="w-full p-5 md:p-14 flex flex-col-reverse md:flex-row gap-5 md:gap-8 mt-10 bg-gradient-to-r from-indigo-900 via-gray-900 to-indigo-900 text-center md:text-left text-white">
+          {/* Left Section: Text Content */}
+          <div className="p-5 md:p-10 flex flex-col justify-center">
+            <h2 className="text-xl md:text-3xl font-bold mb-4">Get Started with Bigwigmedia.ai</h2>
+            <p className="text-lg mb-6">
+              Discover powerful AI tools designed to transform your workflow and boost productivity.
+            </p>
+            <ul className="text-md mb-6 space-y-2">
+              <li>🎉 <span className="font-semibold">30 Credits Free</span> </li>
+              <li>📅 <span className="font-semibold">7-Day Free Trial</span></li>
+              <li>💳 <span className="font-semibold">No Credit Card Required</span></li>
+            </ul>
+            <button className="bg-[var(--teal-color)] text-white py-3 rounded-full font-semibold hover:bg-white hover:text-[var(--teal-color)] border border-white md:w-1/3" onClick={handleExploreClick}>
+              Start Your Free Trial
+            </button>
+          </div>
+
+          {/* Right Section: Image */}
+          <div className="flex justify-center md:justify-end mt-6 md:mt-0">
+            <img src={first} alt="Illustrative image" className="w-64 md:w-96 h-auto rounded-lg" />
+          </div>
+        </div>
+        <img src={line1} alt="Bottom Decoration" className="absolute bottom-0 left-0" />
+      </div>
       <Footer />
+
+      {isVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-10 right-10 bg-[var(--teal-color)] text-white w-12 h-12 rounded-full shadow-lg hover:bg-[var(--hover-teal-color)] transition-all duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center"
+>
+          ↑
+        </button>
+      )}
     </div>
   );
-  
-  
 };
 
 export default Landing;
+
+

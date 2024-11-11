@@ -1,45 +1,38 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { cn } from "../utils/funcitons";
 
 interface MenuProps {
-  buttons: string[];
-  selectedButton: string;
-  setSelectedButton: (button: string) => void;
+  buttons: String[];
+  selectedButton: String;
+  setSelectedButton: Function;
 }
-
 const Menu = ({ buttons, selectedButton, setSelectedButton }: MenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
 
-  const handleButtonClick = (button: string) => {
-    setSelectedButton(button);
-    navigate(`/category/${button}`);
-  };
-
-  if (buttons.length === 0) return null;
+  if (buttons.length === 0) return;
 
   return (
-    <div className="relative flex flex-row mt-4 justify-end gap-1 md:gap-3 z-10 w-5/6 mx-auto transition-all duration-1000 mb-5 md:mb-10">
+    <div className="relative flex flex-row mt-14 justify-end gap-3 z-10  w-5/6 mx-auto transition-all duration-1000 mb-10">
       <div
         className={cn(
-          "left-0 z-40 w-[calc(100%-44px)] md:w-[calc(100%-76px)] mx-w-[240] md:auto lg:[644px] h-16 md:py-2 md:px-10 rounded-md bg-white-color shadow-md transition-all border border-gray-700 duration-1000 delay-1000",
-          isOpen && "h-fit overflow-auto"
+          "left-0 z-40  w-[calc(100%-68px)] mx-w-[240] md:auto lg:[644px]   h-16 py-2 px-10   rounded-md bg-white dark:bg-[#1E1E1E] shadow-md transition-all border border-gray-700   duration-1000",
+          isOpen && "h-fit overflow-auto "
         )}
       >
         <div
           className={cn(
-            "w-full flex flex-row items-center justify-start overflow-hidden gap-1 md:gap-4 transition-all duration-300 text-xl font-bold",
+            "w-full flex flex-row items-center justify-start overflow-hidden  gap-4 transition-all duration-300  text-xl font-bold",
             isOpen && "h-fit overflow-auto flex-wrap justify-center"
           )}
         >
           {buttons.map((button, id) => (
             <button
               className={cn(
-                "text-[rgba(30,30,30,0.50)] font-outfit rounded-full p-3 min-w-fit text-base font-medium",
-                button === selectedButton && "items-start text-[var(--teal-color)] border border-[var(--teal-color)]"
+                "text-[rgba(30,30,30,0.50)] font-outfit  border-none p-3 min-w-fit text-base font-medium ",
+                button === selectedButton &&
+                  " bg-[var(--teal-color)] rounded-3xl items-start text-white "
               )}
-              onClick={() => handleButtonClick(button)}
+              onClick={() => setSelectedButton(button)}
               key={id}
             >
               {button}
@@ -50,12 +43,14 @@ const Menu = ({ buttons, selectedButton, setSelectedButton }: MenuProps) => {
 
       <div className="w-14 h-14">
         <button
-          className="flex flex-col w-30 h-16 p-4 items-center justify-center gap-4 rounded-md border border-gray-700 bg-white-color shadow-md"
+          className={cn(
+            "flex flex-col w-30 h-16 p-4  items-center justify-center gap-4 rounded-md border border-gray-700 bg-white dark:bg-[#1E1E1E]  shadow-md "
+          )}
           onClick={() => setIsOpen(!isOpen)}
         >
           <span
             className={cn(
-              "w-30 h-30 transition-all duration-300 dark:invert",
+              "w-30 h-30  transition-all duration-300 dark:invert ",
               isOpen && "rotate-180"
             )}
           >
@@ -87,5 +82,4 @@ const Menu = ({ buttons, selectedButton, setSelectedButton }: MenuProps) => {
     </div>
   );
 };
-
 export default Menu;

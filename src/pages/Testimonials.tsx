@@ -1,5 +1,4 @@
 import React from 'react';
-import { Arrow } from 'react-konva';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 
@@ -57,6 +56,15 @@ I'm confident that Bigwigmedia AI app can be a valuable tool for anyone looking 
     }
 ];
 
+const headerGradients = [
+    "linear-gradient(120deg, #6366f1, #a78bfa)", // Indigo to Purple
+    "linear-gradient(120deg, #10b981, #34d399)", // Green gradient
+    "linear-gradient(120deg, #f59e0b, #fbbf24)", // Amber gradient
+    "linear-gradient(120deg, #ef4444, #f87171)", // Red gradient
+    "linear-gradient(120deg, #3b82f6, #60a5fa)", // Blue gradient
+    "linear-gradient(120deg, #ec4899, #f472b6)", // Pink gradient
+];
+
 const Testimonials = () => {
     const settings = {
         dots: false,
@@ -86,100 +94,140 @@ const Testimonials = () => {
     };
 
     return (
-        <div className='mt-24'>
-            <BlogTitle>What Our Clients Say</BlogTitle>
-            <div className='mb-4'>
-                <h1 className='text-center text-gray-600'>#1 Most Recommended & Most Talked-about Generative AI Tools</h1>
-            </div>
-            <div className="max-w-screen-lg mx-auto">
+        <Container>
+            <HeaderSection>
+                <Title>What Our Clients Say</Title>
+                <Subtitle>#1 Most Recommended & Talked-about AI Tools</Subtitle>
+            </HeaderSection>
+            <SliderContainer>
                 <StyledSlider {...settings}>
                     {testimonialsData.map((testimonial, index) => (
-                        <div key={index} className="testimonial-item p-5">
-                            <TestimonialCard>
-                                <div className="flex items-center mb-4">
-                                    <Avatar src={testimonial.avatar} alt={`${testimonial.name}'s avatar`} />
-                                    <div>
-                                        <Name>{testimonial.name}</Name>
-                                        <Company>{testimonial.company}</Company>
-                                    </div>
+                        <TestimonialCard key={index}>
+                            <CardHeader>
+                                <Avatar src={testimonial.avatar} alt={`${testimonial.name}'s avatar`} />
+                                <div>
+                                    <Name>{testimonial.name}</Name>
+                                    <Company>{testimonial.company}</Company>
                                 </div>
+                            </CardHeader>
+                            <CommentSection>
                                 <Comment>{testimonial.comment}</Comment>
-                                <Rating>
-                                    {[...Array(testimonial.rating)].map((_, i) => (
-                                        <Star key={i}>&#9733;</Star>
-                                    ))}
-                                </Rating>
-                            </TestimonialCard>
-                        </div>
+                            </CommentSection>
+                            <Rating>
+                                {[...Array(testimonial.rating)].map((_, i) => (
+                                    <Star key={i}>&#9733;</Star>
+                                ))}
+                            </Rating>
+                        </TestimonialCard>
                     ))}
                 </StyledSlider>
-            </div>
-        </div>
+            </SliderContainer>
+        </Container>
     );
 };
 
-const BlogTitle = styled.h1`
-  font-size: 2rem;
-  color: var(--Heading);
-  text-align: center;
-  margin-bottom: 1rem;
+const Container = styled.div`
+    padding: 4rem 0;
+    text-align: center;
+`;
+
+const HeaderSection = styled.div`
+    margin-bottom: 2rem;
+`;
+
+const Title = styled.h1`
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+`;
+
+const Subtitle = styled.p`
+    color: #4b5563;
+    font-size: 1rem;
+`;
+
+const SliderContainer = styled.div`
+    max-width: 1000px;
+    margin: 0 auto;
 `;
 
 const StyledSlider = styled(Slider)`
     .slick-slide {
-        padding: 0 10px; /* Adjust the padding here to create space between slides */
+        padding: 0 15px;
     }
     .slick-dots {
-        bottom: -30px; /* Adjust the position of dots */
+        bottom: -30px;
     }
 `;
 
 const TestimonialCard = styled.div`
-    background-color: var(--white-color);
+     background-color: var(--white-color);
     border-radius: 0.5rem;
     box-shadow: 0 8px 8px var(--teal-color);
-    padding: 1.5rem;
-    height: 300px; /* Set a fixed height for uniformity */
+    padding: 1rem;
+    height: 320px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden; /* Hide overflow if content exceeds */
+    overflow: hidden;
+`;
+
+
+const CardHeader = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(120deg, #6366f1 0%, #a78bfa 100%);
+    padding: 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
 `;
 
 const Avatar = styled.img`
-    width: 64px; /* Consistent width */
-    height: 64px; /* Consistent height */
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 2px solid #A78BFA; /* Purple border color */
-    object-fit: cover;
-    margin-right: 1rem;
+    border: 2px solid #ffffff;
 `;
 
 const Name = styled.h3`
     font-size: 1.125rem;
-    color: #4A5568; /* Text color */
+    color: #ffffff;
+    margin: 0;
 `;
 
 const Company = styled.h4`
     font-size: 0.875rem;
-    color: #6B7280; /* Text color */
+    color: #e5e7eb;
+    margin: 0;
+`;
+
+const CommentSection = styled.div`
+    background-color: #f3f4f6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 150px;
 `;
 
 const Comment = styled.p`
     font-size: 1rem;
-    color: #4B5563; /* Text color */
+    color: #374151;
     margin: 0;
-    overflow: auto; /* Show overflow content */
+    text-align: justify;
 `;
 
 const Rating = styled.div`
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
 `;
 
 const Star = styled.span`
-    color: #F59E0B; /* Star color */
-    font-size: 1.5rem;
+    color: #fbbf24;
+    font-size: 1.25rem;
 `;
 
 export default Testimonials;

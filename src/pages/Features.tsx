@@ -28,7 +28,7 @@ const Features = () => {
   return (
     <div className='mt-20'>
       <BlogTitle>Significant Benefits</BlogTitle>
-    <div className="max-w-unit-80 md:max-w-screen-lg mx-auto mt-6">
+    <div className="max-w-unit-72 md:max-w-screen-lg mx-auto mt-6">
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-8 ">
         {features.map((feature, index) => (
           <div key={index} className="rounded-lg p-6  text-center shadow-md shadow-[var(--teal-color)] ">

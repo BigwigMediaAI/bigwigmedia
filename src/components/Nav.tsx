@@ -128,12 +128,12 @@ useEffect(()=>{
     loadGoogleTranslateScript();
   }, []);
 
-  const handleContacts = () => {
-    window.location.href="/contact"
-  };
 
   const handleBlogs = () => {
     window.location.href="/blog"
+  };
+  const handleTools = () => {
+    window.location.href="/tool"
   };
 
   return (
@@ -148,8 +148,9 @@ useEffect(()=>{
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-[var(--background-color)] shadow-md">
               <DropdownMenuItem onClick={() => navigate("/")}>Home</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleTools}>Tools</DropdownMenuItem>
               <DropdownMenuItem onClick={handleBlogs}>Blogs</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleContacts}>Contact us</DropdownMenuItem>
+              
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -165,11 +166,11 @@ useEffect(()=>{
             <button onClick={() => navigate('/')} className="text-[var(--primary-text-color)]  hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
               Home
             </button>
+            <button onClick={() => navigate('/tool')} className="text-[var(--primary-text-color)]  hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
+              Tools
+            </button>
             <button onClick={() => navigate('/blog')} className="text-[var(--primary-text-color)]  hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
               Blogs
-            </button>
-            <button onClick={() => navigate('/contact')} className="text-[var(--primary-text-color)] hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
-              Contact us
             </button>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { SignOutButton, useUser } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
-import { Card } from "@/pages/Landing";
+import { Card } from "@/pages/ToolData";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";

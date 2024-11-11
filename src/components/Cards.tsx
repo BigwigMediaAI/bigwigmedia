@@ -1,5 +1,5 @@
 import { Navigate, useNavigate } from "react-router-dom";
-import { Card } from "../pages/Landing";
+import { Card } from "../pages/ToolData";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
@@ -8,6 +8,7 @@ import { BASE_URL } from "@/utils/funcitons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import LoginModal from "../components/Model2";
+import BigwigLoader from "@/pages/Loader";
 
 const Cards = ({
   cards,
@@ -28,7 +29,7 @@ const Cards = ({
         })
       ) : (
         <div className="w-full h-full flex items-center justify-center">
-          <Loader2 className="animate-spin w-20 h-20 mt-20" />
+          <BigwigLoader />
         </div>
       )}
     </div>
@@ -71,7 +72,7 @@ const CardComponent = ({
 
   return (
     <div className="shadow-md shadow-[var(--teal-color)] p-0.5 rounded-xl">
-      <div className="flex flex-col justify-between gap-5 px-3 py-4 text-gray-700 shadow-accordian rounded-xl w-[300px] h-[234px] bg-[var(--white-color)]">
+      <div className="flex flex-col justify-between gap-5 px-3 py-4 text-gray-700 shadow-accordian rounded-xl w-[355px] h-[265px] bg-[var(--white-color)]">
         <div className="flex flex-row gap-8 justify-start items-center">
           {!imageLoaded && (
             <svg
@@ -94,7 +95,7 @@ const CardComponent = ({
               "https://social-media-ai-content-api.onrender.com"
             )}
             alt=""
-            className="m-3 max-w-9 max-h-9"
+            className="m-3 max-w-16 max-h-16"
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageLoaded(false)}
             style={{ display: imageLoaded ? "initial" : "none" }}
@@ -103,12 +104,12 @@ const CardComponent = ({
             {card.name}
           </div>
         </div>
-        <div className="w-full line-clamp-3 text-center text-sm font-normal">
+        <div className="w-full line-clamp-3 text-center text-md font-normal">
           {card.tagLine}
         </div>
         <div className="flex items-start justify-center pt-0 gap-5">
           <button
-            className="flex w-full p-1 md:p-2 justify-center my-auto gap-2.26 rounded-full bg-white border-2 border-[var(--teal-color)] text-[var(--teal-color)] font-outfit text-base font-medium px-10 mx-auto"
+            className="flex w-full p-1 md:p-2 justify-center my-auto gap-2.26 rounded-full bg-white hover:bg-[var(--teal-color)] hover:text-[var(--white-color)] border-2 border-[var(--teal-color)] text-[var(--teal-color)] font-outfit text-base font-medium px-10 mx-auto"
             onClick={() => {
               if (bool) {
                 toast("Coming Soon...");

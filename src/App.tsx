@@ -29,6 +29,7 @@ import {Decision} from "./components/DecisionTool";
 import { Seotool } from "./components/SEOtool";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { clarity } from "react-microsoft-clarity";
 import { ImageTool } from "./components/Imageresizer";
 import { CodeConverter } from "./components/Codeconverter";
 import { MarketingCampaign } from "./components/Marketingcampaing";
@@ -59,6 +60,7 @@ import { YoutubeScriptOutline } from "./components/YoutubeScriptOutline";
 import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
+import ToolData from "./pages/ToolData";
 
 const App = () => {
  
@@ -130,6 +132,7 @@ const App = () => {
         <Route path="/caption" element={<TiktokCaption />} />   
         <Route path="/aboutme" element={<AboutmeGenerator />} />
         <Route path="/pod" element={<PodcastSummary />} />
+        <Route path="/tool" element={<ToolData />} />
 </Routes>
     </div>
   );

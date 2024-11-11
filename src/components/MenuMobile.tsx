@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Cards from "./Cards";
-import { Card } from "@/pages/Landing";
+import { Card } from "@/pages/ToolData";
 import { button } from "@nextui-org/react";
 
 
