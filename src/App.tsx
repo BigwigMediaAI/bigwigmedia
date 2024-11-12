@@ -61,8 +61,6 @@ import { TiktokCaption } from "./components/TiktokCaption";
 import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
 import ToolData from "./pages/ToolData";
-import { ArticleIntro } from "./components/ArticleIntroduction";
-import { ArticleConclusion } from "./components/ArticleConclusion";
 import { AudioMerger } from "./components/AudioMerger";
 
 const App = () => {
@@ -136,8 +134,6 @@ const App = () => {
         <Route path="/aboutme" element={<AboutmeGenerator />} />
         <Route path="/pod" element={<PodcastSummary />} />
         <Route path="/tool" element={<ToolData />} />
-        <Route path="/articleIntro" element={<ArticleIntro />} />
-        <Route path="/articleconclusion" element={<ArticleConclusion />} />
         <Route path="/audiomerge" element={<AudioMerger />} />
 </Routes>
     </div>
