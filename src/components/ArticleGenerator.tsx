@@ -18,6 +18,8 @@ export function GenerateArticle() {
   const [generatedArticle, setgeneratedArticle] = useState([]);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
   const [generateImage, setGenerateImage] = useState(true);
+  const [includeIntroduction, setIncludeIntroduction] = useState(true);
+  const [includeConclusion, setIncludeConclusion] = useState(true);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
@@ -65,15 +67,18 @@ export function GenerateArticle() {
       setIsLoading(false);
       return;
     }
-
+    console.log(includeConclusion,includeIntroduction)
     try {
       const response = await axios.post(`${BASE_URL}/response/generateArticle?clerkId=${userId}`, {
         description,
         tone,
         language,
         outputCount,
-        generateImage
+        generateImage,
+        includeIntroduction,
+        includeConclusion
       });
+      
 
       if (response.status === 200) {
         console.log(response.data);
@@ -310,6 +315,32 @@ export function GenerateArticle() {
             </option>
           ))}
         </select>
+      </div>
+
+      <div className='flex justify-center gap-5'>
+      <div className="mb-5 flex items-center gap-4">
+        <label className="text-[var(--primary-text-color)]">Include Introduction</label>
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={includeIntroduction}
+            onChange={() => setIncludeIntroduction(!includeIntroduction)}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+      
+      <div className="mb-5 flex items-center gap-4">
+        <label className="text-[var(--primary-text-color)]">Include Conclusion</label>
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={includeConclusion}
+            onChange={() => setIncludeConclusion(!includeConclusion)}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
       </div>
 
       <div className="space-y-4">
