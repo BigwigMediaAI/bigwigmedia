@@ -24,9 +24,9 @@ import stats from '../assets/stats.jpg'
 import ToolShowcase from "./ToolsShowCase";
 import BestTool from "./BestTools";
 import gif from "../assets/image_generator.gif"
-import aiInSocial from "../assets/intro logo.mp4"
+import aiInSocial from "../assets/176794-856056410.mp4"
 import sora from "../assets/120848-724673614.mp4"
-import intro from "../assets/176794-856056410.mp4"
+import intro from "../assets/intro logo.mp4"
 
 const Landing = () => {
   const { user, isSignedIn, isLoaded } = useUser();
