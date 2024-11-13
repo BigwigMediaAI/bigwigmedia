@@ -24,7 +24,7 @@ import stats from '../assets/stats.jpg'
 import ToolShowcase from "./ToolsShowCase";
 import BestTool from "./BestTools";
 import gif from "../assets/image_generator.gif"
-import aiInSocial from "../assets/176794-856056410.mp4"
+import aiInSocial from "../assets/Intro video website-1.mp4"
 import sora from "../assets/27725-365890983_medium.mp4"
 import intro from "../assets/intro logo.mp4"
 
