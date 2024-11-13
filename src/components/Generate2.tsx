@@ -278,6 +278,7 @@ import { VideoFormatConverter } from "./VideoFormatConverter";
 import { ArticleIntro } from "./ArticleIntroduction";
 import { ArticleConclusion } from "./ArticleConclusion";
 import { AudioMerger } from "./AudioMerger";
+import { PodcastNewsletter } from "./PodcastNewsletter";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1188,6 +1189,8 @@ document.addEventListener('copy', handleCopyEvent);
         <ArticleConclusion/>
       ):id === "67334c06ce11ab9126a5e474" ? (
         <AudioMerger/>
+      ):id === "673493466b1ac1b151b3a937" ? (
+        <PodcastNewsletter/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
