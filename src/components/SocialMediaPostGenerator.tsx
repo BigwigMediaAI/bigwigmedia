@@ -11,13 +11,16 @@ import BigwigLoader from '@/pages/Loader';
 export function SocialMediaPostGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [platform, setPlatform] = useState('')
-  const [topic, setTopic] = useState('');
-  const [keywords, setKeywords] = useState('')
-  const [tone, setTone] = useState('');
+  const [description, setdescription] = useState('');
+  const [tone, setTone] = useState('informative');
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
   const [generatedPost, setgeneratedPost] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const [includeEmoji, setincludeEmoji] = useState(true);
+  const [includeHashtag, setincludeHashtag] = useState(true);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
+  const [generateImage, setGenerateImage] = useState(true);
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -44,8 +47,7 @@ export function SocialMediaPostGenerator() {
 
   const handleGenerate = async () => {
     if (
-      !validateInput(topic)||
-      !validateInput(keywords)
+      !validateInput(description)
     ) {
       toast.error('Your input contains prohibited words. Please remove them and try again.');
       return;
@@ -71,16 +73,19 @@ export function SocialMediaPostGenerator() {
     try {
       const response = await axios.post(`${BASE_URL}/response/generateSocialMediaPost?clerkId=${userId}`, {
         platform,
-        topic,
-        keywords,
+        description,
         tone,
         language,
         outputCount,
+        includeEmoji,
+        includeHashtag,
+        generateImage
       });
 
       if (response.status === 200) {
         console.log(response.data);
-        setgeneratedPost(response.data);
+        setgeneratedPost(response.data.posts);
+        setGeneratedImageUrl(response.data.imageUrl);
       } else {
         toast.error('Error generating social media post. Please try again later.');
       }
@@ -114,14 +119,26 @@ export function SocialMediaPostGenerator() {
     { value: 'Telegram', label: 'Telegram' },
 ];
 
-
-  const tones = [
-    { value: '', label: 'Select tone' },
-    { value: 'engaging', label: 'Engaging' },
-    { value: 'informative', label: 'Informative' },
-    { value: 'humorous', label: 'Humorous' },
-    { value: 'enthusiastic', label: 'Enthusiastic' },
-  ];
+const tones = [
+  { value: 'informative', label: 'Informative' },
+  { value: 'professional', label: 'Professional' },
+  { value: 'creative', label: 'Creative' },
+  { value: 'humorous', label: 'Humorous' },
+  { value: 'minimal', label: 'Minimal' },
+  { value: 'informal', label: 'Informal' },
+  { value: 'persuasive', label: 'Persuasive' },
+  { value: 'emotional', label: 'Emotional' },
+  { value: 'conversational', label: 'Conversational' },
+  { value: 'authoritative', label: 'Authoritative' },
+  { value: 'analytical', label: 'Analytical' },
+  { value: 'sarcastic', label: 'Sarcastic' },
+  { value: 'optimistic', label: 'Optimistic' },
+  { value: 'urgent', label: 'Urgent' },
+  { value: 'motivational', label: 'Motivational' },
+  { value: 'friendly', label: 'Friendly' },
+  { value: 'casual', label: 'Casual' },
+  { value: 'formal', label: 'Formal' },
+];
 
   const languages = [
     { value: 'Afrikaans', label: 'Afrikaans' },
@@ -284,25 +301,16 @@ export function SocialMediaPostGenerator() {
         </select>
       </div>
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">What's the topic of your post</label>
-        <input
-          type="text"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          placeholder="E.g., Launching our new product"
+        <label className="block text-[var(--primary-text-color)]">Describe your Post</label>
+        <textarea
+          value={description}
+          rows={3}
+          onChange={(e) => setdescription(e.target.value)}
+          placeholder="E.g., Tips on improving productivity while working from home"
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         />
       </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Enter Few Keywords</label>
-        <input
-          type="text"
-          value={keywords}
-          onChange={(e) => setKeywords(e.target.value)}
-          placeholder="E.g., innovation, technology, launch"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
+
       <div className="mb-5">
         <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
@@ -339,6 +347,49 @@ export function SocialMediaPostGenerator() {
           ))}
         </select>
       </div>
+
+      <div className='flex justify-center gap-5'>
+      <div className="mb-5 flex items-center gap-4">
+        <label className="text-[var(--primary-text-color)]">Use Emoji</label>
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={includeEmoji}
+            onChange={() => setincludeEmoji(!includeEmoji)}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+      
+      <div className="mb-5 flex items-center gap-4">
+        <label className="text-[var(--primary-text-color)]">Use Hashtag</label>
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={includeHashtag}
+            onChange={() => setincludeHashtag(!includeHashtag)}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+      </div>
+
+      <div className="space-y-4">
+  {/* Checkbox for generating AI image */}
+  <div className="flex items-center space-x-3">
+    <input 
+      type="checkbox" 
+      className="h-5 w-5 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+      checked={generateImage} 
+      onChange={(e) => setGenerateImage(e.target.checked)} 
+    />
+    <label className="text-lg font-medium text-gray-700">
+      Would you like to Generate an Image
+    </label>
+  </div>
+
+</div>
+
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
@@ -348,7 +399,15 @@ export function SocialMediaPostGenerator() {
           {isLoading ? 'Generating...' : (generatedPost.length > 0 ? "Regenerate" : 'Generate')}
         </button>
       </div>
-      <div className="mt-5">
+
+      {generatedImageUrl && (
+            <div>
+             <p className="text-red-600 mt-4 mb-4 text-md md:block hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
+             <p className="text-red-600 mt-4 mb-4 text-md md:hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by tapping on it. You will be redirected to a new page, where you can touch and hold the image, then select "Save Image" to download it.</p>
+             </div>
+          )}
+
+        <div className="mt-5">
         {isLoading ? (
             <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
             <BigwigLoader />
@@ -358,18 +417,18 @@ export function SocialMediaPostGenerator() {
             generatedPost.length > 0 && (
             <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
                 <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-[var(--primary-text-color)] ">Generated Posts</h1>
+                <h1 className="text-2xl text-[var(--primary-text-color)]  ">Generated Post</h1>
                 <div className="flex gap-2">
                     <button
                     onClick={handleShare}
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
                     title="Share"
                     >
                     <Share2 />
                     </button>
                     <button
                     onClick={handleDownload}
-                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
                     title="Download"
                     >
                     <Download />
@@ -377,23 +436,29 @@ export function SocialMediaPostGenerator() {
                 </div>
                 </div>
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-              {generatedPost.map((post, index) => (
-          <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
-            <div className="flex justify-between items-center mb-2">
-              <div className="absolute top-2 right-2 space-x-2">
-                <button
-                  onClick={() => handleCopy(post)}
-                  className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
-                  title="Copy"
-                >
-                  <Copy />
-                </button>
-              </div>
-            </div>
-            <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
-          </div>
-        ))}
-        </div>
+                  {generatedPost.map((post, index) => (
+                    <div key={index} className="p-4 rounded-lg mb-4 relative border border-[var(--primary-text-color)]">
+                      {generatedImageUrl && (
+                        <div>
+                        <a href={generatedImageUrl} target="_blank" rel="noopener noreferrer">
+                          <img src={generatedImageUrl} alt="Generated Blog Image" className="w-1/2 mb-10 m-auto" />
+                        </a>
+                      </div>
+                      
+                      )}
+                      <div className="absolute top-2 right-2 space-x-2">
+                    <button
+                      onClick={() => handleCopy(post)}
+                      className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                      title="Copy"
+                    >
+                      <Copy />
+                    </button>
+                  </div>
+                      <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
+                    </div>
+                  ))}
+                </div>
                 
             </div>
             )
