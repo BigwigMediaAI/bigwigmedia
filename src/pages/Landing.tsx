@@ -13,7 +13,7 @@ import WhoCanUseIt from "./WhoCanUse";
 import { motion } from "framer-motion";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 
 import '../App.css'
 import img1 from '../assets/first.jpg'
@@ -34,6 +34,7 @@ const Landing = () => {
   const [showTrialModal, setShowTrialModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
   const [isVisible, setIsVisible] = useState(false); // State to show/hide scroll-to-top button
 
   useEffect(() => {
@@ -51,6 +52,10 @@ const Landing = () => {
       }
     }
   }, [isLoaded, isSignedIn, user]);
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
 
   const handleCloseTrialModal = () => {
     setShowTrialModal(false);
@@ -188,15 +193,31 @@ const Landing = () => {
 
       {/* Right Content - Image with border */}
       <div className="right md:w-1/2 p-4">
-      <div className=" rounded-lg overflow-hidden transform hover:scale-105 transition-all duration-300">
-          <video
-            src={aiInSocial}
+      <div className="relative rounded-lg overflow-hidden transform transition-all duration-300">
+      <video
+        src={aiInSocial}
         className="w-full h-auto rounded-lg shadow-lg"
-        autoPlay // Autoplay video when loaded
-        muted // Mute video by default
-        loop // Loop the video
-          />
-        </div>
+        autoPlay
+        muted={isMuted}
+        loop
+      />
+
+{/* Mute/Unmute Button */}
+<button
+        onClick={toggleMute}
+        className="absolute top-4 left-4 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full p-3 hover:bg-gray-100 focus:outline-none transition-all duration-300 flex items-center group"
+      >
+        {/* Icon */}
+        {isMuted ? <FaVolumeMute size={28} /> : <FaVolumeUp size={28} />}
+
+        {/* Expanding Text */}
+        <span
+          className={`ml-2 text-md font-bold text-gray-800 overflow-hidden transition-all duration-300 ease-in-out max-w-0 opacity-0 group-hover:max-w-[3rem] group-hover:opacity-100`}
+        >
+          {isMuted ? "Listen" : "Mute"}
+        </span>
+      </button>
+    </div>
       </div>
     </div>
   </div>
