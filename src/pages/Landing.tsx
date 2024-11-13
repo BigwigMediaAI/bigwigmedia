@@ -208,21 +208,12 @@ const Landing = () => {
   className="absolute top-4 left-4 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full p-3 hover:bg-gray-100 focus:outline-none transition-all duration-300 flex items-center group"
 >
   {/* Icon */}
-  {isMuted ? (
-    <FaVolumeMute 
-      size={isMuted ? 20 : 28} // Icon size based on mute state
-      className="text-sm md:text-xl" // Smaller icon on mobile (text-sm) and larger on desktop (sm:text-xl)
-    />
-  ) : (
-    <FaVolumeUp 
-      size={isMuted ? 20 : 28} // Icon size based on mute state
-      className="text-sm md:text-xl" // Smaller icon on mobile (text-sm) and larger on desktop (sm:text-xl)
-    />
-  )}
+  
+  {isMuted ? <FaVolumeMute className="text-sm md:text-3xl" /> : <FaVolumeUp className="text-sm md:text-3xl" />}
 
   {/* Expanding Text */}
   <span
-    className="ml-2 text-md font-bold text-gray-800 overflow-hidden transition-all duration-300 ease-in-out max-w-0 opacity-0 group-hover:max-w-[3rem] group-hover:opacity-100
+    className="ml-2 text-2xl font-bold text-gray-800 overflow-hidden transition-all duration-300 ease-in-out max-w-0 opacity-0 group-hover:min-w-[6rem] group-hover:opacity-100
     hidden sm:inline-block" // Hide on mobile, show on screens >= sm
   >
     {isMuted ? "Listen" : "Mute"}
