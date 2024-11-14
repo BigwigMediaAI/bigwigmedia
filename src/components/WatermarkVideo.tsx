@@ -216,6 +216,7 @@ export function WatermarkVideo() {
                 onChange={(e) => setFontSize(Number(e.target.value))}
                 className="w-full p-3 border border-[var(--primary-text-color)] rounded mb-4"
             >
+                <option value={16}>16px</option>
                 <option value={20}>20px</option>
                 <option value={28}>28px</option>
                 <option value={32}>32px</option>
@@ -223,7 +224,7 @@ export function WatermarkVideo() {
                 <option value={40}>40px</option>
                 <option value={44}>44px</option>
                 <option value={48}>48px</option>
-                <option value={50}>50px</option>
+                
             </select>
         </div>
             <div className="w-1/2 flex-col">

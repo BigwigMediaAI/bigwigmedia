@@ -10,7 +10,7 @@ import BigwigLoader from '@/pages/Loader';
 
 export function SocialMediaPostGenerator() {
   const [isLoading, setIsLoading] = useState(false);
-  const [platform, setPlatform] = useState('')
+  const [platform, setPlatform] = useState('Twitter')
   const [description, setdescription] = useState('');
   const [tone, setTone] = useState('informative');
   const [language, setLanguage] = useState('English');
@@ -295,6 +295,7 @@ const tones = [
           onChange={(e) => setPlatform(e.target.value)}
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
         >
+
           {platforms.map((platformOption) => (
             <option key={platformOption.value} value={platformOption.value}>{platformOption.label}</option>
           ))}
