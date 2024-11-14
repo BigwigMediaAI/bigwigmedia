@@ -198,9 +198,8 @@ export function WatermarkVideo() {
       </div>
 
       {watermarkType === "text" ? (
-        <div className="mb-5 flex gap-5">
-            <div className="flex-col w-2/3">
-            <label className="block font-bold">Enter Watermark Text:</label>
+        <div>
+        <label className="block font-bold">Enter Watermark Text:</label>
           <input
             type="text"
             value={text}
@@ -208,17 +207,9 @@ export function WatermarkVideo() {
             placeholder="e.g. Confidential"
             className="w-full p-3 border border-[var(--primary-text-color)] rounded mb-4"
           />
-            </div>
-          <div className="flex-col w-1/4">
-          <label className="block font-bold">Choose Text Color:</label>
-          <input
-            type="color"
-            value={textColor}
-            onChange={(e) => setTextColor(e.target.value)}
-            className="mb-4 w-14 h-14"
-          />
-          </div>
-          <div className="flex-col w-1/4">
+        
+          <div className="flex gap-5">
+          <div className="flex-col w-1/2">
             <label className="block font-bold">Font Size:</label>
             <select
                 value={fontSize}
@@ -235,7 +226,18 @@ export function WatermarkVideo() {
                 <option value={50}>50px</option>
             </select>
         </div>
+            <div className="w-1/2 flex-col">
+          <label className="block font-bold">Choose Text Color:</label>
+          <input
+            type="color"
+            value={textColor}
+            onChange={(e) => setTextColor(e.target.value)}
+            className="mb-4 w-14 h-14"
+          />
+          </div>
           
+          
+        </div>
         </div>
       ) : (
         <div className="mb-5">
