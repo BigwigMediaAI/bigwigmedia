@@ -232,7 +232,7 @@ export function WatermarkVideo() {
             type="color"
             value={textColor}
             onChange={(e) => setTextColor(e.target.value)}
-            className="mb-4 w-14 h-14"
+            className="mb-4 w-12 h-12"
           />
           </div>
           
