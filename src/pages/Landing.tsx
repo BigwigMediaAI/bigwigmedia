@@ -27,6 +27,7 @@ import gif from "../assets/image_generator.gif"
 import aiInSocial from "../assets/Intro video website-1.mp4"
 import sora from "../assets/27725-365890983_medium.mp4"
 import intro from "../assets/intro logo.mp4"
+import verified from "../assets/verified.png"
 
 const Landing = () => {
   const { user, isSignedIn, isLoaded } = useUser();
@@ -132,7 +133,10 @@ const Landing = () => {
 
   {/* Text Section (Top Center) */}
   <div className="w-full absolute top-0 left-1/2 transform -translate-x-1/2 pt-8 md:pt-16 flex flex-col items-center text-center space-y-2 md:space-y-4">
-    <h4 className="text-center md:text-xl text-sm  bg-white text-[var(--teal-color)] px-10 py-2 rounded-2xl">#1 AI Tools Platform</h4>
+    <div className=" flex gap-3 text-center md:text-xl text-sm  bg-white text-[var(--teal-color)] px-10 py-2 rounded-2xl">
+      <img src={verified} alt=""  className="w-6 h-6"/>
+      <p>Verified by OpenAI</p>
+    </div>
 
     <div className="text-white text-center font-outfit text-[20px] md:text-[30px] lg:text-[40px] font-normal w-full flex gap-2 justify-center flex-wrap">
             <span>Tools to Make{" "}</span>
