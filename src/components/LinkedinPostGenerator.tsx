@@ -12,7 +12,7 @@ export function GenerateLinkedInPosts() {
   const [isLoading, setIsLoading] = useState(false);
   const [topic,setTopic] = useState('');
   const [content, setContent] = useState('');
-  const [tone, setTone] = useState('');
+  const [tone, setTone] = useState('informative');
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
   const [generatedPosts, setGeneratedPosts] = useState([]);
@@ -22,6 +22,8 @@ export function GenerateLinkedInPosts() {
   const resultsRef = useRef<HTMLDivElement>(null);
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
+  const [generateImage, setGenerateImage] = useState(true);
 
   const getCredits = async () => {
     try {
@@ -73,11 +75,13 @@ export function GenerateLinkedInPosts() {
         tone,
         language,
         outputCount,
+        generateImage
       });
   
       if (response.status === 200) {
         console.log(response.data)
-        setGeneratedPosts(response.data);
+        setGeneratedPosts(response.data.posts);
+        setGeneratedImageUrl(response.data.imageUrl)
       } else {
         toast.error('Error generating LinkedIn posts. Please try again later.');
       }
@@ -328,6 +332,22 @@ export function GenerateLinkedInPosts() {
         </select>
       </div>
 
+      <div className="space-y-4">
+  {/* Checkbox for generating AI image */}
+  <div className="flex items-center space-x-3">
+    <input 
+      type="checkbox" 
+      className="h-5 w-5 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+      checked={generateImage} 
+      onChange={(e) => setGenerateImage(e.target.checked)} 
+    />
+    <label className="text-lg font-medium text-gray-700">
+      Would you like to Generate an Image
+    </label>
+  </div>
+
+</div>
+
       <div className="mt-5 flex justify-center">
         <button
           className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
@@ -337,6 +357,13 @@ export function GenerateLinkedInPosts() {
           {isLoading ? 'Generating...' :(generatedPosts.length>0?"Regenerate":'Generate') }
         </button>
       </div>
+
+      {generatedImageUrl && (
+            <div>
+             <p className="text-red-600 mt-4 mb-4 text-md md:block hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
+             <p className="text-red-600 mt-4 mb-4 text-md md:hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by tapping on it. You will be redirected to a new page, where you can touch and hold the image, then select "Save Image" to download it.</p>
+             </div>
+          )}
 
       <div className="mt-5">
   {isLoading ? (
@@ -369,6 +396,14 @@ export function GenerateLinkedInPosts() {
         <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
         {generatedPosts.map((post, index) => (
           <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
+            {generatedImageUrl && (
+                        <div>
+                        <a href={generatedImageUrl} target="_blank" rel="noopener noreferrer">
+                          <img src={generatedImageUrl} alt="Generated Blog Image" className="w-1/2 mb-10 m-auto" />
+                        </a>
+                      </div>
+                      
+                      )}
             <div className="flex justify-between items-center mb-2">
               <div className="absolute top-2 right-2 space-x-2">
                 <button
