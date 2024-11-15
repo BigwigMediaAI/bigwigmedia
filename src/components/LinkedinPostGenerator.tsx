@@ -15,6 +15,8 @@ export function GenerateLinkedInPosts() {
   const [tone, setTone] = useState('informative');
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
+  const [useEmoji, setUseEmoji] = useState(true);
+  const [useHashtags, setUseHashtags] = useState(true);
   const [generatedPosts, setGeneratedPosts] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
@@ -75,6 +77,8 @@ export function GenerateLinkedInPosts() {
         tone,
         language,
         outputCount,
+        useEmoji,
+        useHashtags,
         generateImage
       });
   
@@ -330,6 +334,33 @@ export function GenerateLinkedInPosts() {
             <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
           ))}
         </select>
+      </div>
+
+
+      <div className='flex justify-center gap-5'>
+      <div className="mb-5 flex items-center gap-4">
+        <label className="text-[var(--primary-text-color)]">Use Emoji</label>
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={useEmoji}
+            onChange={() => setUseEmoji(!useEmoji)}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
+      
+      <div className="mb-5 flex items-center gap-4">
+        <label className="text-[var(--primary-text-color)]">Use Hashtag</label>
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={useHashtags}
+            onChange={() => setUseHashtags(!useHashtags)}
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
       </div>
 
       <div className="space-y-4">
