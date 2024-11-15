@@ -134,7 +134,7 @@ const Landing = () => {
   {/* Text Section (Top Center) */}
   <div className="w-full absolute top-0 left-1/2 transform -translate-x-1/2 pt-8 md:pt-16 flex flex-col items-center text-center space-y-2 md:space-y-4">
     <div className=" flex gap-3 text-center md:text-xl text-sm  bg-white text-[var(--teal-color)] px-10 py-2 rounded-2xl">
-      <img src={verified} alt=""  className="w-6 h-6"/>
+      <img src={verified} alt=""  className="w-3 h-3 md:w-6 md:h-6"/>
       <p>Verified by OpenAI</p>
     </div>
 
