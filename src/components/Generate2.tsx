@@ -280,6 +280,8 @@ import { ArticleConclusion } from "./ArticleConclusion";
 import { AudioMerger } from "./AudioMerger";
 import { PodcastNewsletter } from "./PodcastNewsletter";
 import { WatermarkVideo } from "./WatermarkVideo";
+import { AddLogoTool } from "./OverlaysImage";
+import { GenerateSnapchatPost } from "./SnapchatPost";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1194,6 +1196,10 @@ document.addEventListener('copy', handleCopyEvent);
         <PodcastNewsletter/>
       ):id === "6735ede90d80b0be0cf25d5c" ? (
         <WatermarkVideo/>
+      ):id === "67373930dd4ba92347448ce6" ? (
+        <AddLogoTool/>
+      ):id === "67373926dd4ba92347448ce5" ? (
+        <GenerateSnapchatPost/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
