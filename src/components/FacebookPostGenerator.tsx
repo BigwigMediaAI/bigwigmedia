@@ -21,6 +21,8 @@ export function GenerateFacebookPost() {
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const [showModal3, setShowModal3] = useState(false);
   const [credits, setCredits] = useState(0);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
+  const [generateImage, setGenerateImage] = useState(true);
 
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -73,11 +75,13 @@ export function GenerateFacebookPost() {
         outputCount,
         useEmoji,
         useHashtags,
+        generateImage
       });
 
       if (response.status === 200) {
         console.log(response.data);
-        setgeneratedFbPost(response.data);
+        setgeneratedFbPost(response.data.posts);
+        setGeneratedImageUrl(response.data.imageUrl);
       } else {
         toast.error('Error generating posts. Please try again later.');
       }
@@ -347,6 +351,23 @@ export function GenerateFacebookPost() {
         </label>
       </div>
       </div>
+
+      <div className="space-y-4">
+  {/* Checkbox for generating AI image */}
+  <div className="flex items-center space-x-3">
+    <input 
+      type="checkbox" 
+      className="h-5 w-5 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+      checked={generateImage} 
+      onChange={(e) => setGenerateImage(e.target.checked)} 
+    />
+    <label className="text-lg font-medium text-gray-700">
+      Would you like to Generate an Image
+    </label>
+  </div>
+
+</div>
+
       <p className=" text-center text-[var(--gray-color)] mt-2">
         👉 Try a few combinations to generate the best result for your needs.
         </p>
@@ -360,7 +381,12 @@ export function GenerateFacebookPost() {
         </button>
         
       </div>
-      
+      {generatedImageUrl && (
+            <div>
+             <p className="text-red-600 mt-4 mb-4 text-md md:block hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
+             <p className="text-red-600 mt-4 mb-4 text-md md:hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by tapping on it. You will be redirected to a new page, where you can touch and hold the image, then select "Save Image" to download it.</p>
+             </div>
+          )}
       
       <div className="mt-5">
         {isLoading ? (
@@ -393,6 +419,14 @@ export function GenerateFacebookPost() {
                 <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
               {generatedFbPost.map((post, index) => (
           <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
+            {generatedImageUrl && (
+                        <div>
+                        <a href={generatedImageUrl} target="_blank" rel="noopener noreferrer">
+                          <img src={generatedImageUrl} alt="Generated Blog Image" className="w-1/2 mb-10 m-auto" />
+                        </a>
+                      </div>
+                      
+                      )}
             <div className="flex justify-between items-center mb-2">
               <div className="absolute top-2 right-2 space-x-2">
                 <button
