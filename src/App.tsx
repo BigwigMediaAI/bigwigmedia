@@ -62,6 +62,7 @@ import { AboutmeGenerator } from "./components/AboutmeGenerator";
 import { PodcastSummary } from "./components/PodcastSummaryGenerator";
 import ToolData from "./pages/ToolData";
 import { GenerateSnapchatPost } from "./components/SnapchatPost";
+import { AddLogoTool } from "./components/OverlaysImage";
 
 const App = () => {
  
@@ -135,6 +136,7 @@ const App = () => {
         <Route path="/pod" element={<PodcastSummary />} />
         <Route path="/tool" element={<ToolData />} />
         <Route path="/snap" element={<GenerateSnapchatPost />} />
+        <Route path="/over" element={<AddLogoTool />} />
 </Routes>
     </div>
   );
