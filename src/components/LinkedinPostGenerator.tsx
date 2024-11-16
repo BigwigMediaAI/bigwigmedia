@@ -16,7 +16,7 @@ export function GenerateLinkedInPosts() {
   const [language, setLanguage] = useState('English');
   const [outputCount, setOutputCount] = useState(1);
   const [useEmoji, setUseEmoji] = useState(true);
-  const [useHashtags, setUseHashtags] = useState(true);
+  const [useHashTags, setUseHashTags] = useState(true);
   const [generatedPosts, setGeneratedPosts] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
@@ -78,7 +78,7 @@ export function GenerateLinkedInPosts() {
         language,
         outputCount,
         useEmoji,
-        useHashtags,
+        useHashTags,
         generateImage
       });
   
@@ -355,8 +355,8 @@ export function GenerateLinkedInPosts() {
         <label className="toggle-switch">
           <input
             type="checkbox"
-            checked={useHashtags}
-            onChange={() => setUseHashtags(!useHashtags)}
+            checked={useHashTags}
+            onChange={() => setUseHashTags(!useHashTags)}
           />
           <span className="slider round"></span>
         </label>
