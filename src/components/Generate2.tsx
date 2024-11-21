@@ -283,6 +283,7 @@ import { WatermarkVideo } from "./WatermarkVideo";
 import { AddLogoTool } from "./OverlaysImage";
 import { GenerateSnapchatPost } from "./SnapchatPost";
 import MyImageEditor from "./ImageEditor";
+import { VideoSubtitle } from "./VideoSubtitle";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1203,6 +1204,8 @@ document.addEventListener('copy', handleCopyEvent);
         <GenerateSnapchatPost/>
       ):id === "673b11d33a16f3c3f9a2f316" ? (
         <MyImageEditor/>
+      ):id === "673f1c26fe2322c1cd2c69a0" ? (
+        <VideoSubtitle/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
