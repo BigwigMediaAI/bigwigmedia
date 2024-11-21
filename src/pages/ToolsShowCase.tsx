@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import prompt from "../assets/Prompt image website.mp4"
-import jpg2png from '../assets/JPG to PNG website.mp4'
-import video2gif from '../assets/Video to GIF.mp4'
-import article from "../assets/Article generator.mp4"
-import instaCaption from "../assets/Instagram post caption generator website.mp4"
-import letterhead from '../assets/Letterhead gen.mp4'
+import prompt from "../assets/videos/Prompt image.mp4"
+import video2gif from '../assets/videos/Video to GIF.mp4'
+import article from "../assets/videos/Article generator.mp4"
+import qr from "../assets/videos/QR code generator.mp4"
+import instaCaption from "../assets/videos/Instagram caption generator.mp4"
+import letterhead from '../assets/videos/Letterhead gen.mp4'
 import { useUser } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,20 +53,20 @@ const ToolCard: React.FC<{ tool: Tool }> = ({ tool }) => {
   const handleRedirect = (url: string) => {
     if (isSignedIn) {
       // User is logged in, proceed to the tool page
-      navigate(url);
+      window.open(url, '_blank');
     } else {
       // User is not logged in, redirect to login and then redirect to the tool page after login
-      navigate(`/login?redirect=${url}`);
+      window.open(`/login?redirect=${url}`, '_blank');
     }
   };
 
   // URL mapping based on tool names
   const toolUrls: { [key: string]: string } = {
     "Prompt To Image Creator": "/generate?id=66ea8e2238ee5d49df349ce4",
-    "JPG To PNG Converter": "/generate?id=664b1d0e1986743386a46100",
+    "QR Code Generator": "/generate?id=6634c2d2b852e5912e9f52c7",
     "Video to Gif Converter": "/generate?id=6654398ae82896c09bbc52dd",
-    "Article Generator": "/generate?id=65c92d368f7cafdd6d4f3d16",
-    "Instagram Post Caption Generator": "/generate?id=65cb1c6c4378133a722cbb2f",
+    "Article & Blog Generator": "/generate?id=65c92d368f7cafdd6d4f3d16",
+    "Instagram Post Generator": "/generate?id=65cb1c6c4378133a722cbb2f",
     "Letterhead Generator": "/generate?id=66f1425e0ab136750d271d36",
   };
 
@@ -140,9 +140,9 @@ const ToolShowcase = () => {
       reverse: false,
     },
     {
-      name: "JPG To PNG Converter",
-      description: "Effortlessly convert your JPG images to PNG format with our JPG To PNG Converter. Upload one or multiple JPG images, and our tool will convert them all into high-quality PNG files in no time. Enjoy the benefits of PNG's superior quality and transparency features for your images!",
-      imageUrl: jpg2png,
+      name: "Instagram Post Generator",
+      description: "Craft engaging and creative Instagram captions with ease using our Instagram Post Caption Generator. Simply input your ideas, and our AI will generate captivating captions tailored to your style and message. Perfect for boosting your social media presence and connecting with your audience effectively.",
+      imageUrl: instaCaption,
       buttonText: "Try Now",
       reverse: true,
     },
@@ -153,17 +153,18 @@ const ToolShowcase = () => {
       buttonText: "Try Now",
       reverse: false,
     },
+    
     {
-      name: "Article Generator",
-      description: "Create well-structured articles effortlessly with our Article Generator. Fill in the provided fields with your ideas, and let the AI craft a comprehensive article tailored to your needs. Additionally, if you want a visual element to accompany your writing, you can generate a relevant image using our AI technology with just a click!",
+      name: "Article & Blog Generator",
+      description: "Create well-structured articles & blogs effortlessly with our Article Generator. Fill in the provided fields with your ideas, and let the AI craft a comprehensive article tailored to your needs. Additionally, if you want a visual element to accompany your writing, you can generate a relevant image using our AI technology with just a click!",
       imageUrl: article,
       buttonText: "Try Now",
       reverse: true,
     },
     {
-      name: "Instagram Post Caption Generator",
-      description: "Craft engaging and creative Instagram captions with ease using our Instagram Post Caption Generator. Simply input your ideas, and our AI will generate captivating captions tailored to your style and message. Perfect for boosting your social media presence and connecting with your audience effectively.",
-      imageUrl: instaCaption,
+      name: "QR Code Generator",
+      description: "Easily create QR codes with our QR Code Generator. Input your desired text, URL, or information, and generate a scannable QR code instantly. Customize the size and download it in high-quality format for use on your website, business cards, or promotional materials. Sharing information has never been this seamless!",
+      imageUrl: qr, 
       buttonText: "Try Now",
       reverse: false,
     },

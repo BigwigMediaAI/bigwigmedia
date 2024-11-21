@@ -9,6 +9,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { debounce } from "lodash";
 
 export interface Card {
   _id: String;
@@ -158,6 +159,39 @@ const ToolData = () => {
     }
 
 
+    const searchTools = debounce(async (query: string) => {
+      setIsLoading(true);
+      if (!query.trim()) {
+        // Reset cards to the default list when the search query is empty
+        if (selectedButton === "My Tools" && isSignedIn) {
+          await getBookMarks(true);
+        } else {
+          await getTemplates();
+        }
+        setIsSearched(""); // Clear the search state
+        return;
+      }
+    
+      setIsLoading(true);
+      try {
+        const res = await axios.get(`${BASE_URL2}/objects/searchObjects/${query}`);
+        setCards(res.data.message); // Set tools matching the query
+        setIsSearched(query);
+      } catch (error) {
+        console.error("Error fetching tools:", error);
+        toast.error("Error fetching search results.");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 200);
+    
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const query = e.target.value;
+      setSearch(query); // Update the search state
+      searchTools(query); // Trigger debounced search or reset
+    };
+    
 
 
 return(
@@ -172,12 +206,11 @@ return(
                   placeholder="Find Your Tool.."
                   className="w-full border-none focus-visible:placeholder:text-transparent z-50 rounded-l-full outline-none px-4 py-1 md:py-4 placeholder:text-[var(--gray-color)] text-[var(--primary-text-color)] bg-transparent"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyDown={handleKeyDown}
+                  onChange={handleSearchChange}
                 />
                 <button
                   className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--green)] hover:bg-[#141481] transition-all duration-300 ease-in-out"
-                  onClick={handleSearch}
+                  onClick={() => searchTools(search)}
                 >
                   Search
                 </button>

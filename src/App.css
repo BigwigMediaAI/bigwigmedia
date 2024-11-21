@@ -62,3 +62,8 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(22px);  /* Adjusted translation to match new size */
 }
+
+
+.tui-image-editor-header-logo {
+  display: none !important;
+}

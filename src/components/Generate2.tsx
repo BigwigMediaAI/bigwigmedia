@@ -282,6 +282,7 @@ import { PodcastNewsletter } from "./PodcastNewsletter";
 import { WatermarkVideo } from "./WatermarkVideo";
 import { AddLogoTool } from "./OverlaysImage";
 import { GenerateSnapchatPost } from "./SnapchatPost";
+import MyImageEditor from "./ImageEditor";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1200,6 +1201,8 @@ document.addEventListener('copy', handleCopyEvent);
         <AddLogoTool/>
       ):id === "67373926dd4ba92347448ce5" ? (
         <GenerateSnapchatPost/>
+      ):id === "673b11d33a16f3c3f9a2f316" ? (
+        <MyImageEditor/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">

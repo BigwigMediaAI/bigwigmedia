@@ -32,7 +32,10 @@ const Menu = ({ buttons, selectedButton, setSelectedButton }: MenuProps) => {
                 button === selectedButton &&
                   " bg-[var(--teal-color)] rounded-3xl items-start text-white "
               )}
-              onClick={() => setSelectedButton(button)}
+              onClick={() => {
+                setSelectedButton(button); // Update selected button
+                setIsOpen(false); // Close the menu
+              }}
               key={id}
             >
               {button}
