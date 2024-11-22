@@ -115,7 +115,6 @@ import { ImageCropper } from "./ImageCrop";
 import { NewsSummarize } from "./NewsSummary";
 import { TextInfographic } from "./TextInfoGraphic";
 import { ImageCompressor } from "./ImageCompressor";
-import { AvatarTool } from "./Avatar";
 import { SWOTGenerator } from "./SwotGenerator";
 import { CoverLetterGenerator } from "./CoverLetter";
 import LogoGenerator from "./LogoGenerator";
@@ -184,7 +183,6 @@ import { UniqueValue } from "./UniqueValueProposition";
 import { SubHeading } from "./SubHeadingGenerator";
 import { BackgroundRemover } from "./BgRemover";
 import { validateInput } from "@/utils/validateInput";
-import { StatisticsGenerator } from "./StatisticsGenerator";
 import { PRideaGenerator } from "./PRIdeasGenerator";
 import { AudioTranscriber } from "./AudioHighlightsGenerator";
 import { PdfToAudioConverter } from "./PdfToAudio";
@@ -248,11 +246,8 @@ import { AudioRephraser } from "./AudioRephrase";
 import { SvgToPngConverter } from "./SvgToPngConverter";
 import { SvgToJpgConverter } from "./SvgToJpgConverter";
 import { VideoSummary } from "./VideoSummaryGenerator";
-import YoutubeToText from "./YoutubeToText";
-import YoutubeToAudio from "./YtVideoToAudio";
 import { TranslatorAudio } from "./SpeechConverter";
 import { AIBackground } from "./AiBackground";
-import YoutubeTranslator from "./YoutubeTranslator";
 import { WebpToJpg } from "./WebToJpgConverter";
 import { ImageToWebp } from "./ImageToWebpConverter";
 import { SeoOptimizer } from "./SeoOptimizer";
@@ -266,7 +261,6 @@ import { HeicToImage } from "./Heictoimage";
 import { VideoThumbnail } from "./VideoThumbnail";
 import { VideoToArticle } from "./VideoToArticle";
 import { YoutubeShortsCaption } from "./YoutubeShortsCaptionGenerator";
-import { GenerateYTArticle } from "./YtVideoToArticle";
 import { PressReleaseFormatter } from "./PressReleaseFormatter";
 import { NewsLetterSubjectline } from "./PressReleaseSubjectline";
 import { PodcastIntro } from "./PodcastInroduction";
@@ -870,8 +864,6 @@ document.addEventListener('copy', handleCopyEvent);
         <TextInfographic/>
       ) : id === "66707c18595b6463098d789a" ? (
         <ImageCompressor/>
-      ) : id === "66707c23595b6463098d789b" ? (
-        <AvatarTool/>
       ) : id === "667178d85ae1c15aa15057c6" ? (
         <SWOTGenerator/>
       ) : id === "667178e95ae1c15aa15057c7" ? (
@@ -1012,8 +1004,6 @@ document.addEventListener('copy', handleCopyEvent);
         <SocialMediaPostGenerator/>
       ):id === "66a76db0d6ca77c31063b25d" ? (
         <BackgroundRemover/>
-      ):id === "66aa34c2ec9fc26d5f2213a4" ? (
-        <StatisticsGenerator/>
       ):id === "66aa34cbec9fc26d5f2213a5" ? (
         <PRideaGenerator/>
       ):id === "66c87e58450a336facd4da1d" ? (
@@ -1134,16 +1124,10 @@ document.addEventListener('copy', handleCopyEvent);
         <SvgToJpgConverter/>
       ):id === "6707c7437d4dd0ca210ba250" ? (
         <VideoSummary/>
-      ):id === "670dfd9818304a695cffe9fc" ? (
-        <YoutubeToText/>
-      ):id === "670faf244d6edd142b237ce6" ? (
-        <YoutubeToAudio/>
       ):id === "6710ff51fca3ac2c71f64c93" ? (
         <TranslatorAudio/>
       ):id === "6712536766e3121226928ecc" ? (
         <AIBackground/>
-      ):id === "6712535a66e3121226928ecb" ? (
-        <YoutubeTranslator/>
       ):id === "6713b9321c835279285bb641" ? (
         <WebpToJpg/>
       ):id === "6713b93b1c835279285bb642" ? (
@@ -1170,8 +1154,6 @@ document.addEventListener('copy', handleCopyEvent);
         <VideoToArticle/>
       ):id === "6720a9a681e81c2ccfab3c7e" ? (
         <YoutubeShortsCaption/>
-      ):id === "6721c4c831867b5a40807575" ? (
-        <GenerateYTArticle/>
       ):id === "672211a1eba906edb2700658" ? (
         <PressReleaseFormatter/>
       ):id === "672211aaeba906edb2700659" ? (
