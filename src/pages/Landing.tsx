@@ -387,7 +387,7 @@ const Landing = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-10 right-10 bg-[var(--teal-color)] text-white w-12 h-12 rounded-full shadow-lg hover:bg-[var(--hover-teal-color)] transition-all duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center"
+          className="z-20 fixed bottom-10 right-10 bg-[var(--teal-color)] text-white w-12 h-12 rounded-full shadow-lg hover:bg-[var(--hover-teal-color)] transition-all duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center"
         >
           ↑
         </button>
