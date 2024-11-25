@@ -64,7 +64,7 @@ export function InstagramImageDownloader() {
       });
 
       const results = response.data.url_list || [];
-      const imageLinks = results.filter((url: string) => url.includes(".jpg"));
+      const imageLinks = results.filter((url: string) => url.includes("jpg"));
 
       if (imageLinks.length > 0) {
         setImageUrls(imageLinks);
