@@ -1,26 +1,21 @@
-import { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import { ClipboardCopyIcon, CopyIcon, Download, Loader2, Share2 } from "lucide-react";
-import { toast } from "sonner"; // Adjust the toast library as per your actual library
-import { useAuth } from "@clerk/clerk-react";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import { toast } from 'sonner';
+import { Loader2, Share2, Download, Copy } from 'lucide-react';
 import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
 import CreditLimitModal from "./Model3";
-import { validateInput } from "@/utils/validateInput";
-import BigwigLoader from "@/pages/Loader";
-
-interface SummaryResponse {
-  summary: string | string[];
-}
+import { useAuth } from "@clerk/clerk-react";
+import { validateInput } from '@/utils/validateInput';
+import BigwigLoader from '@/pages/Loader';
 
 export function Summarize() {
-  const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [summaries, setSummaries] = useState<string[]>([]);
-  const [language, setLanguage] = useState("English");
-  const [outputCount, setOutputCount] = useState(3);
-  const { userId } = useAuth();
+  const [text, settext] = useState('');
+  const [language, setLanguage] = useState('English');
+  const [outputCount, setOutputCount] = useState(1);
+  const [generatedSummary, setgeneratedSummary] = useState([]);
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [showModal3, setShowModal3] = useState(false);
@@ -43,12 +38,7 @@ export function Summarize() {
     }
   };
 
-  const handlePaste = async () => {
-    const pastedText = await navigator.clipboard.readText();
-    setText(pastedText);
-  };
-
-  const handleSubmit = async () => {
+  const handleGenerate = async () => {
     if (
       !validateInput(text)
     ) {
@@ -56,14 +46,8 @@ export function Summarize() {
       return;
     }
     setIsLoading(true);
-    setSummaries([]);
-  
-    if (!text) {
-      toast.error("Please enter the text to generate summary");
-      setIsLoading(false);
-      return;
-    }
-  
+    setgeneratedSummary([]);
+
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
@@ -78,307 +62,277 @@ export function Summarize() {
       setIsLoading(false)
       return;
     }
-  
+
     try {
-      const res = await axios.post<SummaryResponse>(
-        `${BASE_URL}/response/getSummary?clerkId=${userId}`,
-        { text, language, outputCount },
-        { headers: { Authorization: `Bearer ${userId}` } }
-      );
-  
-      if (res.status === 200) {
-        const { data } = res;
-        if (Array.isArray(data)) {
-          setSummaries(data);
-        } else {
-          toast.error("Invalid data format received from the server");
-        }
+      const response = await axios.post(`${BASE_URL}/response/getSummary?clerkId=${userId}`, {
+        text,
+        language,
+        outputCount,
+      });
+
+      if (response.status === 200) {
+        console.log(response.data);
+        setgeneratedSummary(response.data);
       } else {
-        toast.error("Failed to get summaries");
+        toast.error('Error generating summary. Please try again later.');
       }
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "An error occurred");
+    } catch (error) {
+      console.error('Error generating summary:', error);
+      toast.error('Error generating summary. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
-  
-
-  const handleCopy = (textToCopy: string) => {
-    try {
-      navigator.clipboard.writeText(textToCopy);
-      toast.success("Copied to Clipboard");
-    } catch (error) {
-      toast.error("Failed to copy");
-    }
-  };
-
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-    setSummaries([]);
-  };
 
   useEffect(() => {
-    if (!isLoading && summaries.length > 0) {
+    if (!isLoading && generatedSummary.length > 0) {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isLoading, summaries]);
+  }, [isLoading, generatedSummary]);
 
-  const handleShare = () => {
-    const textToShare = summaries.join('\n');
-    if (navigator.share) {
-      navigator.share({
-        title: 'Generated Domain Names',
-        text: textToShare,
-      }).catch((error) => console.error('Error sharing:', error));
-    } else {
-      navigator.clipboard.writeText(textToShare).then(() => {
-        toast.success('Domain names copied to clipboard');
-      }).catch((error) => {
-        console.error('Error copying to clipboard:', error);
-        toast.error('Failed to copy domain names to clipboard');
-      });
-    }
+
+
+  const languages = [
+    { value: 'Afrikaans', label: 'Afrikaans' },
+{ value: 'Albanian', label: 'Albanian' },
+{ value: 'Amharic', label: 'Amharic' },
+{ value: 'Arabic', label: 'Arabic' },
+{ value: 'Armenian', label: 'Armenian' },
+{ value: 'Azerbaijani', label: 'Azerbaijani' },
+{ value: 'Basque', label: 'Basque' },
+{ value: 'Belarusian', label: 'Belarusian' },
+{ value: 'Bengali', label: 'Bengali' },
+{ value: 'Bosnian', label: 'Bosnian' },
+{ value: 'Bulgarian', label: 'Bulgarian' },
+{ value: 'Catalan', label: 'Catalan' },
+{ value: 'Cebuano', label: 'Cebuano' },
+{ value: 'Chichewa', label: 'Chichewa' },
+{ value: 'Chinese (Simplified)', label: 'Chinese (Simplified)' },
+{ value: 'Chinese (Traditional)', label: 'Chinese (Traditional)' },
+{ value: 'Corsican', label: 'Corsican' },
+{ value: 'Croatian', label: 'Croatian' },
+{ value: 'Czech', label: 'Czech' },
+{ value: 'Danish', label: 'Danish' },
+{ value: 'Dutch', label: 'Dutch' },
+{ value: 'English', label: 'English' },
+{ value: 'Esperanto', label: 'Esperanto' },
+{ value: 'Estonian', label: 'Estonian' },
+{ value: 'Filipino', label: 'Filipino' },
+{ value: 'Finnish', label: 'Finnish' },
+{ value: 'French', label: 'French' },
+{ value: 'Frisian', label: 'Frisian' },
+{ value: 'Galician', label: 'Galician' },
+{ value: 'Georgian', label: 'Georgian' },
+{ value: 'German', label: 'German' },
+{ value: 'Greek', label: 'Greek' },
+{ value: 'Gujarati', label: 'Gujarati' },
+{ value: 'Haitian Creole', label: 'Haitian Creole' },
+{ value: 'Hausa', label: 'Hausa' },
+{ value: 'Hawaiian', label: 'Hawaiian' },
+{ value: 'Hebrew', label: 'Hebrew' },
+{ value: 'Hindi', label: 'Hindi' },
+{ value: 'Hmong', label: 'Hmong' },
+{ value: 'Hungarian', label: 'Hungarian' },
+{ value: 'Icelandic', label: 'Icelandic' },
+{ value: 'Igbo', label: 'Igbo' },
+{ value: 'Indonesian', label: 'Indonesian' },
+{ value: 'Irish', label: 'Irish' },
+{ value: 'Italian', label: 'Italian' },
+{ value: 'Japanese', label: 'Japanese' },
+{ value: 'Javanese', label: 'Javanese' },
+{ value: 'Kannada', label: 'Kannada' },
+{ value: 'Kazakh', label: 'Kazakh' },
+{ value: 'Khmer', label: 'Khmer' },
+{ value: 'Kinyarwanda', label: 'Kinyarwanda' },
+{ value: 'Korean', label: 'Korean' },
+{ value: 'Kurdish (Kurmanji)', label: 'Kurdish (Kurmanji)' },
+{ value: 'Kyrgyz', label: 'Kyrgyz' },
+{ value: 'Lao', label: 'Lao' },
+{ value: 'Latin', label: 'Latin' },
+{ value: 'Latvian', label: 'Latvian' },
+{ value: 'Lithuanian', label: 'Lithuanian' },
+{ value: 'Luxembourgish', label: 'Luxembourgish' },
+{ value: 'Macedonian', label: 'Macedonian' },
+{ value: 'Malagasy', label: 'Malagasy' },
+{ value: 'Malay', label: 'Malay' },
+{ value: 'Malayalam', label: 'Malayalam' },
+{ value: 'Maltese', label: 'Maltese' },
+{ value: 'Maori', label: 'Maori' },
+{ value: 'Marathi', label: 'Marathi' },
+{ value: 'Mongolian', label: 'Mongolian' },
+{ value: 'Myanmar (Burmese)', label: 'Myanmar (Burmese)' },
+{ value: 'Nepali', label: 'Nepali' },
+{ value: 'Norwegian', label: 'Norwegian' },
+{ value: 'Odia (Oriya)', label: 'Odia (Oriya)' },
+{ value: 'Pashto', label: 'Pashto' },
+{ value: 'Persian', label: 'Persian' },
+{ value: 'Polish', label: 'Polish' },
+{ value: 'Portuguese', label: 'Portuguese' },
+{ value: 'Punjabi', label: 'Punjabi' },
+{ value: 'Romanian', label: 'Romanian' },
+{ value: 'Russian', label: 'Russian' },
+{ value: 'Samoan', label: 'Samoan' },
+{ value: 'Scots Gaelic', label: 'Scots Gaelic' },
+{ value: 'Serbian', label: 'Serbian' },
+{ value: 'Sesotho', label: 'Sesotho' },
+{ value: 'Shona', label: 'Shona' },
+{ value: 'Sindhi', label: 'Sindhi' },
+{ value: 'Sinhala', label: 'Sinhala' },
+{ value: 'Slovak', label: 'Slovak' },
+{ value: 'Slovenian', label: 'Slovenian' },
+{ value: 'Somali', label: 'Somali' },
+{ value: 'Spanish', label: 'Spanish' },
+{ value: 'Sundanese', label: 'Sundanese' },
+{ value: 'Swahili', label: 'Swahili' },
+{ value: 'Swedish', label: 'Swedish' },
+{ value: 'Tajik', label: 'Tajik' },
+{ value: 'Tamil', label: 'Tamil' },
+{ value: 'Tatar', label: 'Tatar' },
+{ value: 'Telugu', label: 'Telugu' },
+{ value: 'Thai', label: 'Thai' },
+{ value: 'Turkish', label: 'Turkish' },
+{ value: 'Turkmen', label: 'Turkmen' },
+{ value: 'Ukrainian', label: 'Ukrainian' },
+{ value: 'Urdu', label: 'Urdu' },
+{ value: 'Uyghur', label: 'Uyghur' },
+{ value: 'Uzbek', label: 'Uzbek' },
+{ value: 'Vietnamese', label: 'Vietnamese' },
+{ value: 'Welsh', label: 'Welsh' },
+{ value: 'Xhosa', label: 'Xhosa' },
+{ value: 'Yiddish', label: 'Yiddish' },
+{ value: 'Yoruba', label: 'Yoruba' },
+{ value: 'Zulu', label: 'Zulu' }
+  ];
+
+  const outputCounts = [
+    { value: 1, label: '1' },
+    { value: 2, label: '2' },
+    { value: 3, label: '3' },
+    { value: 4, label: '4' },
+    { value: 5, label: '5' },
+  ];
+
+  const handleCopy = (titleContent: string) => {
+    navigator.clipboard.writeText(titleContent);
+    toast.success('Title content copied to clipboard!');
   };
 
   const handleDownload = () => {
-    const textToDownload = summaries.join('\n');
-    const blob = new Blob([textToDownload], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'domain-names.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const element = document.createElement("a");
+    const file = new Blob([generatedSummary.join("\n\n")], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "summary.txt";
+    document.body.appendChild(element);
+    element.click();
   };
 
-  const handleCopyEvent = (e: ClipboardEvent) => {
-    const selectedText = window.getSelection()?.toString() || '';
-    if (selectedText) {
-        e.clipboardData?.setData('text/plain', selectedText);
-        e.preventDefault();
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Post',
+      text: generatedSummary.join("\n\n"),
+    };
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      console.error('Error sharing summary:', err);
     }
-};
-
-document.addEventListener('copy', handleCopyEvent);
+  };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
-      <div className="flex flex-col">
-      <label htmlFor="text" className="mb-1">Paste Your Text To Summariz :</label>
-        <Textarea
-          className="mb-4 h-40 w-full rounded-md bg-white border-2 border-gray-300 p-4 text-[var(--primary-text-color)]"
-          placeholder="Enter Text to Summarize."
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Enter or Paste Your Text</label>
+        <textarea
           value={text}
-          onChange={handleTextChange}
+          onChange={(e) => settext(e.target.value)}
+          placeholder="E.g, Newton's First Law states that an object at rest will remain at rest, and an object in motion will continue moving at a constant velocity unless acted upon by an external force. This law, also called the Law of Inertia, emphasizes that objects resist changes to their state of motion. For example, a book on a table won't move unless pushed, and a car moving at a constant speed will continue unless friction or another force slows it down."
+          className="mt-1 block w-full rounded-md  border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4 bg-white text-[var(--primary-text-color)]"
+          rows={4}
         />
-        <Button
-            className="w-fit mb-4 rounded-md px-4 py-2 text-black bg-gray-100 hover:bg-white hover:text-black"
-            variant="ghost"
-            onClick={handlePaste}
-          >
-            <ClipboardCopyIcon className="mr-2 h-5 w-5" />
-            Paste Text
-          </Button>
-
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex w-full">
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className=" w-1/2 rounded-md px-4 py-2 text-gray-600 bg-white  border-2 border-gray-300 hover:bg-gray-200"
-            >
-              <option value="English">English</option>
-              <option value="Afrikaans">Afrikaans</option>
-              <option value="Albanian">Albanian</option>
-              <option value="Amharic">Amharic</option>
-              <option value="Arabic">Arabic</option>
-              <option value="Armenian">Armenian</option>
-              <option value="Azerbaijani">Azerbaijani</option>
-              <option value="Basque">Basque</option>
-              <option value="Belarusian">Belarusian</option>
-              <option value="Bengali">Bengali</option>
-              <option value="Bosnian">Bosnian</option>
-              <option value="Bulgarian">Bulgarian</option>
-              <option value="Catalan">Catalan</option>
-              <option value="Cebuano">Cebuano</option>
-              <option value="Chichewa">Chichewa</option>
-              <option value="Chinese (Simplified)">Chinese (Simplified)</option>
-              <option value="Chinese (Traditional)">Chinese (Traditional)</option>
-              <option value="Corsican">Corsican</option>
-              <option value="Croatian">Croatian</option>
-              <option value="Czech">Czech</option>
-              <option value="Danish">Danish</option>
-              <option value="Dutch">Dutch</option>
-              <option value="English">English</option>
-              <option value="Esperanto">Esperanto</option>
-              <option value="Estonian">Estonian</option>
-              <option value="Filipino">Filipino</option>
-              <option value="Finnish">Finnish</option>
-              <option value="French">French</option>
-              <option value="Frisian">Frisian</option>
-              <option value="Galician">Galician</option>
-              <option value="Georgian">Georgian</option>
-              <option value="German">German</option>
-              <option value="Greek">Greek</option>
-              <option value="Gujarati">Gujarati</option>
-              <option value="Haitian Creole">Haitian Creole</option>
-              <option value="Hausa">Hausa</option>
-              <option value="Hawaiian">Hawaiian</option>
-              <option value="Hebrew">Hebrew</option>
-              <option value="Hindi">Hindi</option>
-              <option value="Hmong">Hmong</option>
-              <option value="Hungarian">Hungarian</option>
-              <option value="Icelandic">Icelandic</option>
-              <option value="Igbo">Igbo</option>
-              <option value="Indonesian">Indonesian</option>
-              <option value="Irish">Irish</option>
-              <option value="Italian">Italian</option>
-              <option value="Japanese">Japanese</option>
-              <option value="Javanese">Javanese</option>
-              <option value="Kannada">Kannada</option>
-              <option value="Kazakh">Kazakh</option>
-              <option value="Khmer">Khmer</option>
-              <option value="Kinyarwanda">Kinyarwanda</option>
-              <option value="Korean">Korean</option>
-              <option value="Kurdish (Kurmanji)">Kurdish (Kurmanji)</option>
-              <option value="Kyrgyz">Kyrgyz</option>
-              <option value="Lao">Lao</option>
-              <option value="Latin">Latin</option>
-              <option value="Latvian">Latvian</option>
-              <option value="Lithuanian">Lithuanian</option>
-              <option value="Luxembourgish">Luxembourgish</option>
-              <option value="Macedonian">Macedonian</option>
-              <option value="Malagasy">Malagasy</option>
-              <option value="Malay">Malay</option>
-              <option value="Malayalam">Malayalam</option>
-              <option value="Maltese">Maltese</option>
-              <option value="Maori">Maori</option>
-              <option value="Marathi">Marathi</option>
-              <option value="Mongolian">Mongolian</option>
-              <option value="Myanmar (Burmese)">Myanmar (Burmese)</option>
-              <option value="Nepali">Nepali</option>
-              <option value="Norwegian">Norwegian</option>
-              <option value="Odia (Oriya)">Odia (Oriya)</option>
-              <option value="Pashto">Pashto</option>
-              <option value="Persian">Persian</option>
-              <option value="Polish">Polish</option>
-              <option value="Portuguese">Portuguese</option>
-              <option value="Punjabi">Punjabi</option>
-              <option value="Romanian">Romanian</option>
-              <option value="Russian">Russian</option>
-              <option value="Samoan">Samoan</option>
-              <option value="Scots Gaelic">Scots Gaelic</option>
-              <option value="Serbian">Serbian</option>
-              <option value="Sesotho">Sesotho</option>
-              <option value="Shona">Shona</option>
-              <option value="Sindhi">Sindhi</option>
-              <option value="Sinhala">Sinhala</option>
-              <option value="Slovak">Slovak</option>
-              <option value="Slovenian">Slovenian</option>
-              <option value="Somali">Somali</option>
-              <option value="Spanish">Spanish</option>
-              <option value="Sundanese">Sundanese</option>
-              <option value="Swahili">Swahili</option>
-              <option value="Swedish">Swedish</option>
-              <option value="Tajik">Tajik</option>
-              <option value="Tamil">Tamil</option>
-              <option value="Tatar">Tatar</option>
-              <option value="Telugu">Telugu</option>
-              <option value="Thai">Thai</option>
-              <option value="Turkish">Turkish</option>
-              <option value="Turkmen">Turkmen</option>
-              <option value="Ukrainian">Ukrainian</option>
-              <option value="Urdu">Urdu</option>
-              <option value="Uyghur">Uyghur</option>
-              <option value="Uzbek">Uzbek</option>
-              <option value="Vietnamese">Vietnamese</option>
-              <option value="Welsh">Welsh</option>
-              <option value="Xhosa">Xhosa</option>
-              <option value="Yiddish">Yiddish</option>
-              <option value="Yoruba">Yoruba</option>
-              <option value="Zulu">Zulu</option>
-
-              {/* Add other language options as needed */}
-            </select>
-
-            <select
-              value={outputCount}
-              onChange={(e) => setOutputCount(parseInt(e.target.value))}
-              className="w-1/2 rounded-md px-4 py-2 text-gray-600 bg-white  border-2 border-gray-300 hover:bg-gray-200  ml-4"
-            >
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((count) => (
-                <option key={count} value={count}>
-                  {count}
-                </option>
-              ))}
-            </select>
-          </div>
-          
-        </div>
-
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Language</label>
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="mt-1 block w-full rounded-md  border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4 bg-white text-[var(--primary-text-color)]"
+        >
+          {languages.map((languageOption) => (
+            <option key={languageOption.value} value={languageOption.value}>{languageOption.label}</option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-5">
+        <label className="block text-[var(--primary-text-color)]">Output Count</label>
+        <select
+          value={outputCount}
+          onChange={(e) => setOutputCount(Number(e.target.value))}
+          className="mt-1 block w-full rounded-md  border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4 bg-white text-[var(--primary-text-color)]"
+        >
+          {outputCounts.map((outputCountOption) => (
+            <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
+          ))}
+        </select>
+      </div>
+      <div className="mt-5 flex justify-center">
+        <button
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          onClick={handleGenerate}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Generating...' : (generatedSummary.length > 0 ? "Regenerate" : 'Generate')}
+        </button>
+      </div>
+      <div className="mt-5">
         {isLoading ? (
-        <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
-        <BigwigLoader />
-        <p className="text-[var(--dark-gray-color)] text-ceter mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
+           <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
+           <BigwigLoader />
+           <p className="text-[var(--dark-gray-color)] text-ceter mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
           </div>
         ) : (
-          summaries.length > 0 && (
-            <div ref={resultsRef} className="flex flex-col gap-4 mt-4">
-              {summaries.map((summary, index) => (
-                <div key={index} className="rounded-lg border-2 border-gray-300 text-[var(--primary-text-color)] p-5 mb-4">
-                  <div className="overflow-y-scroll max-h-40">
-                    {summary.split("\n\n").map((line, idx) => (
-                      <p key={idx}>{line}</p>
-                    ))}
-                  </div>
-                  <div className='flex'>
-                  <Button
-                    className="mt-2 rounded-md px-2 py-1 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
-                    variant="ghost"
-                    onClick={() => handleCopy(summary)}
-                  title="Copy">
-                    <CopyIcon className="h-5 w-5" />
-                  </Button>
-                  <button
-                    className="mt-2 rounded-md px-2 py-1 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+            generatedSummary.length > 0 && (
+            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
+                <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl text-[var(--primary-text-color)] ">Generated Summary</h1>
+                <div className="flex gap-2">
+                    <button
                     onClick={handleShare}
-                  title="Share">
-                   <Share2/>
-                  </button>
-                  <button
-                    className="mt-2 rounded-md px-2 py-1 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    title="Share"
+                    >
+                    <Share2 />
+                    </button>
+                    <button
                     onClick={handleDownload}
-                  title="Download">
-                    <Download/>
-                  </button>
-                  </div>
+                    className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                    title="Download"
+                    >
+                    <Download />
+                    </button>
                 </div>
-              ))}
-              <Button
-                className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto mt-4"
-                onClick={handleSubmit}
-              >
-                Regenerate
-              </Button>
+                </div>
+                <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
+              {generatedSummary.map((post, index) => (
+          <div key={index} className="border border-[var(--primary-text-color)] p-4 rounded-lg mb-4 relative ">
+            <div className="flex justify-between items-center mb-2">
+              <div className="absolute top-2 right-2 space-x-2">
+                <button
+                  onClick={() => handleCopy(post)}
+                  className="text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)] cursor-pointer"
+                  title="Copy"
+                >
+                  <Copy />
+                </button>
+              </div>
             </div>
-          )
+            <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
+          </div>
+        ))}
+        </div>
+                
+            </div>
+            )
         )}
-
-        {!isLoading && summaries.length === 0 && (
-          <Button
-            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
-            onClick={handleSubmit}
-          >
-            {isLoading ? (
-              <Loader2 className="animate-spin w-6 h-6" />
-            ) : (
-              "Generate"
-            )}
-          </Button>
-        )}
-
       </div>
       {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
