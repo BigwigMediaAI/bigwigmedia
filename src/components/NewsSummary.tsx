@@ -330,7 +330,7 @@ import BigwigLoader from "@/pages/Loader";
               <>
                 <div ref={resultsRef} className="flex flex-col gap-2 mt-4">
                   {summaries.map((summary, index) => (
-                    <div key={index} className="h-80 w-full rounded-md border-2 border-gray-300  text-gray-800 p-5 overflow-y-scroll relative">
+                    <div key={index} className="h-fit w-full rounded-md border-2 border-gray-300  text-gray-800 p-5 overflow-y-scroll relative">
                       <p className="mt-5">{summary}</p>
                       <Button
                         className="absolute top-2 right-2 rounded-md px-2 py-1 text-[var(--primary-text-color)] hover:text-[var(--hover-teal-color)]"
