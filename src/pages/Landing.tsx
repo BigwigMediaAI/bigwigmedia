@@ -27,6 +27,9 @@ import intro2 from "../assets/videos/intro_video2.mp4";
 import firstBg from "../assets/videos/first_bg.mp4";
 import intro from "../assets/videos/first_intro.mp4";
 import verified from "../assets/verified.png";
+import poster1 from "../assets/videos/poster1.png"
+import poster2 from "../assets/videos/poster2.png"
+import poster3 from "../assets/videos/poster3.png"
 
 const Landing = () => {
   const { user, isSignedIn, isLoaded } = useUser();
@@ -141,6 +144,7 @@ const Landing = () => {
           muted
           loop
           className="w-full opacity-90 object-cover"
+          poster={poster1}
         />
 
         {/* Text Section (Top Center) */}
@@ -169,7 +173,7 @@ const Landing = () => {
             productivity and creativity.
           </p>
           <div className="relative w-3/4 md:w-2/3 mt-4 md:mt-6 px-4 py-2 rounded-lg border-2  bg-black">
-            <video src={intro} autoPlay loop muted={isMuted1} />
+            <video src={intro} autoPlay loop muted={isMuted1} poster={poster2}/>
             <button
               onClick={toggleMute1}
               className="absolute top-2 left-2 md:top-4 md:left-6 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full p-3 hover:bg-gray-100 focus:outline-none transition-all duration-300 flex items-center group"
@@ -238,6 +242,7 @@ const Landing = () => {
                   autoPlay
                   muted={isMuted2}
                   loop
+                  poster={poster3}
                 />
 
                 {/* Mute/Unmute Button */}
