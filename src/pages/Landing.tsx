@@ -24,7 +24,7 @@ import stats from "../assets/stats.jpg";
 import ToolShowcase from "./ToolsShowCase";
 import BestTool from "./BestTools";
 import intro2 from "../assets/videos/intro_video2.mp4";
-import firstBg from "../assets/videos/first_bg.mp4";
+import firstBg from "../assets/videos/brain-7482511_1920.jpg";
 import intro from "../assets/videos/first_intro.mp4";
 import verified from "../assets/verified.png";
 import poster1 from "../assets/videos/poster1.png"
@@ -138,18 +138,16 @@ const Landing = () => {
       <Nav />
       <div className="relative">
         {/* Background Image */}
-        <video
+        <img
           src={firstBg}
-          autoPlay
-          muted
-          loop
+
           className="w-full opacity-90 object-cover"
-          poster={poster1}
+
         />
 
         {/* Text Section (Top Center) */}
-        <div className="w-full md:pt-10 absolute top-0 left-1/2 transform -translate-x-1/2 pt-4  flex flex-col items-center text-center space-y-2 md:space-y-4">
-          <div className=" flex gap-1 text-center md:text-md text-sm  bg-white text-[var(--teal-color)] px-10 py-2 rounded-2xl">
+        <div className="w-full md:pt-10 absolute top-0 left-1/2 transform -translate-x-1/2 pt-4  flex flex-col items-center text-center space-y-2 md:space-y-8">
+          <div className=" flex gap-1 text-center md:text-md text-sm  bg-white text-[var(--teal-color)] px-6 md:px-10 py-1 md:py-2 rounded-2xl">
             <img src={verified} alt="" className="w-4 h-4 md:w-5 md:h-5" />
             <p>Verified by OpenAI</p>
           </div>
