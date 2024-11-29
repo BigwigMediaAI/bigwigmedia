@@ -3,6 +3,11 @@ interface Window {
   Razorpay: any;
 
 }
+
+interface Window {
+  webkitSpeechRecognition?: typeof SpeechRecognition;
+}
+
 // declare global {
 //   interface Window {
 //     Razorpay: any;
