@@ -10,6 +10,7 @@ import '../App.css'
 import BigwigLoader from '@/pages/Loader';
 import beep from "../assets/beep.mp3";
 
+
 const SpeechRecognition = window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 

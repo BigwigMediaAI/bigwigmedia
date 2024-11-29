@@ -3,9 +3,6 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-
-
-import Generate from "./components/Generate";
 import Generate2 from "./components/Generate2";
 import Form from "./pages/Form";
 import Contact from "./pages/Contact";
@@ -25,42 +22,13 @@ import Cancellation from "./pages/Cancellation";
 import Getdata from "../src/pages/Getdata"
 import Feedback from "./pages/Feedback";
 import Getfeedback from "./pages/Getfeedback";
-import {Decision} from "./components/DecisionTool";
-import { Seotool } from "./components/SEOtool";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { clarity } from "react-microsoft-clarity";
-import { ImageTool } from "./components/Imageresizer";
-import { CodeConverter } from "./components/Codeconverter";
-import { MarketingCampaign } from "./components/Marketingcampaing";
-import { QRCodeGenerator } from "./components/QRcode";
-import { FacebookImageTool } from "./components/FacebookImageResizer";
-import {InstagramImageTool} from "./components/InstagramImageResizer";
-import {TwitterImageTool} from "./components/TwitterImageResizer";
-import {PinterestImageTool} from "./components/PinterestImageResizer";
-import {LinkedinImageTool} from "./components/LinkedInImageResizer";
-import {SnapchatImageTool} from "./components/SnapchatImageResizer";
-import {YoutubeImageTool} from "./components/YoutubeImageResizer";
-import { CodeGenerator } from "./components/CodeGenerator";
-import { LetterheadGenerator } from "./components/LetterHead";
-import { Rephrase } from "./components/ParaRepharse";
-import { ImagetoText } from "./components/ImgtoText";
-import { JPEGtoPDFConverter } from "./components/ImagetoPdf";
-import { Mp3Downloader } from "./components/YoutubeMp3";
-import { AudioConverter } from "./components/VideotoAudio";
-import { VideoCompressor } from "./components/VideoCompressor";
-import CategoryTools from "./pages/CategoryTools";
 import BlogPostDetail from "./pages/BlogPostDetails";
 import initializeGA from "../src/analytics"
 import ReactGA from 'react-ga4';
-import { AttentionGrabbingTitleGenerator } from "./components/TitleGenerator";
-import { YoutubeTitleGenerator } from "./components/YoutubeTitleGenerator";
-import { YoutubeVideoIdeas } from "./components/YoutubeVideoIdeas";
-import { YoutubeScriptOutline } from "./components/YoutubeScriptOutline";
-import { TiktokCaption } from "./components/TiktokCaption";
-import { AboutmeGenerator } from "./components/AboutmeGenerator";
-import { PodcastSummary } from "./components/PodcastSummaryGenerator";
 import ToolData from "./pages/ToolData";
+import { VideoToArticle } from "./components/VideoToArticle";
 
 const App = () => {
  
@@ -103,36 +71,8 @@ const App = () => {
         <Route path="/getdata" element={<Getdata />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/review" element={<Getfeedback />} />
-        <Route path="/decision" element={<Decision />} />
-        <Route path="/seo" element={<Seotool />} />
-        <Route path="/resize" element={<ImageTool />} />
-        <Route path="/code" element={<CodeConverter />} />
-        <Route path="/marketing" element={<MarketingCampaign />} />
-        <Route path="/qrcode" element={<QRCodeGenerator />} />
-        <Route path="/fbImage" element={<FacebookImageTool />} />
-        <Route path="/instagramImage" element={<InstagramImageTool />} />
-        <Route path="/twitterImage" element={<TwitterImageTool />} />
-        <Route path="/pinterestImage" element={<PinterestImageTool />} />
-        <Route path="/linkedinImage" element={<LinkedinImageTool />} />
-        <Route path="/snapchatImage" element={<SnapchatImageTool />} />
-        <Route path="/youtubeImage" element={<YoutubeImageTool />} />
-        <Route path="/component" element={<CodeGenerator />} />
-        <Route path="/letter" element={<LetterheadGenerator />} />
-        <Route path="/rephrase" element={<Rephrase />} />
-        <Route path="/imgtotext" element={<ImagetoText />} />
-        <Route path="/imgtopdf" element={<JPEGtoPDFConverter />} />
-        <Route path="/youtubemp3" element={<Mp3Downloader />} />
-        <Route path="/audio" element={<AudioConverter />} />
-        <Route path="/compressvideo" element={<VideoCompressor />} />  
-        <Route path="/category/:categoryName" element={<CategoryTools />} /> 
-        <Route path="/title" element={<AttentionGrabbingTitleGenerator />} />   
-        <Route path="/yttitle" element={<YoutubeTitleGenerator />} /> 
-        <Route path="/idea" element={<YoutubeVideoIdeas />} />  
-        <Route path="/outline" element={<YoutubeScriptOutline />} />
-        <Route path="/caption" element={<TiktokCaption />} />   
-        <Route path="/aboutme" element={<AboutmeGenerator />} />
-        <Route path="/pod" element={<PodcastSummary />} />
         <Route path="/tool" element={<ToolData />} />
+        <Route path="/vid2article" element={<VideoToArticle />} />
 </Routes>
     </div>
   );

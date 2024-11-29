@@ -9,7 +9,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { toast } from "sonner";
 import BigwigLoader from "@/pages/Loader";
 
-export function InstagramImgVidDownloader() {
+export function InstagramVidDownloader() {
   const [postLink, setPostLink] = useState<string>("");
   const [videoUrls, setVideoUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);

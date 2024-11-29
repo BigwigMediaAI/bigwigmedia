@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import BigwigLoader from '@/pages/Loader';
 import CreditLimitModal from './Model3';
 
-const ImageOverlay: React.FC = () => {
+const BackgroundChanger: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [mainImage, setMainImage] = useState<File | null>(null);
     const [backgroundImage, setBackgroundImage] = useState<File | null>(null);
@@ -153,4 +153,4 @@ const ImageOverlay: React.FC = () => {
     );
 };
 
-export default ImageOverlay;
+export default BackgroundChanger;

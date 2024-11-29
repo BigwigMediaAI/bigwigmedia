@@ -13,7 +13,7 @@ import { useAuth } from "@clerk/clerk-react";
 import BigwigLoader from "@/pages/Loader";
 
 
-export function VideoAudioTrimmer() {
+export function AudioVideoCombiner() {
   const [isLoading, setIsLoading] = useState(false);
   const [outputVideoUrl, setOutputVideoUrl] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);

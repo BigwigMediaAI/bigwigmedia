@@ -36,32 +36,32 @@ import { button } from "@nextui-org/react";
 import { ClipboardList } from "lucide-react";
 import { FaDownload, FaShareAlt } from "react-icons/fa";
 import { Paraphrase } from "./paraphrase";
-import { Special } from "./Special";
-import { Decision } from "./DecisionTool";
-import { Seotool } from "./SEOtool";
+import { ConceptClarifier } from "./ConceptClarifier";
+import { ProsAndCons } from "./ProsAndCons";
+import { Seotool } from "./SeoKeywordResearch";
 import { ImageTool } from "./Imageresizer";
-import ImageGenerator from "./ImageGenerator";
+import ImageGenerator from "./TextToImage";
 import { ElementType } from "@/pages/Form";
 import { Input } from "./ui/input";
 import { CodeConverter } from "./Codeconverter";
 import { MarketingCampaign } from "./Marketingcampaing";
 import { QRCodeGenerator } from "./QRcode";
 import { FacebookImageTool } from "./FacebookImageResizer";
-import Audio from "./Audio";
-import AudioText from "./AudioText";
+import Audio from "./AudioToText";
+import AudioText from "./TextToAudio";
 import { RotateCw } from "lucide-react";
 import Share from "./Share";
-import { VideoScript } from "./paraphrase2";
+import { VideoScript } from "./VideoScript";
 import { InstagramImageTool } from "./InstagramImageResizer";
 import { LinkedinImageTool } from "./LinkedInImageResizer";
 import { PinterestImageTool } from "./PinterestImageResizer";
 import { SnapchatImageTool } from "./SnapchatImageResizer";
 import { TwitterImageTool } from "./TwitterImageResizer";
 import { YoutubeImageTool } from "./YoutubeImageResizer";
-import { CodeGenerator } from "./CodeGenerator";
+import { CodeGenerator } from "./WebComponentGenerator";
 import { Rephrase } from "./ParaRepharse";
 import { ImagetoText } from "./ImgtoText";
-import { JPEGtoPDFConverter } from "./ImagetoPdf";
+import { JPEGtoPDFConverter } from "./JpgToPdf";
 import { PDFMerger } from "./PdfMerge";
 import { VideoDownloader } from "./Youtube";
 import { Mp3Downloader } from "./YoutubeMp3";
@@ -72,19 +72,17 @@ import { InstagramImageDownloader } from "./InstagramImage";
 import { FacebookDownloader } from "./FacebookVideo";
 import { PNGtoJPGConverter } from "./PngToJpg";
 import { JPGtoPNGConverter } from "./JpgToPng";
-import { TikTokDownloader } from "./TiktokVideo";
 import { TextToPdfConverter } from "./TextToPdf";
 import { TwitterDownloader } from "./TwitterVideo";
 import { Seopodcast } from "./Podcast";
 import { SvgConverter } from "./SvgConverter";
 import { FileToZipConverter } from "./ZipConverter";
 import { GifConverter } from "./GifConverter";
-import { Summarize } from "./GenarateSummary";
+import { Summarize } from "./TextSummarizer";
 import { ZipExtractor } from "./ZipExtractor";
-import GeneratorImage from "./SpeechToImage";
-import { NotesGenerator } from "./NotesGenerator";
+import { NotesGenerator } from "./QuickNotesSummarizer";
 import { PdfToTextConverter } from "./PdfToText";
-import { ExtractImage } from "./ExtractImage";
+import { ExtractImage } from "./ExtractImageFromPdf";
 import { VideoCompressor } from "./VideoCompressor";
 import { GenerateDomainNames } from "./DomainName";
 import { GenerateBusinessNames } from "./BuisnessNameGenerator";
@@ -104,16 +102,15 @@ import { AudioRemover } from "./AudioRemover";
 import { PollGenerator } from "./PollGenerator";
 import { GeneratePrivacyPolicy } from "./PrivacyPolicyGenerator";
 import { BusinessPlanGenerator } from "./BusinessPlanGenerator";
-import { VideoAudioTrimmer } from "./AddAudio";
+import { AudioVideoCombiner } from "./AudioVideoCombiner";
 import { PdfSummarizer } from "./SummarizePdf";
 import { PdfChat } from "./ChatWithPdf";
 import { AudioTranslation } from "./AudioTranslator";
-import { VideoTranslation } from "./TranslateVideo2Audio";
+import { VideoToAudioTranslation } from "./VideoToAudioTranslate";
 import { VideoTranslator } from "./VideoTranslator";
 import { FinanceAdvisor } from "./FinanceAdvisor";
 import { ImageCropper } from "./ImageCrop";
 import { NewsSummarize } from "./NewsSummary";
-import { TextInfographic } from "./TextInfoGraphic";
 import { ImageCompressor } from "./ImageCompressor";
 import { SWOTGenerator } from "./SwotGenerator";
 import { CoverLetterGenerator } from "./CoverLetter";
@@ -129,9 +126,9 @@ import { YoutubeVideoIdeas } from "./YoutubeVideoIdeas";
 import { AttentionGrabbingTitleGenerator } from "./TitleGenerator";
 import { TiktokCaption } from "./TiktokCaption";
 import { AboutmeGenerator } from "./AboutmeGenerator";
-import { ReelScriptGenerator } from "./ReelScriptGenerator";
-import { ReelIdeasGenerator } from "./ReelIdeas";
-import { AboutCompanyGenerator } from "./AboutCompanyGenerator";
+import { ReelScriptGenerator } from "./InstagramReelScript";
+import { ReelIdeasGenerator } from "./InstagramReelIdeas";
+import { AboutCompanyGenerator } from "./AboutUsPageGenerator";
 import { TweetReplyGenerator } from "./TweetReplyGenerator";
 import { SocialMediaPostGenerator } from "./SocialMediaPostGenerator";
 import { GenerateTiktokHastag } from "./TiktokHastagGenerator";
@@ -153,7 +150,7 @@ import { ElevatorPitch } from "./ElevatorPitchGenerator";
 import { ResignationLetter } from "./ResignationLetter";
 import { ReviewResponse } from "./ReviewResponse";
 import { JobDescription } from "./JobDescription";
-import WatermarkEditor from "./editor";
+import WatermarkEditor from "./WatermarkEditor";
 import { CTAGenerator } from "./CallToActionGenerator";
 import { GMBPost } from "./GMBPostGenerator";
 import { GMBProductDescription } from "./GMBProductDescription";
@@ -190,7 +187,7 @@ import { PdfSignTool } from "./PdfSign";
 import DocsToAudioConverter from "./DocxtoAudio";
 import { DocxToTextExtractor } from "./DocxTextExtractor";
 import { ImagePromptGenerator } from "./ImagePromptGenerator";
-import { InstagramImgVidDownloader } from "./InstagramImageVideoDownloader";
+import { InstagramVidDownloader } from "./InstagramVideoDownloader";
 import { GenerateInstagramCaption } from "./InstagramPostCaptionGenerator";
 import { GenerateInstagramBio } from "./InstagramBioGenerator";
 import { GenerateInstagramStoryPost } from "./InstagramStoryPostGenerator";
@@ -235,7 +232,7 @@ import { GeneratePrompt } from "./PromptGenerator";
 import { GenerateReviewReply } from "./ReviewReplyGenerator";
 import { SpotifyMp3Downloader } from "./SpotifyDownloader";
 import { ImageSelectPromptGenerator } from "./ImageWithPrompt";
-import { PodcastSummary } from "./PodcastSummaryGenerator";
+import { AudioPodcastSummary } from "./AudioPodcastSummaryGenerator";
 import { VideoPromptGenerator } from "./videoPromptGenerator";
 import { GenerateLetterhead } from "./LetterHeadGenerator";
 import { GenerateVisitingCard } from "./VisitingCard";
@@ -265,7 +262,7 @@ import { PressReleaseFormatter } from "./PressReleaseFormatter";
 import { NewsLetterSubjectline } from "./PressReleaseSubjectline";
 import { PodcastIntro } from "./PodcastInroduction";
 import { PodcastConclusion } from "./PodcastConclusion";
-import ImageOverlay from "./backgroundImage";
+import BackgroundChanger from "./BackgroundChanger";
 import { BlogPostIntro } from "./BlogPostIntroduction";
 import { BlogPostConclusion } from "./BlogPostConclusion";
 import { VideoFormatConverter } from "./VideoFormatConverter";
@@ -274,9 +271,8 @@ import { ArticleConclusion } from "./ArticleConclusion";
 import { AudioMerger } from "./AudioMerger";
 import { PodcastNewsletter } from "./PodcastNewsletter";
 import { WatermarkVideo } from "./WatermarkVideo";
-import { AddLogoTool } from "./OverlaysImage";
+import { AddLogoTool } from "./ImageMarkGenerator";
 import { GenerateSnapchatPost } from "./SnapchatPost";
-import MyImageEditor from "./ImageEditor";
 import { VideoSubtitle } from "./VideoSubtitle";
 
 
@@ -727,7 +723,7 @@ document.addEventListener('copy', handleCopyEvent);
       ) : id === "65cb886ebd2f462c896d46b3" ? (
         <AudioText />
       ) : id === "661e75f237b7826a2e2dddc1" ? (
-        <Special/>
+        <ConceptClarifier/>
       ) : id === "662f311912268d562ccfebca" ? (
         <Seotool/>
       ) : id === "6631da17b852e5912e9f52bd" ? (
@@ -765,7 +761,7 @@ document.addEventListener('copy', handleCopyEvent);
       ) : id === "66448f523748e094e4b1e788" ? (
         <Mp3Downloader/>
       ) : id === "664497a53748e094e4b1e789" ? (
-        <InstagramImgVidDownloader/>
+        <InstagramVidDownloader/>
       ) : id === "6643400f3748e094e4b1e786" ? (
         <PNGtoPDFConverter/>
       ) : id === "66473fd1e3099a6561101561" ? (
@@ -778,8 +774,6 @@ document.addEventListener('copy', handleCopyEvent);
         <PNGtoJPGConverter/>
       ) : id === "664b1d0e1986743386a46100" ? (
         <JPGtoPNGConverter/>
-      ) : id === "664c970a0fbc0067b02d61b2" ? (
-        <TikTokDownloader/>
       ) : id === "664d9a8c1f894ec946966742" ? (
         <TextToPdfConverter/>
       ) : id === "664d9bd51f894ec946966743" ? (
@@ -796,8 +790,6 @@ document.addEventListener('copy', handleCopyEvent);
         <GifConverter/>
       ) : id === "66557e344ce4bc50452d5b7c" ? (
         <ZipExtractor/>
-      ) : id === "6655d0794ce4bc50452d5b7d" ? (
-        <GeneratorImage/>
       ) : id === "66570ccf35fb9ca10468a391" ? (
         <NotesGenerator/>
       ) : id === "66570cdc35fb9ca10468a392" ? (
@@ -843,7 +835,7 @@ document.addEventListener('copy', handleCopyEvent);
       ) : id === "6662e4c8fd944686812f59ef" ? (
         <BusinessPlanGenerator/>
       ) : id === "66643b05acd3ab5713d7756d" ? (
-        <VideoAudioTrimmer/>
+        <AudioVideoCombiner/>
       ) : id === "6666df6f884806754c30c811" ? (
         <PdfSummarizer/>
       ) : id === "6666df85884806754c30c812" ? (
@@ -851,7 +843,7 @@ document.addEventListener('copy', handleCopyEvent);
       ) : id === "666824b841b7e2731cd6da69" ? (
         <AudioTranslation/>
       ) : id === "666824c741b7e2731cd6da6a" ? (
-        <VideoTranslation/>
+        <VideoToAudioTranslation/>
       ) : id === "6669926f04450b0cc689fefa" ? (
         <VideoTranslator/>
       ) : id === "666c1f9d2ee240337cc199a2" ? (
@@ -860,8 +852,6 @@ document.addEventListener('copy', handleCopyEvent);
         <ImageCropper/>
       ) : id === "666da51c8e6978dd891a37e0" ? (
         <NewsSummarize/>
-      ) : id === "666da52a8e6978dd891a37e1" ? (
-        <TextInfographic/>
       ) : id === "66707c18595b6463098d789a" ? (
         <ImageCompressor/>
       ) : id === "667178d85ae1c15aa15057c6" ? (
@@ -871,7 +861,7 @@ document.addEventListener('copy', handleCopyEvent);
       ) : id === "6673ccb99a855dfab85e0de8" ? (
         <LogoGenerator/>
       ) : id === "6628c6bd6213ba01b08276c0" ? (
-        <Decision/>
+        <ProsAndCons/>
       ) : id === "6697c11e17d5e2950f5ef979" ? (
         <GenerateLinkedInPosts/>
       ) : id === "6697c14517d5e2950f5ef97c" ? (
@@ -1105,7 +1095,7 @@ document.addEventListener('copy', handleCopyEvent);
       ):id === "66ea8e2238ee5d49df349ce4" ? (
         <ImageSelectPromptGenerator/>
       ):id === "66ec07b3aa6a73f2cfe65357" ? (
-        <PodcastSummary/>
+        <AudioPodcastSummary/>
       ):id === "66ec0fde3510fbf0108ee8de" ? (
         <VideoPromptGenerator/>
       ):id === "66f1425e0ab136750d271d36" ? (
@@ -1163,7 +1153,7 @@ document.addEventListener('copy', handleCopyEvent);
       ):id === "6728b821db2aa48cccb3a5cc" ? (
         <PodcastConclusion/>
       ):id === "6729dd2e76ed49d2dd371914" ? (
-        <ImageOverlay/>
+        <BackgroundChanger/>
       ):id === "672a089d5a2644398a58a006" ? (
         <BlogPostIntro/>
       ):id === "672a08a85a2644398a58a007" ? (
@@ -1184,10 +1174,10 @@ document.addEventListener('copy', handleCopyEvent);
         <AddLogoTool/>
       ):id === "67373926dd4ba92347448ce5" ? (
         <GenerateSnapchatPost/>
-      ):id === "673b11d33a16f3c3f9a2f316" ? (
-        <MyImageEditor/>
       ):id === "673f1c26fe2322c1cd2c69a0" ? (
         <VideoSubtitle/>
+      ):id === "6746e009d2db64143520c1de" ? (
+        <VideoToArticle/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">

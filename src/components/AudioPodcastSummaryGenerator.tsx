@@ -11,7 +11,7 @@ interface TranscriptionResponse {
   bulletPoints: string;
 }
 
-export function PodcastSummary() {
+export function AudioPodcastSummary() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [bulletPoints, setBulletPoints] = useState<string | null>(null);

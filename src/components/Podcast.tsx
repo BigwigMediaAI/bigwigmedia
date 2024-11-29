@@ -172,11 +172,11 @@ document.addEventListener('copy', handleCopyEvent);
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
-      <div className="mb-5">
+      <div>
         <textarea
           disabled
           value="Please provide questions and answers for the podcast."
-          className="w-full p-2 rounded text-[#3f3e3e]"
+          className="w-full p-2 rounded text-[#3f3e3e] hidden"
         />
       </div>
 

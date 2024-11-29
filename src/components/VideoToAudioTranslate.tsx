@@ -11,7 +11,7 @@ import BigwigLoader from "@/pages/Loader";
 
 const VOICE_TONES = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"];
 
-export function VideoTranslation() {
+export function VideoToAudioTranslation() {
   const [isLoading, setIsLoading] = useState(false);
   const [translatedAudioUrl, setTranslatedAudioUrl] = useState<string | null>(null);
   const [isFileSelected, setIsFileSelected] = useState(false);

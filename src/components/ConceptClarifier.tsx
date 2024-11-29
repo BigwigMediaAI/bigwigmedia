@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { validateInput } from "@/utils/validateInput";
 import BigwigLoader from "@/pages/Loader";
 
-export function Special() {
+export function ConceptClarifier() {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [output, setOutput] = useState([]);

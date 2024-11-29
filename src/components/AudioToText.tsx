@@ -90,7 +90,7 @@ const Audio = () => {
   };
 
   return (
-    <div className=" flex flex-col gap-4 m-auto w-full max-w-4xl rounded-lg  bg-[var(--white-color)] p-6 shadow-md">
+    <div className=" m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <h1>Choose an audio file</h1>
       <Input
         type="file"
@@ -99,7 +99,7 @@ const Audio = () => {
         onChange={(e: any) => setfile(e.target.files[0])}
       />
       <button
-        className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+        className="mt-5 text-white text-center font-outfit md:text-lg font-semibold flex relative text-xs py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
         onClick={(e) => void handleTranscribe(e)}
       >
         Generate

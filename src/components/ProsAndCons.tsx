@@ -12,7 +12,7 @@ import { validateInput } from '@/utils/validateInput';
 import BigwigLoader from '@/pages/Loader';
 
 
-export function Decision() {
+export function ProsAndCons() {
     const [text, setText] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [pros, setPros] = useState<string[]>([]);

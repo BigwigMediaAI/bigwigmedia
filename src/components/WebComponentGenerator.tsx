@@ -118,57 +118,6 @@ export function CodeGenerator() {
       });
   };
 
-//   const formatHTML = (code:any) => {
-//     return `<!DOCTYPE html>
-// <html lang="en">
-// <head>
-//   <meta charset="UTF-8">
-//   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//   <title>Title</title>
-//   <style>
-//     /* CSS styles here */
-//   </style>
-// </head>
-// <body>
-//   ${code}
-// </body>
-// </html>`;
-//   };
-
-//   const formatReact = (code:any) => {
-//     return `import React from "react";
-// import ReactDOM from "react-dom";
-
-// function App() {
-//   return (
-//     <div>
-//       ${code}
-//     </div>
-//   );
-// }
-
-// ReactDOM.render(<App />, document.getElementById("root"));`;
-//   };
-
-//   const formatAngular = (code:any) => {
-//     return `import { Component, NgModule } from "@angular/core";
-// import { BrowserModule } from "@angular/platform-browser";
-
-// @Component({
-//   selector: "app-root",
-//   template: \`
-//     ${code}
-//   \`,
-// })
-// export class AppComponent {}
-
-// @NgModule({
-//   declarations: [AppComponent],
-//   imports: [BrowserModule],
-//   bootstrap: [AppComponent],
-// })
-// export class AppModule {}`;
-//   };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
