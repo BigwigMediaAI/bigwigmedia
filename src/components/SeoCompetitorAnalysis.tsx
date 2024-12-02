@@ -239,7 +239,7 @@ export function SeoCompetitorAnalysis() {
     <div className="m-auto w-full max-w-4xl rounded-lg bg-white p-6 shadow-md shadow-[var(--teal-color)]">
 
       <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Enter the Competitpr URL</label>
+        <label className="block text-[var(--primary-text-color)]">Enter the Competitor URL</label>
         <input
           value={competitorUrls}
           onChange={(e) => setcompetitorUrls(e.target.value)}
