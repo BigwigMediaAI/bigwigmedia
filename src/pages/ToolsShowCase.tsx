@@ -7,6 +7,9 @@ import instaCaption from "../assets/videos/Instagram caption generator.mp4"
 import letterhead from '../assets/videos/Letterhead gen.mp4'
 import { useUser } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
+import 'lazysizes';
+// import a plugin
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 
 // Tool interface
 interface Tool {
@@ -115,7 +118,7 @@ const ToolCard: React.FC<{ tool: Tool }> = ({ tool }) => {
                 loop
                 muted
                 autoPlay
-                className="w-full h-auto rounded-md"
+                className="w-full h-auto rounded-md lazyload"
               />
             </div>
             {/* Bottom Bar */}

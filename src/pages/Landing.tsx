@@ -30,6 +30,9 @@ import verified from "../assets/verified.png";
 import poster1 from "../assets/videos/poster1.png"
 import poster2 from "../assets/videos/poster2.png"
 import poster3 from "../assets/videos/poster3.png"
+import 'lazysizes';
+// import a plugin
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 
 const Landing = () => {
   const { user, isSignedIn, isLoaded } = useUser();
@@ -141,7 +144,7 @@ const Landing = () => {
         <img
           src={firstBg}
 
-          className="w-full opacity-90 object-cover"
+          className="w-full opacity-90 object-cover lazyload"
 
         />
 
@@ -171,7 +174,7 @@ const Landing = () => {
             productivity and creativity.
           </p>
           <div className="relative w-3/4 md:w-2/3 mt-4 md:mt-6 px-4 py-2 rounded-lg border-2  bg-black">
-            <video src={intro} autoPlay loop muted={isMuted1} poster={poster2}/>
+            <video src={intro} autoPlay loop muted={isMuted1} poster={poster2} className="lazyload"/>
             <button
               onClick={toggleMute1}
               className="absolute top-2 left-2 md:top-4 md:left-6 bg-gray-100 bg-opacity-75 text-gray-800 rounded-full p-3 hover:bg-gray-100 focus:outline-none transition-all duration-300 flex items-center group"
@@ -236,7 +239,7 @@ const Landing = () => {
               <div className="relative rounded-lg overflow-hidden transform transition-all duration-300">
                 <video
                   src={intro2}
-                  className="w-full h-auto rounded-lg shadow-lg"
+                  className="w-full h-auto rounded-lg shadow-lg lazyload"
                   autoPlay
                   muted={isMuted2}
                   loop
@@ -274,12 +277,12 @@ const Landing = () => {
         <img
           src={line2}
           alt="Line Decoration"
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10"
+          className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10 lazyload"
         />
         <img
           src={stats}
           alt="Stats Image"
-          className="w-full h-48 flex items-center justify-between z-0"
+          className="w-full h-48 flex items-center justify-between z-0 lazyload"
         />
         <div className="absolute inset-0 flex items-center justify-center z-20">
           <Stats />
@@ -287,7 +290,7 @@ const Landing = () => {
         <img
           src={line1}
           alt="Line Decoration"
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 lazyload"
         />
       </div>
       <div className="mt-10 px-9 md:px-14 lg:px-24 mx-auto">
@@ -298,12 +301,12 @@ const Landing = () => {
         <img
           src={line2}
           alt="Line Decoration"
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10"
+          className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10 lazyload"
         />
         <img
           src={stats}
           alt="Stats Image"
-          className="w-full h-60 flex items-center justify-between z-0"
+          className="w-full h-60 flex items-center justify-between z-0 lazyload"
         />
         <div className="absolute inset-0 flex items-center justify-center z-20">
           <WhoCanUseIt />
@@ -311,7 +314,7 @@ const Landing = () => {
         <img
           src={line1}
           alt="Line Decoration"
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 lazyload"
         />
       </div>
 
