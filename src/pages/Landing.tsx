@@ -238,12 +238,13 @@ const Landing = () => {
             <div className="right md:w-1/2 p-4">
               <div className="relative rounded-lg overflow-hidden transform transition-all duration-300">
                 <video
-                  src={intro2}
+                  data-src={intro2}
                   className="w-full h-auto rounded-lg shadow-lg lazyload"
                   autoPlay
                   muted={isMuted2}
                   loop
                   poster={poster3}
+                  preload="none"
                 />
 
                 {/* Mute/Unmute Button */}
