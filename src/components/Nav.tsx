@@ -162,18 +162,39 @@ useEffect(()=>{
         </div>
   
         <div className="flex-grow flex justify-center">
-          <div className="hidden md:flex items-center gap-8">
-            <button onClick={() => navigate('/')} className="text-[var(--primary-text-color)]  hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
-              Home
-            </button>
-            <button onClick={() => navigate('/tool')} className="text-[var(--primary-text-color)]  hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
-              Tools
-            </button>
-            <button onClick={() => navigate('/blog')} className="text-[var(--primary-text-color)]  hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)] px-3 py-2 rounded-md text-lg">
-              Blogs
-            </button>
-          </div>
-        </div>
+      <div className="hidden md:flex items-center gap-8">
+        <button
+          onClick={() => navigate('/')}
+          className={`px-3 py-2 rounded-md text-lg ${
+            location.pathname === '/'
+              ? 'text-[var(--teal-color)] font-bold text-xl'
+              : 'text-[var(--primary-text-color)] hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)]'
+          }`}
+        >
+          Home
+        </button>
+        <button
+          onClick={() => navigate('/tool')}
+          className={`px-3 py-2 rounded-md text-lg ${
+            location.pathname === '/tool'
+              ? 'text-[var(--teal-color)] font-bold text-xl'
+              : 'text-[var(--primary-text-color)] hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)]'
+          }`}
+        >
+          Tools
+        </button>
+        <button
+          onClick={() => navigate('/blog')}
+          className={`px-3 py-2 rounded-md text-lg ${
+            location.pathname === '/blog'
+              ? 'text-[var(--teal-color)] font-bold text-xl'
+              : 'text-[var(--primary-text-color)] hover:bg-[var(--bg-color)] hover:text-[var(--teal-color)]'
+          }`}
+        >
+          Blogs
+        </button>
+      </div>
+    </div>
   
         <div id="google_translate_element" className="mr-2"></div>
         <div className=" md:ml-3 flex gap-4 items-center justify-end">
