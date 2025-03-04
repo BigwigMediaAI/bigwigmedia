@@ -7,6 +7,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const AboutUs: React.FC = () => {
+  // console.log("hi")
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
