@@ -63,7 +63,7 @@ const Nav=() => {
     };
     const sendCreditLimitWarningEmail = async (email:any, clerkId:any) => {
       try {
-          const res = await axios.post('https://bigwigmedia-backend.onrender.com/send-email', { email,clerkId });
+          const res = await axios.post('https://bigwigaibackend.onrender.com/send-email', { email,clerkId });
           if (res.status === 200) {
               console.log('Credit limit warning email sent to:', email);
           } else {
@@ -76,7 +76,7 @@ const Nav=() => {
 
   const resetEmailSentFlag = async () => {
     try {
-        const res = await axios.put('https://bigwigmedia-backend.onrender.com/reset-email-sent', { clerkId: user!.id });
+        const res = await axios.put('https://bigwigaibackend.onrender.com/reset-email-sent', { clerkId: user!.id });
         if (res.status === 200) {
             console.log(res.data);
         } else {
