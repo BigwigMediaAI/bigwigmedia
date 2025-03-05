@@ -9,23 +9,31 @@ import { validateInput } from '@/utils/validateInput';
 import BigwigLoader from '@/pages/Loader';
 
 export function SocialMediaPostGenerator() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [platform, setPlatform] = useState('Twitter')
-  const [description, setdescription] = useState('');
-  const [tone, setTone] = useState('informative');
-  const [language, setLanguage] = useState('English');
-  const [outputCount, setOutputCount] = useState(1);
-  const [generatedPost, setgeneratedPost] = useState([]);
-  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
-  const [includeEmoji, setincludeEmoji] = useState(true);
-  const [includeHashtag, setincludeHashtag] = useState(true);
-  const [generatedImageUrl, setGeneratedImageUrl] = useState<string>('');
-  const [generateImage, setGenerateImage] = useState(true);
 
+  const [imageDescription, setImageDescription] = useState("");
+  const [promptCount, setPromptCount] = useState(1);
+  const [prompts, setPrompts] = useState<string[]>([]);
+  const [selectedPrompt, setSelectedPrompt] = useState<string | null>(null);
+  const [loadingPrompts, setLoadingPrompts] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // State for post generation
+  const [platform, setPlatform] = useState("Instagram");
+  const [description, setDescription] = useState("");
+  const [tone, setTone] = useState("casual");
+  const [language, setLanguage] = useState("English");
+  const [outputCount, setOutputCount] = useState(1);
+  const [includeEmoji, setIncludeEmoji] = useState(true);
+  const [includeHashtag, setIncludeHashtag] = useState(true);
+  const [generatedPosts, setGeneratedPosts] = useState<string[]>([]);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [loadingPost, setLoadingPost] = useState(false);
+
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const [showModal3, setShowModal3] = useState(false);
-  const [credits, setCredits] = useState(0);
+  const [credits, setCredits] = useState(0);
 
 
   const getCredits = async () => {
@@ -39,37 +47,64 @@ export function SocialMediaPostGenerator() {
         return 0;
       }
     } catch (error) {
-      console.error('Error fetching credits:', error);
+      console.error("Error fetching credits:", error);
       toast.error("Error occurred while fetching account credits");
-      return 0;
-    }
-  };
-
-  const handleGenerate = async () => {
-    if (
-      !validateInput(description)
-    ) {
-      toast.error('Your input contains prohibited words. Please remove them and try again.');
-      return;
+      return 0;
     }
-    setIsLoading(true);
-    setgeneratedPost([]);
+  };
 
-    setTimeout(() => {
-      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Generate prompts
+  const handleGeneratePrompts = async () => {
+    setLoadingPrompts(true);
+    setError(null);
+
+     // Scroll to loader after a short delay to ensure it's rendered
+     setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block:'center' });
     }, 100);
 
-    const currentCredits = await getCredits();
-    console.log('Current Credits:', currentCredits);
-
-    if (currentCredits <= 0) {
-      setTimeout(() => {
+      const currentCredits = await getCredits();
+      if (currentCredits <= 0) {
         setShowModal3(true);
-      }, 0);
-      setIsLoading(false)
-      return;
-    }
+        setLoadingPrompts(false);
+        return;
+      }
 
+
+    try {
+      const response = await axios.post(`${BASE_URL}/response/imagePrompt?clerkId=${userId}`, {
+        imageDescription,
+        promptCount,
+      });
+
+      setPrompts(response.data);
+      setSelectedPrompt(null);
+    } catch (err) {
+      setError("Failed to generate prompts. Please try again.");
+    } finally {
+      setLoadingPrompts(false);
+    }
+  };
+
+  // Generate social media post & image
+  const handleGeneratePost = async () => {
+    setLoadingPost(true);
+    setError(null);
+    setGeneratedPosts([])
+
+     // Scroll to loader after a short delay to ensure it's rendered
+     setTimeout(() => {
+      loaderRef.current?.scrollIntoView({ behavior: 'smooth', block:'center' });
+    }, 100);
+
+      const currentCredits = await getCredits();
+      if (currentCredits <= 0) {
+        setShowModal3(true);
+        setLoadingPost(false);
+        return;
+      }
+
+      console.log(platform, description,tone, language, outputCount, includeEmoji, includeHashtag,selectedPrompt)
     try {
       const response = await axios.post(`${BASE_URL}/response/generateSocialMediaPost?clerkId=${userId}`, {
         platform,
@@ -79,29 +114,19 @@ export function SocialMediaPostGenerator() {
         outputCount,
         includeEmoji,
         includeHashtag,
-        generateImage
+        imagePrompt: selectedPrompt,
       });
 
-      if (response.status === 200) {
-        console.log(response.data);
-        setgeneratedPost(response.data.posts);
-        setGeneratedImageUrl(response.data.imageUrl);
-      } else {
-        toast.error('Error generating social media post. Please try again later.');
-      }
-    } catch (error) {
-      console.error('Error generating social media post:', error);
-      toast.error('Error generating social media post. Please try again later.');
+      setGeneratedPosts(response.data.posts);
+      console.log(response.data)
+      setImageUrl(response.data.imageUrl);
+    } catch (err) {
+      setError("Failed to generate post. Please try again.");
     } finally {
-      setIsLoading(false);
+      setLoadingPost(false);
     }
   };
-
-  useEffect(() => {
-    if (!isLoading && generatedPost.length > 0) {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, [isLoading, generatedPost]);
+  
 
   const platforms = [
     { value: 'Twitter', label: 'Twitter' },
@@ -259,37 +284,101 @@ const tones = [
     { value: 4, label: '4' },
     { value: 5, label: '5' },
   ];
-
-  const handleCopy = (titleContent: string) => {
-    navigator.clipboard.writeText(titleContent);
-    toast.success('Title content copied to clipboard!');
+  const handleCopy = (caption:any) => {
+    navigator.clipboard.writeText(caption);
+    toast.success('Post copied to clipboard!');
   };
-
+  
   const handleDownload = () => {
     const element = document.createElement("a");
-    const file = new Blob([generatedPost.join("\n\n")], { type: "text/plain" });
+    const file = new Blob([generatedPosts.join("\n\n")], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download = "youtube_titles.txt";
+    element.download = "posts.txt";
     document.body.appendChild(element);
     element.click();
   };
 
   const handleShare = async () => {
     const shareData = {
-      title: 'Youtube Titles',
-      text: generatedPost.join("\n\n"),
+      title: 'Twitter post',
+      text: generatedPosts.join("\n\n"),
     };
     try {
       await navigator.share(shareData);
     } catch (err) {
-      console.error('Error sharing youtube titles:', err);
+      console.error('Error sharing posts:', err);
     }
   };
 
   return (
     <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
-        <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Select Social Media Platform</label>
+
+      {/* Step 1: Generate Prompts */}
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold mb-2">Step 1: Generate Prompts</h3>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Image Description:</label>
+          <input
+            type="text"
+            value={imageDescription}
+            onChange={(e) => setImageDescription(e.target.value)}
+            className="w-full p-2 border rounded"
+            placeholder="Describe the image..."
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Number of Prompts:</label>
+          <select className="w-full p-2 border rounded" value={promptCount} onChange={(e) => setPromptCount(Number(e.target.value))}>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+        </div>
+
+        <button
+          onClick={handleGeneratePrompts}
+          disabled={loadingPrompts}
+          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-7 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+        >
+          {loadingPrompts ? "Generating..." : "Generate Prompts"}
+        </button>
+
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+
+        {prompts.length > 0 && (
+  <div className="mt-4">
+    <h4 className="text-lg font-semibold mb-2">Select a Prompt:</h4>
+    <div className="flex flex-col gap-2">
+      {prompts.map((prompt, index) => (
+        <label key={index} className="flex items-center gap-2 p-2 border rounded cursor-pointer hover:bg-gray-100">
+          <input
+            type="radio"
+            name="prompt"
+            value={prompt}
+            checked={selectedPrompt === prompt}
+            onChange={(e) => setSelectedPrompt(e.target.value)}
+            className="accent-blue-500"
+          />
+          {prompt}
+        </label>
+      ))}
+    </div>
+  </div>
+)}
+
+      </div>
+
+      {/* Step 2: Generate Post & Image */}
+      {selectedPrompt && (
+        <div className="mt-6">
+          <h3 className="text-xl font-semibold mb-2">Step 2: Generate Post & Image</h3>
+
+          <div className="mb-4">
+          <label className="block text-[var(--primary-text-color)]">Select Social Media Platform</label>
         <select
           value={platform}
           onChange={(e) => setPlatform(e.target.value)}
@@ -300,20 +389,21 @@ const tones = [
             <option key={platformOption.value} value={platformOption.value}>{platformOption.label}</option>
           ))}
         </select>
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Describe your Post</label>
-        <textarea
-          value={description}
-          rows={3}
-          onChange={(e) => setdescription(e.target.value)}
-          placeholder="E.g., Tips on improving productivity while working from home"
-          className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm  p-3 mb-4"
-        />
-      </div>
+          </div>
 
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Select Tone</label>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Post Description:</label>
+            <textarea
+              rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full p-2 border rounded"
+              placeholder="Describe the post..."
+            />
+          </div>
+
+          <div className="mb-4">
+          <label className="block text-[var(--primary-text-color)]">Select Tone</label>
         <select
           value={tone}
           onChange={(e) => setTone(e.target.value)}
@@ -323,9 +413,9 @@ const tones = [
             <option key={toneOption.value} value={toneOption.value}>{toneOption.label}</option>
           ))}
         </select>
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Select Language</label>
+          </div>
+          <div className="mb-4">
+          <label className="block text-[var(--primary-text-color)]">Select Language</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
@@ -335,9 +425,9 @@ const tones = [
             <option key={languageOption.value} value={languageOption.value}>{languageOption.label}</option>
           ))}
         </select>
-      </div>
-      <div className="mb-5">
-        <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
+          </div>
+          <div className="mb-4">
+          <label className="block text-[var(--primary-text-color)]">Select Output Count</label>
         <select
           value={outputCount}
           onChange={(e) => setOutputCount(Number(e.target.value))}
@@ -347,16 +437,17 @@ const tones = [
             <option key={outputCountOption.value} value={outputCountOption.value}>{outputCountOption.label}</option>
           ))}
         </select>
-      </div>
+          </div>
 
-      <div className='flex justify-center gap-5'>
+
+          <div className='flex justify-center gap-5'>
       <div className="mb-5 flex items-center gap-4">
         <label className="text-[var(--primary-text-color)]">Use Emoji</label>
         <label className="toggle-switch">
           <input
             type="checkbox"
             checked={includeEmoji}
-            onChange={() => setincludeEmoji(!includeEmoji)}
+            onChange={() => setIncludeEmoji(!includeEmoji)}
           />
           <span className="slider round"></span>
         </label>
@@ -368,104 +459,81 @@ const tones = [
           <input
             type="checkbox"
             checked={includeHashtag}
-            onChange={() => setincludeHashtag(!includeHashtag)}
+            onChange={() => setIncludeHashtag(!includeHashtag)}
           />
           <span className="slider round"></span>
         </label>
       </div>
       </div>
 
-      <div className="space-y-4">
-  {/* Checkbox for generating AI image */}
-  <div className="flex items-center space-x-3">
-    <input 
-      type="checkbox" 
-      className="h-5 w-5 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
-      checked={generateImage} 
-      onChange={(e) => setGenerateImage(e.target.checked)} 
-    />
-    <label className="text-lg font-medium text-gray-700">
-      Would you like to Generate an Image
-    </label>
-  </div>
+          <button
+            onClick={handleGeneratePost}
+            disabled={loadingPost}
+            className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-7 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
+          >
+            {loadingPost ? "Generating..." : (generatedPosts.length > 0 ? "Regenerate" : 'Generate')}
+          </button>
 
-</div>
 
-      <div className="mt-5 flex justify-center">
-        <button
-          className="text-white text-center font-outfit md:text-lg font-semibold flex relative text-base py-3 px-10 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--teal-color)] disabled:opacity-60 hover:bg-[var(--hover-teal-color)] w-fit mx-auto"
-          onClick={handleGenerate}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Generating...' : (generatedPost.length > 0 ? "Regenerate" : 'Generate')}
-        </button>
-      </div>
-
-      {generatedImageUrl && (
+          {imageUrl && (
             <div>
              <p className="text-red-600 mt-4 mb-4 text-md md:block hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by clicking on it. You will be redirected to a new page where you can right-click on the image and select "Save Image As" to download it.</p>
              <p className="text-red-600 mt-4 mb-4 text-md md:hidden">Note: OpenAI's policy does not allow direct downloading of images. However, you can download the image by tapping on it. You will be redirected to a new page, where you can touch and hold the image, then select "Save Image" to download it.</p>
              </div>
           )}
 
-        <div className="mt-5">
-        {isLoading ? (
+          <div className="mt-5">
+        {loadingPost ? (
             <div ref={loaderRef} className="w-full flex flex-col items-center justify-center mt-10">
             <BigwigLoader />
             <p className="text-[var(--dark-gray-color)] text-center mt-5">Processing your data. Please bear with us as we ensure the best results for you...</p>
           </div>
         ) : (
-            generatedPost.length > 0 && (
-            <div ref={resultsRef} className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
-                <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl text-[var(--primary-text-color)]  ">Generated Post</h1>
-                <div className="flex gap-2">
-                    <button
-                    onClick={handleShare}
-                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
-                    title="Share"
-                    >
-                    <Share2 />
-                    </button>
-                    <button
-                    onClick={handleDownload}
-                    className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
-                    title="Download"
-                    >
-                    <Download />
-                    </button>
-                </div>
-                </div>
-                <div className="flex flex-col gap-4 max-h-[600px] overflow-auto">
-                  {generatedPost.map((post, index) => (
-                    <div key={index} className="p-4 rounded-lg mb-4 relative border border-[var(--primary-text-color)]">
-                      {generatedImageUrl && (
-                        <div>
-                        <a href={generatedImageUrl} target="_blank" rel="noopener noreferrer">
-                          <img src={generatedImageUrl} alt="Generated Blog Image" className="w-1/2 mb-10 m-auto" />
-                        </a>
-                      </div>
-                      
-                      )}
-                      <div className="absolute top-2 right-2 space-x-2">
-                    <button
-                      onClick={() => handleCopy(post)}
-                      className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
-                      title="Copy"
-                    >
-                      <Copy />
-                    </button>
-                  </div>
-                      <p className="text-[var(--primary-text-color)] whitespace-pre-wrap">{post}</p>
-                    </div>
-                  ))}
-                </div>
-                
+          generatedPosts.length > 0 && (
+            <div className="border border-[var(--primary-text-color)] rounded-md mt-6 p-5 relative">
+              <div className="flex justify-between items-center mb-4">
+              <h4 className="text-lg font-semibold mb-2">Generated Posts:</h4>
+              <div className="flex gap-2">
+                                  <button
+                                  onClick={handleShare}
+                                  className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                                  title="Share"
+                                  >
+                                  <Share2 />
+                                  </button>
+                                  <button
+                                  onClick={handleDownload}
+                                  className="text-[var(--primary-text-color)]  hover:text-[var(--teal-color)]  cursor-pointer"
+                                  title="Download"
+                                  >
+                                  <Download />
+                                  </button>
+                              </div>
+                              </div>
+              <ul className="list-disc pl-5">
+              {imageUrl && (
+            <div className="my-4">
+              <img src={imageUrl} alt="Generated" className="w-full rounded-lg shadow-lg" />
             </div>
-            )
+          )}
+                {generatedPosts.map((post, index) => (
+                  <li key={index} className="mb-2 p-2 bg-gray-100 rounded">
+                    {post}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
         )}
       </div>
-      {showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
+
+          
+        </div>
+      )}
+
+{showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
     </div>
   );
+
+
 }
