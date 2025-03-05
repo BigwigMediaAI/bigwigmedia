@@ -139,21 +139,31 @@ useEffect(()=>{
   return (
     <nav className="sticky top-0 z-50 bg-[var(--background-color)] shadow-md" style={{ boxShadow: `0 4px 6px -1px var(--nav-shadow-color)` }}>
       <div className="h-10vh flex justify-between z-50 text-[var(--primary-text-color)] lg:py-5 px-5 md:px-14 mx-auto py-4 border-b items-center">
-        <div className="md:hidden mr-3">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="p-0 bg-transparent focus-visible:border-none">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M2.75 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75zm0 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75zm0 5a.75.75 0 1 1 0-1.5h14.5a.75.75.75 0 1 1 0 1.5H2.75z" clipRule="evenodd" />
-              </svg>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-[var(--background-color)] shadow-md">
-              <DropdownMenuItem onClick={() => navigate("/")}>Home</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleTools}>Tools</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleBlogs}>Blogs</DropdownMenuItem>
-              
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+      <div className="md:hidden mr-3 relative">
+  <DropdownMenu>
+    <DropdownMenuTrigger className="p-0 bg-transparent focus-visible:border-none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fillRule="evenodd"
+          d="M2.75 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75zm0 5a.75.75 0 1 1 0-1.5h14.5a.75.75 0 1 1 0 1.5H2.75zm0 5a.75.75 0 1 1 0-1.5h14.5a.75.75.75 0 1 1 0 1.5H2.75z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent className="w-[50vh] h-[30vh] fixed -left-8 top-0 bg-[var(--background-color)] shadow-md flex flex-col p-4">
+  <DropdownMenuItem className="py-3 text-lg" onClick={() => navigate("/")}>Home</DropdownMenuItem>
+  <DropdownMenuItem className="py-3 text-lg" onClick={handleTools}>Tools</DropdownMenuItem>
+  <DropdownMenuItem className="py-3 text-lg" onClick={handleBlogs}>Blogs</DropdownMenuItem>
+</DropdownMenuContent>
+
+  </DropdownMenu>
+</div>
+
   
         <div className="flex items-center gap-2 md:gap-4 cursor-pointer" onClick={() => navigate("/")}>
           <img src={logo} alt="bigwig-logo" className="w-10 h-10 md:w-12 md:h-12 rounded-lg" />
