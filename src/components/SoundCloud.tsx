@@ -66,12 +66,13 @@ export function SoundcloudMp3Downloader() {
 
       const { download_url, stream_url, albumImage } = response.data.downloadURL.data;
       const audioUrl = stream_url.replace("http://", "https://");
-    //   console.log(audioUrl)
+      const downloadSong=download_url.replace("http://", "https://")
+      console.log(downloadSong)
 
 
       if (response.status === 200 && response.data.downloadURL) {
-        setDownloadLink(download_url);
-        setStreamLink(audioUrl); // Set stream URL
+        setDownloadLink(downloadSong);
+        setStreamLink(stream_url); // Set stream URL
         setThumbnail(albumImage || "");
       } else {
         throw new Error("Invalid response from server.");
