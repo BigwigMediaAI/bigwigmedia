@@ -4,7 +4,8 @@ import { Download, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/clerk-react";
 import BigwigLoader from "@/pages/Loader";
-import { BASE_URL } from "@/utils/funcitons";
+import { BASE_URL, BASE_URL2 } from "@/utils/funcitons";
+import CreditLimitModal from "./Model3";
 
 export function SpotifyMp3Downloader() {
   const [spotifyLink, setSpotifyLink] = useState("");
@@ -15,6 +16,26 @@ export function SpotifyMp3Downloader() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   const { userId } = useAuth();
+  const [showModal3, setShowModal3] = useState(false);
+    const [credits, setCredits] = useState(0);
+
+
+    const getCredits = async () => {
+        try {
+          const res = await axios.get(`${BASE_URL2}/plans/current?clerkId=${userId}`);
+          if (res.status === 200) {
+            setCredits(res.data.data.currentLimit);
+            return res.data.data.currentLimit; // Return credits for immediate use
+          } else {
+            toast.error("Error occurred while fetching account credits");
+            return 0;
+          }
+        } catch (error) {
+          console.error('Error fetching credits:', error);
+          toast.error("Error occurred while fetching account credits");
+          return 0;
+        }
+      };
 
   const cleanSpotifyURL = (url: string) => {
     return url.split("?")[0]; // Removes everything after "?"
@@ -30,6 +51,17 @@ export function SpotifyMp3Downloader() {
     setTimeout(() => {
       loaderRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 100);
+
+    const currentCredits = await getCredits();
+    console.log('Current Credits:', currentCredits);
+
+    if (currentCredits <= 0) {
+      setTimeout(() => {
+        setShowModal3(true);
+      }, 0);
+      setIsLoading(false)
+      return;
+    }
 
     try {
       const cleanedURL = cleanSpotifyURL(spotifyLink); // Clean the URL
@@ -76,7 +108,7 @@ export function SpotifyMp3Downloader() {
   }, [isLoading, downloadLink]);
 
   return (
-    <div className="m-auto w-full max-w-xl mx-auto mt-8 bg-white p-6 shadow-md rounded-lg">
+    <div className="m-auto w-full max-w-4xl rounded-lg bg-[var(--white-color)] p-6 shadow-md shadow-[var(--teal-color)]">
       <h3 className="text-base mb-2">Copy any song link from Spotify and paste it below:</h3>
       <div className="flex items-center mb-4">
         <input
@@ -98,7 +130,6 @@ export function SpotifyMp3Downloader() {
           {isLoading ? (
             <>
               Searching...
-              <Loader2 className="animate-spin ml-2" />
             </>
           ) : (
             "Search"
@@ -130,6 +161,9 @@ export function SpotifyMp3Downloader() {
           </button>
         </div>
       )}
+
+{showModal3 && <CreditLimitModal isOpen={showModal3} onClose={() => setShowModal3(false)} />}
+
     </div>
   );
 }
