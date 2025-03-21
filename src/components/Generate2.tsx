@@ -274,7 +274,7 @@ import { WatermarkVideo } from "./WatermarkVideo";
 import { AddLogoTool } from "./ImageMarkGenerator";
 import { GenerateSnapchatPost } from "./SnapchatPost";
 import { VideoSubtitle } from "./VideoSubtitle";
-import { SoundcloudMp3Downloader } from "./SoundCloud";
+import { HRPolicy } from "./HRPolicyGenerator";
 
 
 // import { ShareSocial } from "react-share-social"; 
@@ -1179,8 +1179,8 @@ document.addEventListener('copy', handleCopyEvent);
         <VideoSubtitle/>
       ):id === "6746e009d2db64143520c1de" ? (
         <VideoToArticle/>
-      ):id === "67dc01115ff30715ab2422d8" ? (
-        <SoundcloudMp3Downloader/>
+      ):id === "67dd58ce5ff30715ab2422d9" ? (
+        <HRPolicy/>
       ):(
         <>
           <div className="flex justify-center px-5 max-w-[1084px] w-full mx-auto items-center flex-col gap-8">
