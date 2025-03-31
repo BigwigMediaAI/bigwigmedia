@@ -13,6 +13,7 @@ export function SeoCompetitorAnalysis() {
   const [isLoading, setIsLoading] = useState(false);
   const [competitorUrls, setcompetitorUrls] = useState('');
   const [language, setLanguage] = useState('English');
+  const [targetKeywords, setTargetKeywords] = useState<string[]>([]);
   const [outputCount, setOutputCount] = useState(1);
   const [generatedAnalysis, setgeneratedAnalysis] = useState([]);
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
@@ -64,7 +65,8 @@ export function SeoCompetitorAnalysis() {
 
     try {
       const response = await axios.post(`${BASE_URL}/response/seoCompetitorAnalysis?clerkId=${userId}`, {
-        competitorUrls: competitorUrls.split(',').map(url => url.trim()),
+        competitorUrls,
+        targetKeywords,
         language,
         outputCount
       });
@@ -247,6 +249,20 @@ export function SeoCompetitorAnalysis() {
           className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
         />
       </div>
+      <div className="mb-5">
+  <label className="block text-[var(--primary-text-color)]">
+    Enter target keywords
+  </label>
+  <input
+    value={targetKeywords.join(", ")} // Convert array to a comma-separated string for display
+    onChange={(e) =>
+      setTargetKeywords(e.target.value.split(",").map((k) => k.trim()))
+    } // Convert back to array on change
+    placeholder="e.g. best SEO practices, keyword optimization, on-page SEO"
+    className="mt-1 block w-full rounded-md border border-[var(--primary-text-color)] shadow-sm p-3 mb-4"
+  />
+</div>
+
 
 
 

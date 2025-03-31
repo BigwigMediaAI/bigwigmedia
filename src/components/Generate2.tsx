@@ -1135,7 +1135,7 @@ document.addEventListener('copy', handleCopyEvent);
         <PdfSplit/>
       ):id === "671a39793452164a43bdd916" ? (
         <WatermarkPdf/>
-      ):id === "671a39833452164a43bdd917" ? (
+      ):id === "67ea71ae155de2f31289bd6e" ? (
         <SeoCompetitorAnalysis/>
       ):id === "671a398c3452164a43bdd918" ? (
         <HeicToImage/>
