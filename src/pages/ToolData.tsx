@@ -23,23 +23,21 @@ export interface Card {
 }
 
 const ToolData = () => {
-
-    const [buttons, setButtons] = useState<string[]>([]);
+  const [buttons, setButtons] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user, isSignedIn, isLoaded } = useUser();
   const [change, setChange] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const urlParams = new URLSearchParams(window.location.search);
-  const selectedButton = urlParams.get("selectedButton")?? "All Tools";
+  const selectedButton = urlParams.get("selectedButton") ?? "All Tools";
 
   const [cards, setCards] = useState<Card[]>([]);
   const [cardsBookmark, setCardsBookmark] = useState<Card[]>([]);
   const [search, setSearch] = useState("");
   const [isSearched, setIsSearched] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const resultRef=useRef<HTMLDivElement>(null)
+  const resultRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
- 
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,7 +59,7 @@ const ToolData = () => {
   }, [isLoaded, isSignedIn]);
 
   const getBookMarks = async (bool = false) => {
-    console.log("a")
+    console.log("a");
     if (!isSignedIn) {
       setCards([]);
       toast.error("Please sign in to view your bookmarks");
@@ -75,15 +73,14 @@ const ToolData = () => {
     const res = await axios.get(
       `${BASE_URL}/bookmarks?clerkId=${user.id}&name=${user?.fullName}&email=${user?.primaryEmailAddress?.emailAddress}&imageUrl=${user?.imageUrl}`
     );
-  
-  
+
     const cards = res.data.data.map((card: Card) => ({
       ...card,
       isBookmarked: true,
     }));
     // setCards(cards);
     setCardsBookmark(cards);
-  
+
     if (bool) setCards(cards);
     setIsLoading(false);
   };
@@ -107,7 +104,7 @@ const ToolData = () => {
     setCards(res.data.message);
     setIsLoading(false);
   };
-// console.log(cards)
+  // console.log(cards)
   useEffect(() => {
     // if (buttons.length === 0) return;
     // getLocationFunction()
@@ -150,103 +147,96 @@ const ToolData = () => {
       handleSearch();
     }
   };
-  
 
-  
-    const toolSetter = (tool:string)=>{
-      searchParams.set("selectedButton", tool);
-      setSearchParams(searchParams);
+  const toolSetter = (tool: string) => {
+    searchParams.set("selectedButton", tool);
+    setSearchParams(searchParams);
+  };
+
+  const searchTools = debounce(async (query: string) => {
+    setIsLoading(true);
+    if (!query.trim()) {
+      // Reset cards to the default list when the search query is empty
+      if (selectedButton === "My Tools" && isSignedIn) {
+        await getBookMarks(true);
+      } else {
+        await getTemplates();
+      }
+      setIsSearched(""); // Clear the search state
+      return;
     }
 
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `${BASE_URL2}/objects/searchObjects/${query}`
+      );
+      setCards(res.data.message); // Set tools matching the query
+      setIsSearched(query);
+    } catch (error) {
+      console.error("Error fetching tools:", error);
+      toast.error("Error fetching search results.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, 200);
 
-    const searchTools = debounce(async (query: string) => {
-      setIsLoading(true);
-      if (!query.trim()) {
-        // Reset cards to the default list when the search query is empty
-        if (selectedButton === "My Tools" && isSignedIn) {
-          await getBookMarks(true);
-        } else {
-          await getTemplates();
-        }
-        setIsSearched(""); // Clear the search state
-        return;
-      }
-    
-      setIsLoading(true);
-      try {
-        const res = await axios.get(`${BASE_URL2}/objects/searchObjects/${query}`);
-        setCards(res.data.message); // Set tools matching the query
-        setIsSearched(query);
-      } catch (error) {
-        console.error("Error fetching tools:", error);
-        toast.error("Error fetching search results.");
-      } finally {
-        setIsLoading(false);
-      }
-    }, 200);
-    
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearch(query); // Update the search state
+    searchTools(query); // Trigger debounced search or reset
+  };
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const query = e.target.value;
-      setSearch(query); // Update the search state
-      searchTools(query); // Trigger debounced search or reset
-    };
-    
-
-
-return(
+  return (
     <>
-    <Nav />
+      <Nav />
 
-    <div className="flex flex-col justify-center items-center relative mt-5">
-          <div className="w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit">
-            <div className="z-10 w-full max-w-[637px] mx-auto p-[4px] md:p-2 bg-[var(--background-color)] shadow-md border border-[var(--teal-color)] rounded-full">
-              <div className="flex justify-between items-center">
-                <input
-                  placeholder="Find Your Tool.."
-                  className="w-full border-none focus-visible:placeholder:text-transparent z-50 rounded-l-full outline-none px-4 py-1 md:py-4 placeholder:text-[var(--gray-color)] text-[var(--primary-text-color)] bg-transparent"
-                  value={search}
-                  onChange={handleSearchChange}
-                />
-                <button
-                  className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--green)] hover:bg-[#141481] transition-all duration-300 ease-in-out"
-                  onClick={() => searchTools(search)}
-                >
-                  Search
-                </button>
-              </div>
+      <div className="flex flex-col justify-center items-center relative mt-5">
+        <div className="w-full max-w-[320px] md:max-w-[640px] lg:max-w-[844px] relative flex flex-col justify-center items-center h-fit">
+          <div className="z-10 w-full max-w-[637px] mx-auto p-[4px] md:p-2 bg-[var(--background-color)] shadow-md border border-[var(--teal-color)] rounded-full">
+            <div className="flex justify-between items-center">
+              <input
+                placeholder="Find Your Tool.."
+                className="w-full border-none focus-visible:placeholder:text-transparent z-50 rounded-l-full outline-none px-4 py-1 md:py-4 placeholder:text-[var(--gray-color)] text-[var(--primary-text-color)] bg-transparent"
+                value={search}
+                onChange={handleSearchChange}
+              />
+              <button
+                className="text-[var(--white-color)] text-center font-outfit md:text-lg font-semibold flex relative text-xs p-3 md:p-5 justify-center items-center gap-4 flex-shrink-0 rounded-full bg-[var(--green)] hover:bg-[#141481] transition-all duration-300 ease-in-out"
+                onClick={() => searchTools(search)}
+              >
+                Search
+              </button>
             </div>
           </div>
         </div>
+      </div>
 
-
-    <div className=" hidden md:block">
-          {buttons.length > 0 && (
-            <Menu
-              buttons={buttons}
-              selectedButton={selectedButton}
-              setSelectedButton={toolSetter}
-              
-            />
-          )}
-          <Cards cards={cards} isLoading={isLoading} setChange={setChange} />
-        </div>
-
-        <div className="md:hidden">
-          <MenuMobile
+      <div className=" hidden md:block">
+        {buttons.length > 0 && (
+          <Menu
             buttons={buttons}
             selectedButton={selectedButton}
             setSelectedButton={toolSetter}
-            cards={cards}
-            isLoading={isLoading}
-            setChange={setChange}
           />
-        </div>
+        )}
+        <Cards cards={cards} isLoading={isLoading} setChange={setChange} />
+      </div>
 
-        <Footer />
+      <div className="md:hidden">
+        <MenuMobile
+          buttons={buttons}
+          selectedButton={selectedButton}
+          setSelectedButton={toolSetter}
+          cards={cards}
+          isLoading={isLoading}
+          setChange={setChange}
+        />
+      </div>
+
+      <Footer />
     </>
-)
-}
+  );
+};
 
-export default ToolData
-
+export default ToolData;

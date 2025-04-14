@@ -22,7 +22,7 @@ const Cards = ({
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center mx-auto flex-wrap md:mt-5 lg:mt-14 gap-3 xl:max-w-[90%]  md:gap-10">
+    <div className="flex justify-center mx-auto flex-wrap md:mt-5 lg:mt-14 gap-3 xl:w-full  md:gap-10">
       {!isLoading ? (
         cards.map((card, id) => {
           return <CardComponent card={card} key={id} setChange={setChange} />;
@@ -72,7 +72,7 @@ const CardComponent = ({
 
   return (
     <div className="shadow-md shadow-[var(--teal-color)] p-0.5 rounded-xl">
-      <div className="flex flex-col justify-between gap-5 px-3 py-4 text-gray-700 shadow-accordian rounded-xl w-[355px] h-[265px] bg-[var(--white-color)]">
+      <div className="flex flex-col justify-between gap-5 px-3 py-4 text-gray-700 shadow-accordian rounded-xl w-[320px] h-[265px] bg-[var(--white-color)]">
         <div className="flex flex-row gap-8 justify-start items-center">
           {!imageLoaded && (
             <svg
@@ -121,7 +121,7 @@ const CardComponent = ({
                   setShowLoginModal(true);
                 }, 0);
                 const redirectUrl = `/generate?id=${card._id}`;
-    navigate(`/login?redirect=${encodeURIComponent(redirectUrl)}`);
+                navigate(`/login?redirect=${encodeURIComponent(redirectUrl)}`);
               } else {
                 const newPath = `/generate?id=${card._id}`;
                 window.open(newPath, "_blank");
@@ -137,28 +137,27 @@ const CardComponent = ({
             />
           )}
           <div
-  className={cn(
-    "flex w-fit p-1 my-auto h-fit bg-[var(--white-color)] justify-center items-center cursor-pointer rounded-full border border-gray-900",
-    isBookmarked && "bg-[#ee3d49]"
-  )}
-  onClick={handleBookmarkToggle}
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="self-center w-4 h-4"
-    viewBox="0 0 24 24"
-    fill={isBookmarked ? "#ffffff" : "none"}
-    stroke={isBookmarked ? "none" : "#ee3d49"}
-  >
-    <path
-      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-      fill={isBookmarked ? "#ffffff" : "none"}
-      stroke={isBookmarked ? "none" : "#ee3d49"}
-      strokeWidth="2"
-    />
-  </svg>
-</div>
-
+            className={cn(
+              "flex w-fit p-1 my-auto h-fit bg-[var(--white-color)] justify-center items-center cursor-pointer rounded-full border border-gray-900",
+              isBookmarked && "bg-[#ee3d49]"
+            )}
+            onClick={handleBookmarkToggle}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="self-center w-4 h-4"
+              viewBox="0 0 24 24"
+              fill={isBookmarked ? "#ffffff" : "none"}
+              stroke={isBookmarked ? "none" : "#ee3d49"}
+            >
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                fill={isBookmarked ? "#ffffff" : "none"}
+                stroke={isBookmarked ? "none" : "#ee3d49"}
+                strokeWidth="2"
+              />
+            </svg>
+          </div>
         </div>
       </div>
     </div>

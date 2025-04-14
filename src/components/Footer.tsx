@@ -17,7 +17,6 @@ const Footer = () => {
     const res = await axios.get(`${BASE_URL2}/objects/getCategories`);
     const bookmarked = [...res.data.message];
     setButtons(bookmarked);
-    
   };
   // console.log(setButtons)
 
@@ -35,7 +34,7 @@ const Footer = () => {
     "Audio Tools",
     "File Converter Tools",
     "PDF Tools",
-    "Start-Up Tools"
+    "Start-Up Tools",
   ];
   // const buttonFilter = buttons.filter((button) => !arr.includes(button ));
 
@@ -188,14 +187,14 @@ const Footer = () => {
             </div>
             <div className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] font-Outfit text-base font-medium leading-normal">
               Made with <span className="text-red-600">❤</span> by{" "}
-              <button onClick={() => window.open("https://bigwigmedia.in")}>BigWigMedia</button>
+              <button onClick={() => window.open("https://bigwigmedia.in")}>
+                BigWigMedia
+              </button>
             </div>
           </div>
         </div>
         <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className="text-black font-bold text-[18px]">
-            Top Tools
-          </div>
+          <div className="text-black font-bold text-[18px]">Top Tools</div>
           <div className="grid grid-cols-2 gap-2">
             {arr.map((button, id) => (
               <div
@@ -205,8 +204,7 @@ const Footer = () => {
                   const encodedButton = encodeURIComponent(button);
                   searchParams.set("selectedButton", encodedButton);
                   setSearchParams(searchParams);
-                  navigate(`/category/${encodedButton}`);
-
+                  navigate(`/tool?selectedButton=${encodedButton}`);
                 }}
               >
                 {button}
@@ -215,110 +213,104 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex gap-16">
-        <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className=" text-black font-bold text-[18px]">
-            Company
+          <div className="flex flex-col items-start gap-4 sm:w-auto ">
+            <div className=" text-black font-bold text-[18px]">Company</div>
+            <div className="flex flex-col items-start gap-2">
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer font-Outfit text-base font-medium leading-normal"
+                onClick={() => {
+                  navigate("/about");
+                }}
+              >
+                About Us
+              </div>
+              <div
+                className=" text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer  font-Outfit text-base font-medium leading-normal"
+                onClick={() => {
+                  navigate("/contact");
+                }}
+              >
+                Contact
+              </div>
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
+                onClick={() => {
+                  navigate("/blog");
+                }}
+              >
+                Blogs
+              </div>
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
+                onClick={() => {
+                  navigate("/profile");
+                }}
+              >
+                My Profile
+              </div>
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+                onClick={() => {
+                  navigate("/Disclaimer");
+                }}
+              >
+                Disclaimer
+              </div>
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+                onClick={() => {
+                  navigate("/feedback");
+                }}
+              >
+                Feedback
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col items-start gap-2">
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer font-Outfit text-base font-medium leading-normal"
-              onClick={() => {
-                navigate("/about");
-              }}
-            >
-              About Us
-            </div>
-            <div
-              className=" text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  cursor-pointer  font-Outfit text-base font-medium leading-normal"
-              onClick={() => {
-                navigate("/contact");
-              }}
-            >
-              Contact
-            </div>
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
-              onClick={() => {
-                navigate("/blog");
-              }}
-            >
-              Blogs
-            </div>
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursive cursor-pointer"
-              onClick={() => {
-                navigate("/profile");
-              }}
-            >
-              My Profile
-            </div>
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
-              onClick={() => {
-                navigate("/Disclaimer");
-              }}
-            >
-              Disclaimer
-            </div>
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
-              onClick={() => {
-                navigate("/feedback");
-              }}
-            >
-              Feedback
+          <div className="flex flex-col items-start gap-4 sm:w-auto ">
+            <div className="text-black font-bold text-[18px]">Policies</div>
+            <div className="flex flex-col items-start gap-2">
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+                onClick={() => {
+                  navigate("/terms");
+                }}
+              >
+                Terms of Service
+              </div>
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+                onClick={() => {
+                  navigate("/privacy");
+                }}
+              >
+                Privacy Policy
+              </div>
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+                onClick={() => {
+                  navigate("/legal");
+                }}
+              >
+                Legal
+              </div>
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+                onClick={() => {
+                  navigate("/transaction");
+                }}
+              >
+                Secure Transaction Policy
+              </div>
+              <div
+                className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
+                onClick={() => {
+                  navigate("/Cancellation-policy");
+                }}
+              >
+                Refund and Cancellation Policy
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col items-start gap-4 sm:w-auto ">
-          <div className="text-black font-bold text-[18px]">
-          Policies
-          </div>
-          <div className="flex flex-col items-start gap-2">
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
-              onClick={() => {
-                navigate("/terms");
-              }}
-            >
-              Terms of Service
-            </div>
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
-              onClick={() => {
-                navigate("/privacy");
-              }}
-            >
-              Privacy Policy
-            </div>
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
-              onClick={() => {
-                navigate("/legal");
-              }}
-            >
-              Legal
-            </div>
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
-              onClick={() => {
-                navigate("/transaction");
-              }}
-            >
-              Secure Transaction Policy
-            </div>
-            <div
-              className="text-[12px] md:text-[15px] text-[var(--primary-text-color)] hover:text-[var(--teal-color)]  font-Outfit text-base font-medium leading-normal hover:cursor-pointer"
-              onClick={() => {
-                navigate("/Cancellation-policy");
-              }}
-            >
-              Refund and Cancellation Policy
-
-            </div>
-           
-          </div>
-        </div>
         </div>
       </div>
       {/* <ModeToggle /> */}
