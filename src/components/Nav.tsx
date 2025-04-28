@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/bigwig-img.jpg";
 import { ModeToggle } from "./ui/mode-toggle";
-import google from "../assets/google-rating.png";
+import google from "../assets/Google Business Review stars rating-01.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
