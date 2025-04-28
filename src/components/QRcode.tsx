@@ -205,9 +205,9 @@ export function QRCodeGenerator() {
           <input
             type="text"
             placeholder="Enter the name of your company"
-            className="appearance-none border rounded uppercase w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
             value={textAboveQR}
-            onChange={(e) => setTextAboveQR(e.target.value)}
+            onChange={(e) => setTextAboveQR(e.target.value.toUpperCase())}
             maxLength={30}
           />
         </div>
@@ -218,9 +218,9 @@ export function QRCodeGenerator() {
           <input
             type="text"
             placeholder="Example: Scan QR to visit site"
-            className="appearance-none border uppercase rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border rounded w-full py-2 px-3 text-[var(--primary-text-color)] leading-tight focus:outline-none focus:shadow-outline"
             value={textBelowQR}
-            onChange={(e) => setTextBelowQR(e.target.value)}
+            onChange={(e) => setTextBelowQR(e.target.value.toUpperCase())}
             maxLength={30}
           />
         </div>
